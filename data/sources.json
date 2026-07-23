@@ -1,0 +1,124 @@
+{
+  "_doc": "Registre des sources balayées chaque semaine par la veille. 4 niveaux (tiers) par fiabilité. L'agent lit CHAQUE source pertinente, VÉRIFIE sur la page, et ne propose que du daté/solide. Ajoutez librement des entrées : nom, url, zone, type, note. Le champ 'social' liste les comptes à surveiller.",
+
+  "tier1_institutionnel": {
+    "_note": "Autorité maximale : mairies (avis de publicité / appel à forains), CMA, intercommunalités. Priorité absolue. Si page derrière login (ex: mp.artisanat974.re) → signaler, ne pas inventer.",
+    "sources": [
+      {"nom": "CMA Réunion — actualités", "url": "https://www.artisanat974.re/actualites/", "zone": "National", "type": "chambre des métiers"},
+      {"nom": "CMA Réunion — avis/marchés (login)", "url": "https://mp.artisanat974.re/les-offres/", "zone": "National", "type": "avis officiels", "note": "souvent derrière authentification"},
+      {"nom": "Département de La Réunion", "url": "https://www.departement974.fr/", "zone": "National", "type": "collectivité"},
+      {"nom": "Ville de Saint-Denis — appel à forains", "url": "https://www.saintdenis.re/appel-a-forains-manifestations-2026", "zone": "Nord", "type": "mairie"},
+      {"nom": "Ville de Sainte-Marie — service économique", "url": "https://www.ville-saintemarie.re/", "zone": "Nord", "type": "mairie"},
+      {"nom": "Ville de Saint-André — appels à candidatures", "url": "https://www.saint-andre.re/", "zone": "Est", "type": "mairie"},
+      {"nom": "Ville de Bras-Panon — actualités", "url": "https://www.braspanon.re/", "zone": "Est", "type": "mairie"},
+      {"nom": "Ville de La Plaine des Palmistes", "url": "https://www.ville-plainedespalmistes.fr/", "zone": "Est", "type": "mairie"},
+      {"nom": "Ville de Saint-Paul — avis de publicité", "url": "https://www.mairie-saintpaul.re/avis-de-publicite/", "zone": "Ouest", "type": "mairie"},
+      {"nom": "Ville de Saint-Leu — actualités/AOT", "url": "https://www.saintleu.re/", "zone": "Ouest", "type": "mairie"},
+      {"nom": "TCO — Territoire de la Côte Ouest", "url": "https://www.tco.re/", "zone": "Ouest", "type": "intercommunalité"},
+      {"nom": "TCO — Port de plaisance Saint-Gilles (événements)", "url": "https://www.tco.re/plaisance/port-de-plaisance-de-saint-gilles/", "zone": "Ouest", "type": "espace public événementiel", "note": "organise marchés Zartizan Péi et événements ; demande d'emplacement via tco.re/plaisance/demande-demplacement/"},
+      {"nom": "Nou Lé Lokal (ADIR)", "url": "https://www.noulelocal.re/exposer/pourquoi-exposer", "zone": "Ouest", "type": "salon production locale"},
+      {"nom": "Ville du Tampon — appels à candidatures manifestations", "url": "https://letampon.fr/appel-a-candidatures-manifestations/", "zone": "Sud", "type": "mairie"},
+      {"nom": "Ville de Saint-Pierre", "url": "https://saintpierre.re/", "zone": "Sud", "type": "mairie"}
+    ],
+    "toutes_communes_974": {
+      "_note": "Les 24 communes de La Réunion. Pour chacune, l'agent cherche la page 'appel à forains' / 'avis de publicité' / 'appel à candidature' de la mairie (WebSearch: 'mairie <commune> appel à forains Réunion' ou 'avis de publicité <commune>'), puis la lit. url renseignée = site connu ; vide = à trouver.",
+      "communes": [
+        {"nom": "Saint-Denis", "zone": "Nord", "url": "https://www.saintdenis.re/"},
+        {"nom": "Sainte-Marie", "zone": "Nord", "url": "https://www.ville-saintemarie.re/"},
+        {"nom": "Sainte-Suzanne", "zone": "Nord", "url": ""},
+        {"nom": "Saint-André", "zone": "Est", "url": "https://www.saint-andre.re/"},
+        {"nom": "Bras-Panon", "zone": "Est", "url": "https://www.braspanon.re/"},
+        {"nom": "Saint-Benoît", "zone": "Est", "url": "https://www.saint-benoit.re/"},
+        {"nom": "Sainte-Rose", "zone": "Est", "url": ""},
+        {"nom": "Salazie", "zone": "Est", "url": ""},
+        {"nom": "La Plaine-des-Palmistes", "zone": "Est", "url": "https://www.ville-plainedespalmistes.fr/"},
+        {"nom": "Le Port", "zone": "Ouest", "url": "https://www.ville-port.re/"},
+        {"nom": "La Possession", "zone": "Ouest", "url": "https://www.lapossession.re/"},
+        {"nom": "Saint-Paul", "zone": "Ouest", "url": "https://www.mairie-saintpaul.re/"},
+        {"nom": "Trois-Bassins", "zone": "Ouest", "url": ""},
+        {"nom": "Saint-Leu", "zone": "Ouest", "url": "https://www.saintleu.re/"},
+        {"nom": "Les Avirons", "zone": "Sud", "url": ""},
+        {"nom": "L'Étang-Salé", "zone": "Sud", "url": "https://www.letangsale.fr/"},
+        {"nom": "Saint-Louis", "zone": "Sud", "url": "https://saintlouis.re/"},
+        {"nom": "Cilaos", "zone": "Sud", "url": ""},
+        {"nom": "Le Tampon", "zone": "Sud", "url": "https://letampon.fr/"},
+        {"nom": "Entre-Deux", "zone": "Sud", "url": ""},
+        {"nom": "Saint-Pierre", "zone": "Sud", "url": "https://saintpierre.re/"},
+        {"nom": "Petite-Île", "zone": "Sud", "url": "https://www.petite-ile.re/"},
+        {"nom": "Saint-Joseph", "zone": "Sud", "url": ""},
+        {"nom": "Saint-Philippe", "zone": "Sud", "url": ""}
+      ]
+    }
+  },
+
+  "tier2b_organismes_evenementiels_prives": {
+    "_note": "Agences & organisateurs privés qui produisent salons, marchés, pop-up et lancent leurs propres appels à exposants (souvent via mail/réseaux). Vérifier site + réseaux. Ajouter librement les nouveaux repérés.",
+    "sources": [
+      {"nom": "Metis Production (Zanimos & Jardin)", "url": "https://www.zanimosetjardin.re/", "zone": "Nord", "contact": "metis974.prod@gmail.com · 0692 87 77 52", "social": "@zanimosreunion"},
+      {"nom": "Territoire(s) Media / ADIR (Nou Lé Lokal)", "url": "https://www.noulelocal.re/", "zone": "Ouest", "social": "@tco.agglo"},
+      {"nom": "Sakifo Prod (village festival)", "url": "https://www.sakifo.com/", "zone": "Sud", "type": "producteur festival"},
+      {"nom": "Le Séchoir (Leu Tempo)", "url": "https://lechoir.re/", "zone": "Ouest", "type": "producteur culturel"},
+      {"nom": "My Beauty Signature (Trésors de l'Eid)", "url": "", "zone": "Nord", "contact": "contact@mybeautysignature.com · 0693 90 09 40"},
+      {"nom": "Boccaz Run (ventes éphémères)", "url": "", "zone": "Ouest", "contact": "boccazreunion@gmail.com · 0693 30 82 68", "social": "@boccaz_run"},
+      {"nom": "Hulwayat Event (marché halal & végan)", "url": "", "zone": "Est", "contact": "hulwayat97@gmail.com · 0693 82 22 83", "social": "@hulwayat_halal_et_vegan"},
+      {"nom": "Explor'Loisirs (Ô'Pti Marché du Guillaume)", "url": "https://www.associationexplorloisirs.com/", "zone": "Ouest", "contact": "explorloisirs@gmail.com"},
+      {"nom": "Articoco", "url": "", "zone": "Sud", "contact": "articoco974@gmail.com", "social": "FB Articoco.re"},
+      {"nom": "FANMS (femmes entrepreneures)", "url": "", "zone": "Sud", "contact": "event@fanms.re"},
+      {"nom": "Oté Z'Artizan", "url": "", "zone": "Sud", "contact": "otezartisans@gmail.com", "social": "@otezartisans"},
+      {"nom": "Compagnie Tendance (Marché de Noël St-Leu)", "url": "", "zone": "Ouest", "contact": "compagnietendance.marchedenoel@gmail.com", "social": "@marchedenoelstleu"},
+      {"nom": "La Bande à Guinguette", "url": "", "zone": "Sud", "contact": "labandeaguinguette@gmail.com", "social": "@la_bande_a_guinguette"},
+      {"nom": "ZENial (Ti Marché Zen)", "url": "", "zone": "Est", "contact": "contact@zenial.fr", "social": "@zenial_la_reunion_du_bien_etre"}
+    ]
+  },
+
+  "tier2_lieux_hotes": {
+    "_note": "Lieux/domaines/hôtels/espaces qui HÉBERGENT des marchés & pop-up stores. Publient souvent les dates sur réseaux ou par contact direct → capturer comme 'hôte récurrent + contact vérifié', confiance moyenne, JAMAIS comme appel ferme sans date confirmée. Vérifier la page officielle ET les réseaux.",
+    "sources": [
+      {"nom": "Jardin d'Eden (Saint-Gilles) — événementiel", "url": "https://www.jardindeden.re/1053-notre-actualite-actualites", "zone": "Ouest", "type": "jardin/espace événementiel", "contact": "evenementiel@jardindeden.re · 0692 88 06 92", "note": "'L'Eden des créateurs', Salon de l'Artisanat, Fashion Week"},
+      {"nom": "Domaine des Tourelles (Plaine des Palmistes)", "url": "https://tourelles.re/", "zone": "Est", "type": "domaine/lieu culturel", "note": "ateliers & marchés à Pâques, JEP, Noël, vacances ; contact via formulaire/réseaux"},
+      {"nom": "Village Artisanal de l'Éperon (Saint-Paul)", "url": "https://www.ouest-lareunion.com/agenda", "zone": "Ouest", "type": "village artisanal", "contact": "asso.eperon@gmail.com", "social": "@asso.eperon974"},
+      {"nom": "Hôtel Dina Morgabine (Saint-Gilles)", "url": "", "zone": "Ouest", "type": "hôtel", "contact": "m.danvin@dinamorgabine.com", "note": "marché de créateurs en cadre hôtelier"},
+      {"nom": "Novotel Saint-Gilles", "url": "https://www.facebook.com/pages/Novotel-Saint-Gilles-La-Réunion/726431314040239", "zone": "Ouest", "type": "hôtel", "note": "hôte potentiel de pop-up/marchés — vérifier réseaux, non confirmé"},
+      {"nom": "LUX* Saint-Gilles / Le Récif / Relais de l'Hermitage", "url": "https://www.relais-hermitage-saintgilles.fr/", "zone": "Ouest", "type": "hôtel", "note": "hôtels balnéaires — surveiller pop-up créateurs saisonniers"},
+      {"nom": "Maison Banian (Sud)", "url": "", "zone": "Sud", "type": "lieu créateurs", "contact": "contact@maisonbanian.com", "social": "@maison_banian"},
+      {"nom": "Vavang'art (Sud)", "url": "", "zone": "Sud", "type": "organisateur marchés", "contact": "programmation@vavangart.com", "social": "@vavangart974"},
+      {"nom": "Chapo Lapay (Ouest)", "url": "", "zone": "Ouest", "type": "point de vente créateurs", "social": "@chapolapay"},
+      {"nom": "Nordev — Parc des Expositions (Saint-Denis)", "url": "https://www.nordev.re/", "zone": "Nord", "type": "parc des expositions", "note": "Salon de la Maison, Zanimos & Jardin, salons"}
+    ]
+  },
+
+  "tier3_agregateurs_presse": {
+    "_note": "Couche de DÉCOUVERTE uniquement. Sert à repérer des pistes ; chaque piste doit être RE-VÉRIFIÉE sur la source officielle avant proposition. Filtre géo 974 impératif (attention aux homonymes métropole : Saint-Denis 93, Saint-Paul 60...).",
+    "sources": [
+      {"nom": "IRT — Île de La Réunion Tourisme (agenda officiel)", "url": "https://www.reunion.fr/agenda/", "type": "agenda officiel régional", "note": "agenda institutionnel de l'IRT ; forte couverture événementielle toute l'île"},
+      {"nom": "Guide Réunion — agenda événements", "url": "https://guide-reunion.fr/evenements/", "type": "agenda"},
+      {"nom": "Office de Tourisme Ouest — agenda", "url": "https://www.ouest-lareunion.com/agenda", "type": "agenda tourisme"},
+      {"nom": "Sud Réunion Tourisme", "url": "https://www.sudreuniontourisme.fr/", "type": "agenda tourisme"},
+      {"nom": "Réunion Est (tourisme)", "url": "https://www.reunionest.fr/", "type": "agenda tourisme"},
+      {"nom": "Zinfos974", "url": "https://www.zinfos974.com/", "type": "presse"},
+      {"nom": "Imaz Press Réunion", "url": "https://www.imazpress.com/", "type": "presse"},
+      {"nom": "Linfo.re", "url": "https://www.linfo.re/", "type": "presse"},
+      {"nom": "Clicanoo (JIR)", "url": "https://www.clicanoo.re/", "type": "presse"},
+      {"nom": "Flâner Bouger (agenda 974)", "url": "https://www.flanerbouger.fr/", "type": "agenda sorties"}
+    ]
+  },
+
+  "tier4_reseaux_sociaux": {
+    "_note": "Beaucoup de petits marchés & pop-up n'existent QUE sur Instagram/Facebook. WebFetch échoue souvent (login). Stratégie : WebSearch ciblé sur ces comptes + captures publiques. Toute trouvaille social = confiance 'à confirmer', source = lien du post, va au canal communauté si non recoupée ailleurs.",
+    "comptes": [
+      "@artsettraditions974", "@asso.eperon974", "@boccaz_run", "@chapolapay",
+      "@entredeuxvillage", "@galerie_artefact", "@hulwayat_halal_et_vegan",
+      "@la_bande_a_guinguette", "@maison_banian", "@marchedenoelstleu",
+      "@otezartisans", "@tco.agglo", "@vavangart974", "@villedebraspanon",
+      "@zanimosreunion", "@zenial_la_reunion_du_bien_etre", "@maison_banian",
+      "@vavangart974", "@jardindeden.re", "@marche_des_createurs_974"
+    ],
+    "requetes_types": [
+      "marché créateurs Réunion {mois} {annee} exposants candidature",
+      "appel à exposants artisans Réunion {annee}",
+      "pop up store créateurs Réunion hôtel {annee}",
+      "marché de Noël Réunion exposants {annee}",
+      "salon artisanat Réunion appel candidature {annee}"
+    ]
+  }
+}

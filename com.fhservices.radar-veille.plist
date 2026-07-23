@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.fhservices.radar-veille</string>
+
+  <!-- Lance la veille via un shell de login pour disposer du PATH complet,
+       active le venv, journalise dans veille.log. -->
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/zsh</string>
+    <string>-lc</string>
+    <string>cd "/Users/fhubert/Library/Mobile Documents/com~apple~CloudDocs/PROJETS/CLAUDE/COWORKS/Projects/ARTISANS/radar-marches" &amp;&amp; ./run_veille.sh
+  </array>
+
+  <!-- Chaque lundi à 07:00 (Weekday 1 = lundi). -->
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Weekday</key><integer>1</integer>
+    <key>Hour</key><integer>7</integer>
+    <key>Minute</key><integer>0</integer>
+  </dict>
+
+  <!-- Si le Mac dormait à 7h, la tâche se lance au réveil. -->
+  <key>RunAtLoad</key>
+  <false/>
+
+  <key>StandardOutPath</key>
+  <string>/Users/fhubert/Library/Mobile Documents/com~apple~CloudDocs/PROJETS/CLAUDE/COWORKS/Projects/ARTISANS/radar-marches/launchd.out.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/fhubert/Library/Mobile Documents/com~apple~CloudDocs/PROJETS/CLAUDE/COWORKS/Projects/ARTISANS/radar-marches/launchd.err.log</string>
+</dict>
+</plist>
