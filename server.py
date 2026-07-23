@@ -11,9 +11,13 @@ import http.server
 import json
 import logging
 import os
+import smtplib
 import subprocess
 import threading
 import time
+import urllib.error
+import urllib.request
+from email.message import EmailMessage
 
 logging.basicConfig(
     level=logging.INFO,
@@ -44,6 +48,98 @@ def _periodic_git_warning():
             "Redémarrez le serveur avec scripts/start.sh pour rétablir l'accès à GitHub."
         )
         time.sleep(_GIT_WARN_INTERVAL)
+
+
+# ---------------------------------------------------------------------------
+# Notification d'alerte mode dégradé
+# Variables d'environnement supportées :
+#   ALERT_WEBHOOK_URL   — URL webhook (Slack / Discord / générique)
+#   ALERT_EMAIL         — adresse email destinataire
+#   SMTP_HOST           — serveur SMTP (défaut : localhost)
+#   SMTP_PORT           — port SMTP    (défaut : 587)
+#   SMTP_USER           — identifiant SMTP (optionnel)
+#   SMTP_PASSWORD       — mot de passe SMTP (optionnel)
+#   SMTP_FROM           — expéditeur   (défaut : noreply@localhost)
+# ---------------------------------------------------------------------------
+
+_ALERT_MESSAGE = (
+    "⚠️ ALERTE MODE DÉGRADÉ\n\n"
+    "Le serveur a démarré SANS dépôt git.\n"
+    "Le endpoint /sync (synchronisation GitHub) est indisponible.\n\n"
+    "Action requise : redémarrez le serveur via scripts/start.sh pour rétablir la synchronisation.\n"
+    "Vérifiez GET /health pour surveiller l'état du service."
+)
+
+
+def _send_webhook_alert(url: str) -> bool:
+    """Envoie une alerte via webhook (Slack / Discord / URL générique).
+    Retourne True en cas de succès."""
+    # Format compatible Slack et Discord (champ "text")
+    payload = json.dumps({"text": _ALERT_MESSAGE}).encode()
+    req = urllib.request.Request(
+        url,
+        data=payload,
+        headers={"Content-Type": "application/json"},
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            log.info("Alerte webhook envoyée (HTTP %d).", resp.status)
+            return True
+    except urllib.error.URLError as exc:
+        log.error("Échec envoi alerte webhook : %s", exc)
+        return False
+
+
+def _send_email_alert(recipient: str) -> bool:
+    """Envoie une alerte par email via SMTP.
+    Retourne True en cas de succès."""
+    smtp_host = os.environ.get("SMTP_HOST", "localhost")
+    smtp_port = int(os.environ.get("SMTP_PORT", 587))
+    smtp_user = os.environ.get("SMTP_USER", "")
+    smtp_password = os.environ.get("SMTP_PASSWORD", "")
+    smtp_from = os.environ.get("SMTP_FROM", "noreply@localhost")
+
+    msg = EmailMessage()
+    msg["Subject"] = "⚠️ Serveur démarré en mode dégradé (git absent)"
+    msg["From"] = smtp_from
+    msg["To"] = recipient
+    msg.set_content(_ALERT_MESSAGE)
+
+    try:
+        with smtplib.SMTP(smtp_host, smtp_port, timeout=10) as server:
+            server.ehlo()
+            if smtp_port != 25:
+                server.starttls()
+                server.ehlo()
+            if smtp_user and smtp_password:
+                server.login(smtp_user, smtp_password)
+            server.send_message(msg)
+        log.info("Alerte email envoyée à %s.", recipient)
+        return True
+    except Exception as exc:
+        log.error("Échec envoi alerte email : %s", exc)
+        return False
+
+
+def _send_degraded_alert():
+    """Envoie une notification unique lors d'un démarrage en mode dégradé.
+    Tente le webhook en priorité, puis l'email si configuré."""
+    webhook_url = os.environ.get("ALERT_WEBHOOK_URL", "").strip()
+    alert_email = os.environ.get("ALERT_EMAIL", "").strip()
+
+    if not webhook_url and not alert_email:
+        log.info(
+            "Aucune notification d'alerte configurée. "
+            "Définissez ALERT_WEBHOOK_URL ou ALERT_EMAIL pour recevoir une alerte au démarrage dégradé."
+        )
+        return
+
+    if webhook_url:
+        _send_webhook_alert(webhook_url)
+
+    if alert_email:
+        _send_email_alert(alert_email)
 
 
 def verify_signature(payload: bytes, signature_header: str) -> bool:
@@ -174,6 +270,8 @@ if __name__ == "__main__":
             "Consultez GET /health pour surveiller l'état. "
             "Redémarrez le serveur via scripts/start.sh pour rétablir la synchronisation."
         )
+        # Notification unique (email ou webhook) — lancée dans un thread pour ne pas bloquer le démarrage
+        threading.Thread(target=_send_degraded_alert, daemon=True, name="degraded-alert").start()
         # Thread daemon : rappels périodiques tant que git reste absent
         threading.Thread(target=_periodic_git_warning, daemon=True, name="git-warn").start()
     else:
