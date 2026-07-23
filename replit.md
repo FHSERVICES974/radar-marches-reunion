@@ -29,14 +29,14 @@ Chaque push sur la branche `main` du dépôt GitHub déclenche automatiquement u
 ### Configurer le webhook GitHub (à faire une seule fois)
 
 1. Aller sur **GitHub → votre dépôt → Settings → Webhooks → Add webhook**
-2. **Payload URL** : `https://<votre-domaine-replit>/sync`  
-   *(ex. `https://radar-marches-reunion.fhservices974.repl.co/sync`)*
+2. **Payload URL** : `https://radar.fhservices.re/sync`  
+   *(URL de production fixe — ne change jamais)*
 3. **Content type** : `application/json`
 4. **Secret** : la valeur du secret `GITHUB_WEBHOOK_SECRET` que vous avez définie dans Replit
 5. **Which events** : cocher *Just the push event*
 6. Cliquer **Add webhook**
 
-> ⚠️ Le domaine Replit de développement change à chaque redémarrage. Pour un webhook stable, déployez le projet (onglet Deploy) et utilisez le domaine de production.
+> ✅ L'application est déployée en **autoscale** sur `https://radar.fhservices.re`. Cette URL est permanente et n'a pas besoin d'être reconfigurée.
 
 ## Personnalisation
 
