@@ -37,7 +37,22 @@ def verify_signature(payload: bytes, signature_header: str) -> bool:
 
 
 def git_pull():
-    """Lance git pull origin main dans le répertoire courant."""
+    """Lance git pull origin main dans le répertoire courant.
+
+    En déploiement VM Replit, le dépôt est initialisé par scripts/start.sh
+    au démarrage, donc git pull fonctionne normalement.
+    """
+    import os as _os
+
+    # Vérification préventive : est-on dans un dépôt git ?
+    if not _os.path.isdir(".git"):
+        log.error(
+            "ERREUR CRITIQUE : Pas de dépôt git dans ce conteneur. "
+            "Le déploiement doit utiliser scripts/start.sh pour initialiser git. "
+            "Vérifiez que la cible de déploiement est 'vm' dans .replit."
+        )
+        return
+
     try:
         result = subprocess.run(
             ["git", "pull", "origin", BRANCH],
@@ -48,9 +63,15 @@ def git_pull():
         if result.returncode == 0:
             log.info("git pull réussi :\n%s", result.stdout.strip())
         else:
-            log.error("git pull a échoué :\n%s", result.stderr.strip())
+            log.error(
+                "git pull a échoué (code %d) :\n%s",
+                result.returncode,
+                result.stderr.strip(),
+            )
+    except subprocess.TimeoutExpired:
+        log.error("git pull a expiré après 60 secondes.")
     except Exception as exc:
-        log.error("Erreur lors du git pull : %s", exc)
+        log.error("Erreur inattendue lors du git pull : %s", exc)
 
 
 class Handler(http.server.SimpleHTTPRequestHandler):

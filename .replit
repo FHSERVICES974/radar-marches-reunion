@@ -38,5 +38,5 @@ path = "scripts/post-merge.sh"
 timeoutMs = 30000
 
 [deployment]
-deploymentTarget = "autoscale"
-run = ["python3", "server.py"]
+deploymentTarget = "vm"
+run = ["bash", "scripts/start.sh"]

@@ -26,6 +26,16 @@ Chaque push sur la branche `main` du dépôt GitHub déclenche automatiquement u
 3. La signature HMAC-SHA256 est vérifiée avec le secret `GITHUB_WEBHOOK_SECRET` (Replit Secret).
 4. Si le push est sur `main`, `git pull origin main` est exécuté automatiquement.
 
+### Pourquoi le déploiement est VM (et non autoscale)
+
+En déploiement autoscale, Replit fournit un snapshot du code sans dépôt git.
+La commande `git pull` échoue avec `fatal: not a git repository`.
+
+En déploiement **VM** :
+- Le serveur tourne en continu dans un conteneur persistant.
+- `scripts/start.sh` initialise automatiquement le dépôt git depuis GitHub au démarrage.
+- Le webhook `/sync` peut ensuite faire `git pull` normalement.
+
 ### Configurer le webhook GitHub (à faire une seule fois)
 
 1. Aller sur **GitHub → votre dépôt → Settings → Webhooks → Add webhook**
@@ -36,7 +46,7 @@ Chaque push sur la branche `main` du dépôt GitHub déclenche automatiquement u
 5. **Which events** : cocher *Just the push event*
 6. Cliquer **Add webhook**
 
-> ✅ L'application est déployée en **autoscale** sur `https://radar.fhservices.re`. Cette URL est permanente et n'a pas besoin d'être reconfigurée.
+> ✅ L'application est déployée en **VM** sur `https://radar.fhservices.re`. Cette URL est permanente et n'a pas besoin d'être reconfigurée.
 
 ## Personnalisation
 
