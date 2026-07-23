@@ -46,9 +46,18 @@ plus fiables :
   ou image → lis-le **visuellement avec Read** (`pages` pour un PDF). Extrais
   l'événement (schéma 16 champs), confiance **Vérifié**. Déplace ensuite le fichier
   vers `data/inbox_docs/processed/` (Bash `mv`).
-- **`data/community_inbox.json`** et **`data/inbox_mobile.txt`** (liens Insta/FB
-  déposés depuis le téléphone) : reprends chaque entrée ; si un lien est lisible,
-  vérifie-le, sinon classe en « à confirmer » (section 5).
+- **`data/community_inbox.json`** : reprends chaque entrée manuelle.
+- **`data/inbox_mobile_export.txt`** (si présent) : export automatique de la note
+  Apple « Radar Inbox » (liens Insta/FB partagés depuis le raccourci iPhone,
+  capturés AVANT ton lancement par `run_veille.sh` via AppleScript — le fichier
+  n'existe que s'il y avait du contenu). Format : une ou plusieurs lignes
+  `URL texte-de-la-note`. Pour chaque lien : tente de le vérifier (WebFetch) —
+  les liens Facebook/Instagram échouent généralement (mur de connexion) ; dans ce
+  cas base-toi sur le TEXTE de la note (souvent suffisant : nom, dates) et
+  recoupe par WebSearch. Classe en « Vérifié » seulement si une source
+  indépendante confirme ; sinon « À confirmer » (section 5). Ce fichier est géré
+  automatiquement (export + archive + vidage de la note) — tu n'as rien à
+  déplacer ni supprimer toi-même.
 
 ### Étape 1 — Balayage des sources (par ordre de fiabilité)
 

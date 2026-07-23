@@ -23,3 +23,5 @@ proposition_docs_*.md
 ingest.log
 data/inbox_docs/
 data/inbox_mobile.txt
+data/inbox_mobile_export.txt
+data/inbox_mobile_archive/
