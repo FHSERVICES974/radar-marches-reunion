@@ -13,6 +13,7 @@ import logging
 import os
 import subprocess
 import threading
+import time
 
 logging.basicConfig(
     level=logging.INFO,
@@ -23,6 +24,26 @@ log = logging.getLogger(__name__)
 
 WEBHOOK_SECRET = os.environ.get("GITHUB_WEBHOOK_SECRET", "").encode()
 BRANCH = "main"
+
+# Intervalle (secondes) entre chaque WARNING périodique quand git est absent
+_GIT_WARN_INTERVAL = 300  # 5 minutes
+
+
+def _git_available() -> bool:
+    """Retourne True si un dépôt git est présent dans le répertoire courant."""
+    return os.path.isdir(".git")
+
+
+def _periodic_git_warning():
+    """Thread daemon : émet un WARNING toutes les _GIT_WARN_INTERVAL secondes
+    tant que le dépôt git n'est pas initialisé."""
+    while not _git_available():
+        log.warning(
+            "ALERTE MODE DÉGRADÉ : aucun dépôt git détecté. "
+            "Le endpoint /sync est indisponible. "
+            "Redémarrez le serveur avec scripts/start.sh pour rétablir l'accès à GitHub."
+        )
+        time.sleep(_GIT_WARN_INTERVAL)
 
 
 def verify_signature(payload: bytes, signature_header: str) -> bool:
@@ -80,6 +101,23 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         if args and str(args[1]) not in ("200", "304"):
             log.info(fmt, *args)
 
+    def do_GET(self):
+        if self.path == "/health":
+            git_ok = _git_available()
+            status = {
+                "status": "ok" if git_ok else "degraded",
+                "git_available": git_ok,
+                "sync_available": git_ok,
+            }
+            body = json.dumps(status).encode()
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+        else:
+            super().do_GET()
+
     def do_POST(self):
         if self.path != "/sync":
             self.send_response(404)
@@ -126,6 +164,21 @@ if __name__ == "__main__":
     server = http.server.HTTPServer(("0.0.0.0", port), Handler)
     log.info("Serveur démarré sur le port %d", port)
     log.info("Webhook disponible sur POST /sync")
+
+    # Alerte immédiate si git est absent au démarrage
+    if not _git_available():
+        log.warning(
+            "ALERTE MODE DÉGRADÉ : le serveur démarre SANS dépôt git. "
+            "GitHub était inaccessible au démarrage (scripts/start.sh n'a pas pu initialiser git). "
+            "Le endpoint /sync est indisponible. "
+            "Consultez GET /health pour surveiller l'état. "
+            "Redémarrez le serveur via scripts/start.sh pour rétablir la synchronisation."
+        )
+        # Thread daemon : rappels périodiques tant que git reste absent
+        threading.Thread(target=_periodic_git_warning, daemon=True, name="git-warn").start()
+    else:
+        log.info("Dépôt git détecté — endpoint /sync opérationnel.")
+
     if not WEBHOOK_SECRET:
         log.warning(
             "GITHUB_WEBHOOK_SECRET non défini ! "
