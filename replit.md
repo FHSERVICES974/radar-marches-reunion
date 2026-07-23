@@ -48,6 +48,44 @@ En déploiement **VM** :
 
 > ✅ L'application est déployée en **VM** sur `https://radar.fhservices.re`. Cette URL est permanente et n'a pas besoin d'être reconfigurée.
 
+## Surveillance de l'état du serveur (`/health`)
+
+Le endpoint `GET /health` permet à un outil de monitoring externe de vérifier que le serveur fonctionne correctement.
+
+### Format de réponse
+
+```json
+{
+  "status": "ok",
+  "git_available": true,
+  "sync_available": true
+}
+```
+
+| Champ           | Type    | Description                                                    |
+|-----------------|---------|----------------------------------------------------------------|
+| `status`        | string  | `"ok"` si tout est opérationnel, `"degraded"` si git est absent |
+| `git_available` | boolean | `true` si un dépôt git est présent dans le répertoire courant  |
+| `sync_available`| boolean | `true` si le endpoint `/sync` peut exécuter un `git pull`      |
+
+Le code HTTP retourné est toujours **200**, même en mode dégradé. Vérifiez la valeur du champ `status` dans le corps JSON pour détecter un problème.
+
+### Exemple de requête
+
+```bash
+curl https://radar.fhservices.re/health
+```
+
+### Configurer UptimeRobot (ou équivalent)
+
+1. Créer un nouveau monitor de type **HTTP(s)**
+2. **URL** : `https://radar.fhservices.re/health`
+3. **Interval de vérification** : 5 minutes
+4. Activer l'option **Keyword monitoring** et chercher `"status":"ok"` dans la réponse
+   - Si le mot-clé est absent (ex. `"status":"degraded"`), UptimeRobot déclenche une alerte
+
+> Pour Betterstack / Better Uptime : créer un monitor HTTP, coller l'URL ci-dessus, et configurer une assertion JSON `status == ok`.
+
 ## Personnalisation
 
 Dans `index.html`, la constante `CONTACT` contient le numéro WhatsApp, l'email et le lien Cal.com à adapter :
