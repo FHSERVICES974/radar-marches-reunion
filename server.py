@@ -938,12 +938,20 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         self._json(200, {"reply": reply})
 
     def _handle_admin(self) -> None:
-        """Sert la page de statistiques privée (auth Replit requise)."""
-        repl_owner = os.environ.get("REPL_OWNER", "")
-        user_name  = self.headers.get("X-Replit-User-Name", "")
-        dev_mode   = not repl_owner  # REPL_OWNER absent → environnement dev local
+        """Sert la page de statistiques privée (auth Replit requise en production).
 
-        if not dev_mode and user_name != repl_owner:
+        En workspace de développement (REPLIT_DEPLOYMENT absent), le proxy Replit
+        n'injecte jamais X-Replit-User-Name — l'accès est accordé directement avec
+        une bannière d'avertissement.
+        En production déployée (REPLIT_DEPLOYMENT présent), le header est injecté
+        automatiquement par Replit pour les utilisateurs connectés.
+        """
+        is_deployed = bool(os.environ.get("REPLIT_DEPLOYMENT"))
+        repl_owner  = os.environ.get("REPL_OWNER", "")
+        user_name   = self.headers.get("X-Replit-User-Name", "")
+        dev_mode    = not is_deployed  # workspace dev : pas d'injection de headers
+
+        if is_deployed and user_name != repl_owner:
             body = _render_auth_required().encode("utf-8")
             self.send_response(401)
             self.send_header("Content-Type", "text/html; charset=utf-8")
@@ -960,7 +968,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         self.send_header("Cache-Control", "no-store, no-cache")
         self.end_headers()
         self.wfile.write(body)
-        log.info("Admin /admin : accès accordé (user=%r).", user_name or "dev")
+        log.info("Admin /admin : accès accordé (user=%r, deployed=%s).", user_name or "dev", is_deployed)
 
     def do_POST(self):
         if self.path == "/chat":
