@@ -137,6 +137,47 @@
   .legend span{display:inline-flex;align-items:center;gap:6px}
   .legend i{width:7px;height:7px;border-radius:50%;display:inline-block}
   @media(max-width:560px){.masthead h1{font-size:27px}.stats-strip{flex-wrap:wrap;gap:14px 0}.stat{padding:0 18px 0 0}}
+
+  /* ── Le ti artisan futé — Widget ───────────────────────────────── */
+  #chat-fab{position:fixed;bottom:24px;right:24px;z-index:9000;
+    background:var(--accent);color:#fff;border:none;border-radius:50px;
+    padding:12px 20px 12px 15px;font-family:var(--sans);font-size:14px;font-weight:700;
+    cursor:pointer;box-shadow:0 4px 20px rgba(14,107,82,.38);
+    display:flex;align-items:center;gap:9px;transition:.18s;letter-spacing:.1px;line-height:1}
+  #chat-fab:hover{background:#0a5642;transform:translateY(-2px)}
+  #chat-box{position:fixed;bottom:80px;right:24px;z-index:8999;
+    width:365px;max-width:calc(100vw - 32px);display:flex;flex-direction:column;
+    background:var(--panel);border:1px solid var(--line);border-radius:20px;
+    box-shadow:0 10px 48px rgba(30,26,15,.16);overflow:hidden;
+    opacity:0;transform:translateY(16px) scale(.96);pointer-events:none;
+    transition:opacity .2s ease,transform .2s ease}
+  #chat-box.open{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}
+  .cb-head{background:var(--accent);padding:15px 18px;
+    display:flex;align-items:center;gap:11px}
+  .cb-av{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.18);
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:20px}
+  .cb-info{flex:1;min-width:0}
+  .cb-name{font-family:var(--serif);font-weight:600;font-size:15px;color:#fff;line-height:1.2}
+  .cb-sub{font-size:11px;color:rgba(255,255,255,.78);margin-top:2px}
+  .cb-close{background:none;border:none;color:#fff;cursor:pointer;
+    padding:5px;border-radius:50%;opacity:.72;transition:.15s;flex-shrink:0}
+  .cb-close:hover{opacity:1;background:rgba(255,255,255,.16)}
+  .cb-msgs{overflow-y:auto;padding:16px;display:flex;flex-direction:column;
+    gap:10px;max-height:360px;min-height:160px;scroll-behavior:smooth}
+  .cb-msg{font-size:13.5px;line-height:1.55;padding:10px 13px;border-radius:14px;max-width:85%;word-break:break-word}
+  .cb-msg.user{align-self:flex-end;background:var(--accent);color:#fff;border-bottom-right-radius:3px}
+  .cb-msg.bot{align-self:flex-start;background:var(--panel-alt);color:var(--ink);border:1px solid var(--line);border-bottom-left-radius:3px}
+  .cb-msg.typing{color:var(--muted-2);font-style:italic;font-size:13px}
+  .cb-foot{border-top:1px solid var(--line);padding:11px 13px;display:flex;gap:8px;align-items:flex-end}
+  .cb-input{flex:1;border:1px solid var(--line);border-radius:10px;padding:9px 12px;
+    font-size:13.5px;font-family:var(--sans);color:var(--ink);background:var(--panel-alt);
+    resize:none;outline:none;line-height:1.45;max-height:90px;transition:border-color .15s}
+  .cb-input:focus{border-color:var(--accent)}
+  .cb-send{background:var(--accent);border:none;color:#fff;border-radius:10px;
+    padding:9px 11px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;transition:.15s}
+  .cb-send:hover{background:#0a5642}
+  .cb-send:disabled{opacity:.38;cursor:default}
+  .cb-note{font-size:11px;color:var(--muted-2);text-align:center;padding:0 14px 9px;min-height:20px}
 </style>
 </head>
 <body>
@@ -743,6 +784,117 @@ document.getElementById("q").oninput=e=>{q=e.target.value.toLowerCase().trim();r
 document.getElementById("upd").textContent="Dernière mise à jour : "+new Date(META.lastUpdate).toLocaleDateString("fr-FR",{day:"numeric",month:"long",year:"numeric"})+" · actualisation automatique chaque lundi.";
 
 buildKpis();buildControls();buildDir();render();
+
+// ── Le ti artisan futé — Widget ─────────────────────────────────────────
+;(function(){
+"use strict";
+var WELCOME="Bonjour ! Je suis Le ti artisan futé 🌴\n\nJe suis là pour vous aider à trouver les marchés, foires et salons de La Réunion, ou pour répondre à vos questions sur les démarches d'artisan (immatriculation, aides, cotisations…).\n\nPosez-moi votre question, je ferai de mon mieux pour vous aider !";
+var MAX_MSG=20,_open=false,_first=true,_count=0,_hist=[];
+
+function safe(t){
+  var d=document.createElement("div");d.textContent=t;
+  return d.innerHTML
+    .replace(/\*\*([^*]+)\*\*/g,"<strong>$1</strong>")
+    .replace(/\*([^*]+)\*/g,"<em>$1</em>")
+    .replace(/\n/g,"<br>");
+}
+function addMsg(role,text){
+  var el=document.createElement("div");
+  el.className="cb-msg "+role;
+  el.innerHTML=safe(text);
+  var msgs=document.getElementById("cb-msgs");
+  msgs.appendChild(el);
+  msgs.scrollTop=msgs.scrollHeight;
+  return el;
+}
+function updateNote(){
+  var n=document.getElementById("cb-note"),left=MAX_MSG-_count;
+  if(_count>=MAX_MSG){n.textContent="Limite de 20 messages par heure atteinte.";}
+  else if(_count>=15){n.textContent=left+" message"+(left>1?"s":"")+" restant"+(left>1?"s":"")+" cette heure.";}
+  else{n.textContent="";}
+}
+
+window.chatOpen=function(){
+  if(_open)return;
+  _open=true;
+  var box=document.getElementById("chat-box");
+  box.classList.add("open");box.setAttribute("aria-hidden","false");
+  document.getElementById("chat-fab").setAttribute("aria-expanded","true");
+  if(_first){_first=false;addMsg("bot",WELCOME);}
+  setTimeout(function(){document.getElementById("cb-input").focus();},220);
+};
+window.chatClose=function(){
+  _open=false;
+  var box=document.getElementById("chat-box");
+  box.classList.remove("open");box.setAttribute("aria-hidden","true");
+  document.getElementById("chat-fab").setAttribute("aria-expanded","false");
+};
+window.chatResize=function(el){el.style.height="auto";el.style.height=Math.min(el.scrollHeight,90)+"px";};
+window.chatKey=function(e){if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();chatSend();}};
+
+window.chatSend=function(){
+  var input=document.getElementById("cb-input");
+  var msg=input.value.trim();
+  if(!msg||document.getElementById("cb-send").disabled)return;
+  if(_count>=MAX_MSG){document.getElementById("cb-note").textContent="Limite de 20 messages par heure atteinte.";return;}
+  input.value="";input.style.height="auto";
+  document.getElementById("cb-send").disabled=true;
+  addMsg("user",msg);
+  _hist.push({role:"user",content:msg});
+  var typing=addMsg("typing","En train de réfléchir…");
+  fetch("/chat",{method:"POST",headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({message:msg,history:_hist.slice(-8)})})
+  .then(function(res){return res.json().then(function(data){return{ok:res.ok,status:res.status,data:data};});})
+  .then(function(r){
+    typing.remove();
+    if(r.status===429){
+      addMsg("bot","Vous avez atteint la limite de 20 messages par heure. Revenez un peu plus tard, à bientôt ! 🙏");
+      document.getElementById("cb-note").textContent="Limite atteinte pour cette heure.";
+    } else {
+      var reply=r.data.reply||"Désolé, je n'ai pas pu répondre. Réessayez dans un instant.";
+      addMsg("bot",reply);
+      _hist.push({role:"assistant",content:reply});
+      _count++;updateNote();
+    }
+    document.getElementById("cb-send").disabled=false;
+    document.getElementById("cb-input").focus();
+  })
+  .catch(function(){
+    typing.remove();
+    addMsg("bot","Désolé, un problème de connexion est survenu. Vérifiez votre connexion et réessayez 🙏");
+    document.getElementById("cb-send").disabled=false;
+    document.getElementById("cb-input").focus();
+  });
+};
+})();
 </script>
+
+<!-- ── Le ti artisan futé — Widget HTML ─────────────────────────────── -->
+<button id="chat-fab" onclick="chatOpen()" aria-expanded="false" aria-label="Ouvrir l'assistant Le ti artisan futé">
+  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+  Le ti artisan futé
+</button>
+
+<div id="chat-box" role="dialog" aria-label="Le ti artisan futé" aria-hidden="true">
+  <div class="cb-head">
+    <div class="cb-av">🌴</div>
+    <div class="cb-info">
+      <div class="cb-name">Le ti artisan futé</div>
+      <div class="cb-sub">Marchés &amp; démarches · La Réunion</div>
+    </div>
+    <button class="cb-close" onclick="chatClose()" aria-label="Fermer">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="cb-msgs" id="cb-msgs"></div>
+  <div class="cb-foot">
+    <textarea id="cb-input" class="cb-input" rows="1" placeholder="Posez votre question…" maxlength="800"
+      oninput="chatResize(this)" onkeydown="chatKey(event)" aria-label="Votre message"></textarea>
+    <button id="cb-send" class="cb-send" onclick="chatSend()" aria-label="Envoyer">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </button>
+  </div>
+  <div class="cb-note" id="cb-note"></div>
+</div>
 </body>
 </html>
