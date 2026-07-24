@@ -5,6 +5,7 @@ Sert index.html sur le port 5000 et expose /sync pour déclencher
 un git pull automatique à chaque push sur la branche main.
 """
 
+import datetime
 import hashlib
 import hmac
 import http.server
@@ -462,6 +463,412 @@ def _claude(model: str, system: str, messages: list) -> str:
         return "Désolé, une erreur est survenue. Réessaie dans quelques instants 🙏"
 
 
+# ── Analytics — statistiques du site ─────────────────────────────────────────
+
+_DATA_DIR       = "data"
+_TRAFFIC_FILE   = os.path.join(_DATA_DIR, "traffic.json")
+_QUESTIONS_FILE = os.path.join(_DATA_DIR, "chat_questions.jsonl")
+_THEMES_FILE    = os.path.join(_DATA_DIR, "theme_analysis.json")
+
+_traffic_lock   = threading.Lock()
+_questions_lock = threading.Lock()
+
+# IPs uniques vues aujourd'hui (reset automatique au changement de jour)
+_today_ips:      set = set()
+_today_date_str: str = ""
+
+_THEMES_INTERVAL = 7 * 24 * 3600  # analyse hebdomadaire
+
+
+def _record_visit(ip: str) -> None:
+    """Enregistre une visite sur le site public (thread-safe)."""
+    global _today_ips, _today_date_str
+    today = datetime.date.today().isoformat()
+    ip_hash = hashlib.sha256(ip.encode()).hexdigest()[:16]
+
+    with _traffic_lock:
+        if today != _today_date_str:
+            _today_ips = set()
+            _today_date_str = today
+        is_new = ip_hash not in _today_ips
+        _today_ips.add(ip_hash)
+        try:
+            os.makedirs(_DATA_DIR, exist_ok=True)
+            try:
+                with open(_TRAFFIC_FILE, encoding="utf-8") as f:
+                    data = json.load(f)
+            except (FileNotFoundError, json.JSONDecodeError, OSError):
+                data = {}
+            day = data.setdefault(today, {"v": 0, "u": 0})
+            day["v"] += 1
+            if is_new:
+                day["u"] += 1
+            if len(data) > 365:
+                for old in sorted(data)[:-365]:
+                    del data[old]
+            with open(_TRAFFIC_FILE, "w", encoding="utf-8") as f:
+                json.dump(data, f)
+        except Exception as exc:
+            log.error("_record_visit : %s", exc)
+
+
+def _record_question(text: str) -> None:
+    """Enregistre une question du chatbot (append JSONL, thread-safe)."""
+    try:
+        os.makedirs(_DATA_DIR, exist_ok=True)
+        entry = json.dumps({"ts": time.time(), "q": text[:300]}, ensure_ascii=False)
+        with _questions_lock:
+            with open(_QUESTIONS_FILE, "a", encoding="utf-8") as f:
+                f.write(entry + "\n")
+    except Exception as exc:
+        log.error("_record_question : %s", exc)
+
+
+def _run_theme_analysis() -> None:
+    """Demande à Claude d'analyser les thèmes des questions des 30 derniers jours."""
+    if not _ANTHROPIC_API_KEY:
+        return
+    cutoff = time.time() - 30 * 86400
+    questions = []
+    try:
+        with _questions_lock:
+            try:
+                with open(_QUESTIONS_FILE, encoding="utf-8") as f:
+                    for line in f:
+                        line = line.strip()
+                        if not line:
+                            continue
+                        try:
+                            entry = json.loads(line)
+                            if entry.get("ts", 0) >= cutoff:
+                                questions.append(entry["q"])
+                        except Exception:
+                            pass
+            except FileNotFoundError:
+                pass
+    except Exception as exc:
+        log.error("_run_theme_analysis (lecture) : %s", exc)
+        return
+
+    if len(questions) < 3:
+        log.info("Analyse thèmes : moins de 3 questions disponibles, abandon.")
+        return
+
+    log.info("Analyse thèmes : analyse de %d questions.", len(questions))
+    sample = questions[:200]
+    questions_text = "\n".join(f"- {q}" for q in sample)
+    prompt = (
+        f"Voici {len(sample)} questions posées par des artisans réunionnais "
+        f"à l'assistant « Le ti artisan futé » ces 30 derniers jours :\n\n"
+        f"{questions_text}\n\n"
+        "Identifie 5 à 8 thèmes récurrents. Pour chaque thème donne :\n"
+        "- un nom court et clair (3-5 mots)\n"
+        "- le nombre de questions estimé pour ce thème\n"
+        "- une question représentative (courte, mot pour mot depuis la liste)\n\n"
+        "Réponds UNIQUEMENT avec ce JSON valide (aucun texte avant ou après) :\n"
+        '{"themes": [{"name": "...", "count": N, "example": "..."}, ...]}'
+    )
+    raw = _claude(
+        _get_model("STRONG"),
+        "Tu es un analyste de données. Réponds uniquement avec du JSON valide, aucun texte autour.",
+        [{"role": "user", "content": prompt}],
+    )
+    try:
+        m = re.search(r"\{.*\}", raw, re.DOTALL)
+        if not m:
+            raise ValueError("Pas de JSON dans la réponse Claude")
+        result = json.loads(m.group())
+        result["generated_at"]  = datetime.datetime.utcnow().isoformat()
+        result["total_analyzed"] = len(questions)
+        result["period_days"]    = 30
+        os.makedirs(_DATA_DIR, exist_ok=True)
+        with open(_THEMES_FILE, "w", encoding="utf-8") as f:
+            json.dump(result, f, ensure_ascii=False, indent=2)
+        log.info("Analyse thèmes sauvegardée (%d thèmes).", len(result.get("themes", [])))
+    except Exception as exc:
+        log.error("_run_theme_analysis (sauvegarde) : %s", exc)
+
+
+def _theme_analysis_loop() -> None:
+    """Thread daemon : analyse hebdomadaire des thèmes de questions."""
+    try:
+        with open(_THEMES_FILE, encoding="utf-8") as f:
+            last = json.load(f)
+        gen = last.get("generated_at", "")
+        if gen:
+            age = time.time() - datetime.datetime.fromisoformat(gen).timestamp()
+            if age < _THEMES_INTERVAL:
+                time.sleep(_THEMES_INTERVAL - age)
+    except Exception:
+        pass  # Pas de fichier existant → lancer immédiatement
+    while True:
+        _run_theme_analysis()
+        time.sleep(_THEMES_INTERVAL)
+
+
+# ── Rendu de la page admin ─────────────────────────────────────────────────
+
+
+def _load_traffic_stats() -> dict:
+    try:
+        with open(_TRAFFIC_FILE, encoding="utf-8") as f:
+            raw = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError, OSError):
+        raw = {}
+    today = datetime.date.today()
+    days = []
+    last7_v = last7_u = last30_v = last30_u = 0
+    total_v = sum(d.get("v", 0) for d in raw.values())
+    total_u = sum(d.get("u", 0) for d in raw.values())
+    for i in range(30):
+        d   = today - datetime.timedelta(days=i)
+        key = d.isoformat()
+        dd  = raw.get(key, {"v": 0, "u": 0})
+        days.append({"date": key, "label": d.strftime("%-d %b"), "v": dd.get("v", 0), "u": dd.get("u", 0)})
+        last30_v += dd.get("v", 0)
+        last30_u += dd.get("u", 0)
+        if i < 7:
+            last7_v += dd.get("v", 0)
+            last7_u += dd.get("u", 0)
+    return {"days": days, "last7_v": last7_v, "last7_u": last7_u,
+            "last30_v": last30_v, "last30_u": last30_u,
+            "total_v": total_v, "total_u": total_u}
+
+
+def _load_questions_stats() -> dict:
+    total = 0
+    last30 = 0
+    cutoff = time.time() - 30 * 86400
+    try:
+        with _questions_lock:
+            with open(_QUESTIONS_FILE, encoding="utf-8") as f:
+                for line in f:
+                    line = line.strip()
+                    if not line:
+                        continue
+                    total += 1
+                    try:
+                        if json.loads(line).get("ts", 0) >= cutoff:
+                            last30 += 1
+                    except Exception:
+                        pass
+    except FileNotFoundError:
+        pass
+    return {"total": total, "last30": last30}
+
+
+def _load_themes() -> dict:
+    try:
+        with open(_THEMES_FILE, encoding="utf-8") as f:
+            return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError, OSError):
+        return {}
+
+
+def _render_auth_required() -> str:
+    return """<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Accès restreint</title>
+<style>
+  body{font-family:system-ui,sans-serif;background:#f9fafb;display:flex;
+       align-items:center;justify-content:center;min-height:100vh;margin:0}
+  .card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;
+        padding:2.5rem;max-width:400px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+  h1{font-size:1.25rem;color:#111827;margin:0 0 .75rem}
+  p{color:#6b7280;font-size:.95rem;line-height:1.6;margin:0 0 1.5rem}
+  a{display:inline-block;background:#2563eb;color:#fff;padding:.6rem 1.4rem;
+    border-radius:8px;text-decoration:none;font-size:.9rem;font-weight:500}
+  a:hover{background:#1d4ed8}
+</style></head>
+<body>
+  <div class="card">
+    <div style="font-size:2rem;margin-bottom:1rem">🔒</div>
+    <h1>Accès réservé au propriétaire</h1>
+    <p>Cette page est accessible uniquement via votre compte Replit.<br>
+       Connectez-vous à Replit puis revenez sur cette page.</p>
+    <a href="https://replit.com/login">Se connecter à Replit</a>
+  </div>
+</body></html>"""
+
+
+def _render_stats_page(dev_mode: bool, user_name: str) -> str:
+    traffic  = _load_traffic_stats()
+    q_stats  = _load_questions_stats()
+    themes   = _load_themes()
+    now_str  = datetime.datetime.now().strftime("%d/%m/%Y à %H:%M")
+
+    # Table des 30 derniers jours
+    rows_html = ""
+    for d in traffic["days"]:
+        rows_html += (
+            f'<tr><td>{d["date"]}</td>'
+            f'<td class="num">{d["v"]}</td>'
+            f'<td class="num">{d["u"]}</td></tr>\n'
+        )
+
+    # Thèmes
+    if themes and themes.get("themes"):
+        gen_at = themes.get("generated_at", "")
+        try:
+            gen_date = datetime.datetime.fromisoformat(gen_at).strftime("%d/%m/%Y")
+        except Exception:
+            gen_date = gen_at[:10] if gen_at else "—"
+        themes_html = (
+            f'<p class="meta">Analyse du {gen_date} &mdash; '
+            f'{themes.get("total_analyzed", "?")} questions des {themes.get("period_days", 30)} derniers jours</p>'
+            '<ol class="themes-list">'
+        )
+        for t in sorted(themes["themes"], key=lambda x: x.get("count", 0), reverse=True):
+            themes_html += (
+                f'<li><strong>{t.get("name","?")}</strong>'
+                f' <span class="badge">{t.get("count","?")} questions</span>'
+                f'<div class="example">Ex : {t.get("example","—")}</div></li>'
+            )
+        themes_html += "</ol>"
+        themes_next = f"Prochaine analyse dans environ {round(_THEMES_INTERVAL/3600/24)} jours."
+    else:
+        themes_html = (
+            '<p class="meta empty">Pas encore d\'analyse disponible.<br>'
+            f'L\'analyse se lance automatiquement dès que 3 questions ont été posées, '
+            f'puis toutes les 7 jours.</p>'
+        )
+        themes_next = ""
+
+    dev_banner = ""
+    if dev_mode:
+        dev_banner = (
+            '<div class="dev-banner">⚠️ Mode développement — '
+            'REPL_OWNER non défini. En production, cette page est réservée au propriétaire Replit.</div>'
+        )
+    elif user_name:
+        user_tag = f'<span class="user-tag">🔐 {user_name}</span>'
+    else:
+        user_tag = ""
+
+    user_tag = user_tag if not dev_mode else ""
+
+    return f"""<!doctype html>
+<html lang="fr"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Statistiques — Agenda des Exposants</title>
+<style>
+  *{{box-sizing:border-box;margin:0;padding:0}}
+  body{{font-family:system-ui,-apple-system,sans-serif;background:#f3f4f6;color:#111827;min-height:100vh}}
+  .dev-banner{{background:#fef3c7;border-bottom:1px solid #fcd34d;padding:.6rem 1.5rem;
+               font-size:.85rem;color:#92400e}}
+  header{{background:#fff;border-bottom:1px solid #e5e7eb;padding:1rem 1.5rem;
+          display:flex;align-items:center;justify-content:space-between}}
+  header h1{{font-size:1.1rem;font-weight:600;color:#111827}}
+  header p{{font-size:.8rem;color:#6b7280;margin-top:.15rem}}
+  .user-tag{{font-size:.8rem;background:#eff6ff;color:#1d4ed8;padding:.3rem .7rem;
+             border-radius:6px;border:1px solid #bfdbfe}}
+  main{{max-width:900px;margin:2rem auto;padding:0 1rem;display:grid;gap:1.5rem}}
+  .card{{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1.5rem;
+         box-shadow:0 1px 4px rgba(0,0,0,.05)}}
+  .card h2{{font-size:1rem;font-weight:600;color:#111827;margin-bottom:1rem;
+            display:flex;align-items:center;gap:.5rem}}
+  .card h2 .icon{{font-size:1.1rem}}
+  .kpi-row{{display:flex;gap:1rem;margin-bottom:1.25rem;flex-wrap:wrap}}
+  .kpi{{flex:1;min-width:120px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;
+        padding:.85rem 1rem}}
+  .kpi .val{{font-size:1.6rem;font-weight:700;color:#111827;line-height:1.1}}
+  .kpi .lbl{{font-size:.75rem;color:#6b7280;margin-top:.25rem}}
+  .kpi.accent .val{{color:#2563eb}}
+  table{{width:100%;border-collapse:collapse;font-size:.875rem}}
+  thead th{{text-align:left;padding:.5rem .75rem;border-bottom:2px solid #e5e7eb;
+            color:#6b7280;font-weight:500;font-size:.8rem;text-transform:uppercase;letter-spacing:.04em}}
+  tbody tr:hover{{background:#f9fafb}}
+  tbody td{{padding:.45rem .75rem;border-bottom:1px solid #f3f4f6;color:#374151}}
+  td.num{{text-align:right;font-variant-numeric:tabular-nums;color:#111827;font-weight:500}}
+  .meta{{font-size:.85rem;color:#6b7280;margin-bottom:1rem}}
+  .meta.empty{{font-style:italic}}
+  .themes-list{{list-style:none;display:flex;flex-direction:column;gap:.75rem}}
+  .themes-list li{{background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:.75rem 1rem}}
+  .themes-list li strong{{color:#111827;font-size:.95rem}}
+  .badge{{display:inline-block;background:#dbeafe;color:#1e40af;font-size:.75rem;font-weight:600;
+          padding:.15rem .5rem;border-radius:20px;margin-left:.5rem;vertical-align:middle}}
+  .example{{font-size:.8rem;color:#6b7280;margin-top:.3rem;font-style:italic}}
+  .hint{{font-size:.8rem;color:#9ca3af;margin-top:.75rem}}
+  footer{{text-align:center;font-size:.75rem;color:#9ca3af;padding:2rem 0}}
+</style>
+</head>
+<body>
+{dev_banner}
+<header>
+  <div>
+    <h1>📊 Tableau de bord — Agenda des Exposants</h1>
+    <p>Généré le {now_str} (UTC+4)</p>
+  </div>
+  {user_tag}
+</header>
+<main>
+
+  <!-- Trafic -->
+  <div class="card">
+    <h2><span class="icon">🌐</span> Trafic du site public</h2>
+    <div class="kpi-row">
+      <div class="kpi accent">
+        <div class="val">{traffic["last7_v"]}</div>
+        <div class="lbl">Visites — 7 derniers jours</div>
+      </div>
+      <div class="kpi">
+        <div class="val">{traffic["last7_u"]}</div>
+        <div class="lbl">Visiteurs uniques — 7 j.</div>
+      </div>
+      <div class="kpi accent">
+        <div class="val">{traffic["last30_v"]}</div>
+        <div class="lbl">Visites — 30 derniers jours</div>
+      </div>
+      <div class="kpi">
+        <div class="val">{traffic["last30_u"]}</div>
+        <div class="lbl">Visiteurs uniques — 30 j.</div>
+      </div>
+      <div class="kpi">
+        <div class="val">{traffic["total_v"]}</div>
+        <div class="lbl">Visites totales (historique)</div>
+      </div>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th style="text-align:right">Visites</th>
+          <th style="text-align:right">Visiteurs uniques</th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows_html}
+      </tbody>
+    </table>
+    <p class="hint">Les visiteurs uniques sont estimés par IP (hachée, non stockée en clair). Les chiffres couvrent les 30 derniers jours.</p>
+  </div>
+
+  <!-- Chatbot -->
+  <div class="card">
+    <h2><span class="icon">💬</span> Assistant « Le ti artisan futé »</h2>
+    <div class="kpi-row">
+      <div class="kpi accent">
+        <div class="val">{q_stats["last30"]}</div>
+        <div class="lbl">Questions — 30 derniers jours</div>
+      </div>
+      <div class="kpi">
+        <div class="val">{q_stats["total"]}</div>
+        <div class="lbl">Questions totales (historique)</div>
+      </div>
+    </div>
+
+    <h2 style="margin-top:1.25rem"><span class="icon">🏷️</span> Thèmes récurrents</h2>
+    {themes_html}
+    <p class="hint">{themes_next}</p>
+  </div>
+
+</main>
+<footer>Page privée — accessible uniquement via compte Replit propriétaire</footer>
+</body></html>"""
+
+
 class Handler(http.server.SimpleHTTPRequestHandler):
     def log_message(self, fmt, *args):
         # Masquer les requêtes GET/HEAD habituelles pour garder les logs lisibles
@@ -482,7 +889,13 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self.send_header("Content-Length", str(len(body)))
             self.end_headers()
             self.wfile.write(body)
+        elif self.path in ("/admin", "/admin/"):
+            self._handle_admin()
         else:
+            # Enregistre les visites du site public (GET classiques uniquement)
+            if not self.path.startswith(("/sync", "/chat", "/health", "/admin")):
+                ip = (self.headers.get("X-Forwarded-For") or self.client_address[0]).split(",")[0].strip()
+                threading.Thread(target=_record_visit, args=(ip,), daemon=True).start()
             super().do_GET()
 
     def _json(self, code: int, data: dict) -> None:
@@ -519,8 +932,35 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         else:
             system = _SYS_ADMIN
             model  = _get_model("STRONG")
+        # Enregistrement anonyme de la question pour les statistiques
+        threading.Thread(target=_record_question, args=(user_msg,), daemon=True).start()
         reply = _claude(model, system, history + [{"role": "user", "content": user_msg}])
         self._json(200, {"reply": reply})
+
+    def _handle_admin(self) -> None:
+        """Sert la page de statistiques privée (auth Replit requise)."""
+        repl_owner = os.environ.get("REPL_OWNER", "")
+        user_name  = self.headers.get("X-Replit-User-Name", "")
+        dev_mode   = not repl_owner  # REPL_OWNER absent → environnement dev local
+
+        if not dev_mode and user_name != repl_owner:
+            body = _render_auth_required().encode("utf-8")
+            self.send_response(401)
+            self.send_header("Content-Type", "text/html; charset=utf-8")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+            log.info("Admin /admin : accès refusé (user=%r, owner=%r).", user_name, repl_owner)
+            return
+
+        body = _render_stats_page(dev_mode=dev_mode, user_name=user_name).encode("utf-8")
+        self.send_response(200)
+        self.send_header("Content-Type", "text/html; charset=utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.send_header("Cache-Control", "no-store, no-cache")
+        self.end_headers()
+        self.wfile.write(body)
+        log.info("Admin /admin : accès accordé (user=%r).", user_name or "dev")
 
     def do_POST(self):
         if self.path == "/chat":
@@ -597,5 +1037,9 @@ if __name__ == "__main__":
 
     # Vérification périodique des modèles Claude (démarrage immédiat + toutes les 24 h)
     threading.Thread(target=_model_check_loop, daemon=True, name="model-check").start()
+
+    # Analyse hebdomadaire des thèmes de questions du chatbot
+    threading.Thread(target=_theme_analysis_loop, daemon=True, name="theme-analysis").start()
+    log.info("Page de statistiques disponible sur GET /admin (accès restreint au propriétaire Replit).")
 
     server.serve_forever()
