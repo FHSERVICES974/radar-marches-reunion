@@ -320,49 +320,40 @@ _events_lock  = threading.Lock()
 
 
 def _load_events() -> str:
-    """Lit index.html et retourne un résumé lisible de tous les événements."""
+    """Lit index.html, parse le tableau EVENTS (JSON) et retourne un résumé lisible."""
     with _events_lock:
         if _events_cache[0] is not None:
             return _events_cache[0]
         try:
             with open("index.html", encoding="utf-8") as f:
                 html = f.read()
-            m = re.search(r"const EVENTS = \[(.+?)\];", html, re.DOTALL)
+            m = re.search(r"const EVENTS = (\[.+?\]);", html, re.DOTALL)
             if not m:
+                log.warning("_load_events : tableau EVENTS introuvable dans index.html.")
                 _events_cache[0] = ""
                 return ""
-            raw = m.group(1)
-            names     = re.findall(r'name:"([^"]+)"',     raw)
-            zones     = re.findall(r'zone:"([^"]+)"',     raw)
-            types_    = re.findall(r'type:"([^"]+)"',     raw)
-            places    = re.findall(r'place:"([^"]+)"',    raw)
-            whens     = re.findall(r'when:"([^"]+)"',     raw)
-            statuses  = re.findall(r'status:"([^"]+)"',   raw)
-            deadlines = re.findall(r'deadline:"([^"]*)"', raw)
-            applies   = re.findall(r'apply:"([^"]+)"',    raw)
-            contacts  = re.findall(r'contact:"([^"]+)"',  raw)
+            events = json.loads(m.group(1))
             _STATUS_LABELS = {
-                "open": "Candidature ouverte",
-                "soon": "À surveiller / appel à venir",
+                "open":   "Candidature ouverte",
+                "soon":   "À surveiller / appel à venir",
                 "closed": "Clôturée",
-                "perm": "Marché permanent",
+                "perm":   "Marché permanent",
             }
             lines = []
-            for i, name in enumerate(names):
-                row = [f"▸ {name}"]
-                if i < len(zones):    row.append(f"  Zone : {zones[i]}")
-                if i < len(types_):   row.append(f"  Type : {types_[i]}")
-                if i < len(places):   row.append(f"  Lieu : {places[i]}")
-                if i < len(whens):    row.append(f"  Quand : {whens[i]}")
-                if i < len(statuses):
-                    row.append(f"  Statut : {_STATUS_LABELS.get(statuses[i], statuses[i])}")
-                if i < len(deadlines) and deadlines[i]:
-                    row.append(f"  Délai candidature : {deadlines[i]}")
-                if i < len(applies):  row.append(f"  Comment candidater : {applies[i]}")
-                if i < len(contacts): row.append(f"  Contact : {contacts[i]}")
+            for ev in events:
+                row = [f"▸ {ev.get('name', '?')}"]
+                if ev.get("zone"):     row.append(f"  Zone : {ev['zone']}")
+                if ev.get("type"):     row.append(f"  Type : {ev['type']}")
+                if ev.get("place"):    row.append(f"  Lieu : {ev['place']}")
+                if ev.get("when"):     row.append(f"  Quand : {ev['when']}")
+                status = ev.get("status", "")
+                if status:             row.append(f"  Statut : {_STATUS_LABELS.get(status, status)}")
+                if ev.get("deadline"): row.append(f"  Délai candidature : {ev['deadline']}")
+                if ev.get("apply"):    row.append(f"  Comment candidater : {ev['apply']}")
+                if ev.get("contact"):  row.append(f"  Contact : {ev['contact']}")
                 lines.append("\n".join(row))
             _events_cache[0] = "\n\n".join(lines)
-            log.info("Cache événements chargé (%d événements).", len(names))
+            log.info("Cache événements chargé (%d événements).", len(events))
         except Exception as exc:
             log.error("Erreur chargement événements : %s", exc)
             _events_cache[0] = ""
