@@ -155,14 +155,17 @@ def verify_signature(payload: bytes, signature_header: str) -> bool:
 
 
 def git_pull():
-    """Lance git pull origin main dans le répertoire courant.
+    """Synchronise le working tree avec origin/main.
 
-    En déploiement VM Replit, le dépôt est initialisé par scripts/start.sh
-    au démarrage, donc git pull fonctionne normalement.
+    Utilise git fetch + git reset --hard FETCH_HEAD plutôt que git pull,
+    pour éviter l'erreur "untracked files would be overwritten by merge"
+    qui survient quand le bundle de déploiement contient des fichiers
+    non-trackés par git (pipeline scripts, data/, etc.).
+    git reset --hard force le working tree à correspondre au remote
+    sans se bloquer sur les fichiers non-trackés.
     """
     import os as _os
 
-    # Vérification préventive : est-on dans un dépôt git ?
     if not _os.path.isdir(".git"):
         log.error(
             "ERREUR CRITIQUE : Pas de dépôt git dans ce conteneur. "
@@ -172,25 +175,32 @@ def git_pull():
         return
 
     try:
-        result = subprocess.run(
-            ["git", "pull", "origin", BRANCH],
-            capture_output=True,
-            text=True,
-            timeout=60,
+        # Étape 1 : fetch
+        fetch = subprocess.run(
+            ["git", "fetch", "origin", BRANCH, "--depth=1"],
+            capture_output=True, text=True, timeout=60,
         )
-        if result.returncode == 0:
-            log.info("git pull réussi :\n%s", result.stdout.strip())
+        if fetch.returncode != 0:
+            log.error("git fetch a échoué (code %d) :\n%s",
+                      fetch.returncode, fetch.stderr.strip())
+            return
+
+        # Étape 2 : reset hard — force le working tree sans se bloquer
+        # sur les fichiers non-trackés présents dans le bundle de déploiement
+        reset = subprocess.run(
+            ["git", "reset", "--hard", "FETCH_HEAD"],
+            capture_output=True, text=True, timeout=30,
+        )
+        if reset.returncode == 0:
+            log.info("Sync réussie (fetch + reset) :\n%s", reset.stdout.strip())
             _invalidate_events_cache()
         else:
-            log.error(
-                "git pull a échoué (code %d) :\n%s",
-                result.returncode,
-                result.stderr.strip(),
-            )
+            log.error("git reset --hard a échoué (code %d) :\n%s",
+                      reset.returncode, reset.stderr.strip())
     except subprocess.TimeoutExpired:
-        log.error("git pull a expiré après 60 secondes.")
+        log.error("git fetch/reset a expiré après 60 secondes.")
     except Exception as exc:
-        log.error("Erreur inattendue lors du git pull : %s", exc)
+        log.error("Erreur inattendue lors de la sync git : %s", exc)
 
 
 # ── Le ti artisan futé — Assistant IA ─────────────────────────────────────
