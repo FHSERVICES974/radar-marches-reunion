@@ -197,11 +197,101 @@ def git_pull():
 
 _ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 
-# ── Modèles Claude — à mettre à jour ici uniquement ───────────────────────
-# Pour changer de génération, modifiez ces deux lignes seulement.
-# Liste des modèles disponibles : GET https://api.anthropic.com/v1/models
+# ── Modèles Claude — référence de configuration ────────────────────────────
+# Pour changer de génération manuellement : modifiez ces deux lignes seulement.
+# Le thread _model_check_loop surveille que ces modèles restent actifs et
+# bascule automatiquement vers un remplaçant du même tier si l'un est retiré.
 _MODEL_FAST   = "claude-haiku-4-5-20251001"   # rapide/économique — marchés du site
 _MODEL_STRONG = "claude-sonnet-4-5-20250929"  # plus fort — questions admin/recherche
+
+# Mots-clés qui identifient chaque tier de coût.
+# Un modèle FAST ne peut remplacer que du FAST, STRONG que du STRONG.
+_TIER_KEYWORDS: dict = {
+    "FAST":   ["haiku"],
+    "STRONG": ["sonnet"],
+}
+
+# Noms actifs courants — initialisés depuis les constantes, puis maintenus à jour
+# par _check_models_once(). Accès protégé par _models_lock.
+_active_models: dict  = {"FAST": _MODEL_FAST, "STRONG": _MODEL_STRONG}
+_models_lock          = threading.Lock()
+_MODEL_CHECK_INTERVAL = 24 * 3600  # vérification quotidienne
+
+
+def _get_model(tier: str) -> str:
+    """Retourne le nom du modèle actif pour le tier donné ('FAST' ou 'STRONG')."""
+    with _models_lock:
+        return _active_models[tier]
+
+
+def _model_tier(model_id: str) -> str | None:
+    """Classe un modèle dans son tier d'après son nom, ou None si inconnu."""
+    for tier, keywords in _TIER_KEYWORDS.items():
+        if any(kw in model_id for kw in keywords):
+            return tier
+    return None
+
+
+def _fetch_model_ids() -> list:
+    """Retourne la liste ordonnée des IDs de modèles actifs depuis l'API Anthropic."""
+    if not _ANTHROPIC_API_KEY:
+        return []
+    req = urllib.request.Request(
+        "https://api.anthropic.com/v1/models",
+        headers={
+            "x-api-key":         _ANTHROPIC_API_KEY,
+            "anthropic-version": "2023-06-01",
+        },
+        method="GET",
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            return [m["id"] for m in json.loads(resp.read()).get("data", [])]
+    except Exception as exc:
+        log.warning("Vérification modèles Anthropic : API inaccessible (%s). Modèles actuels conservés.", exc)
+        return []
+
+
+def _check_models_once() -> None:
+    """Vérifie que les modèles actifs sont toujours disponibles ; bascule si nécessaire."""
+    ids = _fetch_model_ids()
+    if not ids:
+        return  # avertissement déjà loggé dans _fetch_model_ids
+    active_set = set(ids)
+    with _models_lock:
+        for tier in ("FAST", "STRONG"):
+            current = _active_models[tier]
+            if current in active_set:
+                log.info("Modèle %s ('%s') : actif.", tier, current)
+                continue
+            # Modèle absent — chercher le meilleur du même tier (l'API renvoie du plus récent au plus ancien)
+            candidates = [m for m in ids if _model_tier(m) == tier]
+            if candidates:
+                replacement = candidates[0]
+                _active_models[tier] = replacement
+                log.warning(
+                    "MODÈLE REMPLACÉ [tier %s] : '%s' n'est plus disponible. "
+                    "Basculement automatique vers '%s'. "
+                    "Mettez à jour la constante _MODEL_%s dans server.py.",
+                    tier, current, replacement, tier,
+                )
+            else:
+                log.error(
+                    "ALERTE MODÈLE [tier %s] : '%s' n'est plus disponible "
+                    "et aucun remplaçant de même niveau n'a été trouvé. "
+                    "Les appels Claude vont échouer. Mettez à jour manuellement server.py.",
+                    tier, current,
+                )
+
+
+def _model_check_loop() -> None:
+    """Thread daemon : vérifie les modèles au démarrage puis toutes les 24 h."""
+    _check_models_once()
+    while True:
+        time.sleep(_MODEL_CHECK_INTERVAL)
+        _check_models_once()
+
+
 # ─────────────────────────────────────────────────────────────────────────
 
 # Limitation : 20 messages par heure et par IP
@@ -424,10 +514,10 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             return
         if _is_events_q(user_msg):
             system = _SYS_EVENTS.format(events=_load_events())
-            model  = _MODEL_FAST
+            model  = _get_model("FAST")
         else:
             system = _SYS_ADMIN
-            model  = _MODEL_STRONG
+            model  = _get_model("STRONG")
         reply = _claude(model, system, history + [{"role": "user", "content": user_msg}])
         self._json(200, {"reply": reply})
 
@@ -503,4 +593,8 @@ if __name__ == "__main__":
             "GITHUB_WEBHOOK_SECRET non défini ! "
             "Définissez ce secret Replit pour sécuriser le webhook."
         )
+
+    # Vérification périodique des modèles Claude (démarrage immédiat + toutes les 24 h)
+    threading.Thread(target=_model_check_loop, daemon=True, name="model-check").start()
+
     server.serve_forever()
