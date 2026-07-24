@@ -76,7 +76,7 @@ cibles depuis un compte dédié, activez les notifications, et déposez les lien
 ### Installation
 ```bash
 cd radar-marches
-python3 -m venv venv && ./venv/bin/pip install -r requirements.txt
+python3 -m venv venv && ./venv/bin/pip install -r pipeline-requirements.txt
 cp .env.example .env     # REPLIT_DEPLOY_HOOK (option B) ; Brave n'est plus requis
 ```
 Prérequis veille : le CLI `claude` installé et authentifié (déjà le cas si vous
