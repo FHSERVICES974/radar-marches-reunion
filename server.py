@@ -580,7 +580,7 @@ def _run_theme_analysis() -> None:
 
     if len(questions) < 3:
         log.info("Analyse thèmes : moins de 3 questions disponibles, abandon.")
-        return
+        return False
 
     log.info("Analyse thèmes : analyse de %d questions.", len(questions))
     sample = questions[:200]
@@ -613,8 +613,10 @@ def _run_theme_analysis() -> None:
         with open(_THEMES_FILE, "w", encoding="utf-8") as f:
             json.dump(result, f, ensure_ascii=False, indent=2)
         log.info("Analyse thèmes sauvegardée (%d thèmes).", len(result.get("themes", [])))
+        return True
     except Exception as exc:
         log.error("_run_theme_analysis (sauvegarde) : %s", exc)
+        return False
 
 
 def _theme_analysis_loop() -> None:
@@ -630,8 +632,10 @@ def _theme_analysis_loop() -> None:
     except Exception:
         pass  # Pas de fichier existant → lancer immédiatement
     while True:
-        _run_theme_analysis()
-        time.sleep(_THEMES_INTERVAL)
+        ok = _run_theme_analysis()
+        # Si analyse ignorée (< 3 questions) ou échouée → réessai dans 1h
+        # Sinon → attente hebdomadaire normale
+        time.sleep(3600 if not ok else _THEMES_INTERVAL)
 
 
 # ── Rendu de la page admin ─────────────────────────────────────────────────
@@ -915,6 +919,10 @@ def _render_stats_page(dev_mode: bool, user_name: str) -> str:  # noqa: PLR0912,
             '<p>Pas encore d\'analyse disponible.</p>'
             '<span class="empty-sub">L\'analyse se déclenche dès 3 questions, puis toutes les 7 jours.</span>'
             '</div>'
+            '<form method="POST" action="/admin/run-analysis" style="margin-top:.8rem;text-align:center">'
+            '<button type="submit" style="background:#2563eb;color:#fff;border:none;padding:.45rem 1.1rem;'
+            'border-radius:6px;font-size:.85rem;cursor:pointer">⚡ Lancer l\'analyse maintenant</button>'
+            '</form>'
         )
 
     # ── Top events ─────────────────────────────────────────────────────────────
@@ -1290,6 +1298,21 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         )
         self.end_headers()
 
+    def _handle_run_analysis(self) -> None:
+        """Déclenche l'analyse des thèmes manuellement (POST /admin/run-analysis)."""
+        dev_mode = not os.environ.get("REPLIT_DEPLOYMENT")
+        if not dev_mode:
+            token    = _get_session_cookie(self.headers)
+            username = _verify_session_token(token) if token else None
+            if not username:
+                self.send_response(403)
+                self.end_headers()
+                return
+        threading.Thread(target=_run_theme_analysis, daemon=True, name="theme-manual").start()
+        self.send_response(302)
+        self.send_header("Location", "/admin")
+        self.end_headers()
+
     def _handle_track(self) -> None:
         """Reçoit un ping de tracking côté client (fire-and-forget)."""
         try:
@@ -1312,6 +1335,10 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
         if self.path == "/admin/login":
             self._handle_admin_login()
+            return
+
+        if self.path == "/admin/run-analysis":
+            self._handle_run_analysis()
             return
 
         if self.path == "/chat":
