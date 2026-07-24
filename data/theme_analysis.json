@@ -1,0 +1,22 @@
+{
+  "themes": [
+    {
+      "name": "Fiscalité et TVA",
+      "count": 1,
+      "example": "Comment déclarer ma TVA ?"
+    },
+    {
+      "name": "Aides financières artisans",
+      "count": 1,
+      "example": "Quelles aides pour les artisans ?"
+    },
+    {
+      "name": "Immatriculation et inscription",
+      "count": 1,
+      "example": "Comment s inscrire à la chambre des métiers ?"
+    }
+  ],
+  "generated_at": "2026-07-24T12:06:24.472707",
+  "total_analyzed": 3,
+  "period_days": 30
+}
