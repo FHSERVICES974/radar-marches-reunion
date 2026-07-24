@@ -482,11 +482,36 @@ _today_date_str: str = ""
 _THEMES_INTERVAL = 7 * 24 * 3600  # analyse hebdomadaire
 
 
-def _record_visit(ip: str) -> None:
+_REF_SOURCES = [
+    ("google",    ("google.", "bing.", "yahoo.", "duckduckgo.", "qwant.", "ecosia.")),
+    ("facebook",  ("facebook.com", "fb.com")),
+    ("instagram", ("instagram.com",)),
+    ("whatsapp",  ("whatsapp.com",)),
+]
+
+
+def _categorize_referrer(referrer: str) -> str:
+    """Classe l'URL de référence en une source simple."""
+    if not referrer:
+        return "direct"
+    try:
+        host = (urllib.parse.urlparse(referrer).hostname or "").lower()
+        if host.startswith("www."):
+            host = host[4:]
+        for src, patterns in _REF_SOURCES:
+            if any(p in host for p in patterns):
+                return src
+        return "autre"
+    except Exception:
+        return "direct"
+
+
+def _record_visit(ip: str, referrer: str = "") -> None:
     """Enregistre une visite sur le site public (thread-safe)."""
     global _today_ips, _today_date_str
     today = datetime.date.today().isoformat()
     ip_hash = hashlib.sha256(ip.encode()).hexdigest()[:16]
+    src = _categorize_referrer(referrer)
 
     with _traffic_lock:
         if today != _today_date_str:
@@ -501,10 +526,11 @@ def _record_visit(ip: str) -> None:
                     data = json.load(f)
             except (FileNotFoundError, json.JSONDecodeError, OSError):
                 data = {}
-            day = data.setdefault(today, {"v": 0, "u": 0})
+            day = data.setdefault(today, {"v": 0, "u": 0, "refs": {}})
             day["v"] += 1
             if is_new:
                 day["u"] += 1
+            day.setdefault("refs", {})[src] = day["refs"].get(src, 0) + 1
             if len(data) > 365:
                 for old in sorted(data)[:-365]:
                     del data[old]
@@ -622,19 +648,27 @@ def _load_traffic_stats() -> dict:
     last7_v = last7_u = last30_v = last30_u = 0
     total_v = sum(d.get("v", 0) for d in raw.values())
     total_u = sum(d.get("u", 0) for d in raw.values())
+    refs_total: dict = {}
     for i in range(30):
         d   = today - datetime.timedelta(days=i)
         key = d.isoformat()
         dd  = raw.get(key, {"v": 0, "u": 0})
-        days.append({"date": key, "label": d.strftime("%-d %b"), "v": dd.get("v", 0), "u": dd.get("u", 0)})
+        days.append({
+            "date": key, "label": d.strftime("%-d %b"),
+            "v": dd.get("v", 0), "u": dd.get("u", 0),
+        })
         last30_v += dd.get("v", 0)
         last30_u += dd.get("u", 0)
         if i < 7:
             last7_v += dd.get("v", 0)
             last7_u += dd.get("u", 0)
-    return {"days": days, "last7_v": last7_v, "last7_u": last7_u,
-            "last30_v": last30_v, "last30_u": last30_u,
-            "total_v": total_v, "total_u": total_u}
+        for src, cnt in dd.get("refs", {}).items():
+            refs_total[src] = refs_total.get(src, 0) + cnt
+    return {
+        "days": days, "last7_v": last7_v, "last7_u": last7_u,
+        "last30_v": last30_v, "last30_u": last30_u,
+        "total_v": total_v, "total_u": total_u, "refs": refs_total,
+    }
 
 
 def _load_questions_stats() -> dict:
@@ -665,6 +699,58 @@ def _load_themes() -> dict:
             return json.load(f)
     except (FileNotFoundError, json.JSONDecodeError, OSError):
         return {}
+
+
+_CLICKS_FILE  = os.path.join(_DATA_DIR, "clicks.jsonl")
+_clicks_lock  = threading.Lock()
+
+
+def _record_click(event: str, name: str = "") -> None:
+    """Enregistre un clic de l'utilisateur (append JSONL, thread-safe)."""
+    try:
+        os.makedirs(_DATA_DIR, exist_ok=True)
+        entry = json.dumps({"ts": time.time(), "e": event, "n": name[:80]}, ensure_ascii=False)
+        with _clicks_lock:
+            with open(_CLICKS_FILE, "a", encoding="utf-8") as f:
+                f.write(entry + "\n")
+    except Exception as exc:
+        log.error("_record_click : %s", exc)
+
+
+def _load_clicks_stats() -> dict:
+    """Charge les statistiques de clics des 30 derniers jours."""
+    totals: dict = {"chatbot_open": 0, "candidater": 0, "event_view": 0}
+    top_events: dict = {}
+    top_cand: dict = {}
+    cutoff = time.time() - 30 * 86400
+    try:
+        with _clicks_lock:
+            with open(_CLICKS_FILE, encoding="utf-8") as f:
+                for line in f:
+                    line = line.strip()
+                    if not line:
+                        continue
+                    try:
+                        entry = json.loads(line)
+                        if entry.get("ts", 0) < cutoff:
+                            continue
+                        ev   = entry.get("e", "")
+                        name = entry.get("n", "").strip()
+                        if ev in totals:
+                            totals[ev] += 1
+                        if ev == "event_view" and name:
+                            top_events[name] = top_events.get(name, 0) + 1
+                        if ev == "candidater" and name:
+                            top_cand[name] = top_cand.get(name, 0) + 1
+                    except Exception:
+                        pass
+    except FileNotFoundError:
+        pass
+    return {
+        **totals,
+        "top_events": sorted(top_events.items(), key=lambda x: x[1], reverse=True)[:8],
+        "top_cand":   sorted(top_cand.items(),   key=lambda x: x[1], reverse=True)[:5],
+    }
 
 
 # ── Session admin (Replit Auth PKCE flow) ────────────────────────────────────
@@ -755,180 +841,296 @@ def _render_auth_required(error: str = "") -> str:
 </body></html>"""
 
 
-def _render_stats_page(dev_mode: bool, user_name: str) -> str:
+def _render_stats_page(dev_mode: bool, user_name: str) -> str:  # noqa: PLR0912,PLR0915
     traffic  = _load_traffic_stats()
     q_stats  = _load_questions_stats()
     themes   = _load_themes()
+    clicks   = _load_clicks_stats()
     now_str  = datetime.datetime.now().strftime("%d/%m/%Y à %H:%M")
 
-    # Table des 30 derniers jours
-    rows_html = ""
-    for d in traffic["days"]:
-        rows_html += (
-            f'<tr><td>{d["date"]}</td>'
-            f'<td class="num">{d["v"]}</td>'
-            f'<td class="num">{d["u"]}</td></tr>\n'
-        )
+    # ── Chart: traffic 14 days oldest→newest, skip leading zeros ──────────────
+    days14    = list(reversed(traffic["days"][:14]))
+    first_nz  = next((i for i, d in enumerate(days14) if d["v"] > 0), len(days14) - 1)
+    chart_d   = days14[max(0, first_nz - 1):]
+    chart_lbs = json.dumps([d["label"] for d in chart_d])
+    chart_v   = json.dumps([d["v"]     for d in chart_d])
+    chart_u   = json.dumps([d["u"]     for d in chart_d])
 
-    # Thèmes
-    if themes and themes.get("themes"):
-        gen_at = themes.get("generated_at", "")
-        try:
-            gen_date = datetime.datetime.fromisoformat(gen_at).strftime("%d/%m/%Y")
-        except Exception:
-            gen_date = gen_at[:10] if gen_at else "—"
-        themes_html = (
-            f'<p class="meta">Analyse du {gen_date} &mdash; '
-            f'{themes.get("total_analyzed", "?")} questions des {themes.get("period_days", 30)} derniers jours</p>'
-            '<ol class="themes-list">'
-        )
-        for t in sorted(themes["themes"], key=lambda x: x.get("count", 0), reverse=True):
-            themes_html += (
-                f'<li><strong>{t.get("name","?")}</strong>'
-                f' <span class="badge">{t.get("count","?")} questions</span>'
-                f'<div class="example">Ex : {t.get("example","—")}</div></li>'
+    # ── Referrer sources ───────────────────────────────────────────────────────
+    refs       = traffic.get("refs", {})
+    ref_order  = ["direct", "google", "facebook", "instagram", "whatsapp", "autre"]
+    ref_labels = {"direct":"Lien direct","google":"Recherche","facebook":"Facebook",
+                  "instagram":"Instagram","whatsapp":"WhatsApp","autre":"Autre"}
+    ref_colors = {"direct":"#6366f1","google":"#f59e0b","facebook":"#3b82f6",
+                  "instagram":"#ec4899","whatsapp":"#22c55e","autre":"#94a3b8"}
+    refs_data  = [(ref_labels[k], refs.get(k, 0), ref_colors[k])
+                  for k in ref_order if refs.get(k, 0) > 0]
+    has_refs   = bool(refs_data)
+    refs_lj    = json.dumps([r[0] for r in refs_data])
+    refs_vj    = json.dumps([r[1] for r in refs_data])
+    refs_cj    = json.dumps([r[2] for r in refs_data])
+
+    # ── Referrer legend HTML ───────────────────────────────────────────────────
+    ref_legend = ""
+    if has_refs:
+        ref_legend = '<div class="ref-leg">'
+        for lbl, cnt, col in refs_data:
+            ref_legend += (
+                f'<div class="ref-row"><span class="ref-dot" style="background:{col}"></span>'
+                f'<span class="ref-lbl">{lbl}</span><span class="ref-cnt">{cnt}</span></div>'
             )
-        themes_html += "</ol>"
-        themes_next = f"Prochaine analyse dans environ {round(_THEMES_INTERVAL/3600/24)} jours."
-    else:
-        themes_html = (
-            '<p class="meta empty">Pas encore d\'analyse disponible.<br>'
-            f'L\'analyse se lance automatiquement dès que 3 questions ont été posées, '
-            f'puis toutes les 7 jours.</p>'
-        )
-        themes_next = ""
+        ref_legend += '</div>'
+    refs_canvas = '<canvas id="refChart"></canvas>' if has_refs else \
+                  '<div class="no-chart">Aucune source enregistrée pour le moment</div>'
 
-    dev_banner = ""
-    if dev_mode:
-        dev_banner = (
-            '<div class="dev-banner">⚠️ Mode développement — '
-            'REPL_OWNER non défini. En production, cette page est réservée au propriétaire Replit.</div>'
+    # ── Themes ─────────────────────────────────────────────────────────────────
+    theme_list = (themes or {}).get("themes", [])
+    max_cnt    = max((t.get("count", 0) for t in theme_list), default=1) or 1
+    if theme_list:
+        gen_at = (themes or {}).get("generated_at", "")
+        try:    gen_date = datetime.datetime.fromisoformat(gen_at).strftime("%d/%m/%Y")
+        except: gen_date = gen_at[:10] if gen_at else "—"  # noqa: E722
+        themes_body = (
+            f'<div class="th-meta">Analyse du {gen_date} &nbsp;·&nbsp; '
+            f'{(themes or {}).get("total_analyzed","?")} questions &nbsp;·&nbsp; 30 derniers jours</div>'
+            '<div class="th-list">'
         )
-    elif user_name:
-        user_tag = f'<span class="user-tag">🔐 {user_name}</span>'
+        for t in sorted(theme_list, key=lambda x: x.get("count", 0), reverse=True):
+            cnt  = t.get("count", 0)
+            pct  = round(cnt / max_cnt * 100)
+            themes_body += (
+                f'<div class="ti"><div class="ti-row">'
+                f'<span class="ti-name">{t.get("name","?")}</span>'
+                f'<span class="ti-badge">{cnt} q.</span></div>'
+                f'<div class="ti-bar"><div class="ti-fill" style="width:{pct}%"></div></div>'
+                f'<div class="ti-ex">{t.get("example","")}</div></div>'
+            )
+        themes_body += (
+            f'</div><p class="hint-xs">Prochaine analyse dans ~'
+            f'{round(_THEMES_INTERVAL / 3600 / 24)} jours.</p>'
+        )
     else:
-        user_tag = ""
+        themes_body = (
+            '<div class="empty-st"><span>📭</span>'
+            '<p>Pas encore d\'analyse disponible.</p>'
+            '<span class="empty-sub">L\'analyse se déclenche dès 3 questions, puis toutes les 7 jours.</span>'
+            '</div>'
+        )
 
-    user_tag = user_tag if not dev_mode else ""
+    # ── Top events ─────────────────────────────────────────────────────────────
+    top_ev_rows = ""
+    for i, (name, cnt) in enumerate((clicks.get("top_events") or []), 1):
+        top_ev_rows += (
+            f'<tr><td class="rk">#{i}</td>'
+            f'<td class="en">{name[:55]}</td>'
+            f'<td class="ec">{cnt}</td></tr>'
+        )
+    if not top_ev_rows:
+        top_ev_rows = '<tr><td colspan="3" class="nd">Aucune donnée pour le moment</td></tr>'
+
+    # ── Dev/auth helpers ───────────────────────────────────────────────────────
+    dev_banner  = ('<div class="dev-banner">⚠️ Mode développement — données du workspace, '
+                   'pas de la production.</div>') if dev_mode else ""
+    badge_html  = f'<span class="badge">🔐 {user_name}</span>' if (not dev_mode and user_name) else ""
+    logout_html = '<a href="/admin/logout" class="logout-btn">Déconnexion</a>' if not dev_mode else ""
+
+    # ── Chart JS vars (built as plain f-strings to avoid brace-escaping in the big return) ──
+    chart_vars = f"var lbs={chart_lbs},vs={chart_v},us={chart_u};"
+    refs_vars  = f"var rl={refs_lj},rv={refs_vj},rc={refs_cj};" if has_refs else ""
+    refs_init  = (
+        "var rctx=document.getElementById('refChart');"
+        "if(rctx){new Chart(rctx,{type:'doughnut',"
+        "data:{labels:rl,datasets:[{data:rv,backgroundColor:rc,borderWidth:2,"
+        "borderColor:'#fff',hoverOffset:5}]},"
+        "options:{responsive:true,maintainAspectRatio:false,cutout:'65%',"
+        "plugins:{legend:{display:false},"
+        "tooltip:{callbacks:{label:function(c){"
+        "return' '+c.label+' : '+c.parsed+' visite'+(c.parsed>1?'s':'');}"
+        "}}}}});}"
+    ) if has_refs else ""
 
     return f"""<!doctype html>
 <html lang="fr"><head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Statistiques — Agenda des Exposants</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dashboard · Agenda Artisans Réunion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
-  *{{box-sizing:border-box;margin:0;padding:0}}
-  body{{font-family:system-ui,-apple-system,sans-serif;background:#f3f4f6;color:#111827;min-height:100vh}}
-  .dev-banner{{background:#fef3c7;border-bottom:1px solid #fcd34d;padding:.6rem 1.5rem;
-               font-size:.85rem;color:#92400e}}
-  header{{background:#fff;border-bottom:1px solid #e5e7eb;padding:1rem 1.5rem;
-          display:flex;align-items:center;justify-content:space-between}}
-  header h1{{font-size:1.1rem;font-weight:600;color:#111827}}
-  header p{{font-size:.8rem;color:#6b7280;margin-top:.15rem}}
-  .user-tag{{font-size:.8rem;background:#eff6ff;color:#1d4ed8;padding:.3rem .7rem;
-             border-radius:6px;border:1px solid #bfdbfe}}
-  main{{max-width:900px;margin:2rem auto;padding:0 1rem;display:grid;gap:1.5rem}}
-  .card{{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1.5rem;
-         box-shadow:0 1px 4px rgba(0,0,0,.05)}}
-  .card h2{{font-size:1rem;font-weight:600;color:#111827;margin-bottom:1rem;
-            display:flex;align-items:center;gap:.5rem}}
-  .card h2 .icon{{font-size:1.1rem}}
-  .kpi-row{{display:flex;gap:1rem;margin-bottom:1.25rem;flex-wrap:wrap}}
-  .kpi{{flex:1;min-width:120px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;
-        padding:.85rem 1rem}}
-  .kpi .val{{font-size:1.6rem;font-weight:700;color:#111827;line-height:1.1}}
-  .kpi .lbl{{font-size:.75rem;color:#6b7280;margin-top:.25rem}}
-  .kpi.accent .val{{color:#2563eb}}
-  table{{width:100%;border-collapse:collapse;font-size:.875rem}}
-  thead th{{text-align:left;padding:.5rem .75rem;border-bottom:2px solid #e5e7eb;
-            color:#6b7280;font-weight:500;font-size:.8rem;text-transform:uppercase;letter-spacing:.04em}}
-  tbody tr:hover{{background:#f9fafb}}
-  tbody td{{padding:.45rem .75rem;border-bottom:1px solid #f3f4f6;color:#374151}}
-  td.num{{text-align:right;font-variant-numeric:tabular-nums;color:#111827;font-weight:500}}
-  .meta{{font-size:.85rem;color:#6b7280;margin-bottom:1rem}}
-  .meta.empty{{font-style:italic}}
-  .themes-list{{list-style:none;display:flex;flex-direction:column;gap:.75rem}}
-  .themes-list li{{background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:.75rem 1rem}}
-  .themes-list li strong{{color:#111827;font-size:.95rem}}
-  .badge{{display:inline-block;background:#dbeafe;color:#1e40af;font-size:.75rem;font-weight:600;
-          padding:.15rem .5rem;border-radius:20px;margin-left:.5rem;vertical-align:middle}}
-  .example{{font-size:.8rem;color:#6b7280;margin-top:.3rem;font-style:italic}}
-  .hint{{font-size:.8rem;color:#9ca3af;margin-top:.75rem}}
-  footer{{text-align:center;font-size:.75rem;color:#9ca3af;padding:2rem 0}}
-</style>
-</head>
+*{{box-sizing:border-box;margin:0;padding:0}}
+body{{font-family:'Inter',system-ui,sans-serif;background:#f1f5f9;color:#0f172a;font-size:14px;min-height:100vh}}
+a{{text-decoration:none;color:inherit}}
+/* ── Dev banner ── */
+.dev-banner{{background:#fef3c7;border-bottom:2px solid #fcd34d;padding:.5rem 1.5rem;font-size:.8rem;color:#92400e;font-weight:500}}
+/* ── Header ── */
+.hdr{{background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 100%);color:#fff;padding:1.1rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}}
+.hdr-l{{display:flex;flex-direction:column;gap:.15rem}}
+.hdr-title{{font-size:1rem;font-weight:700;letter-spacing:-.01em}}
+.hdr-sub{{font-size:.72rem;color:#94a3b8}}
+.hdr-r{{display:flex;align-items:center;gap:.6rem}}
+.badge{{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#e2e8f0;font-size:.73rem;font-weight:500;padding:.3rem .65rem;border-radius:6px}}
+.logout-btn{{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:#94a3b8;font-size:.73rem;padding:.3rem .65rem;border-radius:6px;cursor:pointer;transition:.15s}}
+.logout-btn:hover{{background:rgba(255,255,255,.18);color:#fff}}
+/* ── Layout ── */
+main{{max-width:1060px;margin:1.75rem auto;padding:0 1.25rem;display:flex;flex-direction:column;gap:1.1rem}}
+/* ── KPI strip ── */
+.kpi-strip{{display:grid;grid-template-columns:repeat(5,1fr);gap:.85rem}}
+.kpi{{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:1rem 1.1rem;box-shadow:0 1px 3px rgba(0,0,0,.05)}}
+.kpi-val{{font-size:1.75rem;font-weight:700;line-height:1;letter-spacing:-.03em}}
+.kpi-lbl{{font-size:.68rem;color:#64748b;margin-top:.3rem;font-weight:500;text-transform:uppercase;letter-spacing:.05em}}
+.c-blue{{color:#2563eb}} .c-green{{color:#059669}} .c-purple{{color:#7c3aed}}
+/* ── Cards ── */
+.card{{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:1.4rem 1.5rem;box-shadow:0 1px 3px rgba(0,0,0,.05),0 4px 16px rgba(0,0,0,.03)}}
+.card-h{{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#64748b;margin-bottom:1.1rem;display:flex;align-items:center;gap:.45rem}}
+/* ── Two-col grid ── */
+.g2{{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem}}
+/* ── Charts ── */
+.chart-wrap{{position:relative;height:195px;width:100%}}
+/* ── Ref legend ── */
+.ref-leg{{display:flex;flex-direction:column;gap:.4rem;margin-top:.75rem}}
+.ref-row{{display:flex;align-items:center;gap:.55rem}}
+.ref-dot{{width:9px;height:9px;border-radius:50%;flex-shrink:0}}
+.ref-lbl{{font-size:.8rem;color:#374151;flex:1}}
+.ref-cnt{{font-size:.8rem;font-weight:600;color:#0f172a}}
+.no-chart{{display:flex;align-items:center;justify-content:center;height:195px;color:#94a3b8;font-size:.82rem;font-style:italic}}
+/* ── Interactions ── */
+.int-row{{display:grid;grid-template-columns:repeat(3,1fr);gap:.85rem;margin-bottom:1.1rem}}
+.int-kpi{{background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:.85rem 1rem;text-align:center}}
+.int-val{{font-size:1.5rem;font-weight:700}}
+.int-lbl{{font-size:.68rem;color:#64748b;margin-top:.2rem;font-weight:500;text-transform:uppercase;letter-spacing:.04em}}
+/* ── Table ── */
+.ev-tbl{{width:100%;border-collapse:collapse;font-size:.82rem}}
+.ev-tbl th{{text-align:left;padding:.45rem .6rem;border-bottom:2px solid #e2e8f0;color:#64748b;font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em}}
+.ev-tbl td{{padding:.4rem .6rem;border-bottom:1px solid #f1f5f9;color:#374151}}
+.ev-tbl tr:last-child td{{border-bottom:none}}
+.ev-tbl tr:hover td{{background:#f8fafc}}
+td.rk{{color:#94a3b8;font-weight:600;width:34px;font-size:.73rem}}
+td.en{{max-width:400px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}
+td.ec{{text-align:right;font-weight:700;color:#0f172a;width:55px}}
+td.nd{{text-align:center;color:#94a3b8;font-style:italic;padding:1.2rem;font-size:.82rem}}
+/* ── Chatbot layout ── */
+.cb-split{{display:grid;grid-template-columns:155px 1fr;gap:1.4rem;align-items:start}}
+.cb-kpis{{display:flex;flex-direction:column;gap:.75rem}}
+/* ── Themes ── */
+.th-meta{{font-size:.75rem;color:#64748b;margin-bottom:.9rem;font-style:italic}}
+.th-list{{display:flex;flex-direction:column;gap:.65rem}}
+.ti{{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:.7rem .9rem}}
+.ti-row{{display:flex;align-items:center;justify-content:space-between;margin-bottom:.3rem}}
+.ti-name{{font-weight:600;font-size:.875rem;color:#0f172a}}
+.ti-badge{{font-size:.68rem;font-weight:600;color:#2563eb;background:#eff6ff;padding:.15rem .45rem;border-radius:20px}}
+.ti-bar{{height:4px;background:#e2e8f0;border-radius:4px;overflow:hidden;margin-bottom:.3rem}}
+.ti-fill{{height:100%;background:linear-gradient(90deg,#2563eb,#7c3aed);border-radius:4px}}
+.ti-ex{{font-size:.73rem;color:#64748b;font-style:italic}}
+/* ── Empty state ── */
+.empty-st{{display:flex;flex-direction:column;align-items:center;padding:1.5rem;text-align:center;color:#64748b;gap:.35rem}}
+.empty-st span:first-child{{font-size:1.75rem}}
+.empty-st p{{font-size:.85rem;font-weight:500;color:#374151}}
+.empty-sub{{font-size:.77rem}}
+/* ── Misc ── */
+.hint-xs{{font-size:.72rem;color:#94a3b8;margin-top:.9rem}}
+footer{{text-align:center;font-size:.7rem;color:#94a3b8;padding:2rem 0 1.5rem}}
+@media(max-width:768px){{
+  .kpi-strip{{grid-template-columns:repeat(2,1fr)}}
+  .g2,.int-row,.cb-split{{grid-template-columns:1fr}}
+}}
+</style></head>
 <body>
 {dev_banner}
-<header>
-  <div>
-    <h1>📊 Tableau de bord — Agenda des Exposants</h1>
-    <p>Généré le {now_str} (UTC+4)</p>
+<header class="hdr">
+  <div class="hdr-l">
+    <div class="hdr-title">📊 Dashboard — Agenda Artisans Réunion</div>
+    <div class="hdr-sub">Généré le {now_str}</div>
   </div>
-  {user_tag}
+  <div class="hdr-r">{badge_html}{logout_html}</div>
 </header>
+
 <main>
 
-  <!-- Trafic -->
-  <div class="card">
-    <h2><span class="icon">🌐</span> Trafic du site public</h2>
-    <div class="kpi-row">
-      <div class="kpi accent">
-        <div class="val">{traffic["last7_v"]}</div>
-        <div class="lbl">Visites — 7 derniers jours</div>
-      </div>
-      <div class="kpi">
-        <div class="val">{traffic["last7_u"]}</div>
-        <div class="lbl">Visiteurs uniques — 7 j.</div>
-      </div>
-      <div class="kpi accent">
-        <div class="val">{traffic["last30_v"]}</div>
-        <div class="lbl">Visites — 30 derniers jours</div>
-      </div>
-      <div class="kpi">
-        <div class="val">{traffic["last30_u"]}</div>
-        <div class="lbl">Visiteurs uniques — 30 j.</div>
-      </div>
-      <div class="kpi">
-        <div class="val">{traffic["total_v"]}</div>
-        <div class="lbl">Visites totales (historique)</div>
-      </div>
-    </div>
-    <table>
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th style="text-align:right">Visites</th>
-          <th style="text-align:right">Visiteurs uniques</th>
-        </tr>
-      </thead>
-      <tbody>
-        {rows_html}
-      </tbody>
-    </table>
-    <p class="hint">Les visiteurs uniques sont estimés par IP (hachée, non stockée en clair). Les chiffres couvrent les 30 derniers jours.</p>
-  </div>
+<div class="kpi-strip">
+  <div class="kpi"><div class="kpi-val c-blue">{traffic["last7_v"]}</div><div class="kpi-lbl">Visites · 7 jours</div></div>
+  <div class="kpi"><div class="kpi-val">{traffic["last7_u"]}</div><div class="kpi-lbl">Uniques · 7 jours</div></div>
+  <div class="kpi"><div class="kpi-val c-blue">{traffic["last30_v"]}</div><div class="kpi-lbl">Visites · 30 jours</div></div>
+  <div class="kpi"><div class="kpi-val">{traffic["last30_u"]}</div><div class="kpi-lbl">Uniques · 30 jours</div></div>
+  <div class="kpi"><div class="kpi-val c-green">{traffic["total_v"]}</div><div class="kpi-lbl">Total historique</div></div>
+</div>
 
-  <!-- Chatbot -->
+<div class="g2">
   <div class="card">
-    <h2><span class="icon">💬</span> Assistant « Le ti artisan futé »</h2>
-    <div class="kpi-row">
-      <div class="kpi accent">
-        <div class="val">{q_stats["last30"]}</div>
-        <div class="lbl">Questions — 30 derniers jours</div>
-      </div>
-      <div class="kpi">
-        <div class="val">{q_stats["total"]}</div>
-        <div class="lbl">Questions totales (historique)</div>
-      </div>
-    </div>
-
-    <h2 style="margin-top:1.25rem"><span class="icon">🏷️</span> Thèmes récurrents</h2>
-    {themes_html}
-    <p class="hint">{themes_next}</p>
+    <div class="card-h">📈 Trafic — 14 derniers jours</div>
+    <div class="chart-wrap"><canvas id="trafficChart"></canvas></div>
+    <p class="hint-xs" style="margin-top:.6rem">Barres = visites totales · Ligne = visiteurs uniques (IP hachée)</p>
   </div>
+  <div class="card">
+    <div class="card-h">🔍 Sources de trafic · 30 j.</div>
+    <div class="chart-wrap">{refs_canvas}</div>
+    {ref_legend}
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-h">🖱️ Interactions · 30 jours</div>
+  <div class="int-row">
+    <div class="int-kpi"><div class="int-val c-purple">{clicks["chatbot_open"]}</div><div class="int-lbl">Ouvertures chatbot</div></div>
+    <div class="int-kpi"><div class="int-val c-blue">{clicks["event_view"]}</div><div class="int-lbl">Fiches consultées</div></div>
+    <div class="int-kpi"><div class="int-val c-green">{clicks["candidater"]}</div><div class="int-lbl">Clics « Écrire »</div></div>
+  </div>
+  <div class="card-h" style="margin-bottom:.75rem">🏆 Événements les plus consultés</div>
+  <table class="ev-tbl">
+    <thead><tr><th></th><th>Événement</th><th style="text-align:right">Vues</th></tr></thead>
+    <tbody>{top_ev_rows}</tbody>
+  </table>
+</div>
+
+<div class="card">
+  <div class="card-h">💬 Assistant « Le ti artisan futé »</div>
+  <div class="cb-split">
+    <div class="cb-kpis">
+      <div class="kpi"><div class="kpi-val c-purple">{q_stats["last30"]}</div><div class="kpi-lbl">Questions · 30 j.</div></div>
+      <div class="kpi"><div class="kpi-val">{q_stats["total"]}</div><div class="kpi-lbl">Total historique</div></div>
+    </div>
+    <div>
+      <div class="card-h" style="margin-bottom:.75rem">🏷️ Thèmes récurrents</div>
+      {themes_body}
+    </div>
+  </div>
+</div>
 
 </main>
-<footer>Page privée — accessible uniquement via compte Replit propriétaire</footer>
+<footer>Dashboard privé · Agenda des Exposants — Artisans de La Réunion</footer>
+
+<script>
+{chart_vars}
+{refs_vars}
+(function(){{
+  Chart.defaults.font.family="'Inter',system-ui,sans-serif";
+  Chart.defaults.font.size=12;
+  var ctx=document.getElementById('trafficChart');
+  if(ctx){{
+    new Chart(ctx,{{
+      data:{{labels:lbs,datasets:[
+        {{type:'bar',label:'Visites',data:vs,backgroundColor:'rgba(37,99,235,.1)',
+          borderColor:'rgba(37,99,235,.55)',borderWidth:1.5,borderRadius:4,order:2}},
+        {{type:'line',label:'Uniques',data:us,borderColor:'#059669',
+          backgroundColor:'rgba(5,150,105,.07)',borderWidth:2,pointRadius:3,
+          pointBackgroundColor:'#059669',tension:.35,fill:true,order:1}}
+      ]}},
+      options:{{
+        responsive:true,maintainAspectRatio:false,
+        interaction:{{mode:'index',intersect:false}},
+        plugins:{{
+          legend:{{position:'top',labels:{{boxWidth:10,padding:14,usePointStyle:true}}}},
+          tooltip:{{callbacks:{{label:function(c){{return' '+c.dataset.label+' : '+c.parsed.y;}}}}}}
+        }},
+        scales:{{
+          x:{{grid:{{display:false}},ticks:{{maxRotation:0}}}},
+          y:{{beginAtZero:true,grid:{{color:'rgba(0,0,0,.04)'}},ticks:{{precision:0}}}}
+        }}
+      }}
+    }});
+  }}
+  {refs_init}
+}})();
+</script>
 </body></html>"""
 
 
@@ -954,11 +1156,21 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self.wfile.write(body)
         elif self.path in ("/admin", "/admin/"):
             self._handle_admin()
+        elif self.path == "/admin/logout":
+            self.send_response(302)
+            self.send_header("Location", "/admin")
+            self.send_header(
+                "Set-Cookie",
+                f"{_SESSION_COOKIE}=; Path=/admin; HttpOnly; Secure; "
+                "SameSite=Strict; Max-Age=0"
+            )
+            self.end_headers()
         else:
             # Enregistre les visites du site public (GET classiques uniquement)
-            if not self.path.startswith(("/sync", "/chat", "/health", "/admin")):
-                ip = (self.headers.get("X-Forwarded-For") or self.client_address[0]).split(",")[0].strip()
-                threading.Thread(target=_record_visit, args=(ip,), daemon=True).start()
+            if not self.path.startswith(("/sync", "/chat", "/health", "/admin", "/track")):
+                ip       = (self.headers.get("X-Forwarded-For") or self.client_address[0]).split(",")[0].strip()
+                referrer = self.headers.get("Referer", "")
+                threading.Thread(target=_record_visit, args=(ip, referrer), daemon=True).start()
             super().do_GET()
 
     def _json(self, code: int, data: dict) -> None:
@@ -1078,7 +1290,26 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         )
         self.end_headers()
 
+    def _handle_track(self) -> None:
+        """Reçoit un ping de tracking côté client (fire-and-forget)."""
+        try:
+            length = int(self.headers.get("Content-Length", 0))
+            body   = self.rfile.read(min(length, 512))
+            entry  = json.loads(body)
+            ev     = entry.get("e", "")[:32]
+            name   = entry.get("n", "")[:80]
+            if ev in ("chatbot_open", "candidater", "event_view"):
+                threading.Thread(target=_record_click, args=(ev, name), daemon=True).start()
+        except Exception:
+            pass  # tracking silencieux — on n'interrompt jamais l'utilisateur
+        self.send_response(204)
+        self.end_headers()
+
     def do_POST(self):
+        if self.path == "/track":
+            self._handle_track()
+            return
+
         if self.path == "/admin/login":
             self._handle_admin_login()
             return

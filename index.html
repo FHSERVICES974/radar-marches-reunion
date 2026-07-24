@@ -2259,5 +2259,20 @@ window.chatSend=function(){
   </div>
   <div class="cb-note" id="cb-note"></div>
 </div>
+<script>
+/* Tracking invisible — aucun effet sur l'interface publique */
+(function(){
+  var _s=function(d){try{navigator.sendBeacon('/track',JSON.stringify(d));}catch(e){}};
+  var _orig=window.chatOpen;
+  window.chatOpen=function(){_s({e:'chatbot_open'});if(_orig)_orig.apply(this,arguments);};
+  document.addEventListener('click',function(ev){
+    var t=ev.target;if(!t.closest)return;
+    var m=t.closest('.btn-mail');
+    if(m){var b=m.closest('.tl-body');_s({e:'candidater',n:((b&&b.querySelector('h3'))||{}).textContent||''});return;}
+    var it=t.closest('.tl-item');
+    if(it){var h=it.querySelector('h3');_s({e:'event_view',n:(h||{}).textContent||''});}
+  },false);
+})();
+</script>
 </body>
 </html>
