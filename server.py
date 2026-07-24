@@ -196,8 +196,13 @@ def git_pull():
 # ── Le ti artisan futé — Assistant IA ─────────────────────────────────────
 
 _ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
-_MODEL_FAST   = "claude-haiku-4-5-20251001"   # questions sur les événements du site
-_MODEL_STRONG = "claude-sonnet-4-5-20250929"  # questions administratives / recherche
+
+# ── Modèles Claude — à mettre à jour ici uniquement ───────────────────────
+# Pour changer de génération, modifiez ces deux lignes seulement.
+# Liste des modèles disponibles : GET https://api.anthropic.com/v1/models
+_MODEL_FAST   = "claude-haiku-4-5-20251001"   # rapide/économique — marchés du site
+_MODEL_STRONG = "claude-sonnet-4-5-20250929"  # plus fort — questions admin/recherche
+# ─────────────────────────────────────────────────────────────────────────
 
 # Limitation : 20 messages par heure et par IP
 _RATE_MAX    = 20
