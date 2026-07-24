@@ -40,3 +40,4 @@ timeoutMs = 30000
 [deployment]
 deploymentTarget = "vm"
 run = ["bash", "scripts/start.sh"]
+build = ["true"]
