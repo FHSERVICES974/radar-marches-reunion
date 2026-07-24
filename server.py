@@ -724,40 +724,34 @@ def _render_auth_required(error: str = "") -> str:
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Accès restreint</title>
 <style>
+  *{{box-sizing:border-box}}
   body{{font-family:system-ui,sans-serif;background:#f9fafb;display:flex;
        align-items:center;justify-content:center;min-height:100vh;margin:0}}
   .card{{background:#fff;border:1px solid #e5e7eb;border-radius:12px;
-         padding:2.5rem 2rem;max-width:400px;width:90%;text-align:center;
+         padding:2.5rem 2rem;max-width:380px;width:90%;text-align:center;
          box-shadow:0 2px 8px rgba(0,0,0,.06)}}
-  h1{{font-size:1.15rem;color:#111827;margin:0 0 .5rem}}
-  p{{color:#6b7280;font-size:.875rem;line-height:1.6;margin:0 0 1.25rem}}
+  h1{{font-size:1.1rem;color:#111827;margin:0 0 .4rem}}
+  p{{color:#6b7280;font-size:.875rem;line-height:1.5;margin:0 0 1.2rem}}
   .err{{color:#dc2626;background:#fef2f2;border:1px solid #fecaca;border-radius:6px;
-        padding:.5rem .8rem;font-size:.85rem;margin-bottom:1rem}}
-  .btn{{display:inline-block;background:#2563eb;color:#fff;padding:.65rem 1.4rem;
-        border-radius:8px;font-size:.875rem;font-weight:500;cursor:pointer;border:none;
-        text-decoration:none}}
+        padding:.5rem .8rem;font-size:.85rem;margin-bottom:1rem;text-align:left}}
+  input[type=password]{{width:100%;padding:.6rem .8rem;border:1px solid #d1d5db;
+    border-radius:8px;font-size:.9rem;margin-bottom:.9rem;outline:none}}
+  input[type=password]:focus{{border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,235,.15)}}
+  .btn{{width:100%;background:#2563eb;color:#fff;padding:.65rem;border-radius:8px;
+        font-size:.875rem;font-weight:500;cursor:pointer;border:none}}
   .btn:hover{{background:#1d4ed8}}
-  .note{{font-size:.75rem;color:#9ca3af;margin-top:.9rem}}
 </style></head>
 <body>
   <div class="card">
     <div style="font-size:2rem;margin-bottom:.6rem">🔒</div>
-    <h1>Accès réservé au propriétaire</h1>
-    <p>Connectez-vous avec votre compte Replit pour accéder à cette page.</p>
+    <h1>Espace propriétaire</h1>
+    <p>Entrez le mot de passe pour accéder aux statistiques.</p>
     {err_html}
-    <button class="btn" onclick="doAuth()">Se connecter avec Replit</button>
-    <p class="note">
-      Vous serez redirigé vers Replit pour vous authentifier,<br>
-      puis automatiquement ramené sur cette page.
-    </p>
+    <form method="POST" action="/admin/login">
+      <input type="password" name="password" placeholder="Mot de passe" autofocus required>
+      <button class="btn" type="submit">Accéder</button>
+    </form>
   </div>
-  <script>
-    function doAuth() {{
-      window.location.href =
-        'https://replit.com/auth_with_replit_redirect?domain=' +
-        encodeURIComponent(window.location.host);
-    }}
-  </script>
 </body></html>"""
 
 
@@ -960,11 +954,9 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self.wfile.write(body)
         elif self.path in ("/admin", "/admin/"):
             self._handle_admin()
-        elif self.path.startswith("/__replauthcomplete"):
-            self._handle_repl_auth_complete()
         else:
             # Enregistre les visites du site public (GET classiques uniquement)
-            if not self.path.startswith(("/sync", "/chat", "/health", "/admin", "/__replauthcomplete")):
+            if not self.path.startswith(("/sync", "/chat", "/health", "/admin")):
                 ip = (self.headers.get("X-Forwarded-For") or self.client_address[0]).split(",")[0].strip()
                 threading.Thread(target=_record_visit, args=(ip,), daemon=True).start()
             super().do_GET()
@@ -1012,26 +1004,24 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         """Sert la page de statistiques.
 
         - Workspace dev (REPLIT_DEPLOYMENT absent) : accès direct avec bannière.
-        - Production : vérifie le cookie de session créé par /__replauthcomplete
-          après le flux Replit Auth (auth_with_replit_redirect).
+        - Production : vérifie le cookie de session posé par POST /admin/login.
         """
         is_deployed = bool(os.environ.get("REPLIT_DEPLOYMENT"))
         dev_mode    = not is_deployed
 
         if is_deployed:
-            repl_owner = os.environ.get("REPL_OWNER", "")
-            token      = _get_session_cookie(self.headers)
-            username   = _verify_session_token(token) if token else None
+            token    = _get_session_cookie(self.headers)
+            username = _verify_session_token(token) if token else None
 
-            if not username or username != repl_owner:
+            if not username:
                 body = _render_auth_required().encode("utf-8")
                 self.send_response(401)
                 self.send_header("Content-Type", "text/html; charset=utf-8")
                 self.send_header("Content-Length", str(len(body)))
                 self.end_headers()
                 self.wfile.write(body)
-                log.info("Admin : accès refusé (cookie=%s, owner=%r).",
-                         "absent" if not token else "invalide", repl_owner)
+                log.info("Admin : accès refusé (cookie %s).",
+                         "absent" if not token else "invalide/expiré")
                 return
         else:
             username = "dev"
@@ -1045,41 +1035,40 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         self.wfile.write(body)
         log.info("Admin : accès accordé (user=%r).", username)
 
-    def _handle_repl_auth_complete(self) -> None:
-        """Callback du flux Replit Auth — crée la session si l'identité est valide.
+    def _handle_admin_login(self) -> None:
+        """Vérifie le mot de passe soumis via POST /admin/login.
 
-        Replit redirige ici après authentification :
-          GET /__replauthcomplete?authResponse=<base64url-json>
-        Le JSON contient {id, name, roles, timestamp, sig, ...}.
-        On vérifie : name == REPL_OWNER et timestamp récent (< 5 min).
-        En cas de succès, on pose un cookie de session signé et on redirige vers /admin.
+        Si correct → pose un cookie de session signé et redirige vers /admin.
+        Si incorrect → re-affiche le formulaire avec un message d'erreur.
         """
-        repl_owner = os.environ.get("REPL_OWNER", "")
-        parsed     = urllib.parse.urlparse(self.path)
-        params     = urllib.parse.parse_qs(parsed.query)
-        raw        = params.get("authResponse", [""])[0]
+        length   = int(self.headers.get("Content-Length", 0))
+        raw_body = self.rfile.read(length).decode("utf-8", errors="replace")
+        params   = urllib.parse.parse_qs(raw_body)
+        password = params.get("password", [""])[0]
 
-        if not raw:
-            self._redirect_auth_error("Réponse d'authentification manquante.")
+        admin_pw = os.environ.get("ADMIN_PASSWORD", "")
+        if not admin_pw:
+            log.error("ADMIN_PASSWORD n'est pas défini — connexion impossible.")
+            body = _render_auth_required(error="Configuration manquante côté serveur.").encode("utf-8")
+            self.send_response(500)
+            self.send_header("Content-Type", "text/html; charset=utf-8")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
             return
 
-        auth = _parse_replit_auth_response(raw)
-        username = auth.get("name", "")
-        ts_ms    = auth.get("timestamp", 0)  # millisecondes
-
-        # Vérification : bon compte et token récent (5 min max)
-        age_s = (time.time() * 1000 - ts_ms) / 1000
-        if username != repl_owner:
-            log.warning("Replit Auth : compte non autorisé (%r != %r).", username, repl_owner)
-            self._redirect_auth_error(f"Compte « {username} » non autorisé.")
-            return
-        if age_s > 300:
-            log.warning("Replit Auth : token trop ancien (%.0f s).", age_s)
-            self._redirect_auth_error("Session expirée. Veuillez réessayer.")
+        if not hmac.compare_digest(password, admin_pw):
+            log.warning("Admin : tentative de connexion échouée.")
+            body = _render_auth_required(error="Mot de passe incorrect.").encode("utf-8")
+            self.send_response(401)
+            self.send_header("Content-Type", "text/html; charset=utf-8")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
             return
 
-        token = _make_session_token(username)
-        log.info("Replit Auth : session créée pour %r.", username)
+        token = _make_session_token("admin")
+        log.info("Admin : session créée.")
         self.send_response(302)
         self.send_header("Location", "/admin")
         self.send_header(
@@ -1089,16 +1078,11 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         )
         self.end_headers()
 
-    def _redirect_auth_error(self, message: str) -> None:
-        """Redirige vers /admin avec une page d'erreur inline."""
-        body = _render_auth_required(error=message).encode("utf-8")
-        self.send_response(401)
-        self.send_header("Content-Type", "text/html; charset=utf-8")
-        self.send_header("Content-Length", str(len(body)))
-        self.end_headers()
-        self.wfile.write(body)
-
     def do_POST(self):
+        if self.path == "/admin/login":
+            self._handle_admin_login()
+            return
+
         if self.path == "/chat":
             self._handle_chat()
             return
