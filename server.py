@@ -674,21 +674,44 @@ def _render_auth_required() -> str:
   body{font-family:system-ui,sans-serif;background:#f9fafb;display:flex;
        align-items:center;justify-content:center;min-height:100vh;margin:0}
   .card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;
-        padding:2.5rem;max-width:400px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06)}
-  h1{font-size:1.25rem;color:#111827;margin:0 0 .75rem}
-  p{color:#6b7280;font-size:.95rem;line-height:1.6;margin:0 0 1.5rem}
-  a{display:inline-block;background:#2563eb;color:#fff;padding:.6rem 1.4rem;
-    border-radius:8px;text-decoration:none;font-size:.9rem;font-weight:500}
-  a:hover{background:#1d4ed8}
+        padding:2.5rem;max-width:420px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+  h1{font-size:1.2rem;color:#111827;margin:0 0 .6rem}
+  p{color:#6b7280;font-size:.9rem;line-height:1.6;margin:0 0 1.25rem}
+  .steps{text-align:left;background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;
+         padding:.9rem 1.1rem;margin:0 0 1.25rem;font-size:.875rem;color:#374151;line-height:1.8}
+  .steps strong{color:#111827}
+  .btn{display:inline-block;padding:.6rem 1.3rem;border-radius:8px;font-size:.875rem;
+       font-weight:500;text-decoration:none;cursor:pointer;border:none;margin:.25rem}
+  .btn-primary{background:#2563eb;color:#fff}
+  .btn-primary:hover{background:#1d4ed8}
+  .btn-reload{background:#f3f4f6;color:#374151;border:1px solid #d1d5db;display:none}
+  .btn-reload:hover{background:#e5e7eb}
+  .hint{font-size:.78rem;color:#9ca3af;margin-top:.75rem}
 </style></head>
 <body>
   <div class="card">
-    <div style="font-size:2rem;margin-bottom:1rem">🔒</div>
+    <div style="font-size:2rem;margin-bottom:.75rem">🔒</div>
     <h1>Accès réservé au propriétaire</h1>
-    <p>Cette page est accessible uniquement via votre compte Replit.<br>
-       Connectez-vous à Replit puis revenez sur cette page.</p>
-    <a href="https://replit.com/login">Se connecter à Replit</a>
+    <p>Cette page nécessite d'être connecté à Replit avec le compte propriétaire.</p>
+    <div class="steps">
+      <strong>Étape 1 —</strong> Cliquez sur le bouton ci-dessous pour vous connecter à Replit dans un nouvel onglet.<br>
+      <strong>Étape 2 —</strong> Une fois connecté, revenez ici et cliquez sur <em>« Recharger »</em>.
+    </div>
+    <div>
+      <button class="btn btn-primary" onclick="openLogin()">Se connecter à Replit</button>
+      <button class="btn btn-reload" id="reloadBtn" onclick="location.reload()">↺ Recharger la page</button>
+    </div>
+    <p class="hint">Le bouton « Recharger » apparaît après avoir cliqué sur « Se connecter ».</p>
   </div>
+  <script>
+    function openLogin() {
+      window.open('https://replit.com/login', '_blank');
+      var btn = document.getElementById('reloadBtn');
+      btn.style.display = 'inline-block';
+      document.querySelector('.hint').textContent =
+        'Connectez-vous dans le nouvel onglet, puis cliquez sur Recharger ci-dessus.';
+    }
+  </script>
 </body></html>"""
 
 
