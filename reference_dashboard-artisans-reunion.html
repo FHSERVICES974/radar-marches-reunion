@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agenda des Exposants — Artisans de La Réunion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f6f4ee; --panel:#ffffff; --panel-alt:#faf9f4; --ink:#211f1a; --muted:#8a8474; --muted-2:#b3ac98; --line:#e7e1d2;
+    --accent:#0e6b52; --accent-soft:#e7f2ed; --gold:#a9812f; --gold-soft:#f6efe0;
+    --nord:#3b6ea0; --est:#2f7d5c; --ouest:#a9812f; --sud:#7457a3; --national:#a5453b;
+    --open:#0e6b52; --open-soft:#e7f2ed; --soon:#93650f; --soon-soft:#f8efdb;
+    --closed:#93453a; --closed-soft:#f4e9e6; --perm:#3a5578; --perm-soft:#e9eef4;
+    --shadow:0 1px 2px rgba(30,26,15,.04),0 10px 28px rgba(30,26,15,.06);
+    --serif:'Fraunces',Georgia,'Times New Roman',serif;
+    --sans:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1080px;margin:0 auto;padding:44px 24px 70px}
+
+  /* Masthead */
+  .masthead{padding-bottom:26px;margin-bottom:28px;border-bottom:1px solid var(--line)}
+  .eyebrow{font-size:11.5px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700}
+  .masthead h1{font-family:var(--serif);font-weight:600;font-size:36px;letter-spacing:-.3px;margin-top:10px;color:var(--ink)}
+  .masthead .sub{color:var(--muted);font-size:15px;margin-top:12px;max-width:640px;line-height:1.65}
+  .masthead .upd{color:var(--muted-2);font-size:12.5px;margin-top:14px;font-weight:600;letter-spacing:.2px}
+
+  /* Stats strip */
+  .stats-strip{display:flex;align-items:center;justify-content:flex-start;gap:0;margin-bottom:26px;
+    background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px 28px}
+  .stat{padding:0 28px}
+  .stat:first-child{padding-left:0}
+  .stat .n{font-family:var(--serif);font-size:28px;font-weight:600;line-height:1;color:var(--ink)}
+  .stat .l{font-size:12px;color:var(--muted);margin-top:6px;font-weight:500;letter-spacing:.2px}
+  .stat-divider{width:1px;height:34px;background:var(--line)}
+
+  /* Note banner */
+  .note{background:var(--panel-alt);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin-bottom:22px;
+    font-size:13.5px;color:#5c5748;display:flex;gap:11px;align-items:flex-start;line-height:1.6}
+  .note b{color:var(--ink)}
+  .note .dot{color:var(--gold);flex-shrink:0}
+
+  /* Signup / capture */
+  .signup{background:var(--panel);border:1px solid var(--line);border-top:2px solid var(--accent);border-radius:14px;
+    padding:24px 28px;margin-bottom:22px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;box-shadow:var(--shadow)}
+  .signup-txt h2{font-family:var(--serif);font-size:20px;font-weight:600;color:var(--ink);letter-spacing:-.2px}
+  .signup-txt p{font-size:13.5px;color:var(--muted);margin-top:7px;max-width:480px;line-height:1.6}
+  .signup-txt b{color:var(--ink)}
+  .signup-form{display:flex;flex-wrap:wrap;gap:9px;align-items:center;justify-content:flex-end}
+  .signup-form select,.signup-form input{background:var(--panel-alt);border:1px solid var(--line);border-radius:9px;
+    padding:11px 13px;font-size:13.5px;color:var(--ink);outline:none;min-width:150px;font-family:var(--sans)}
+  .signup-form select:focus,.signup-form input:focus{border-color:var(--accent)}
+  .su-btn{background:var(--accent);color:#fff;border:none;border-radius:9px;padding:12px 18px;font-size:13.5px;font-weight:700;
+    cursor:pointer;white-space:nowrap;transition:.12s;letter-spacing:.1px}
+  .su-btn:hover{background:#0a5642}
+  .su-alt{color:var(--muted);font-size:12.5px;text-decoration:underline;text-underline-offset:3px;cursor:pointer;align-self:center}
+  @media(max-width:720px){.signup{grid-template-columns:1fr}.signup-form{justify-content:flex-start}}
+
+  /* Controls */
+  .controls{padding:6px 0 26px;display:flex;flex-direction:column;gap:14px}
+  .search-wrap{position:relative}
+  .search-wrap svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);opacity:.4}
+  input[type=search]{width:100%;background:var(--panel);border:1px solid var(--line);
+    border-radius:11px;padding:13px 16px 13px 42px;font-size:14.5px;outline:none;transition:border-color .15s;font-family:var(--sans);color:var(--ink)}
+  input[type=search]:focus{border-color:var(--accent)}
+  .controls-row{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between}
+  .zone-tabs{display:flex;flex-wrap:wrap;gap:7px}
+  .zone-tab{background:var(--panel);border:1px solid var(--line);color:var(--muted);
+    padding:8px 15px;border-radius:30px;font-size:13px;cursor:pointer;font-weight:600;transition:.12s;font-family:var(--sans)}
+  .zone-tab:hover{border-color:var(--muted-2)}
+  .zone-tab.active{background:var(--zc,var(--ink));border-color:var(--zc,var(--ink));color:#fff}
+  select#typeSelect{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:9px 13px;
+    font-size:13px;color:var(--muted);font-weight:600;outline:none;cursor:pointer;font-family:var(--sans)}
+
+  /* Agenda (chronological groups) */
+  .agenda-group{margin-top:8px}
+  .agenda-group + .agenda-group{margin-top:36px}
+  .agenda-group-head{display:flex;align-items:baseline;gap:10px;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+  .agenda-group-head h2{font-family:var(--serif);font-size:19px;font-weight:600;color:var(--ink);letter-spacing:-.1px}
+  .agenda-group-head .count{font-size:12px;color:var(--muted-2);font-weight:600}
+
+  .tl-item{display:grid;grid-template-columns:78px 1fr;gap:20px;padding:18px 0;border-bottom:1px solid var(--line)}
+  .tl-item:last-child{border-bottom:none}
+  .tl-date{border-left:2.5px solid var(--zc,var(--line));padding-left:14px;padding-top:2px}
+  .tl-badge{display:block;font-size:11px;font-weight:700;letter-spacing:.6px;color:var(--muted);text-transform:uppercase}
+  .tl-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:6px}
+  .tl-top h3{font-size:16px;font-weight:700;line-height:1.35;color:var(--ink)}
+  .pill{font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;white-space:nowrap;flex-shrink:0;letter-spacing:.1px}
+  .pill-open{background:var(--open-soft);color:var(--open)} .pill-soon{background:var(--soon-soft);color:var(--soon)}
+  .pill-closed{background:var(--closed-soft);color:var(--closed)} .pill-perm{background:var(--perm-soft);color:var(--perm)}
+  .tl-meta{font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:4px}
+  .zone-tag{display:inline-flex;align-items:center;gap:5px;font-weight:600;color:var(--ink)}
+  .zone-tag i{width:6px;height:6px;border-radius:50%;background:var(--zc,var(--muted));display:inline-block}
+  .tl-when{font-size:13px;color:#4a4638;margin-bottom:6px}
+  .tl-datestatus{color:var(--muted-2)}
+  .tl-deadline{font-size:13px;color:var(--soon);font-weight:700;margin-bottom:8px}
+  .tl-desc{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:10px;max-width:640px}
+  .tl-apply{font-size:13px;color:#4a4638;line-height:1.6;margin-bottom:12px}
+  .tl-apply b{color:var(--ink)}
+  .tl-actions{display:flex;gap:8px;flex-wrap:wrap}
+  .btn{font-size:12.5px;font-weight:600;text-decoration:none;padding:7px 13px;border-radius:8px;transition:.12s;border:1px solid transparent}
+  .btn-mail{background:var(--ink);color:#fff} .btn-mail:hover{background:#3a3728}
+  .btn-ghost{background:var(--panel-alt);color:var(--ink);border-color:var(--line)} .btn-ghost:hover{border-color:var(--muted-2)}
+  @media(max-width:560px){.tl-item{grid-template-columns:1fr}.tl-date{border-left:none;border-top:2.5px solid var(--zc,var(--line));padding-left:0;padding-top:10px}}
+
+  /* Archive (clôturées) */
+  details.archive{margin-top:38px;background:var(--panel-alt);border:1px solid var(--line);border-radius:14px}
+  details.archive>summary{cursor:pointer;padding:16px 22px;font-size:13.5px;font-weight:600;color:var(--muted);list-style:none;display:flex;align-items:center;gap:9px}
+  details.archive>summary::-webkit-details-marker{display:none}
+  details.archive>summary::after{content:"▾";margin-left:auto;color:var(--muted-2);transition:.2s}
+  details.archive[open]>summary::after{transform:rotate(180deg)}
+  details.archive .tl-item{padding-left:22px;padding-right:22px}
+  details.archive .tl-item:first-child{border-top:1px solid var(--line)}
+
+  /* Directory */
+  details.dir{margin-top:20px;background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
+  details.dir>summary{cursor:pointer;padding:20px 24px;font-family:var(--serif);font-size:18px;font-weight:600;list-style:none;display:flex;align-items:center;gap:10px;color:var(--ink)}
+  details.dir>summary::-webkit-details-marker{display:none}
+  details.dir>summary::after{content:"▾";margin-left:auto;color:var(--muted);font-family:var(--sans);transition:.2s}
+  details.dir[open]>summary::after{transform:rotate(180deg)}
+  .dir-list{column-count:2;column-gap:28px;padding:0 24px 24px}
+  .dir-row{break-inside:avoid;padding:11px 0;border-bottom:1px solid var(--line);font-size:12.5px}
+  .dir-row h4{font-size:13.5px;font-weight:700;margin-bottom:4px;color:var(--ink)}
+  .dir-row .contacts{color:var(--muted);line-height:1.6;word-break:break-word}
+  .dir-row .contacts a{color:var(--accent);text-decoration:none}
+  @media(max-width:700px){.dir-list{column-count:1}}
+
+  .empty{text-align:center;color:var(--muted);padding:50px 20px;font-size:14px;background:var(--panel);border-radius:14px;border:1px dashed var(--line)}
+
+  footer{margin-top:40px;color:var(--muted);font-size:12px;line-height:1.7;border-top:1px solid var(--line);padding-top:22px}
+  footer b{color:var(--ink)}
+  .legend{display:flex;flex-wrap:wrap;gap:18px;margin:10px 0;font-weight:600}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .legend i{width:7px;height:7px;border-radius:50%;display:inline-block}
+  @media(max-width:560px){.masthead h1{font-size:27px}.stats-strip{flex-wrap:wrap;gap:14px 0}.stat{padding:0 18px 0 0}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow">La Réunion</div>
+  <h1>Agenda des Exposants</h1>
+  <p class="sub">La référence pour les artisans, créateurs et producteurs péi : tous les marchés, foires, salons et appels à candidature de l'île, réunis en un seul endroit.</p>
+  <p class="upd" id="upd"></p>
+</header>
+
+<div class="stats-strip" id="kpis"></div>
+
+<div class="signup">
+  <div class="signup-txt">
+    <h2>Ne ratez plus une opportunité</h2>
+    <p>Recevez <b>chaque lundi sur WhatsApp</b> les appels à candidature de <b>votre zone</b> et <b>votre métier</b>, avec un rappel avant chaque date limite. Gratuit.</p>
+  </div>
+  <div class="signup-form">
+    <select id="suZone">
+      <option value="">Ma zone…</option>
+      <option>Nord</option><option>Est</option><option>Ouest</option><option>Sud</option><option>Toute l'île</option>
+    </select>
+    <input id="suCraft" type="text" placeholder="Mon métier (bijoux, bois…)">
+    <button class="su-btn" id="suBtn">M'inscrire via WhatsApp</button>
+    <span class="su-alt" id="suMail">ou par email</span>
+  </div>
+</div>
+
+<div class="note">
+  <span class="dot">●</span>
+  <div><b>Comment candidater ?</b> Pour un <b>événement / salon</b> : contactez l'organisateur (mail ou réseaux sociaux ci-dessous) — beaucoup publient leurs appels à exposants sur Facebook / Instagram. Pour un <b>marché communal</b> : faites une demande d'emplacement auprès de la régie des marchés de la mairie. Pièces habituelles : pièce d'identité, n° SIRET, carte de commerçant ambulant, attestation d'assurance.</div>
+</div>
+
+<div class="controls">
+  <div class="search-wrap">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input type="search" id="q" placeholder="Rechercher un événement, une commune, un organisateur, une spécialité…">
+  </div>
+  <div class="controls-row">
+    <div class="zone-tabs" id="zoneTabs"></div>
+    <select id="typeSelect"></select>
+  </div>
+</div>
+
+<div id="list"></div>
+
+<details class="archive">
+  <summary>Candidatures clôturées récemment <span class="count" id="archiveCount">0</span></summary>
+  <div id="archiveList"></div>
+</details>
+
+<details class="dir">
+  <summary>Répertoire des organisateurs &amp; contacts</summary>
+  <div class="dir-list" id="dirGrid"></div>
+</details>
+
+<footer>
+  <div class="legend">
+    <span><i style="background:var(--open)"></i>Candidature ouverte</span>
+    <span><i style="background:var(--soon)"></i>À surveiller / appel à venir</span>
+    <span><i style="background:var(--closed)"></i>Clôturée</span>
+    <span><i style="background:var(--perm)"></i>Marché permanent</span>
+  </div>
+  <div><b>Note sur les dates :</b> « confirmée » = date officiellement annoncée ; « annuel / récurrent » = événement qui revient chaque année (la date 2026 indiquée peut être passée — surveillez l'édition suivante) ; « probable » = estimation basée sur la récurrence. Vérifiez toujours auprès de l'organisateur avant de candidater.</div>
+  <div style="margin-top:8px">Sources : tableau collaboratif d'artisans réunionnais · CMA Réunion · mairies · offices de tourisme · presse locale. <b>Actualisation automatique chaque lundi.</b></div>
+</footer>
+
+</div>
+
+<script>
+const META = { lastUpdate: "2026-07-23" };
+
+/* ⚙️ À PERSONNALISER — mets ton numéro WhatsApp et ton email ci-dessous.
+   whatsapp : format international sans "+" ni espaces. Réunion = 262 + ton numéro sans le 0.
+   Ex : le 0692 12 34 56 s'écrit "262692123456". */
+const CONTACT = {
+  whatsapp: "262692678751",
+  email:    "shadowneox@gmail.com",       // ← ton email de contact
+  cal:      "https://cal.com/fhservices/45min"
+};
+
+// ZONES (ordre d'affichage)
+const ZONE_ORDER = ["National","Nord","Est","Ouest","Sud"];
+const ZONE_COLOR = {National:"var(--national)",Nord:"var(--nord)",Est:"var(--est)",Ouest:"var(--ouest)",Sud:"var(--sud)"};
+
+// status: open | soon | closed | perm
+// month: 1-12 pour tri (99 = permanent / variable)
+const EVENTS = [
+/* ===================== NATIONAL ===================== */
+{name:"Salon International de l'Agriculture — Village Réunion",zone:"National",type:"Salon national",org:"Département / Région / Chambre d'Agriculture",
+ place:"Paris Expo, Porte de Versailles",when:"Février–mars (annuel) · éd. 2027 : 27 fév.–7 mars",badge:"FÉV",month:2,dateStatus:"confirmée",status:"soon",
+ deadline:"Appel éd. 2027 attendu l'été 2026 (clôture éd. 2026 : 31 août 2025)",contact:"sia@cg974.fr",social:"",url:"https://www.departement974.fr/salon-international-de-lagriculture-paris-sia",
+ apply:"Candidature par mail au Département (sia@cg974.fr).",desc:"Le « Village Réunion » regroupe les exposants réunionnais (produits & savoir-faire) au plus grand salon agricole de France."},
+{name:"Grande Exposition du Fabriqué en France",zone:"National",type:"Exposition nationale",org:"CMA Réunion / Présidence de la République",
+ place:"Palais de l'Élysée, Paris",when:"Novembre (annuel)",badge:"NOV",month:11,dateStatus:"annuel",status:"closed",
+ deadline:"Éd. 2026 clôturée le 29 mai 2026",contact:"via artisanat974.re",social:"",url:"https://www.artisanat974.re/actualites/grande-exposition-du-fabrique-en-france-2026-portez-lexcellence-de-lartisanat-reunionnais-a-lelysee/",
+ apply:"Candidature en ligne (demarche-numerique), relayée par la CMA Réunion.",desc:"Vitrine nationale de l'excellence artisanale : représenter le savoir-faire réunionnais à l'Élysée."},
+
+/* ===================== NORD ===================== */
+{name:"Salon de la Maison",zone:"Nord",type:"Salon",org:"Nordev",
+ place:"Nordev (Parc des Expos), Saint-Denis",when:"Mai (annuel) · éd. 2026 : 1ᵉʳ–10 mai (passée) · éd. 2027 à annoncer",badge:"MAI",month:5,dateStatus:"annuel",status:"soon",
+ deadline:"",contact:"nordev@nordev.re · 0262 48 78 78",social:"",url:"https://salondelamaison.re/exposants/",
+ apply:"Réservation de stands auprès de la Nordev / salondelamaison.re.",desc:"360 exposants sur 20 000 m² : construction, déco, artisanat, immobilier. 37ᵉ édition."},
+{name:"Salon Zanimos & Jardin",zone:"Nord",type:"Salon",org:"Metis Production",
+ place:"Nordev, Saint-Denis",when:"Mai (annuel) · éd. 2026 : 23–25 mai (passée) · éd. 2027 à annoncer",badge:"MAI",month:5,dateStatus:"annuel",status:"soon",
+ deadline:"Candidatures en début d'année",contact:"metis974.prod@gmail.com · 0692 87 77 52",social:"@zanimosreunion",url:"https://www.zanimosetjardin.re/",
+ apply:"Candidature via Metis Production (mail / Facebook). Public familles.",desc:"15ᵉ édition. Salon animaux, jardin & art de vivre avec espaces marchands."},
+{name:"Marché de créateurs — Carré Cathédrale",zone:"Nord",type:"Marché de créateurs",org:"Association Karre Kathedrale",
+ place:"Saint-Denis",when:"1 fois / trimestre · dimanche 10h–18h",badge:"TRIM.",month:99,dateStatus:"récurrent",status:"soon",
+ deadline:"",contact:"marion.carrecathedrale@gmail.com",social:"@galerie_artefact",url:"",
+ apply:"Appels à exposants publiés sur les réseaux sociaux (@galerie_artefact).",desc:"Marché trimestriel de créateurs au cœur de Saint-Denis."},
+{name:"Marché de nuit de Saint-Denis",zone:"Nord",type:"Marché de nuit",org:"Mairie de Saint-Denis",
+ place:"Saint-Denis",when:"1ᵉʳ samedi du mois · 19h–00h",badge:"MENS.",month:99,dateStatus:"mensuel",status:"perm",
+ deadline:"",contact:"regie@saintdenis.re",social:"",url:"https://www.saintdenis.re/appel-a-forains-manifestations-2026",
+ apply:"Demande d'emplacement / appel à forains via la régie de la Ville (saintdenis.re).",desc:"Rendez-vous mensuel nocturne : artisanat, restauration, animations."},
+{name:"Dimanche au Barachois",zone:"Nord",type:"Marché / animation",org:"Mairie de Saint-Denis",
+ place:"Le Barachois, Saint-Denis",when:"Hebdomadaire · dimanche",badge:"HEBDO",month:99,dateStatus:"hebdomadaire",status:"perm",
+ deadline:"",contact:"regie@saintdenis.re",social:"",url:"https://www.saintdenis.re/appel-a-forains-manifestations-2026",
+ apply:"Appel à forains / demande d'emplacement via la régie de la Ville.",desc:"Animation dominicale sur le front de mer du Barachois."},
+{name:"Marché Bancoul",zone:"Nord",type:"Marché thématique",org:"Mairie de Saint-Denis",
+ place:"Saint-Denis",when:"Saisonnier (saison du bancoul)",badge:"SAIS.",month:99,dateStatus:"à confirmer",status:"soon",
+ deadline:"",contact:"regie@saintdenis.re",social:"",url:"https://www.saintdenis.re/appel-a-forains-manifestations-2026",
+ apply:"Appel à forains via la régie de la Ville (saintdenis.re).",desc:"Marché saisonnier autour du bancoul et des produits péi."},
+{name:"Marché de Noël du Barachois",zone:"Nord",type:"Marché de Noël",org:"Mairie de Saint-Denis",
+ place:"Le Barachois, Saint-Denis",when:"Décembre",badge:"DÉC",month:12,dateStatus:"annuel",status:"soon",
+ deadline:"",contact:"regie@saintdenis.re",social:"",url:"https://www.saintdenis.re/appel-a-forains-manifestations-2026",
+ apply:"Appel à forains / exposants via la régie de la Ville.",desc:"Marché de Noël sur le front de mer dionysien."},
+{name:"Marché de Noël du Carré Cat",zone:"Nord",type:"Marché de Noël",org:"Association Karre Kathedrale",
+ place:"Saint-Denis",when:"Décembre",badge:"DÉC",month:12,dateStatus:"annuel",status:"soon",
+ deadline:"",contact:"marion.carrecathedrale@gmail.com",social:"@galerie_artefact",url:"",
+ apply:"Appel à exposants sur les réseaux sociaux (@galerie_artefact).",desc:"Édition de Noël du marché de créateurs du Carré Cathédrale."},
+{name:"Les Trésors de l'Eid",zone:"Nord",type:"Marché thématique",org:"My Beauty Signature",
+ place:"Domaine de la Piscine, Saint-Denis",when:"Mars (lié à l'Eid) · éd. 2026 : 16 mars",badge:"MARS",month:3,dateStatus:"annuel",status:"soon",
+ deadline:"",contact:"contact@mybeautysignature.com · 0693 90 09 40",social:"",url:"",
+ apply:"Candidature directe auprès de My Beauty Signature.",desc:"Marché événementiel autour de l'Eid : beauté, mode, artisanat."},
+{name:"Marché « Spécial Fête des Mères »",zone:"Nord",type:"Marché thématique",org:"Mairie de Sainte-Marie",
+ place:"Sainte-Marie",when:"Mai (annuel) · éd. 2026 : 16 mai 17h–22h",badge:"MAI",month:5,dateStatus:"annuel",status:"soon",
+ deadline:"30 emplacements (appel sur Facebook)",contact:"serviceeconomique@ville-saintemarie.re · 0692 43 26 27",social:"",url:"",
+ apply:"Appel à exposants via le service économique de la Ville (page Facebook).",desc:"Marché événementiel de la fête des mères, 30 emplacements."},
+{name:"Marchés forains de Saint-Denis",zone:"Nord",type:"Marché communal hebdo",org:"Mairie de Saint-Denis",
+ place:"Chaudron, La Source, Camélias + Petit Marché",when:"Chaudron mer.+dim. · La Source jeu. · Camélias ven. (matin)",badge:"HEBDO",month:99,dateStatus:"hebdomadaire",status:"perm",
+ deadline:"",contact:"regie@saintdenis.re",social:"",url:"https://www.saintdenis.re/appel-a-forains-manifestations-2026",
+ apply:"Demande d'emplacement via la régie des marchés de la Ville.",desc:"Marchés de quartier + le Petit Marché (artisanat, vannerie) ouvert 7j/7."},
+{name:"Marchés forains de Sainte-Marie",zone:"Nord",type:"Marché communal hebdo",org:"Mairie de Sainte-Marie",
+ place:"Centre (Place Verte) + Beauséjour",when:"Centre samedi matin · Beauséjour mardi matin",badge:"HEBDO",month:99,dateStatus:"hebdomadaire",status:"perm",
+ deadline:"",contact:"serviceeconomique@ville-saintemarie.re · 0692 43 26 27",social:"",url:"",
+ apply:"Demande d'emplacement via le service économique de la Ville.",desc:"Deux marchés hebdomadaires : centre-ville et Beauséjour."},
+{name:"Marché forain de Sainte-Suzanne",zone:"Nord",type:"Marché communal hebdo",org:"Mairie de Sainte-Suzanne",
+ place:"Près du Bocage, Sainte-Suzanne",when:"Mardi matin",badge:"HEBDO",month:99,dateStatus:"hebdomadaire",status:"perm",
+ deadline:"",contact:"mairie de Sainte-Suzanne",social:"",url:"https://www.reunionest.fr/carnets-de-voyage/les-marches-forains-dans-lest-de-la-reunion.html",
+ apply:"Demande d'emplacement auprès de la Ville de Sainte-Suzanne.",desc:"Marché forain hebdomadaire de quartier."},
+
+/* ===================== EST ===================== */
+{name:"Dipavali de Saint-André (Mela indienne)",zone:"Est",type:"Fête / Culturel",org:"Ville de Saint-André",
+ place:"Saint-André",when:"Novembre · éd. 2026 : 11–15 nov. (37ᵉ éd.)",badge:"NOV",month:11,dateStatus:"confirmée",status:"closed",
+ deadline:"Candidatures clôturées le 30 juin 2026 — surveiller l'appel éd. 2027",contact:"event@saint-andre.re · 0262 58 56 00",social:"",url:"https://www.saint-andre.re/appel-a-candidatures-dipavali-2026/",
+ apply:"Formulaire à déposer en mairie ou par mail (event@saint-andre.re).",desc:"37ᵉ édition. Village culturel éphémère « Mela » : stands artisanat, cuisine traditionnelle, savoir-faire."},
+{name:"Marché des Mamans",zone:"Est",type:"Marché thématique",org:"Ville de Saint-André",
+ place:"Saint-André",when:"Mai (annuel) · éd. 2026 : 30 mai (passée) · éd. 2027 à annoncer",badge:"MAI",month:5,dateStatus:"annuel",status:"soon",
+ deadline:"Appel à exposants dédié",contact:"event@saint-andre.re · 0262 58 56 00",social:"",url:"https://www.saint-andre.re/appel-a-exposants-marche-des-mamans-2026/",
+ apply:"Appel à exposants via la Ville de Saint-André (event@saint-andre.re).",desc:"Marché événementiel de la fête des mères."},
+{name:"Foire Agricole de Bras-Panon",zone:"Est",type:"Foire",org:"Ville de Bras-Panon",
+ place:"Champ de foire, Bras-Panon",when:"Mai (annuel) · éd. 2026 : 8–17 mai (passée) · éd. 2027 à annoncer",badge:"MAI",month:5,dateStatus:"annuel",status:"soon",
+ deadline:"Éd. 2027 : dossier à retirer en mairie en décembre, dépôt attendu avant mi-janvier",contact:"via braspanon.re",social:"@villedebraspanon",url:"https://www.braspanon.re/fr/nw/2512694/2682630/appel-a-candidatures-foire-agricole-2026",
+ apply:"Dossier à retirer en mairie (1ᵉʳ–31 déc.) ou en ligne, à déposer avant le 15 janvier.",desc:"~150 000 visiteurs, 280 exposants. La plus grande foire agricole de l'île."},
+{name:"Concours « Spécial Foire » (Bras-Panon)",zone:"Est",type:"Concours",org:"CMA Réunion × Ville de Bras-Panon",
+ place:"Bras-Panon",when:"Mai (dans le cadre de la Foire)",badge:"MAI",month:5,dateStatus:"annuel",status:"soon",
+ deadline:"Éd. 2026 clôturée (dossier déposé avant fin mars 2026) — prochain appel attendu au printemps 2027, en lien avec la Foire agricole",contact:"via artisanat974.re",social:"",url:"https://www.artisanat974.re/actualites/appel-a-candidatures-foire-agricole-de-bras-panon-2026/",
+ apply:"8 catégories (rillette de canard, bière artisanale, crème aux fruits…). Dossier à la CMA.",desc:"Concours pour artisans & producteurs locaux pendant la Foire."},
+{name:"Magik Noël",zone:"Est",type:"Marché de Noël",org:"Ville de Bras-Panon",
+ place:"Bras-Panon",when:"Décembre",badge:"DÉC",month:12,dateStatus:"annuel",status:"soon",
+ deadline:"",contact:"via braspanon.re",social:"@villedebraspanon",url:"https://www.braspanon.re/",
+ apply:"Appel à exposants via la Ville de Bras-Panon (Facebook @villedebraspanon).",desc:"Village de Noël de Bras-Panon."},
+{name:"Marché de nuit de Bras-Panon",zone:"Est",type:"Marché de nuit",org:"Ville de Bras-Panon",
+ place:"Bras-Panon",when:"2ᵉ samedi du mois",badge:"MENS.",month:99,dateStatus:"mensuel",status:"perm",
+ deadline:"",contact:"via braspanon.re",social:"@villedebraspanon",url:"https://www.braspanon.re/",
+ apply:"Demande d'emplacement / appel à exposants via la Ville (Facebook).",desc:"Marché nocturne mensuel : artisanat, restauration."},
+{name:"Le Ti Marché Zen",zone:"Est",type:"Marché de créateurs",org:"Association ZENial",
+ place:"Est de l'île",when:"Selon programmation",badge:"VAR.",month:99,dateStatus:"récurrent",status:"soon",
+ deadline:"",contact:"contact@zenial.fr",social:"@zenial_la_reunion_du_bien_etre",url:"",
+ apply:"Candidature auprès de l'association ZENial (mail / Instagram).",desc:"Marché orienté bien-être, créateurs et artisanat zen."},
+{name:"Hulwayat en fête / Hulwayat Market",zone:"Est",type:"Marché thématique",org:"Hulwayat Event",
+ place:"Est de l'île",when:"Selon programmation",badge:"VAR.",month:99,dateStatus:"récurrent",status:"soon",
+ deadline:"",contact:"hulwayat97@gmail.com · 0693 82 22 83",social:"@hulwayat_halal_et_vegan",url:"",
+ apply:"Candidature auprès de Hulwayat Event (Ibrahim & Khadija Diallo).",desc:"Marché halal & végan : restauration, artisanat, créateurs."},
+{name:"Fête des Goyaviers",zone:"Est",type:"Fête / Terroir",org:"Ville de La Plaine des Palmistes",
+ place:"La Plaine des Palmistes",when:"Mai–juin (annuel) · éd. 2026 : 22 mai–7 juin (passée) · éd. 2027 à annoncer",badge:"MAI",month:5,dateStatus:"annuel",status:"soon",
+ deadline:"",contact:"via ville-plainedespalmistes.fr",social:"",url:"https://www.ville-plainedespalmistes.fr/actus/fete-des-goyaviers-2026/",
+ apply:"Marché des producteurs + champ de foire ; appel exposants via la mairie.",desc:"Marché de producteurs, concours, animations dans les Hauts de l'Est."},
+{name:"Marché forain de Saint-André",zone:"Est",type:"Marché communal hebdo",org:"Ville de Saint-André",
+ place:"Place de la Salle des Fêtes, Saint-André",when:"Vendredi matin",badge:"HEBDO",month:99,dateStatus:"hebdomadaire",status:"perm",
+ deadline:"",contact:"event@saint-andre.re",social:"",url:"https://www.reunionest.fr/carnets-de-voyage/les-marches-forains-dans-lest-de-la-reunion.html",
+ apply:"Demande d'emplacement auprès de la Ville de Saint-André.",desc:"Marché de l'Est, forte tradition tamoule."},
+{name:"Marché forain de Bras-Panon",zone:"Est",type:"Marché communal hebdo",org:"Ville de Bras-Panon",
+ place:"Complexe Paul-Moreau, Bras-Panon",when:"Jeudi matin (6h–12h)",badge:"HEBDO",month:99,dateStatus:"hebdomadaire",status:"perm",
+ deadline:"",contact:"via braspanon.re",social:"@villedebraspanon",url:"https://www.reunionest.fr/carnets-de-voyage/les-marches-forains-dans-lest-de-la-reunion.html",
+ apply:"Demande d'emplacement auprès de la Ville de Bras-Panon.",desc:"Marché forain de l'Est (vanille, produits péi)."},
+{name:"Marché forain de Saint-Benoît",zone:"Est",type:"Marché communal hebdo",org:"Ville de Saint-Benoît",
+ place:"Stade de l'Îlet / place de la Savane",when:"Samedi matin",badge:"HEBDO",month:99,dateStatus:"hebdomadaire",status:"perm",
+ deadline:"",contact:"mairie de Saint-Benoît",social:"",url:"https://www.reunionest.fr/carnets-de-voyage/les-marches-forains-dans-lest-de-la-reunion.html",
+ apply:"Demande d'emplacement auprès de la Ville de Saint-Benoît.",desc:"Marché de centre-ville du chef-lieu de l'Est."},
+{name:"Marché forain de La Plaine des Palmistes",zone:"Est",type:"Marché communal hebdo",org:"Ville de La Plaine des Palmistes",
+ place:"Place du Marché / rue du Commerce",when:"Dimanche matin (≈7h–12h)",badge:"HEBDO",month:99,dateStatus:"hebdomadaire",status:"perm",
+ deadline:"",contact:"via ville-plainedespalmistes.fr",social:"",url:"https://www.reunionest.fr/carnets-de-voyage/les-marches-forains-dans-lest-de-la-reunion.html",
+ apply:"Demande d'emplacement auprès de la Ville de La Plaine des Palmistes.",desc:"Marché des Hauts de l'Est (goyaviers, terroir)."},
+
+/* ===================== OUEST ===================== */
+{name:"Salon Fait Main",zone:"Ouest",type:"Salon artisanal",org:"Association Arts et Traditions 974",
+ place:"Saint-Paul (Chaussée Royale) / Saint-Denis",when:"2 fois / an (juin & déc.) · 102ᵉ éd. : 12–14 juin 2026 (Chaussée Royale, Saint-Paul) · prochaine éd. : déc. 2026 (dates à confirmer)",badge:"DÉC",month:12,dateStatus:"récurrent",status:"soon",
+ deadline:"Réservé aux membres de l'association",contact:"artsettraditions974@gmail.com",social:"@artsettraditions974 · artrad.re",url:"https://guide-reunion.fr/salon-fait-main/",
+ apply:"Adhésion à l'association requise ; tout doit être fait main. Infos sur artrad.re.",desc:"150 à 220 artisans, créateurs et producteurs péi — 100 % fait main. Association active depuis 50 ans."},
+{name:"Salon Nou Lé Lokal",zone:"Ouest",type:"Salon",org:"ADIR / Territoire(s) Media (part. TCO, Ville de St-Paul)",
+ place:"Expobat, Saint-Paul",when:"Septembre (annuel) · ~4 jours · éd. 2026 attendue (dates 2026 non encore confirmées ; éd. 2025 : 11–14 sept.)",badge:"SEPT",month:9,dateStatus:"probable",status:"soon",
+ deadline:"",contact:"formulaire de contact noulelocal.re (kit exposant)",social:"@tco.agglo",url:"https://www.noulelocal.re/exposer/pourquoi-exposer",
+ apply:"Demande du kit exposant via noulelocal.re (rubrique Exposer).",desc:"Salon de la production locale porté par l'ADIR : agro-alimentaire, artisanat, cosmétique. 200+ exposants."},
+{name:"Marché Zartizan Péi",zone:"Ouest",type:"Marché artisanal",org:"Territoire de l'Ouest (TCO)",
+ place:"Port de plaisance de Saint-Gilles",when:"Plusieurs éditions / an (vacances & temps forts) · éd. 2026 : 14–16 mai (passée) · prochaine édition non annoncée",badge:"VAC.",month:99,dateStatus:"récurrent",status:"soon",
+ deadline:"Aucune nouvelle édition officiellement annoncée à ce jour — surveiller tco.re et @tco.agglo",contact:"courrier@tco.re",social:"@tco.agglo",url:"https://www.tco.re/plaisance/demande-demplacement/",
+ apply:"Demande d'emplacement en ligne (tco.re/plaisance) + appels publiés sur les réseaux sociaux (@tco.agglo).",desc:"Marché des artisans péi au port de plaisance de Saint-Gilles, organisé à chaque période de vacances (~100 exposants)."},
+{name:"Le Grand Boucan",zone:"Ouest",type:"Fête / Carnaval",org:"Ville de Saint-Paul",
+ place:"Saint-Paul",when:"Carnaval créole · éd. 2026 : 28 juin (passée) · éd. 2027 à annoncer",badge:"JUIN",month:6,dateStatus:"annuel",status:"soon",
+ deadline:"",contact:"maire@mairie-saintpaul.fr · 0262 45 90 69",social:"",url:"https://www.mairie-saintpaul.re/avis-de-publicite/",
+ apply:"Appel à exposants / forains via la Direction de la Valorisation Économique de St-Paul.",desc:"Grand carnaval de l'Ouest avec marché, défilé et animations."},
+{name:"Braderies de Saint-Paul",zone:"Ouest",type:"Braderie",org:"Ville de Saint-Paul",
+ place:"Saint-Paul",when:"2 fois / an · ~10 jours",badge:"2×/AN",month:99,dateStatus:"récurrent",status:"soon",
+ deadline:"",contact:"maire@mairie-saintpaul.fr · 0262 45 90 69",social:"",url:"https://www.mairie-saintpaul.re/avis-de-publicite/",
+ apply:"Avis de publicité / appel à exposants via la Ville de Saint-Paul.",desc:"Grandes braderies commerçantes du centre-ville de Saint-Paul."},
+{name:"Marché nocturne de Saint-Gilles",zone:"Ouest",type:"Marché de nuit",org:"Ville de Saint-Paul",
+ place:"Saint-Gilles-les-Bains",when:"2ᵉ samedi du mois · 16h–22h",badge:"MENS.",month:99,dateStatus:"mensuel",status:"perm",
+ deadline:"",contact:"maire@mairie-saintpaul.fr · 0262 45 90 69",social:"",url:"https://www.mairie-saintpaul.re/avis-de-publicite/",
+ apply:"Demande d'emplacement / appel à exposants via la Ville de Saint-Paul.",desc:"Marché nocturne mensuel sur le front de mer balnéaire."},
+{name:"Village de Noël de Saint-Paul",zone:"Ouest",type:"Marché de Noël",org:"Ville de Saint-Paul",
+ place:"Saint-Paul",when:"Décembre · ~4 jours",badge:"DÉC",month:12,dateStatus:"annuel",status:"soon",
+ deadline:"",contact:"maire@mairie-saintpaul.fr · 0262 45 90 69",social:"",url:"https://www.mairie-saintpaul.re/avis-de-publicite/",
+ apply:"Appel à exposants via la Ville de Saint-Paul.",desc:"Village de Noël avec artisanat, créateurs et animations."},
+{name:"Marché de Noël de Saint-Paul",zone:"Ouest",type:"Marché de Noël",org:"Ville de Saint-Paul",
+ place:"Saint-Paul",when:"Décembre",badge:"DÉC",month:12,dateStatus:"annuel",status:"soon",
+ deadline:"",contact:"maire@mairie-saintpaul.fr · 0262 45 90 69",social:"",url:"https://www.mairie-saintpaul.re/avis-de-publicite/",
+ apply:"Appel à exposants via la Ville de Saint-Paul.",desc:"Marché de Noël du centre-ville de Saint-Paul."},
+{name:"Marché de créateurs — Dina Morgabine",zone:"Ouest",type:"Marché de créateurs",org:"Hôtel Dina Morgabine",
+ place:"Saint-Gilles / Ouest",when:"Selon programmation · 10h–16h",badge:"VAR.",month:99,dateStatus:"récurrent",status:"soon",
+ deadline:"",contact:"m.danvin@dinamorgabine.com",social:"",url:"",
+ apply:"Candidature directe auprès de l'hôtel Dina Morgabine.",desc:"Marché de créateurs en cadre hôtelier."},
+{name:"Marché de Noël de Saint-Leu (Compagnie Tendance)",zone:"Ouest",type:"Marché de Noël",org:"Association Compagnie Tendance / ACCOI × Ville de Saint-Leu",
+ place:"Parc du 20 Décembre, Saint-Leu",when:"Décembre · éd. 2025 : 13–14 déc. · éd. 2026 à annoncer",badge:"DÉC",month:12,dateStatus:"annuel",status:"soon",
+ deadline:"",contact:"compagnietendance.marchedenoel@gmail.com",social:"@marchedenoelstleu",url:"https://www.saintleu.re/actualite/marche-de-noel-de-saint-leu-les-13-et-14-decembre.php",
+ apply:"Candidature auprès de l'association (mail / Instagram @marchedenoelstleu). Appel à candidatures publié sur Facebook.",desc:"Marché de Noël de Saint-Leu (130+ exposants, créations fait main) organisé par la Compagnie Tendance avec l'ACCOI et la Ville."},
+{name:"Chapo Lapay",zone:"Ouest",type:"Boutique / point de vente",org:"Chapo Lapay",
+ place:"Lieu fixe (Ouest)",when:"Permanent (lieu fixe)",badge:"FIXE",month:99,dateStatus:"permanent",status:"perm",
+ deadline:"",contact:"via Facebook / Instagram",social:"@chapolapay",url:"",
+ apply:"Contact via les réseaux sociaux (@chapolapay).",desc:"Espace de vente fixe pour créateurs et artisans."},
+{name:"Marché des potiers — Village de l'Éperon",zone:"Ouest",type:"Marché artisanal",org:"Village Artisanal de l'Éperon",
+ place:"Village Artisanal de l'Éperon, Saint-Paul",when:"Selon programmation · 10h–18h",badge:"VAR.",month:99,dateStatus:"récurrent",status:"soon",
+ deadline:"",contact:"asso.eperon@gmail.com",social:"@asso.eperon974",url:"",
+ apply:"Candidature auprès de l'association du Village (mail / Instagram).",desc:"Marché dédié à la poterie et aux métiers de la terre."},
+{name:"Marchés de créateurs — Village de l'Éperon",zone:"Ouest",type:"Marché de créateurs",org:"Village Artisanal de l'Éperon",
+ place:"Village Artisanal de l'Éperon, Saint-Paul",when:"Selon programmation · 10h–18h",badge:"VAR.",month:99,dateStatus:"récurrent",status:"soon",
+ deadline:"",contact:"asso.eperon@gmail.com",social:"@asso.eperon974",url:"",
+ apply:"Candidature auprès de l'association du Village de l'Éperon.",desc:"Marchés réguliers de créateurs au cœur du village artisanal."},
+{name:"Marché de Noël — Village de l'Éperon",zone:"Ouest",type:"Marché de Noël",org:"Village Artisanal de l'Éperon",
+ place:"Village Artisanal de l'Éperon, Saint-Paul",when:"Décembre · ~3 jours",badge:"DÉC",month:12,dateStatus:"annuel",status:"soon",
+ deadline:"",contact:"asso.eperon@gmail.com",social:"@asso.eperon974",url:"https://www.ouest-lareunion.com/agenda/les-communes-bougent/marche-de-noel-de-l-eperon",
+ apply:"Candidature auprès de l'association du Village de l'Éperon.",desc:"~120 artisans (céramistes, bijoutiers, savonniers, chocolatiers…)."},
+{name:"Boccaz — Vente Éphémère",zone:"Ouest",type:"Vente éphémère",org:"Boccaz Run",
+ place:"Ouest de l'île",when:"2 fois / an · éd. 2026 : 22–24 mai",badge:"2×/AN",month:5,dateStatus:"récurrent",status:"soon",
+ deadline:"",contact:"boccazreunion@gmail.com · 0693 30 82 68",social:"@boccaz_run",url:"",
+ apply:"Candidature auprès de Boccaz Run (Ingrid).",desc:"Vente éphémère thématique bébés, enfants & parents."},
+{name:"Ô'Pti Marché du Guillaume",zone:"Ouest",type:"Marché / brocante",org:"Association Explor'Loisirs",
+ place:"Le Guillaume, Saint-Paul",when:"2 manifestations / an · éd. 2026 : 17 mai 8h–15h",badge:"2×/AN",month:5,dateStatus:"récurrent",status:"soon",
+ deadline:"",contact:"explorloisirs@gmail.com · 0693 93 85 13",social:"associationexplorloisirs.com",url:"https://www.associationexplorloisirs.com",
+ apply:"Candidature auprès de l'association Explor'Loisirs.",desc:"Marché artisanat – producteurs – brocante de quartier."},
+{name:"Marché Artisanal de Saint-Leu (emplacements AOT)",zone:"Ouest",type:"Marché communal hebdo",org:"Ville de Saint-Leu",
+ place:"Marché couvert, Saint-Leu",when:"Mardi–samedi (marché couvert)",badge:"HEBDO",month:99,dateStatus:"permanent",status:"perm",
+ deadline:"AOT attribuées sur dossier projet",contact:"via saintleu.re",social:"",url:"https://www.saintleu.re/actualite/appel-a-candidatures-devenez-exposant-au-marche-artisanal-de-saint-leu.php",
+ apply:"Appel à candidatures pour Autorisations d'Occupation Temporaire (dossier projet détaillé).",desc:"En lice pour « Le Plus Beau Marché de France » 2026."},
+{name:"Marché forain de Saint-Paul (front de mer)",zone:"Ouest",type:"Marché communal hebdo",org:"Ville de Saint-Paul",
+ place:"Front de mer, Saint-Paul",when:"Mercredi, vendredi (journée) & samedi matin",badge:"HEBDO",month:99,dateStatus:"hebdomadaire",status:"perm",
+ deadline:"",contact:"0262 45 90 69 · maire@mairie-saintpaul.fr",social:"",url:"https://www.ouest-lareunion.com/les-marches-forains-et-artisanaux-saint-paul",
+ apply:"Demande d'emplacement via la Direction de la Valorisation Économique de St-Paul.",desc:"Le plus grand et emblématique marché de l'île (~300 exposants)."},
+{name:"Marché de Saint-Gilles-les-Bains",zone:"Ouest",type:"Marché communal hebdo",org:"Ville de Saint-Paul",
+ place:"Centre-ville, Saint-Gilles",when:"Mercredi matin (7h–13h)",badge:"HEBDO",month:99,dateStatus:"hebdomadaire",status:"perm",
+ deadline:"",contact:"0262 45 90 69 · maire@mairie-saintpaul.fr",social:"",url:"https://www.ouest-lareunion.com/les-marches",
+ apply:"Demande d'emplacement via la Ville de Saint-Paul.",desc:"Marché de centre-ville balnéaire."},
+{name:"Marché de L'Ermitage (Mail de Rodrigues)",zone:"Ouest",type:"Marché communal hebdo",org:"Ville de Saint-Paul",
+ place:"L'Ermitage-les-Bains",when:"Dimanche matin",badge:"HEBDO",month:99,dateStatus:"hebdomadaire",status:"perm",
+ deadline:"",contact:"0262 45 90 69 · maire@mairie-saintpaul.fr",social:"",url:"https://www.ouest-lareunion.com/les-marches",
+ apply:"Demande d'emplacement via la Ville de Saint-Paul.",desc:"Marché du front de mer de l'Ermitage."},
+{name:"Marché forain de Saint-Leu (front de mer)",zone:"Ouest",type:"Marché communal hebdo",org:"Ville de Saint-Leu",
+ place:"Front de mer, Saint-Leu",when:"Samedi matin (≈6h–13h)",badge:"HEBDO",month:99,dateStatus:"hebdomadaire",status:"perm",
+ deadline:"",contact:"via saintleu.re",social:"",url:"https://www.saintleu.re/le-marche-artisanal-de-saint-leu",
+ apply:"Demande d'emplacement via la Ville de Saint-Leu.",desc:"Marché du front de mer, distinct du marché artisanal couvert."},
+{name:"Marchés du Port",zone:"Ouest",type:"Marché communal hebdo",org:"Ville du Port",
+ place:"Cheminots / Oasis / Rivière des Galets",when:"Mer. (Cheminots), ven. (Oasis), dim. (Rivière des Galets) – matin",badge:"HEBDO",month:99,dateStatus:"hebdomadaire",status:"perm",
+ deadline:"",contact:"mairie du Port",social:"",url:"https://www.ouest-lareunion.com/les-marches",
+ apply:"Demande d'emplacement via la Ville du Port.",desc:"Trois marchés de quartier répartis sur la semaine."},
+{name:"Marché de La Possession",zone:"Ouest",type:"Marché communal hebdo",org:"Ville de La Possession",
+ place:"Centre-ville, La Possession",when:"Samedi matin (7h–12h)",badge:"HEBDO",month:99,dateStatus:"hebdomadaire",status:"perm",
+ deadline:"",contact:"mairie de La Possession",social:"",url:"https://www.ouest-lareunion.com/les-marches",
+ apply:"Demande d'emplacement via la Ville de La Possession.",desc:"Marché de centre-ville."},
+{name:"Marché artisanal de Trois-Bassins",zone:"Ouest",type:"Marché communal hebdo",org:"Ville de Trois-Bassins",
+ place:"Centre-ville, Trois-Bassins",when:"1ᵉʳ samedi du mois (matin)",badge:"MENS.",month:99,dateStatus:"mensuel",status:"perm",
+ deadline:"",contact:"mairie de Trois-Bassins",social:"",url:"https://www.ouest-lareunion.com/les-marches",
+ apply:"Inscription auprès de la Ville (marché dédié aux artisans).",desc:"Marché mensuel mettant en avant l'artisanat local."},
+
+/* ===================== SUD ===================== */
+{name:"Miel Vert",zone:"Sud",type:"Fête / Terroir",org:"Ville du Tampon",
+ place:"Plaine des Cafres, Le Tampon",when:"Janvier (annuel) · éd. 2026 : 7–18 janv. (passée) · éd. 2027 à annoncer",badge:"JANV",month:1,dateStatus:"annuel",status:"soon",
+ deadline:"Appel producteurs & artisans attendu à l'automne 2026",contact:"animation.dac@mairie-tampon.fr",social:"",url:"https://guide-reunion.fr/evenements/miel-vert/",
+ apply:"Appel à candidatures de la Ville du Tampon (producteurs & artisans).",desc:"12 jours de fête autour du terroir : producteurs, artisans, ateliers, concerts. 42ᵉ édition."},
+{name:"Exposition Artisanale & Métiers d'Arts",zone:"Sud",type:"Salon artisanal",org:"Ville du Tampon",
+ place:"Parc Jean de Cambiaire, Le Tampon",when:"Mai (annuel) · éd. 2026 : 22–23 mai (passée) · éd. 2027 à annoncer",badge:"MAI",month:5,dateStatus:"annuel",status:"soon",
+ deadline:"Appel à candidature dédié",contact:"animation.dac@mairie-tampon.fr",social:"",url:"https://www.letampon.fr/",
+ apply:"« Appel à candidature Exposition artisanale » via le Service Animation / Événements de la Ville.",desc:"Salon des artisans et métiers d'art locaux du Tampon."},
+{name:"Articoco",zone:"Sud",type:"Salon / Marché",org:"Association Articoco",
+ place:"Sud de l'île",when:"Mai (inauguration ~2 mai)",badge:"MAI",month:5,dateStatus:"annuel",status:"soon",
+ deadline:"",contact:"articoco974@gmail.com",social:"FB Articoco.re",url:"",
+ apply:"Candidature auprès de l'association Articoco.",desc:"Événement artisanal & créateurs porté par l'association Articoco."},
+{name:"Marchés FANMS",zone:"Sud",type:"Marché de créateurs",org:"FANMS",
+ place:"Sud de l'île",when:"Selon programmation",badge:"VAR.",month:99,dateStatus:"récurrent",status:"soon",
+ deadline:"",contact:"event@fanms.re",social:"",url:"",
+ apply:"Candidature auprès de FANMS (réseau de femmes entrepreneures).",desc:"Marchés mettant en avant les femmes entrepreneures et créatrices."},
+{name:"Talents Péi",zone:"Sud",type:"Marché artisanal",org:"Association Oté Z'Artizan",
+ place:"Sud de l'île",when:"Par semaines (selon programmation)",badge:"VAR.",month:99,dateStatus:"récurrent",status:"soon",
+ deadline:"",contact:"otezartisans@gmail.com",social:"@otezartisans",url:"",
+ apply:"Candidature auprès de l'association Oté Z'Artizan.",desc:"Mise en avant des artisans du Sud."},
+{name:"Espace commercial Leclerc (Oté Z'Artizan)",zone:"Sud",type:"Marché artisanal",org:"Association Oté Z'Artizan",
+ place:"Galerie Leclerc, Sud",when:"Par semaines (selon programmation)",badge:"VAR.",month:99,dateStatus:"récurrent",status:"soon",
+ deadline:"",contact:"otezartisans@gmail.com",social:"@otezartisans",url:"",
+ apply:"Candidature auprès de l'association Oté Z'Artizan.",desc:"Espace de vente pour artisans du Sud en galerie commerciale."},
+{name:"Marché de créateurs — Maison Banian",zone:"Sud",type:"Marché de créateurs",org:"Maison Banian",
+ place:"Sud de l'île",when:"Fête des mères · Eid · Grand Raid… · 10h–18h",badge:"VAR.",month:99,dateStatus:"récurrent",status:"soon",
+ deadline:"",contact:"contact@maisonbanian.com",social:"@maison_banian",url:"",
+ apply:"Candidature auprès de Maison Banian (mail / Instagram).",desc:"Marchés de créateurs calés sur les temps forts de l'année."},
+{name:"Marché de Noël — Maison Banian",zone:"Sud",type:"Marché de Noël",org:"Maison Banian",
+ place:"Sud de l'île",when:"Décembre · ~3 jours",badge:"DÉC",month:12,dateStatus:"annuel",status:"soon",
+ deadline:"",contact:"contact@maisonbanian.com",social:"@maison_banian",url:"",
+ apply:"Candidature auprès de Maison Banian.",desc:"Édition de Noël du marché de créateurs."},
+{name:"Marché de créateurs — Vavang'art",zone:"Sud",type:"Marché de créateurs",org:"Vavang'art",
+ place:"Sud de l'île",when:"Selon programmation · 10h–18h",badge:"VAR.",month:99,dateStatus:"récurrent",status:"soon",
+ deadline:"",contact:"programmation@vavangart.com",social:"@vavangart974",url:"",
+ apply:"Candidature auprès de Vavang'art (programmation@vavangart.com).",desc:"Marchés de créateurs et artisans d'art."},
+{name:"Marché de Noël Décalé — Vavang'art",zone:"Sud",type:"Marché de Noël",org:"Vavang'art",
+ place:"Sud de l'île",when:"~Novembre (1 mois avant Noël)",badge:"NOV",month:11,dateStatus:"annuel",status:"soon",
+ deadline:"",contact:"programmation@vavangart.com",social:"@vavangart974",url:"",
+ apply:"Candidature auprès de Vavang'art.",desc:"Marché de Noël anticipé pour les créateurs."},
+{name:"Grand'Anse en l'air",zone:"Sud",type:"Fête / Marché",org:"Association La Bande à Guinguette",
+ place:"Grand'Anse, Petite-Île",when:"Selon programmation",badge:"VAR.",month:99,dateStatus:"récurrent",status:"soon",
+ deadline:"",contact:"labandeaguinguette@gmail.com",social:"@la_bande_a_guinguette",url:"",
+ apply:"Candidature auprès de l'association La Bande à Guinguette.",desc:"Événement festif avec marché à Grand'Anse."},
+{name:"Marché des Arts du Feu",zone:"Sud",type:"Marché artisanal",org:"Association La Bande à Guinguette",
+ place:"Sud de l'île",when:"Selon programmation",badge:"VAR.",month:99,dateStatus:"récurrent",status:"soon",
+ deadline:"",contact:"labandeaguinguette@gmail.com",social:"@la_bande_a_guinguette",url:"",
+ apply:"Candidature auprès de La Bande à Guinguette (métiers des arts du feu).",desc:"Marché dédié aux métiers du feu : forge, verre, céramique, poterie."},
+{name:"Marché de Noël — Pierrefonds",zone:"Sud",type:"Marché de Noël",org:"Association La Bande à Guinguette",
+ place:"Pierrefonds, Saint-Pierre",when:"Décembre",badge:"DÉC",month:12,dateStatus:"annuel",status:"soon",
+ deadline:"",contact:"labandeaguinguette@gmail.com",social:"@la_bande_a_guinguette",url:"",
+ apply:"Candidature auprès de La Bande à Guinguette.",desc:"Marché de Noël du secteur de Pierrefonds."},
+{name:"Fête du Lait",zone:"Sud",type:"Fête / Terroir",org:"Sicalait",
+ place:"Aux Grands Kiosques (Plaine des Cafres)",when:"Annuel (selon filière)",badge:"1×/AN",month:99,dateStatus:"annuel",status:"soon",
+ deadline:"",contact:"communication@sicalait.fr",social:"FB Sicalait",url:"",
+ apply:"Candidature auprès de Sicalait (en lien avec la filière laitière).",desc:"Fête de la filière lait des Hauts du Sud."},
+{name:"Florilèges",zone:"Sud",type:"Foire / Horticole",org:"Ville du Tampon",
+ place:"Parc Jean de Cambiaire, Le Tampon",when:"Octobre (annuel) · éd. 2026 : 9–18 oct.",badge:"OCT",month:10,dateStatus:"confirmée",status:"soon",
+ deadline:"Appel à candidature été/automne — dossiers à déposer en mairie",contact:"animation.dac@mairie-tampon.fr · 0262 57 86 86",social:"",url:"https://letampon.fr/evenements/les-florileges/",
+ apply:"Appel à candidature exposants & forains publié par la Ville du Tampon. Dépôt du dossier en mairie (Secrétariat Direction Environnement, 10 rue du Général Bigeard), lun.–ven. 8h–12h / 13h30–16h.",desc:"Grand rendez-vous floral du Sud : fleurs, artisanat, forains, concerts."},
+{name:"Sakifo Musik Festival",zone:"Sud",type:"Festival / Musique",org:"Sakifo Prod",
+ place:"Front de mer, Saint-Pierre",when:"Juin (annuel) · éd. 2026 : 5–7 juin (passée) · éd. 2027 à annoncer",badge:"JUIN",month:6,dateStatus:"annuel",status:"soon",
+ deadline:"",contact:"via sakifo.com",social:"",url:"https://www.sakifo.com/en/home/",
+ apply:"Village du festival : stands restauration/artisanat via Sakifo Prod.",desc:"Plus grand festival musical de l'océan Indien, avec village marchand."},
+{name:"Leu Tempo Festival",zone:"Ouest",type:"Festival / Arts de la rue",org:"Le Séchoir",
+ place:"Saint-Leu",when:"Mai (annuel) · éd. 2026 : 6–9 mai (passée) · éd. 2027 à annoncer",badge:"MAI",month:5,dateStatus:"annuel",status:"soon",
+ deadline:"",contact:"via lechoir.com",social:"",url:"https://guide-reunion.fr/leu-tempo-festival/",
+ apply:"Espace créateurs/artisans selon édition — contacter Le Séchoir.",desc:"Festival d'arts de la rue et de spectacle vivant (89 représentations)."},
+{name:"Marché forain de Saint-Pierre (Ravine Blanche)",zone:"Sud",type:"Marché communal hebdo",org:"Ville de Saint-Pierre",
+ place:"Front de mer, Saint-Pierre",when:"Samedi matin (5h–12/13h)",badge:"HEBDO",month:99,dateStatus:"hebdomadaire",status:"perm",
+ deadline:"",contact:"mairie de Saint-Pierre",social:"",url:"https://www.sudreuniontourisme.fr/tresors-du-sud/marches-forains-brocantes.html",
+ apply:"Demande d'emplacement via la Ville de Saint-Pierre.",desc:"Grand marché primé du Sud : artisanat, produits péi, épices."},
+{name:"Marché du Tampon (Esplanade B. Hoarau)",zone:"Sud",type:"Marché communal hebdo",org:"Ville du Tampon",
+ place:"Esplanade Benjamin Hoarau, Le Tampon",when:"Samedi matin (6h–13h)",badge:"HEBDO",month:99,dateStatus:"hebdomadaire",status:"perm",
+ deadline:"",contact:"animation.dac@mairie-tampon.fr",social:"",url:"https://www.sudreuniontourisme.fr/tresors-du-sud/marches-forains-brocantes.html",
+ apply:"Demande d'emplacement via la Ville du Tampon.",desc:"Marché de centre-ville du Tampon."},
+{name:"Marché de la Plaine des Cafres (Bourg-Murat)",zone:"Sud",type:"Marché communal hebdo",org:"Ville du Tampon",
+ place:"Bourg-Murat, Plaine des Cafres",when:"Dimanche matin (≈6h–13h)",badge:"HEBDO",month:99,dateStatus:"hebdomadaire",status:"perm",
+ deadline:"",contact:"animation.dac@mairie-tampon.fr",social:"",url:"https://www.sudreuniontourisme.fr/tresors-du-sud/marches-forains-brocantes.html",
+ apply:"Demande d'emplacement via la Ville du Tampon.",desc:"Marché d'altitude, produits du terroir des Hauts."},
+{name:"Marché de Saint-Joseph",zone:"Sud",type:"Marché communal hebdo",org:"Ville de Saint-Joseph",
+ place:"Halle François-Mitterrand, Saint-Joseph",when:"Vendredi matin (6h–12/14h)",badge:"HEBDO",month:99,dateStatus:"hebdomadaire",status:"perm",
+ deadline:"",contact:"mairie de Saint-Joseph",social:"",url:"https://www.sudreuniontourisme.fr/tresors-du-sud/marches-forains-brocantes.html",
+ apply:"Demande d'emplacement via la Ville de Saint-Joseph.",desc:"Marché couvert du Sud sauvage."},
+{name:"Marchés de Saint-Louis",zone:"Sud",type:"Marché communal hebdo",org:"Ville de Saint-Louis",
+ place:"ZAC Avenir + La Rivière Saint-Louis",when:"Mercredi matin (centre) + vendredi matin (La Rivière)",badge:"HEBDO",month:99,dateStatus:"hebdomadaire",status:"perm",
+ deadline:"",contact:"mairie de Saint-Louis",social:"",url:"https://www.sudreuniontourisme.fr/tresors-du-sud/marches-forains-brocantes.html",
+ apply:"Demande d'emplacement via la Ville de Saint-Louis.",desc:"Deux marchés : centre (ZAC Avenir) et La Rivière."},
+{name:"Marché de Cilaos",zone:"Sud",type:"Marché communal hebdo",org:"Ville de Cilaos",
+ place:"Rue des Écoles, Cilaos",when:"Dimanche matin (≈7h–12/13h)",badge:"HEBDO",month:99,dateStatus:"hebdomadaire",status:"perm",
+ deadline:"",contact:"mairie de Cilaos",social:"",url:"https://www.sudreuniontourisme.fr/tresors-du-sud/marches-forains-brocantes.html",
+ apply:"Demande d'emplacement via la Ville de Cilaos (broderie, lentilles, vin).",desc:"Marché de cirque : broderie de Cilaos, lentilles, vin, artisanat des Hauts."},
+{name:"Marché de Saint-Philippe",zone:"Sud",type:"Marché communal hebdo",org:"Ville de Saint-Philippe",
+ place:"Place Henri-Madoré, Saint-Philippe",when:"Jeudi après-midi (≈14h–18h)",badge:"HEBDO",month:99,dateStatus:"hebdomadaire",status:"perm",
+ deadline:"",contact:"mairie de Saint-Philippe",social:"",url:"https://www.sudreuniontourisme.fr/tresors-du-sud/marches-forains-brocantes.html",
+ apply:"Demande d'emplacement via la Ville de Saint-Philippe.",desc:"Rare marché d'après-midi de l'île."},
+{name:"Marché des Avirons",zone:"Sud",type:"Marché communal hebdo",org:"Ville des Avirons",
+ place:"Place de la Mairie, Les Avirons",when:"Samedi matin (6h–12h)",badge:"HEBDO",month:99,dateStatus:"hebdomadaire",status:"perm",
+ deadline:"",contact:"mairie des Avirons",social:"",url:"https://www.sudreuniontourisme.fr/tresors-du-sud/marches-forains-brocantes.html",
+ apply:"Demande d'emplacement via la Ville des Avirons.",desc:"Marché place de la Mairie."},
+{name:"Marché de L'Étang-Salé-les-Bains",zone:"Sud",type:"Marché communal hebdo",org:"Ville de L'Étang-Salé",
+ place:"Front de mer, L'Étang-Salé",when:"Dimanche matin (≈6h30–13h)",badge:"HEBDO",month:99,dateStatus:"hebdomadaire",status:"perm",
+ deadline:"",contact:"mairie de L'Étang-Salé",social:"",url:"https://www.sudreuniontourisme.fr/tresors-du-sud/marches-forains-brocantes.html",
+ apply:"Demande d'emplacement via la Ville de L'Étang-Salé.",desc:"Marché du front de mer."},
+{name:"Communes sans marché hebdo fixe",zone:"Sud",type:"Marché communal hebdo",org:"Mairies concernées",
+ place:"Sainte-Rose, Salazie, Entre-Deux, Petite-Île",when:"Marchés ponctuels / fêtes communales",badge:"PONCT.",month:99,dateStatus:"à confirmer",status:"perm",
+ deadline:"",contact:"mairies concernées",social:"",url:"https://guide-reunion.fr/tourisme-loisirs/interet/marches/",
+ apply:"Se renseigner directement auprès de la mairie (marchés ponctuels, fêtes locales).",desc:"Communes sans marché forain hebdomadaire fixe — opportunités via marchés ponctuels."},
+{name:"Entre 2 Zarts",zone:"Sud",type:"Marché de créateurs",org:"Village de l'Entre-Deux",
+ place:"Entre-Deux",when:"Selon programmation (appel publié sur Facebook)",badge:"VAR.",month:99,dateStatus:"à confirmer",status:"soon",
+ deadline:"",contact:"via Facebook",social:"@entredeuxvillage",url:"https://www.facebook.com/entredeuxvillage/",
+ apply:"Appel à candidatures « Entre 2 Zarts » publié sur la page Facebook du Village de l'Entre-Deux, réservé aux artisans du village.",desc:"Initiative du Village de l'Entre-Deux invitant les artisans locaux à exposer leurs créations."}
+];
+
+// Répertoire organisateurs
+const ORGS = [
+{n:"Mairie du Tampon",m:"animation.dac@mairie-tampon.fr",t:"Service Animation / Événements",s:"",w:"letampon.fr"},
+{n:"Ville de Saint-Paul",m:"maire@mairie-saintpaul.fr",t:"0262 45 90 69 — Dir. Valorisation Économique",s:"",w:"mairie-saintpaul.re/avis-de-publicite/"},
+{n:"Ville de Saint-Denis",m:"regie@saintdenis.re",t:"",s:"",w:"saintdenis.re/appel-a-forains-manifestations-2026"},
+{n:"Ville de Saint-André",m:"event@saint-andre.re",t:"0262 58 56 00 — service courrier",s:"",w:"saint-andre.re"},
+{n:"Ville de Bras-Panon",m:"",t:"",s:"@villedebraspanon",w:"braspanon.re"},
+{n:"Ville de Sainte-Marie",m:"serviceeconomique@ville-saintemarie.re",t:"0692 43 26 27",s:"",w:""},
+{n:"Arts et Traditions 974 (Fait Main)",m:"artsettraditions974@gmail.com",t:"",s:"@artsettraditions974",w:"artrad.re"},
+{n:"Metis Production (Zanimos & Jardin)",m:"metis974.prod@gmail.com",t:"0692 87 77 52 — Willy",s:"@zanimosreunion",w:"zanimosetjardin.re"},
+{n:"Territoire de l'Ouest (TCO)",m:"courrier@tco.re",t:"",s:"@tco.agglo",w:"tco.re"},
+{n:"Karre Kathedrale",m:"marion.carrecathedrale@gmail.com",t:"",s:"@galerie_artefact",w:""},
+{n:"Village Artisanal de l'Éperon",m:"asso.eperon@gmail.com",t:"",s:"@asso.eperon974",w:""},
+{n:"La Bande à Guinguette",m:"labandeaguinguette@gmail.com",t:"",s:"@la_bande_a_guinguette",w:""},
+{n:"Oté Z'Artizan",m:"otezartisans@gmail.com",t:"",s:"@otezartisans",w:""},
+{n:"Compagnie Tendance (Marché de Noël St-Leu)",m:"compagnietendance.marchedenoel@gmail.com",t:"",s:"@marchedenoelstleu",w:""},
+{n:"Maison Banian",m:"contact@maisonbanian.com",t:"",s:"@maison_banian",w:""},
+{n:"Vavang'art",m:"programmation@vavangart.com",t:"",s:"@vavangart974",w:""},
+{n:"Articoco",m:"articoco974@gmail.com",t:"",s:"FB Articoco.re",w:""},
+{n:"ZENial (Ti Marché Zen)",m:"contact@zenial.fr",t:"",s:"@zenial_la_reunion_du_bien_etre",w:""},
+{n:"Hulwayat Event",m:"hulwayat97@gmail.com",t:"0693 82 22 83 — Ibrahim & Khadija",s:"@hulwayat_halal_et_vegan",w:""},
+{n:"My Beauty Signature (Trésors de l'Eid)",m:"contact@mybeautysignature.com",t:"0693 90 09 40",s:"",w:""},
+{n:"Boccaz Run",m:"boccazreunion@gmail.com",t:"0693 30 82 68 — Ingrid",s:"@boccaz_run",w:""},
+{n:"Explor'Loisirs (Ô'Pti Marché du Guillaume)",m:"explorloisirs@gmail.com",t:"0693 93 85 13",s:"",w:"associationexplorloisirs.com"},
+{n:"FANMS",m:"event@fanms.re",t:"",s:"",w:""},
+{n:"Hôtel Dina Morgabine",m:"m.danvin@dinamorgabine.com",t:"",s:"",w:""},
+{n:"Sicalait (Fête du Lait)",m:"communication@sicalait.fr",t:"",s:"FB Sicalait",w:""},
+{n:"Chapo Lapay",m:"",t:"",s:"@chapolapay",w:""},
+{n:"CMA Réunion",m:"",t:"",s:"",w:"artisanat974.re"},
+{n:"Village de l'Entre-Deux",m:"",t:"",s:"@entredeuxvillage",w:""},
+{n:"ADIR / Territoire(s) Media (Nou Lé Lokal)",m:"",t:"",s:"",w:"noulelocal.re"},
+{n:"Nordev (Parc des Expos)",m:"nordev@nordev.re",t:"0262 48 78 78",s:"",w:"nordev.re"}
+];
+
+// ---------- état ----------
+let fZone="all", fType="all", q="";
+const MONTHS=["","janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
+
+// ---------- helpers ----------
+function pillFor(s){
+  const m={open:["pill-open","Candidature ouverte"],soon:["pill-soon","À surveiller"],closed:["pill-closed","Clôturée"],perm:["pill-perm","Permanent"]};
+  const [c,t]=m[s]||m.perm; return `<span class="pill ${c}">${t}</span>`;
+}
+function monthDiff(m){
+  if(m===99) return null;
+  const cur=new Date().getMonth()+1;
+  let d=m-cur; if(d<0) d+=12;
+  return d;
+}
+function currentMonth(){ return new Date().getMonth()+1; }
+function tlItem(e){
+  const zc=ZONE_COLOR[e.zone]||"var(--muted)";
+  return `<div class="tl-item" style="--zc:${zc}">
+    <div class="tl-date"><span class="tl-badge">${e.badge}</span></div>
+    <div class="tl-body">
+      <div class="tl-top"><h3>${e.name}</h3>${pillFor(e.status)}</div>
+      <div class="tl-meta">
+        <span class="zone-tag" style="--zc:${zc}"><i></i>${e.zone}</span>
+        <span>·</span><span>${e.type}</span>
+        <span>·</span><span>${e.place}</span>
+      </div>
+      <div class="tl-when">${e.when} <span class="tl-datestatus">· ${e.dateStatus}</span></div>
+      ${e.deadline?`<div class="tl-deadline">⏰ ${e.deadline}</div>`:""}
+      <p class="tl-desc">${e.desc}</p>
+      <div class="tl-apply"><b>Candidater :</b> ${e.apply}</div>
+      <div class="tl-actions">
+        ${e.contact&&e.contact.includes("@")?`<a class="btn btn-mail" href="mailto:${e.contact.split(' ')[0]}">Écrire</a>`:""}
+        ${e.social?`<span class="btn btn-ghost" style="cursor:default">${e.social}</span>`:""}
+        ${e.url?`<a class="btn btn-ghost" href="${e.url}" target="_blank" rel="noopener">Plus d'infos ↗</a>`:""}
+      </div>
+    </div>
+  </div>`;
+}
+
+function groupEvents(list){
+  const g={thisMonth:[],next3:[],laterThisYear:[],nextYear:[],variable:[],perm:[],closed:[]};
+  const cur=currentMonth();
+  list.forEach(e=>{
+    if(e.status==="closed"){g.closed.push(e);return;}
+    if(e.status==="perm"){g.perm.push(e);return;}
+    if(e.month===99){g.variable.push(e);return;}
+    if(e.month===cur){g.thisMonth.push(e);return;}
+    if(e.month>cur){
+      if(e.month-cur<=3)g.next3.push(e);
+      else g.laterThisYear.push(e);
+      return;
+    }
+    // e.month < cur → l'édition de cette année est déjà passée, la prochaine sera l'an prochain
+    g.nextYear.push(e);
+  });
+  const byMonth=(a,b)=>(a.month-b.month)||a.name.localeCompare(b.name,"fr");
+  const byName=(a,b)=>a.name.localeCompare(b.name,"fr");
+  g.thisMonth.sort(byMonth); g.next3.sort(byMonth); g.laterThisYear.sort(byMonth); g.nextYear.sort(byMonth);
+  g.variable.sort(byName); g.perm.sort(byName); g.closed.sort(byName);
+  return g;
+}
+
+function render(){
+  const list=EVENTS.filter(e=>{
+    if(fZone!=="all"&&e.zone!==fZone)return false;
+    if(fType!=="all"&&e.type!==fType)return false;
+    if(q){const s=(e.name+e.place+e.org+e.type+e.desc+e.contact+(e.social||"")).toLowerCase();if(!s.includes(q))return false;}
+    return true;
+  });
+  const el=document.getElementById("list");
+  const g=groupEvents(list);
+  const cur=new Date().getMonth()+1;
+  const section=(items,label)=>!items.length?"":`<div class="agenda-group">
+    <div class="agenda-group-head"><h2>${label}</h2><span class="count">${items.length} événement${items.length>1?"s":""}</span></div>
+    ${items.map(tlItem).join("")}</div>`;
+  let html="";
+  html+=section(g.thisMonth,`Ce mois-ci — ${MONTHS[cur]}`);
+  html+=section(g.next3,"À venir (3 prochains mois)");
+  html+=section(g.laterThisYear,"Plus tard cette année");
+  html+=section(g.nextYear,"Édition passée — à surveiller pour l'an prochain");
+  html+=section(g.variable,"Selon programmation — à surveiller");
+  html+=section(g.perm,"Marchés permanents");
+  el.innerHTML=html||`<div class="empty">Aucun événement ne correspond à ces filtres.</div>`;
+
+  const archList=document.getElementById("archiveList");
+  const archCount=document.getElementById("archiveCount");
+  if(archList){archList.innerHTML=g.closed.length?g.closed.map(tlItem).join(""):`<div class="empty" style="margin:16px 22px">Aucune candidature clôturée pour ces filtres.</div>`;}
+  if(archCount)archCount.textContent=g.closed.length;
+}
+
+function buildKpis(){
+  const cur=new Date().getMonth()+1;
+  const thisMonthCount=EVENTS.filter(e=>e.month===cur&&e.status!=="closed").length;
+  const permCount=EVENTS.filter(e=>e.status==="perm").length;
+  const activeCount=EVENTS.filter(e=>e.status!=="closed").length;
+  document.getElementById("kpis").innerHTML=`
+    <div class="stat"><div class="n">${activeCount}</div><div class="l">Opportunités suivies</div></div>
+    <div class="stat-divider"></div>
+    <div class="stat"><div class="n">${thisMonthCount}</div><div class="l">Ce mois-ci</div></div>
+    <div class="stat-divider"></div>
+    <div class="stat"><div class="n">${permCount}</div><div class="l">Marchés permanents</div></div>`;
+}
+function buildControls(){
+  const zones=[["all","Toutes les zones"],...ZONE_ORDER.map(z=>[z,z])];
+  document.getElementById("zoneTabs").innerHTML=zones.map(([v,l])=>
+    `<button class="zone-tab ${v==="all"?"active":""}" data-zone="${v}" style="--zc:${v==="all"?"var(--ink)":(ZONE_COLOR[v]||"var(--ink)")}">${l}</button>`).join("");
+  const types=["all",...[...new Set(EVENTS.map(e=>e.type))].sort((a,b)=>a.localeCompare(b,"fr"))];
+  document.getElementById("typeSelect").innerHTML=types.map(t=>
+    `<option value="${t}">${t==="all"?"Tous les types":t}</option>`).join("");
+
+  document.querySelectorAll(".zone-tab").forEach(btn=>btn.onclick=()=>{
+    fZone=btn.dataset.zone;
+    document.querySelectorAll(".zone-tab").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    render();
+  });
+  document.getElementById("typeSelect").onchange=e=>{fType=e.target.value;render();};
+}
+function buildDir(){
+  document.getElementById("dirGrid").innerHTML=ORGS.slice().sort((a,b)=>a.n.localeCompare(b.n,"fr")).map(o=>{
+    const parts=[];
+    if(o.m)parts.push(`<a href="mailto:${o.m}">${o.m}</a>`);
+    if(o.t)parts.push(o.t);
+    if(o.s)parts.push(o.s);
+    if(o.w)parts.push(`<a href="https://${o.w.replace(/^https?:\/\//,'')}" target="_blank" rel="noopener">${o.w}</a>`);
+    return `<div class="dir-row"><h4>${o.n}</h4><div class="contacts">${parts.join(" · ")}</div></div>`;
+  }).join("");
+}
+
+// ---------- inscription (capture de contacts) ----------
+function signupMessage(){
+  const zone=(document.getElementById("suZone").value||"").trim();
+  const craft=(document.getElementById("suCraft").value||"").trim();
+  let msg="Bonjour ! Je souhaite recevoir les alertes des marchés & appels à candidature pour artisans à La Réunion.";
+  if(zone) msg+=" Ma zone : "+zone+".";
+  if(craft) msg+=" Mon métier : "+craft+".";
+  return msg;
+}
+document.getElementById("suBtn").onclick=()=>{
+  window.open("https://wa.me/"+CONTACT.whatsapp+"?text="+encodeURIComponent(signupMessage()),"_blank");
+};
+document.getElementById("suMail").onclick=()=>{
+  const sub="Inscription alertes marchés artisans";
+  window.location.href="mailto:"+CONTACT.email+"?subject="+encodeURIComponent(sub)+"&body="+encodeURIComponent(signupMessage());
+};
+
+document.getElementById("q").oninput=e=>{q=e.target.value.toLowerCase().trim();render();};
+document.getElementById("upd").textContent="Dernière mise à jour : "+new Date(META.lastUpdate).toLocaleDateString("fr-FR",{day:"numeric",month:"long",year:"numeric"})+" · actualisation automatique chaque lundi.";
+
+buildKpis();buildControls();buildDir();render();
+</script>
+</body>
+</html>

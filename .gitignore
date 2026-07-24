@@ -1,0 +1,27 @@
+# Secrets — NE JAMAIS committer
+.env
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# Sorties de veille (proposition + fichiers machine)
+proposition_MAJ_*.md
+data/pending/
+
+# Logs & sauvegardes locales
+*.log
+data/backups/
+
+# macOS
+.DS_Store
+
+# Sorties ingestion documents
+proposition_docs_*.md
+ingest.log
+data/inbox_docs/
+data/inbox_mobile.txt
+data/inbox_mobile_export.txt
+data/inbox_mobile_archive/
