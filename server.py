@@ -897,9 +897,10 @@ def _publish_event_to_repo(event: dict) -> tuple:
         log.warning("Vérification API GitHub échouée (%s) — push tenté quand même.", _msg)
 
     ev_label = event.get("name", "événement")
-    # http.extraHeader = mécanisme officiel Git pour les tokens HTTPS.
-    # Évite tout problème d'encodage ou de préfixe dans l'URL.
-    auth_header = f"Authorization: token {gh_token}"
+    # Forme x-access-token vérifiée fonctionnelle avec ce token
+    # (le header "Authorization: token …" est refusé par GitHub).
+    push_url = (f"https://x-access-token:{gh_token}"
+                f"@github.com/FHSERVICES974/radar-marches-reunion.git")
     try:
         subprocess.run(
             ["git", "add", "data/events.json", "data/meta.json", "index.html"],
@@ -915,8 +916,8 @@ def _publish_event_to_repo(event: dict) -> tuple:
         push_env.pop("GIT_ASKPASS", None)      # jamais replit-git-askpass
         push_env["GIT_TERMINAL_PROMPT"] = "0"  # échec propre au lieu d'un prompt
         push = subprocess.run(
-            ["git", "-c", f"http.extraHeader={auth_header}",
-             "push", "origin", BRANCH],
+            ["git", "-c", "credential.helper=",
+             "push", push_url, BRANCH],
             capture_output=True, text=True, timeout=60, env=push_env,
         )
         if push.returncode != 0:
