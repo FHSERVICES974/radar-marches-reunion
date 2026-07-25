@@ -24,6 +24,7 @@ import urllib.parse
 import urllib.request
 import uuid
 from email.message import EmailMessage
+from email.utils import formataddr
 
 logging.basicConfig(
     level=logging.INFO,
@@ -114,7 +115,7 @@ def _send_email(subject: str, body: str, recipient: str) -> bool:
 
     msg = EmailMessage()
     msg["Subject"] = subject
-    msg["From"] = smtp_from
+    msg["From"] = formataddr(("Radar des Marchés", smtp_from))
     msg["To"] = recipient
     msg.set_content(body)
 
