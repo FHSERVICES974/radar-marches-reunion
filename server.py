@@ -934,6 +934,64 @@ def _save_completion(key: str, entry: dict) -> None:
             json.dump(data, f, ensure_ascii=False, indent=2)
 
 
+def _norm_evname(s: str) -> str:
+    """Normalise un nom d'événement pour comparaison (dédoublonnage)."""
+    s = str(s).lower().strip()
+    s = re.sub(r"[—–‑]", "-", s)
+    s = re.sub(r"\s+", " ", s)
+    return s
+
+
+def _published_name_zones() -> set:
+    """Couples (nom normalisé, zone) des événements déjà dans events.json.
+
+    events.json est versionné dans git : contrairement aux fichiers runtime,
+    cette source de vérité survit aux resets de la VM de production.
+    """
+    try:
+        with open(os.path.join("data", "events.json"), encoding="utf-8") as f:
+            evs = json.load(f)
+        return {(_norm_evname(e.get("name", "")), e.get("zone", "")) for e in evs}
+    except Exception:
+        return set()
+
+
+def _push_decisions() -> None:
+    """Commit + push le fichier de décisions pour qu'il survive aux resets VM.
+
+    Non bloquant pour l'utilisateur : toute erreur est loguée, jamais fatale.
+    """
+    gh_token = os.environ.get("GITHUB_TOKEN", "").strip()
+    if not gh_token or not _git_available():
+        return
+    push_url = (f"https://x-access-token:{gh_token}"
+                f"@github.com/FHSERVICES974/radar-marches-reunion.git")
+    env = dict(os.environ)
+    env.pop("GIT_ASKPASS", None)
+    env["GIT_TERMINAL_PROMPT"] = "0"
+    try:
+        subprocess.run(["git", "add", "data/pending_decisions.json"],
+                       check=True, timeout=30)
+        c = subprocess.run(
+            ["git", "-c", "user.email=admin@radar.re",
+             "-c", "user.name=Radar Admin",
+             "commit", "-m", "Décisions propositions (Publier/Rejeter)"],
+            capture_output=True, text=True, timeout=30,
+        )
+        if c.returncode != 0:
+            return  # rien à committer
+        _git_pull_for_publish()  # rebase doux avant push (commits du Mac)
+        p = subprocess.run(
+            ["git", "-c", "credential.helper=", "push", push_url, BRANCH],
+            capture_output=True, text=True, timeout=60, env=env,
+        )
+        if p.returncode != 0:
+            log.warning("Push décisions échoué : %s",
+                        p.stderr.replace(gh_token, "***").strip()[:200])
+    except Exception as exc:
+        log.warning("Push décisions : %s", exc)
+
+
 def _load_latest_proposal() -> tuple:
     """Lit le fichier de proposition le plus récent (tri alphabétique desc).
 
@@ -1147,6 +1205,25 @@ def _render_proposals_section(dev_mode: bool) -> str:  # noqa: PLR0912,PLR0915
         if comp and comp.get("status") == "done" and comp.get("event"):
             c["event"] = comp["event"]
             c["_confidence"] = "Vérifié"
+
+    # Dédoublonnage durable : masquer les candidats dont l'événement figure
+    # déjà dans events.json (survit aux resets VM, contrairement aux décisions).
+    published = _published_name_zones()
+    pending = [
+        c for c in pending
+        if not (c.get("event") or {}).get("name")
+        or (_norm_evname(c["event"]["name"]), c["event"].get("zone", "")) not in published
+    ]
+
+    if not pending:
+        return (
+            '<div class="card">'
+            '<div class="card-h">📥 Propositions à valider</div>'
+            '<div class="empty-st"><span>✅</span>'
+            '<p>Tout est traité — file vide.</p>'
+            '<span class="empty-sub">Nouvelle veille attendue demain.</span>'
+            '</div></div>'
+        )
 
     pending.sort(key=lambda c: _CONF_RANK.get(c.get("_confidence") or c.get("confidence", "À confirmer"), 3))
 
@@ -1962,6 +2039,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         ok, msg = _publish_event_to_repo(candidate["event"])
         if ok:
             _save_decision(key, "published")
+            _push_decisions()
             self._redirect_admin("pub=ok")
         else:
             log.error("Publication échouée : %s", msg)
@@ -1985,6 +2063,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
         if key:
             _save_decision(key, "rejected")
+            _push_decisions()
         self._redirect_admin()
 
     def _handle_complete(self) -> None:

@@ -24,7 +24,8 @@ data/chat_questions.jsonl
 data/theme_analysis.json
 data/clicks.jsonl
 data/traffic.json
-data/pending_decisions.json
+# data/pending_decisions.json est désormais VERSIONNÉ : committé/pushé après
+# chaque décision pour survivre aux resets de la VM de production.
 
 # macOS
 .DS_Store
