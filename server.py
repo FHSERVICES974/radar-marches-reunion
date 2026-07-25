@@ -713,9 +713,16 @@ def _load_themes() -> dict:
 # ── Propositions à valider ─────────────────────────────────────────────────
 
 def _candidate_key(c: dict) -> str:
-    """Clé stable (16 hex) identifiant un candidat de façon unique."""
+    """Clé stable (16 hex) identifiant un candidat de façon unique.
+
+    Supporte les deux conventions de nommage :
+      - clés préfixées (_source_url, _source_title, _confidence) — format Mac
+      - clés sans préfixe (source_url, source_title, confidence)  — format legacy
+    """
     ev_name = (c.get("event") or {}).get("name", "")
-    raw = f"{ev_name}|{c.get('source_url', '')}|{c.get('source_title', '')}"
+    src_url = c.get("_source_url") or c.get("source_url", "")
+    src_ttl = c.get("_source_title") or c.get("source_title", "")
+    raw = f"{ev_name}|{src_url}|{src_ttl}"
     return hashlib.sha1(raw.encode()).hexdigest()[:16]
 
 
@@ -758,7 +765,9 @@ def _load_latest_proposal() -> tuple:
         path = os.path.join(_PENDING_DIR, files[0])
         with open(path, encoding="utf-8") as f:
             data = json.load(f)
-        return files[0], data.get("candidates", [])
+        # Supporte "new_events_candidates" (format Mac) et "candidates" (legacy)
+        candidates = data.get("new_events_candidates") or data.get("candidates", [])
+        return files[0], candidates
     except (FileNotFoundError, json.JSONDecodeError, OSError):
         return None, []
 
@@ -888,7 +897,7 @@ def _render_proposals_section(dev_mode: bool) -> str:  # noqa: PLR0912,PLR0915
 
     # Filtrer les déjà traités, trier par confiance
     pending = [c for c in candidates if _candidate_key(c) not in decisions]
-    pending.sort(key=lambda c: _CONF_RANK.get(c.get("confidence", "À confirmer"), 3))
+    pending.sort(key=lambda c: _CONF_RANK.get(c.get("_confidence") or c.get("confidence", "À confirmer"), 3))
 
     if not pending:
         return (
@@ -901,7 +910,7 @@ def _render_proposals_section(dev_mode: bool) -> str:  # noqa: PLR0912,PLR0915
         )
 
     # Compteurs
-    n_pub = sum(1 for c in pending if c.get("confidence") == "Vérifié" and c.get("event"))
+    n_pub = sum(1 for c in pending if (c.get("_confidence") or c.get("confidence")) == "Vérifié" and c.get("event"))
     n_chk = len(pending) - n_pub
     counts = []
     if n_pub:
@@ -918,16 +927,16 @@ def _render_proposals_section(dev_mode: bool) -> str:  # noqa: PLR0912,PLR0915
     cards = []
     for c in pending:
         key     = _candidate_key(c)
-        conf    = c.get("confidence", "À confirmer")
+        conf    = c.get("_confidence") or c.get("confidence", "À confirmer")
         ev      = c.get("event") or {}
         has_ev  = bool(ev and ev.get("name"))
-        name    = ev.get("name") or c.get("source_title") or "—"
+        name    = ev.get("name") or c.get("_source_title") or c.get("source_title") or "—"
         place   = ev.get("place", "")
         when    = ev.get("when", "")
         dl      = ev.get("deadline", "")
         notes   = c.get("notes", "")
-        src_url = c.get("source_url", "#")
-        src_ttl = (c.get("source_title") or src_url)[:55]
+        src_url = c.get("_source_url") or c.get("source_url", "#")
+        src_ttl = (c.get("_source_title") or c.get("source_title") or src_url)[:55]
 
         if conf == "Vérifié":
             badge = '<span class="conf-badge conf-vert">✓ Vérifié</span>'
