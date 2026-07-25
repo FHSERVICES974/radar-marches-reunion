@@ -157,6 +157,11 @@ def verify_signature(payload: bytes, signature_header: str) -> bool:
     return hmac.compare_digest(expected, signature_header)
 
 
+# Sérialise toutes les opérations git (webhook /sync, publication admin,
+# push des décisions) pour éviter les courses fetch/reset/commit/push.
+_git_ops_lock = threading.Lock()
+
+
 def git_pull():
     """Synchronise le working tree avec origin/main.
 
@@ -178,28 +183,29 @@ def git_pull():
         return
 
     try:
-        # Étape 1 : fetch
-        fetch = subprocess.run(
-            ["git", "fetch", "origin", BRANCH, "--depth=1"],
-            capture_output=True, text=True, timeout=60,
-        )
-        if fetch.returncode != 0:
-            log.error("git fetch a échoué (code %d) :\n%s",
-                      fetch.returncode, fetch.stderr.strip())
-            return
+        with _git_ops_lock:
+            # Étape 1 : fetch
+            fetch = subprocess.run(
+                ["git", "fetch", "origin", BRANCH, "--depth=1"],
+                capture_output=True, text=True, timeout=60,
+            )
+            if fetch.returncode != 0:
+                log.error("git fetch a échoué (code %d) :\n%s",
+                          fetch.returncode, fetch.stderr.strip())
+                return
 
-        # Étape 2 : reset hard — force le working tree sans se bloquer
-        # sur les fichiers non-trackés présents dans le bundle de déploiement
-        reset = subprocess.run(
-            ["git", "reset", "--hard", "FETCH_HEAD"],
-            capture_output=True, text=True, timeout=30,
-        )
-        if reset.returncode == 0:
-            log.info("Sync réussie (fetch + reset) :\n%s", reset.stdout.strip())
-            _invalidate_events_cache()
-        else:
-            log.error("git reset --hard a échoué (code %d) :\n%s",
-                      reset.returncode, reset.stderr.strip())
+            # Étape 2 : reset hard — force le working tree sans se bloquer
+            # sur les fichiers non-trackés présents dans le bundle de déploiement
+            reset = subprocess.run(
+                ["git", "reset", "--hard", "FETCH_HEAD"],
+                capture_output=True, text=True, timeout=30,
+            )
+            if reset.returncode == 0:
+                log.info("Sync réussie (fetch + reset) :\n%s", reset.stdout.strip())
+                _invalidate_events_cache()
+            else:
+                log.error("git reset --hard a échoué (code %d) :\n%s",
+                          reset.returncode, reset.stderr.strip())
     except subprocess.TimeoutExpired:
         log.error("git fetch/reset a expiré après 60 secondes.")
     except Exception as exc:
@@ -960,36 +966,45 @@ def _push_decisions() -> None:
     """Commit + push le fichier de décisions pour qu'il survive aux resets VM.
 
     Non bloquant pour l'utilisateur : toute erreur est loguée, jamais fatale.
+    Le token GitHub est masqué dans TOUS les chemins d'erreur.
     """
     gh_token = os.environ.get("GITHUB_TOKEN", "").strip()
     if not gh_token or not _git_available():
         return
+
+    def _mask(s: str) -> str:
+        return str(s).replace(gh_token, "***")
+
     push_url = (f"https://x-access-token:{gh_token}"
                 f"@github.com/FHSERVICES974/radar-marches-reunion.git")
     env = dict(os.environ)
     env.pop("GIT_ASKPASS", None)
     env["GIT_TERMINAL_PROMPT"] = "0"
     try:
-        subprocess.run(["git", "add", "data/pending_decisions.json"],
-                       check=True, timeout=30)
-        c = subprocess.run(
-            ["git", "-c", "user.email=admin@radar.re",
-             "-c", "user.name=Radar Admin",
-             "commit", "-m", "Décisions propositions (Publier/Rejeter)"],
-            capture_output=True, text=True, timeout=30,
-        )
-        if c.returncode != 0:
-            return  # rien à committer
-        _git_pull_for_publish()  # rebase doux avant push (commits du Mac)
-        p = subprocess.run(
-            ["git", "-c", "credential.helper=", "push", push_url, BRANCH],
-            capture_output=True, text=True, timeout=60, env=env,
-        )
-        if p.returncode != 0:
-            log.warning("Push décisions échoué : %s",
-                        p.stderr.replace(gh_token, "***").strip()[:200])
+        with _git_ops_lock:
+            subprocess.run(["git", "add", "data/pending_decisions.json"],
+                           check=True, timeout=30)
+            c = subprocess.run(
+                ["git", "-c", "user.email=admin@radar.re",
+                 "-c", "user.name=Radar Admin",
+                 "commit", "-m", "Décisions propositions (Publier/Rejeter)"],
+                capture_output=True, text=True, timeout=30,
+            )
+            if c.returncode != 0:
+                return  # rien à committer
+            ok, msg = _git_pull_for_publish()  # rebase doux (commits du Mac)
+            if not ok:
+                log.warning("Push décisions — pull préalable échoué : %s",
+                            _mask(msg)[:200])
+            p = subprocess.run(
+                ["git", "-c", "credential.helper=", "push", push_url, BRANCH],
+                capture_output=True, text=True, timeout=60, env=env,
+            )
+            if p.returncode != 0:
+                log.warning("Push décisions échoué : %s",
+                            _mask(p.stderr).strip()[:200])
     except Exception as exc:
-        log.warning("Push décisions : %s", exc)
+        log.warning("Push décisions : %s", _mask(exc)[:200])
 
 
 def _load_latest_proposal() -> tuple:
@@ -1036,6 +1051,12 @@ def _git_pull_for_publish() -> tuple:
 
 
 def _publish_event_to_repo(event: dict) -> tuple:
+    """Publication sérialisée : voir _publish_event_to_repo_unlocked."""
+    with _git_ops_lock:
+        return _publish_event_to_repo_unlocked(event)
+
+
+def _publish_event_to_repo_unlocked(event: dict) -> tuple:
     """Ajoute l'événement à events.json, rebuild index.html, commit et push.
 
     Flux : git pull → insert + sort events.json → maj meta.json → build() →
@@ -1226,16 +1247,6 @@ def _render_proposals_section(dev_mode: bool) -> str:  # noqa: PLR0912,PLR0915
         )
 
     pending.sort(key=lambda c: _CONF_RANK.get(c.get("_confidence") or c.get("confidence", "À confirmer"), 3))
-
-    if not pending:
-        return (
-            '<div class="card">'
-            '<div class="card-h">📥 Propositions à valider</div>'
-            '<div class="empty-st"><span>✅</span>'
-            '<p>Tout est traité — file vide.</p>'
-            '<span class="empty-sub">Nouvelle veille attendue demain.</span>'
-            '</div></div>'
-        )
 
     # Compteurs
     n_pub = sum(1 for c in pending if (c.get("_confidence") or c.get("confidence")) == "Vérifié" and c.get("event"))
