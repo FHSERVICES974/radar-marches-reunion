@@ -282,7 +282,7 @@ def send_mail(r: dict) -> None:
 
     msg = EmailMessage()
     msg["Subject"] = subject
-    msg["From"] = sender
+    msg["From"] = f"Radar des Marchés <{sender}>"
     msg["To"] = DEST_EMAIL
     msg.set_content(render_plain(r))
     msg.add_alternative(render_html(r), subtype="html")
