@@ -245,6 +245,7 @@
   </div>
   <div><b>Note sur les dates :</b> « confirmée » = date officiellement annoncée ; « annuel / récurrent » = événement qui revient chaque année (la date 2026 indiquée peut être passée — surveillez l'édition suivante) ; « probable » = estimation basée sur la récurrence. Vérifiez toujours auprès de l'organisateur avant de candidater.</div>
   <div style="margin-top:8px">Sources : tableau collaboratif d'artisans réunionnais · CMA Réunion · mairies · offices de tourisme · presse locale. <b>Veille quotidienne, mise à jour dès qu'une information est vérifiée.</b></div>
+  <div style="margin-top:8px">Mesure d'audience anonyme réalisée en interne : aucun cookie publicitaire, aucun traceur tiers.</div>
 </footer>
 
 </div>
@@ -2384,6 +2385,8 @@ window.chatSend=function(){
     var t=ev.target;if(!t.closest)return;
     var m=t.closest('.btn-mail');
     if(m){var b=m.closest('.tl-body');_s({e:'candidater',n:((b&&b.querySelector('h3'))||{}).textContent||''});return;}
+    if(t.closest('#suBtn')){_s({e:'signup_whatsapp'});return;}
+    if(t.closest('#suMail')){_s({e:'signup_email'});return;}
     var it=t.closest('.tl-item');
     if(it){var h=it.querySelector('h3');_s({e:'event_view',n:(h||{}).textContent||''});}
   },false);

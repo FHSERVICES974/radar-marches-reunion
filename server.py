@@ -7,6 +7,7 @@ un git pull automatique à chaque push sur la branche main.
 
 import base64
 import datetime
+import queue
 import hashlib
 import hmac
 import html
@@ -728,6 +729,15 @@ _REF_SOURCES = [
 ]
 
 
+_UTM_SOURCES = {
+    "whatsapp": "whatsapp", "wa": "whatsapp",
+    "instagram": "instagram", "ig": "instagram",
+    "facebook": "facebook", "fb": "facebook",
+    "email": "email", "mail": "email", "newsletter": "email",
+    "signature": "email", "google": "google",
+}
+
+
 def _categorize_referrer(referrer: str) -> str:
     """Classe l'URL de référence en une source simple."""
     if not referrer:
@@ -744,38 +754,166 @@ def _categorize_referrer(referrer: str) -> str:
         return "direct"
 
 
-def _record_visit(ip: str, referrer: str = "") -> None:
-    """Enregistre une visite sur le site public (thread-safe)."""
-    global _today_ips, _today_date_str
-    today = datetime.date.today().isoformat()
-    ip_hash = hashlib.sha256(ip.encode()).hexdigest()[:16]
-    src = _categorize_referrer(referrer)
+def _categorize_source(referrer: str, path: str) -> str:
+    """Source de trafic : utm_source (prioritaire) puis referrer en repli."""
+    try:
+        qs  = urllib.parse.urlparse(path).query
+        utm = (urllib.parse.parse_qs(qs).get("utm_source", [""])[0]).strip().lower()
+        if utm:
+            return _UTM_SOURCES.get(utm, "autre")
+    except Exception:
+        pass
+    return _categorize_referrer(referrer)
 
-    with _traffic_lock:
-        if today != _today_date_str:
-            _today_ips = set()
-            _today_date_str = today
-        is_new = ip_hash not in _today_ips
-        _today_ips.add(ip_hash)
-        try:
-            os.makedirs(_DATA_DIR, exist_ok=True)
+
+# ── Stockage persistant des statistiques (PostgreSQL) ────────────────────────
+# Les stats vivaient dans data/traffic.json + data/clicks.jsonl, effacés à
+# chaque publication (disque réinitialisé). Elles vivent désormais dans la
+# base PostgreSQL Replit (DATABASE_URL), qui survit aux redéploiements.
+
+_DB_URL          = os.environ.get("DATABASE_URL", "")
+_STATS_SALT      = os.environ.get("SESSION_SECRET", "radar-stats-salt")
+_STATS_RETENTION_MONTHS = 24
+_stats_queue: "queue.Queue" = queue.Queue(maxsize=5000)
+
+try:
+    import psycopg2  # type: ignore
+except ImportError:      # échec explicite, pas de repli silencieux
+    psycopg2 = None
+    log.error("psycopg2 absent — les statistiques ne seront PAS enregistrées.")
+
+
+def _visitor_hash(ip: str) -> str:
+    """Identifiant visiteur anonymisé : hachage salé à sens unique, jamais l'IP."""
+    return hashlib.sha256((_STATS_SALT + ip).encode()).hexdigest()[:16]
+
+
+def _stats_connect():
+    if not psycopg2 or not _DB_URL:
+        raise RuntimeError("Base de statistiques indisponible (psycopg2/DATABASE_URL)")
+    conn = psycopg2.connect(_DB_URL, connect_timeout=10)
+    conn.autocommit = True
+    return conn
+
+
+def _stats_query(sql: str, params: tuple = ()) -> list:
+    """Lecture ponctuelle (connexion courte). Lève en cas d'échec — loggé par l'appelant."""
+    conn = _stats_connect()
+    try:
+        with conn.cursor() as cur:
+            cur.execute(sql, params)
+            return cur.fetchall()
+    finally:
+        conn.close()
+
+
+def _stats_writer_loop() -> None:
+    """Thread unique d'écriture : consomme la file et insère en base.
+    Reconnexion automatique ; toute perte est loggée explicitement."""
+    conn = None
+    while True:
+        item = _stats_queue.get()
+        for attempt in (1, 2):
             try:
-                with open(_TRAFFIC_FILE, encoding="utf-8") as f:
-                    data = json.load(f)
-            except (FileNotFoundError, json.JSONDecodeError, OSError):
-                data = {}
-            day = data.setdefault(today, {"v": 0, "u": 0, "refs": {}})
-            day["v"] += 1
-            if is_new:
-                day["u"] += 1
-            day.setdefault("refs", {})[src] = day["refs"].get(src, 0) + 1
-            if len(data) > 365:
-                for old in sorted(data)[:-365]:
-                    del data[old]
-            with open(_TRAFFIC_FILE, "w", encoding="utf-8") as f:
-                json.dump(data, f)
+                if conn is None or conn.closed:
+                    conn = _stats_connect()
+                with conn.cursor() as cur:
+                    if item[0] == "pv":
+                        cur.execute(
+                            "INSERT INTO page_views (page, visitor_hash, referrer, ref_type, user_agent) "
+                            "VALUES (%s, %s, %s, %s, %s)", item[1:])
+                    else:
+                        cur.execute(
+                            "INSERT INTO interactions (type, event_name, visitor_hash) "
+                            "VALUES (%s, %s, %s)", item[1:])
+                break
+            except Exception as exc:
+                conn = None
+                if attempt == 2:
+                    log.error("Stats : insertion perdue (%s) : %s", item[0], exc)
+
+
+def _stats_retention_loop() -> None:
+    """Purge quotidienne : supprime tout ce qui dépasse 24 mois (conformité)."""
+    while True:
+        try:
+            conn = _stats_connect()
+            try:
+                with conn.cursor() as cur:
+                    cur.execute("DELETE FROM page_views WHERE ts < now() - interval '%s months'"
+                                % _STATS_RETENTION_MONTHS)
+                    pv = cur.rowcount
+                    cur.execute("DELETE FROM interactions WHERE ts < now() - interval '%s months'"
+                                % _STATS_RETENTION_MONTHS)
+                    if pv or cur.rowcount:
+                        log.info("Stats : purge rétention — %d vues, %d interactions supprimées.",
+                                 pv, cur.rowcount)
+            finally:
+                conn.close()
         except Exception as exc:
-            log.error("_record_visit : %s", exc)
+            log.error("Stats : purge rétention impossible : %s", exc)
+        time.sleep(24 * 3600)
+
+
+def _import_legacy_stats() -> None:
+    """Reprise unique des anciens fichiers locaux (traffic.json / clicks.jsonl)
+    vers la base. Idempotent : ne réimporte jamais un jour déjà présent."""
+    try:
+        # traffic.json → traffic_daily_legacy (agrégats journaliers)
+        if os.path.exists(_TRAFFIC_FILE):
+            with open(_TRAFFIC_FILE, encoding="utf-8") as f:
+                raw = json.load(f)
+            if raw:
+                conn = _stats_connect()
+                try:
+                    with conn.cursor() as cur:
+                        for day, dd in raw.items():
+                            cur.execute(
+                                "INSERT INTO traffic_daily_legacy (day, views, uniques, refs) "
+                                "VALUES (%s, %s, %s, %s) ON CONFLICT (day) DO NOTHING",
+                                (day, dd.get("v", 0), dd.get("u", 0),
+                                 json.dumps(dd.get("refs", {}))))
+                    log.info("Stats : %d jour(s) de trafic historique repris depuis traffic.json.", len(raw))
+                finally:
+                    conn.close()
+        # clicks.jsonl → interactions (une seule fois, si la table est vide)
+        if os.path.exists(_CLICKS_FILE):
+            conn = _stats_connect()
+            try:
+                with conn.cursor() as cur:
+                    cur.execute("SELECT count(*) FROM interactions")
+                    if cur.fetchone()[0] == 0:
+                        n = 0
+                        with open(_CLICKS_FILE, encoding="utf-8") as f:
+                            for line in f:
+                                line = line.strip()
+                                if not line:
+                                    continue
+                                try:
+                                    e = json.loads(line)
+                                    cur.execute(
+                                        "INSERT INTO interactions (ts, type, event_name) "
+                                        "VALUES (to_timestamp(%s), %s, %s)",
+                                        (e.get("ts", 0), e.get("e", "")[:32], e.get("n", "")[:80]))
+                                    n += 1
+                                except Exception:
+                                    pass
+                        if n:
+                            log.info("Stats : %d interaction(s) historiques reprises depuis clicks.jsonl.", n)
+            finally:
+                conn.close()
+    except Exception as exc:
+        log.error("Stats : reprise de l'historique impossible : %s", exc)
+
+
+def _record_visit(ip: str, referrer: str = "", path: str = "/", user_agent: str = "") -> None:
+    """Enregistre une visite du site public (en base, via la file d'écriture)."""
+    try:
+        _stats_queue.put_nowait(("pv", urllib.parse.urlparse(path).path[:200],
+                                 _visitor_hash(ip), referrer[:500],
+                                 _categorize_source(referrer, path), user_agent[:300]))
+    except queue.Full:
+        log.error("Stats : file d'écriture pleine — visite perdue.")
 
 
 def _record_question(text: str) -> None:
@@ -880,11 +1018,29 @@ def _theme_analysis_loop() -> None:
 
 
 def _load_traffic_stats() -> dict:
+    """Trafic depuis PostgreSQL (vues live + historique repris des fichiers)."""
+    raw: dict = {}
     try:
-        with open(_TRAFFIC_FILE, encoding="utf-8") as f:
-            raw = json.load(f)
-    except (FileNotFoundError, json.JSONDecodeError, OSError):
-        raw = {}
+        rows = _stats_query(
+            "SELECT (ts AT TIME ZONE 'Indian/Reunion')::date AS d, "
+            "count(*), count(DISTINCT visitor_hash) "
+            "FROM page_views GROUP BY d")
+        for d, v, u in rows:
+            raw[d.isoformat()] = {"v": v, "u": u, "refs": {}}
+        for d, rt, c in _stats_query(
+                "SELECT (ts AT TIME ZONE 'Indian/Reunion')::date AS d, ref_type, count(*) "
+                "FROM page_views GROUP BY d, ref_type"):
+            raw[d.isoformat()]["refs"][rt] = c
+        for d, v, u, refs in _stats_query(
+                "SELECT day, views, uniques, refs FROM traffic_daily_legacy"):
+            key = d.isoformat()
+            dd = raw.setdefault(key, {"v": 0, "u": 0, "refs": {}})
+            dd["v"] += v
+            dd["u"] += u
+            for k2, c in (refs or {}).items():
+                dd["refs"][k2] = dd["refs"].get(k2, 0) + c
+    except Exception as exc:
+        log.error("Stats : lecture du trafic impossible : %s", exc)
     today = datetime.date.today()
     days = []
     last7_v = last7_u = last30_v = last30_u = 0
@@ -1989,52 +2145,56 @@ _CLICKS_FILE  = os.path.join(_DATA_DIR, "clicks.jsonl")
 _clicks_lock  = threading.Lock()
 
 
-def _record_click(event: str, name: str = "") -> None:
-    """Enregistre un clic de l'utilisateur (append JSONL, thread-safe)."""
+def _record_click(event: str, name: str = "", visitor: str = "") -> None:
+    """Enregistre une interaction (en base, via la file d'écriture)."""
     try:
-        os.makedirs(_DATA_DIR, exist_ok=True)
-        entry = json.dumps({"ts": time.time(), "e": event, "n": name[:80]}, ensure_ascii=False)
-        with _clicks_lock:
-            with open(_CLICKS_FILE, "a", encoding="utf-8") as f:
-                f.write(entry + "\n")
-    except Exception as exc:
-        log.error("_record_click : %s", exc)
+        _stats_queue.put_nowait(("ix", event[:32], name[:80], visitor))
+    except queue.Full:
+        log.error("Stats : file d'écriture pleine — interaction perdue.")
 
 
 def _load_clicks_stats() -> dict:
-    """Charge les statistiques de clics des 30 derniers jours."""
-    totals: dict = {"chatbot_open": 0, "candidater": 0, "event_view": 0}
+    """Statistiques d'interactions des 30 derniers jours (PostgreSQL)."""
+    totals: dict = {"chatbot_open": 0, "candidater": 0, "event_view": 0,
+                    "signup_whatsapp": 0, "signup_email": 0}
     top_events: dict = {}
     top_cand: dict = {}
-    cutoff = time.time() - 30 * 86400
     try:
-        with _clicks_lock:
-            with open(_CLICKS_FILE, encoding="utf-8") as f:
-                for line in f:
-                    line = line.strip()
-                    if not line:
-                        continue
-                    try:
-                        entry = json.loads(line)
-                        if entry.get("ts", 0) < cutoff:
-                            continue
-                        ev   = entry.get("e", "")
-                        name = entry.get("n", "").strip()
-                        if ev in totals:
-                            totals[ev] += 1
-                        if ev == "event_view" and name:
-                            top_events[name] = top_events.get(name, 0) + 1
-                        if ev == "candidater" and name:
-                            top_cand[name] = top_cand.get(name, 0) + 1
-                    except Exception:
-                        pass
-    except FileNotFoundError:
-        pass
+        for ev, c in _stats_query(
+                "SELECT type, count(*) FROM interactions "
+                "WHERE ts >= now() - interval '30 days' GROUP BY type"):
+            if ev in totals:
+                totals[ev] = c
+        for ev, name, c in _stats_query(
+                "SELECT type, event_name, count(*) FROM interactions "
+                "WHERE ts >= now() - interval '30 days' AND event_name <> '' "
+                "AND type IN ('event_view', 'candidater') GROUP BY type, event_name"):
+            (top_events if ev == "event_view" else top_cand)[name] = c
+    except Exception as exc:
+        log.error("Stats : lecture des interactions impossible : %s", exc)
     return {
         **totals,
         "top_events": sorted(top_events.items(), key=lambda x: x[1], reverse=True)[:8],
         "top_cand":   sorted(top_cand.items(),   key=lambda x: x[1], reverse=True)[:5],
     }
+
+
+def _load_event_stats(days: int = 30) -> list:
+    """Stats par événement : vues de fiche, visiteurs uniques, clics contact."""
+    try:
+        days = max(1, min(int(days), 730))
+        rows = _stats_query(
+            "SELECT event_name, "
+            "count(*) FILTER (WHERE type = 'event_view'), "
+            "count(DISTINCT visitor_hash) FILTER (WHERE type = 'event_view' AND visitor_hash <> ''), "
+            "count(*) FILTER (WHERE type = 'candidater') "
+            "FROM interactions "
+            "WHERE event_name <> '' AND ts >= now() - make_interval(days => %s) "
+            "GROUP BY event_name ORDER BY 2 DESC, 4 DESC", (days,))
+        return [{"name": r[0], "views": r[1], "uniq": r[2], "contacts": r[3]} for r in rows]
+    except Exception as exc:
+        log.error("Stats : lecture par événement impossible : %s", exc)
+        return []
 
 
 # ── Session admin (Replit Auth PKCE flow) ────────────────────────────────────
@@ -2125,12 +2285,110 @@ def _render_auth_required(error: str = "") -> str:
 </body></html>"""
 
 
+def _render_event_stats_section() -> str:
+    """Section admin : statistiques par événement (30 derniers jours)."""
+    rows = _load_event_stats(30)
+    if not rows:
+        body = '<tr><td class="nd" colspan="5">Aucune donnée sur la période.</td></tr>'
+    else:
+        body = ""
+        for r in rows[:40]:
+            n  = html.escape(r["name"])
+            qn = urllib.parse.quote(r["name"], safe="")
+            body += (
+                f'<tr><td class="en" title="{n}">{n}</td>'
+                f'<td class="ec">{r["views"]}</td><td class="ec">{r["uniq"]}</td>'
+                f'<td class="ec">{r["contacts"]}</td>'
+                f'<td style="text-align:right;width:90px"><a href="/admin/event-report?name={qn}" '
+                f'target="_blank" style="color:#2563eb;font-size:.76rem;font-weight:600">Rapport →</a></td></tr>')
+    return f'''
+<div class="card">
+  <div class="card-h">📊 Statistiques par événement · 30 jours</div>
+  <table class="ev-tbl">
+    <thead><tr><th>Événement</th><th style="text-align:right">Vues fiche</th>
+    <th style="text-align:right">Visiteurs uniques</th><th style="text-align:right">Clics contact</th><th></th></tr></thead>
+    <tbody>{body}</tbody>
+  </table>
+</div>'''
+
+
+def _render_event_report(name: str, days: int = 30) -> str:
+    """Rapport imprimable une page pour UN événement (offre visibilité)."""
+    try:
+        days = max(1, min(int(days), 365))
+    except (TypeError, ValueError):
+        days = 30
+    stats = {"views": 0, "uniq": 0, "contacts": 0}
+    try:
+        rows = _stats_query(
+            "SELECT count(*) FILTER (WHERE type = 'event_view'), "
+            "count(DISTINCT visitor_hash) FILTER (WHERE type = 'event_view' AND visitor_hash <> ''), "
+            "count(*) FILTER (WHERE type = 'candidater') "
+            "FROM interactions WHERE event_name = %s "
+            "AND ts >= now() - make_interval(days => %s)", (name, days))
+        if rows:
+            stats = {"views": rows[0][0], "uniq": rows[0][1], "contacts": rows[0][2]}
+    except Exception as exc:
+        log.error("Stats : rapport événement impossible : %s", exc)
+    n     = html.escape(name)
+    end   = datetime.date.today()
+    start = end - datetime.timedelta(days=days)
+    def _fr(d): return d.strftime("%d/%m/%Y")
+    return f'''<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8">
+<title>Rapport de visibilité — {n}</title>
+<style>
+  body{{font-family:Georgia,'Times New Roman',serif;background:#f6f4ee;color:#211f1a;
+       max-width:640px;margin:0 auto;padding:48px 28px}}
+  @media print{{body{{background:#fff}} .noprint{{display:none}}}}
+  .head{{text-align:center;margin-bottom:30px}}
+  .head img{{width:64px;height:64px;border-radius:50%}}
+  .brand{{font-weight:700;font-size:20px;margin-top:10px}}
+  .sub{{color:#8a8474;font-size:13px;margin-top:4px}}
+  h1{{font-size:22px;margin:26px 0 4px;color:#0e6b52}}
+  .period{{color:#8a8474;font-size:13px;margin-bottom:24px}}
+  .grid{{display:flex;gap:14px;margin:22px 0}}
+  .kpi{{flex:1;background:#fff;border:1px solid #e7e1d2;border-top:4px solid #0e6b52;
+       border-radius:12px;padding:18px;text-align:center}}
+  .kpi.or{{border-top-color:#a9812f}}
+  .val{{font-size:30px;font-weight:700}}
+  .lbl{{color:#8a8474;font-size:12px;margin-top:6px}}
+  .note{{background:#fff;border:1px solid #e7e1d2;border-radius:12px;padding:16px 18px;
+        font-size:13px;line-height:1.6;color:#211f1a;font-family:Arial,sans-serif}}
+  footer{{margin-top:30px;text-align:center;color:#8a8474;font-size:12px;
+         border-top:1px solid #e7e1d2;padding-top:14px}}
+  .noprint{{text-align:center;margin-top:22px}}
+  .noprint button{{background:#0e6b52;color:#fff;border:none;border-radius:8px;
+                  padding:10px 22px;font-size:14px;cursor:pointer}}
+</style></head><body>
+<div class="head">
+  <img src="/assets/logo_radar_marches.png" alt="Radar des Marchés">
+  <div class="brand">Radar des Marchés</div>
+  <div class="sub">Rapport de visibilité — radar.fhservices.re</div>
+</div>
+<h1>{n}</h1>
+<div class="period">Exposition de la fiche du {_fr(start)} au {_fr(end)} ({days} jours)</div>
+<div class="grid">
+  <div class="kpi"><div class="val">{stats["views"]}</div><div class="lbl">Consultations de la fiche</div></div>
+  <div class="kpi"><div class="val">{stats["uniq"]}</div><div class="lbl">Visiteurs uniques</div></div>
+  <div class="kpi or"><div class="val">{stats["contacts"]}</div><div class="lbl">Clics vers le contact</div></div>
+</div>
+<div class="note"><b>Comment lire ces chiffres :</b> les « consultations » comptent chaque
+ouverture de la fiche de l'événement sur le Radar des marchés de La Réunion ; les
+« visiteurs uniques » comptent les personnes distinctes (mesure anonyme, sans cookie
+publicitaire ni traceur tiers) ; les « clics vers le contact » comptent les artisans
+ayant cliqué pour contacter l'organisateur.</div>
+<footer>Radar des Marchés de La Réunion · radar.fhservices.re · rapport généré le {_fr(end)}</footer>
+<div class="noprint"><button onclick="window.print()">Imprimer / Enregistrer en PDF</button></div>
+</body></html>'''
+
+
 def _render_stats_page(dev_mode: bool, user_name: str, flash: str = "") -> str:  # noqa: PLR0912,PLR0915
     traffic        = _load_traffic_stats()
     q_stats        = _load_questions_stats()
     themes         = _load_themes()
     clicks         = _load_clicks_stats()
     proposals_html = _render_proposals_section(dev_mode)
+    event_stats_html = _render_event_stats_section()
     org_subs_html  = _render_org_submissions_section()
     published_html = _render_published_events_section()
     now_str        = datetime.datetime.now().strftime("%d/%m/%Y à %H:%M")
@@ -2152,11 +2410,11 @@ def _render_stats_page(dev_mode: bool, user_name: str, flash: str = "") -> str: 
 
     # ── Referrer sources ───────────────────────────────────────────────────────
     refs       = traffic.get("refs", {})
-    ref_order  = ["direct", "google", "facebook", "instagram", "whatsapp", "autre"]
+    ref_order  = ["direct", "google", "facebook", "instagram", "whatsapp", "email", "autre"]
     ref_labels = {"direct":"Lien direct","google":"Recherche","facebook":"Facebook",
-                  "instagram":"Instagram","whatsapp":"WhatsApp","autre":"Autre"}
+                  "instagram":"Instagram","whatsapp":"WhatsApp","email":"Email","autre":"Autre"}
     ref_colors = {"direct":"#6366f1","google":"#f59e0b","facebook":"#3b82f6",
-                  "instagram":"#ec4899","whatsapp":"#22c55e","autre":"#94a3b8"}
+                  "instagram":"#ec4899","whatsapp":"#22c55e","email":"#0ea5e9","autre":"#94a3b8"}
     refs_data  = [(ref_labels[k], refs.get(k, 0), ref_colors[k])
                   for k in ref_order if refs.get(k, 0) > 0]
     has_refs   = bool(refs_data)
@@ -2410,6 +2668,8 @@ footer{{text-align:center;font-size:.7rem;color:#94a3b8;padding:2rem 0 1.5rem}}
     <div class="int-kpi"><div class="int-val c-purple">{clicks["chatbot_open"]}</div><div class="int-lbl">Ouvertures chatbot</div></div>
     <div class="int-kpi"><div class="int-val c-blue">{clicks["event_view"]}</div><div class="int-lbl">Fiches consultées</div></div>
     <div class="int-kpi"><div class="int-val c-green">{clicks["candidater"]}</div><div class="int-lbl">Clics « Écrire »</div></div>
+    <div class="int-kpi"><div class="int-val c-green">{clicks["signup_whatsapp"]}</div><div class="int-lbl">Inscriptions WhatsApp</div></div>
+    <div class="int-kpi"><div class="int-val c-blue">{clicks["signup_email"]}</div><div class="int-lbl">Inscriptions email</div></div>
   </div>
   <div class="card-h" style="margin-bottom:.75rem">🏆 Événements les plus consultés</div>
   <table class="ev-tbl">
@@ -2417,6 +2677,8 @@ footer{{text-align:center;font-size:.7rem;color:#94a3b8;padding:2rem 0 1.5rem}}
     <tbody>{top_ev_rows}</tbody>
   </table>
 </div>
+
+{event_stats_html}
 
 {proposals_html}
 {org_subs_html}
@@ -2501,6 +2763,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self._handle_contacts_csv()
         elif self.path.split("?")[0] in ("/admin", "/admin/"):
             self._handle_admin()
+        elif self.path.split("?")[0] == "/admin/event-report":
+            self._handle_event_report()
         elif self.path == "/admin/logout":
             self.send_response(302)
             self.send_header("Location", "/admin")
@@ -2520,7 +2784,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             if not self.path.startswith(("/sync", "/chat", "/health", "/admin", "/track")):
                 ip       = (self.headers.get("X-Forwarded-For") or self.client_address[0]).split(",")[0].strip()
                 referrer = self.headers.get("Referer", "")
-                threading.Thread(target=_record_visit, args=(ip, referrer), daemon=True).start()
+                ua       = self.headers.get("User-Agent", "")
+                _record_visit(ip, referrer, self.path, ua)
             super().do_GET()
 
     def _json(self, code: int, data: dict) -> None:
@@ -3086,6 +3351,26 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             log.error("Correction échouée : %s", msg)
             self._redirect_admin("err=" + urllib.parse.quote(msg, safe=""))
 
+    def _handle_event_report(self) -> None:
+        """GET /admin/event-report?name=X — rapport imprimable (accès admin)."""
+        if not self._admin_authorized():
+            self.send_response(403)
+            self.end_headers()
+            return
+        qs   = urllib.parse.parse_qs(urllib.parse.urlparse(self.path).query)
+        name = qs.get("name", [""])[0].strip()
+        days = qs.get("days", ["30"])[0]
+        if not name:
+            self.send_response(404)
+            self.end_headers()
+            return
+        body = _render_event_report(name, days).encode()
+        self.send_response(200)
+        self.send_header("Content-Type", "text/html; charset=utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+
     def _handle_contacts_csv(self) -> None:
         """GET /admin/contacts.csv — export privé de l'annuaire de contacts."""
         if not self._admin_authorized():
@@ -3232,8 +3517,11 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             entry  = json.loads(body)
             ev     = entry.get("e", "")[:32]
             name   = entry.get("n", "")[:80]
-            if ev in ("chatbot_open", "candidater", "event_view"):
-                threading.Thread(target=_record_click, args=(ev, name), daemon=True).start()
+            if ev in ("chatbot_open", "candidater", "event_view",
+                      "signup_whatsapp", "signup_email"):
+                ip = (self.headers.get("X-Forwarded-For")
+                      or self.client_address[0]).split(",")[0].strip()
+                _record_click(ev, name, _visitor_hash(ip))
         except Exception:
             pass  # tracking silencieux — on n'interrompt jamais l'utilisateur
         self.send_response(204)
@@ -3369,6 +3657,16 @@ if __name__ == "__main__":
 
     # Analyse hebdomadaire des thèmes de questions du chatbot
     threading.Thread(target=_theme_analysis_loop, daemon=True, name="theme-analysis").start()
+
+    # Statistiques persistantes (PostgreSQL) : écriture, rétention 24 mois,
+    # reprise unique de l'historique fichiers.
+    if psycopg2 and _DB_URL:
+        threading.Thread(target=_stats_writer_loop, daemon=True, name="stats-writer").start()
+        threading.Thread(target=_stats_retention_loop, daemon=True, name="stats-retention").start()
+        threading.Thread(target=_import_legacy_stats, daemon=True, name="stats-import").start()
+        log.info("Statistiques persistantes : base PostgreSQL active.")
+    else:
+        log.error("Statistiques persistantes INDISPONIBLES (DATABASE_URL/psycopg2 manquant).")
     log.info("Page de statistiques disponible sur GET /admin (accès restreint au propriétaire Replit).")
 
     server.serve_forever()

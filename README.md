@@ -209,9 +209,39 @@ Page de statistiques **non publique**, réservée au propriétaire :
   Replit native (header `X-Replit-User-Name`) avait été essayée en premier mais
   souffrait d'un bug de redirection (`replit.com/login` sans retour vers `/admin`)
   et a été remplacée par ce mot de passe, choix confirmé par le propriétaire.
-- **Trafic** : visites/visiteurs uniques (IP hachée, jamais stockée en clair),
-  répartition par source de référent (direct / Google / Facebook / Instagram /
-  WhatsApp / autre).
+- **Trafic** : visites/visiteurs uniques (IP hachée avec sel secret, jamais
+  stockée en clair), répartition par source (direct / Google / Facebook /
+  Instagram / WhatsApp / Email / autre).
+- **Interactions** : ouvertures du chatbot, fiches événement consultées, clics
+  « Écrire » vers le contact, clics d'inscription WhatsApp et email.
+- **Statistiques par événement** : vues de fiche, visiteurs uniques et clics
+  contact pour chaque événement (30 jours), avec un **rapport imprimable une
+  page** par événement (`/admin/event-report?name=…`) à envoyer à
+  l'organisateur comme preuve d'exposition (support de l'offre visibilité).
+
+### Stockage persistant des statistiques (PostgreSQL)
+
+Depuis juillet 2026, les statistiques ne vivent **plus dans des fichiers
+locaux** (`data/traffic.json`, `data/clicks.jsonl` — effacés à chaque
+publication puisque le disque de la VM est réinitialisé) mais dans la **base
+PostgreSQL Replit** (`DATABASE_URL`), indépendante du cycle de déploiement :
+- `page_views` : chaque visite (horodatage, page, visiteur anonymisé par
+  hachage salé, referrer brut, source catégorisée, user agent) ;
+- `interactions` : chaque interaction (horodatage, type, événement concerné,
+  visiteur anonymisé) ;
+- `traffic_daily_legacy` : agrégats journaliers repris de l'ancien système.
+- **Rétention : 24 mois**, purge automatique quotidienne. Aucune IP en clair,
+  aucun cookie publicitaire, aucun traceur tiers (mention dans le pied de page
+  du site public).
+
+### Liens tagués par canal (attribution des sources)
+
+`utm_source` est prioritaire sur le referrer (WhatsApp masque souvent le
+sien). Utiliser ces liens lors des partages :
+- Groupe WhatsApp : `https://radar.fhservices.re/?utm_source=whatsapp`
+- Instagram (bio/stories) : `https://radar.fhservices.re/?utm_source=instagram`
+- Facebook : `https://radar.fhservices.re/?utm_source=facebook`
+- Signature email / newsletter : `https://radar.fhservices.re/?utm_source=email`
 - **Thèmes du chatbot** : analyse hebdomadaire par Claude des questions posées à
   « Le ti artisan futé », pour identifier les besoins récurrents des artisans et
   orienter les évolutions du site. Se déclenche automatiquement dès 3 questions
