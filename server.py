@@ -1464,9 +1464,9 @@ def _render_published_events_section() -> str:
             f'</form></details>')
         remove_form = (
             f'<form method="POST" action="/admin/event-remove" class="prop-form" '
-            f'style="display:inline" onsubmit="return confirm(\'Retirer '
-            f'« {esc(name)} » du site public ? L\\\'événement disparaîtra '
-            f'immédiatement du radar.\')">'
+            f'style="display:inline" onsubmit="return confirm('
+            f'\'Retirer cet événement du site public ? '
+            f'Il disparaîtra immédiatement du radar.\')">'
             f'<input type="hidden" name="name" value="{esc(name)}">'
             f'<button type="submit" class="btn-prop btn-rej">🗑 Retirer</button>'
             f'</form>')
@@ -2972,6 +2972,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         try:
             event["month"] = int(event["month"])
         except ValueError:
+            event["month"] = 99
+        if not (1 <= event["month"] <= 12):
             event["month"] = 99
         if not orig_name or not event["name"]:
             self._redirect_admin("err=" + urllib.parse.quote(
