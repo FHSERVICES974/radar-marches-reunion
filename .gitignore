@@ -15,6 +15,12 @@ data/pending/
 *.log
 data/backups/
 
+# Données runtime (générées en production — ne jamais committer)
+data/chat_questions.jsonl
+data/theme_analysis.json
+data/clicks.jsonl
+data/traffic.json
+
 # macOS
 .DS_Store
 
