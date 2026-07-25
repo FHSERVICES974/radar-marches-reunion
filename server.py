@@ -1329,6 +1329,12 @@ rejoint une file de relecture. Rien n'apparaît sur le site sans validation manu
   </fieldset>
   <button type="submit">Envoyer ma proposition</button>
 </form>
+<script>
+document.querySelector('form[action="/organisateurs"]').addEventListener('submit', function () {{
+  var b = this.querySelector('button[type=submit]');
+  b.disabled = true; b.textContent = 'Envoi en cours…';
+}});
+</script>
 <p class="foot">Vos coordonnées servent uniquement à la vérification et au suivi
 de votre proposition. Aucune donnée personnelle n'est publiée sans votre accord.</p>
 </div></body></html>"""
@@ -2523,6 +2529,24 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         }
         with _submissions_lock:
             subs = _load_json_list(_SUBMISSIONS_FILE)
+            # Garde anti double-envoi : même nom + même email déjà soumis
+            # dans les 5 dernières minutes → on ignore le doublon (succès
+            # silencieux, la 1re soumission est déjà enregistrée).
+            now = datetime.datetime.now()
+            for prev in subs:
+                if (prev.get("fields", {}).get("name", "").strip().lower()
+                        == fields["name"].strip().lower()
+                        and prev.get("fields", {}).get("email", "").strip().lower()
+                        == fields["email"].strip().lower()):
+                    try:
+                        age = (now - datetime.datetime.fromisoformat(prev["ts"])).total_seconds()
+                    except (ValueError, KeyError):
+                        continue
+                    if age < 300:
+                        log.info("Soumission organisateur ignorée (doublon <5 min) : %s",
+                                 fields["name"])
+                        self._redirect("/organisateurs?ok=1")
+                        return
             subs.append(sub)
             _save_json_list(_SUBMISSIONS_FILE, subs)
         log.info("Nouvelle soumission organisateur : %s (%s)",
