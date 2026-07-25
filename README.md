@@ -1,7 +1,7 @@
 # Radar Marchés — Agenda des Exposants (Artisans 974)
 
 Système de mise à jour semi-automatique du site **Agenda des Exposants**.
-Le **design est figé** : seules les **données** évoluent. Chaque lundi, une veille
+Le **design est figé** : seules les **données** évoluent. Chaque jour à 4h, une veille
 **pilotée par Claude** (recherche vérifiée sur sources fiables) prépare une
 **proposition** que vous relisez avant de **publier** manuellement.
 
@@ -33,7 +33,7 @@ radarartisans/
 ├── build.py                 ← injecte JSON → index.html
 ├── status_check.py          ← recalcul déterministe des statuts (dates)
 ├── veille_agent.md          ← PLAYBOOK de l'agent de veille (le "cerveau")
-├── run_veille.sh            ← lance l'agent Claude en headless (appelé lundi 7h)
+├── run_veille.sh            ← lance l'agent Claude en headless (appelé chaque jour 4h)
 ├── publier.py               ← valide + build + git push + redeploy Replit
 ├── common.py                ← helpers partagés
 ├── com.fhservices.radar-veille.plist  ← tâche launchd (quotidien 4h, phase de lancement)
@@ -63,7 +63,7 @@ tant que les données ne changent pas. On n'édite jamais `index.html` à la mai
 ## Comment fonctionne la veille (architecture qualité)
 
 La veille n'est **pas** un scraper à mots-clés. C'est un **agent Claude** qui,
-chaque lundi :
+chaque jour :
 
 1. Lance `status_check.py` (maths de dates : deadlines dépassées, éditions passées).
 2. **Balaie `data/sources.json`** — 4 niveaux, du plus fiable au plus large :
