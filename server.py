@@ -471,9 +471,14 @@ _DATA_DIR       = "data"
 _TRAFFIC_FILE   = os.path.join(_DATA_DIR, "traffic.json")
 _QUESTIONS_FILE = os.path.join(_DATA_DIR, "chat_questions.jsonl")
 _THEMES_FILE    = os.path.join(_DATA_DIR, "theme_analysis.json")
+_PENDING_DIR    = "data/pending"
+_DECISIONS_FILE = os.path.join(_DATA_DIR, "pending_decisions.json")
 
 _traffic_lock   = threading.Lock()
 _questions_lock = threading.Lock()
+_decisions_lock = threading.Lock()
+
+_CONF_RANK: dict = {"Vérifié": 0, "Probable": 1, "À confirmer": 2}
 
 # IPs uniques vues aujourd'hui (reset automatique au changement de jour)
 _today_ips:      set = set()
@@ -705,6 +710,275 @@ def _load_themes() -> dict:
         return {}
 
 
+# ── Propositions à valider ─────────────────────────────────────────────────
+
+def _candidate_key(c: dict) -> str:
+    """Clé stable (16 hex) identifiant un candidat de façon unique."""
+    ev_name = (c.get("event") or {}).get("name", "")
+    raw = f"{ev_name}|{c.get('source_url', '')}|{c.get('source_title', '')}"
+    return hashlib.sha1(raw.encode()).hexdigest()[:16]
+
+
+def _load_decisions() -> dict:
+    """Charge {key: {decision, ts}} depuis le fichier de décisions persisté."""
+    try:
+        with _decisions_lock:
+            with open(_DECISIONS_FILE, encoding="utf-8") as f:
+                return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError, OSError):
+        return {}
+
+
+def _save_decision(key: str, decision: str) -> None:
+    """Enregistre 'published' ou 'rejected' pour un candidat (thread-safe)."""
+    with _decisions_lock:
+        try:
+            with open(_DECISIONS_FILE, encoding="utf-8") as f:
+                data = json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError, OSError):
+            data = {}
+        data[key] = {"decision": decision, "ts": time.time()}
+        os.makedirs(_DATA_DIR, exist_ok=True)
+        with open(_DECISIONS_FILE, "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+
+
+def _load_latest_proposal() -> tuple:
+    """Lit le fichier de proposition le plus récent (tri alphabétique desc).
+
+    Retourne (filename, candidates) ou (None, []).
+    """
+    try:
+        files = sorted(
+            [fn for fn in os.listdir(_PENDING_DIR) if fn.endswith(".json")],
+            reverse=True,
+        )
+        if not files:
+            return None, []
+        path = os.path.join(_PENDING_DIR, files[0])
+        with open(path, encoding="utf-8") as f:
+            data = json.load(f)
+        return files[0], data.get("candidates", [])
+    except (FileNotFoundError, json.JSONDecodeError, OSError):
+        return None, []
+
+
+def _git_pull_for_publish() -> tuple:
+    """Pull doux (rebase) depuis GitHub avant d'écrire les données.
+
+    Retourne (ok: bool, message: str).
+    """
+    if not _git_available():
+        return False, "Dépôt git absent."
+    try:
+        r = subprocess.run(
+            ["git", "pull", "--rebase", "--autostash", "origin", BRANCH],
+            capture_output=True, text=True, timeout=60,
+        )
+        if r.returncode != 0:
+            return False, r.stderr.strip() or "git pull échoué."
+        return True, r.stdout.strip()
+    except subprocess.TimeoutExpired:
+        return False, "git pull expiré (>60 s)."
+    except Exception as exc:
+        return False, str(exc)
+
+
+def _publish_event_to_repo(event: dict) -> tuple:
+    """Ajoute l'événement à events.json, rebuild index.html, commit et push.
+
+    Flux : git pull → insert + sort events.json → maj meta.json → build() →
+           git add → git commit → git push.
+    Retourne (ok: bool, message: str).
+    """
+    # 1 — Pull d'abord (intègre les commits éventuels du Mac)
+    ok, msg = _git_pull_for_publish()
+    if not ok:
+        return False, f"Synchronisation GitHub impossible : {msg}"
+
+    events_path = os.path.join("data", "events.json")
+    meta_path   = os.path.join("data", "meta.json")
+
+    # 2 — Charger events.json
+    try:
+        with open(events_path, encoding="utf-8") as f:
+            events = json.load(f)
+    except Exception as exc:
+        return False, f"Lecture events.json impossible : {exc}"
+
+    # 3 — Dédupliquer (nom exact, insensible à la casse)
+    ev_name = event.get("name", "").strip().lower()
+    if any(e.get("name", "").strip().lower() == ev_name for e in events):
+        return False, f"« {event.get('name')} » existe déjà dans events.json."
+
+    # 4 — Insérer et trier par mois puis nom
+    events.append(event)
+    events.sort(key=lambda e: (e.get("month", 99), e.get("name", "")))
+
+    # 5 — Écrire events.json
+    try:
+        with open(events_path, "w", encoding="utf-8") as f:
+            json.dump(events, f, ensure_ascii=False, indent=2)
+    except Exception as exc:
+        return False, f"Écriture events.json impossible : {exc}"
+
+    # 6 — Mettre à jour meta.json (lastUpdate)
+    try:
+        with open(meta_path, encoding="utf-8") as f:
+            meta = json.load(f)
+        meta["lastUpdate"] = datetime.datetime.now().strftime("%d/%m/%Y")
+        with open(meta_path, "w", encoding="utf-8") as f:
+            json.dump(meta, f, ensure_ascii=False, indent=2)
+    except Exception as exc:
+        log.warning("meta.json non mis à jour : %s", exc)
+
+    # 7 — Rebuild index.html depuis template.html (le design est figé — jamais modifié)
+    try:
+        import importlib
+        import build as _build_mod
+        importlib.reload(_build_mod)
+        _build_mod.build()
+    except Exception as exc:
+        return False, f"Rebuild index.html échoué : {exc}"
+
+    # 8 — Commit et push
+    ev_label = event.get("name", "événement")
+    try:
+        subprocess.run(
+            ["git", "add", "data/events.json", "data/meta.json", "index.html"],
+            check=True, timeout=30,
+        )
+        subprocess.run(
+            ["git", "-c", "user.email=admin@radar.re",
+             "-c", "user.name=Radar Admin",
+             "commit", "-m", f"Publier : {ev_label}"],
+            check=True, timeout=30,
+        )
+        push = subprocess.run(
+            ["git", "push", "origin", BRANCH],
+            capture_output=True, text=True, timeout=60,
+        )
+        if push.returncode != 0:
+            return False, f"git push échoué : {push.stderr.strip()}"
+    except subprocess.CalledProcessError as exc:
+        return False, f"Opération git échouée : {exc}"
+    except subprocess.TimeoutExpired:
+        return False, "git push expiré (>60 s)."
+
+    log.info("Publié et pushé : %s", ev_label)
+    return True, f"« {ev_label} » publié et pushé sur GitHub."
+
+
+def _render_proposals_section(dev_mode: bool) -> str:  # noqa: PLR0912,PLR0915
+    """Génère la section 'Propositions à valider' du dashboard admin."""
+    filename, candidates = _load_latest_proposal()
+    decisions = _load_decisions()
+
+    if not candidates:
+        hint = ("Les fichiers de veille apparaissent ici dès qu'ils arrivent via GitHub Sync."
+                if not filename else "Le fichier ne contient aucun candidat.")
+        return (
+            '<div class="card">'
+            '<div class="card-h">📥 Propositions à valider</div>'
+            '<div class="empty-st"><span>✅</span>'
+            '<p>Aucune proposition en attente.</p>'
+            f'<span class="empty-sub">{hint}</span>'
+            '</div></div>'
+        )
+
+    # Filtrer les déjà traités, trier par confiance
+    pending = [c for c in candidates if _candidate_key(c) not in decisions]
+    pending.sort(key=lambda c: _CONF_RANK.get(c.get("confidence", "À confirmer"), 3))
+
+    if not pending:
+        return (
+            '<div class="card">'
+            '<div class="card-h">📥 Propositions à valider</div>'
+            '<div class="empty-st"><span>✅</span>'
+            '<p>Tout est traité — file vide.</p>'
+            '<span class="empty-sub">Nouvelle veille attendue demain.</span>'
+            '</div></div>'
+        )
+
+    # Compteurs
+    n_pub = sum(1 for c in pending if c.get("confidence") == "Vérifié" and c.get("event"))
+    n_chk = len(pending) - n_pub
+    counts = []
+    if n_pub:
+        s = "s" if n_pub > 1 else ""
+        counts.append(f'<span class="prop-cnt-pub">{n_pub} prête{s} à publier</span>')
+    if n_chk:
+        counts.append(f'<span class="prop-cnt-chk">{n_chk} à vérifier</span>')
+    count_html = "&nbsp;·&nbsp;".join(counts)
+
+    label   = filename.replace(".json", "").replace("propositions_", "").replace("_", "\u00a0")
+    from_tag = f'<span class="prop-from">— {label}</span>' if filename else ""
+
+    # Cartes
+    cards = []
+    for c in pending:
+        key     = _candidate_key(c)
+        conf    = c.get("confidence", "À confirmer")
+        ev      = c.get("event") or {}
+        has_ev  = bool(ev and ev.get("name"))
+        name    = ev.get("name") or c.get("source_title") or "—"
+        place   = ev.get("place", "")
+        when    = ev.get("when", "")
+        dl      = ev.get("deadline", "")
+        notes   = c.get("notes", "")
+        src_url = c.get("source_url", "#")
+        src_ttl = (c.get("source_title") or src_url)[:55]
+
+        if conf == "Vérifié":
+            badge = '<span class="conf-badge conf-vert">✓ Vérifié</span>'
+        elif conf == "Probable":
+            badge = '<span class="conf-badge conf-amb">~ Probable</span>'
+        else:
+            badge = '<span class="conf-badge conf-grey">? À confirmer</span>'
+
+        meta_items = []
+        if place: meta_items.append(f"📍 {place}")
+        if when:  meta_items.append(f"📅 {when}")
+        if dl:    meta_items.append(f"⏰ {dl[:70]}")
+        meta_html = "".join(f'<span class="prop-meta-item">{x}</span>' for x in meta_items)
+
+        notes_html = (f'<div class="prop-notes">{notes[:200]}</div>'
+                      if notes and not has_ev else "")
+
+        pub_btn = (
+            f'<form method="POST" action="/admin/publish" class="prop-form">'
+            f'<input type="hidden" name="key" value="{key}">'
+            f'<button type="submit" class="btn-prop btn-pub">📤 Publier</button>'
+            f'</form>'
+        ) if has_ev else ""
+
+        rej_btn = (
+            f'<form method="POST" action="/admin/reject" class="prop-form">'
+            f'<input type="hidden" name="key" value="{key}">'
+            f'<button type="submit" class="btn-prop btn-rej">✕ Rejeter</button>'
+            f'</form>'
+        )
+
+        cards.append(
+            f'<div class="prop-card">'
+            f'<div class="prop-top">{badge}<div class="prop-name">{name}</div></div>'
+            f'<div class="prop-meta">{meta_html}</div>'
+            f'{notes_html}'
+            f'<div class="prop-foot">'
+            f'<a href="{src_url}" target="_blank" rel="noopener" class="prop-src">🔗 {src_ttl}</a>'
+            f'<div class="prop-actions">{pub_btn}{rej_btn}</div>'
+            f'</div></div>'
+        )
+
+    return (
+        f'<div class="card">'
+        f'<div class="card-h">📥 Propositions à valider {from_tag}</div>'
+        f'<div class="prop-summary">{count_html}</div>'
+        f'<div class="prop-list">' + "\n".join(cards) + '</div>'
+        f'</div>'
+    )
+
+
 _CLICKS_FILE  = os.path.join(_DATA_DIR, "clicks.jsonl")
 _clicks_lock  = threading.Lock()
 
@@ -845,12 +1119,20 @@ def _render_auth_required(error: str = "") -> str:
 </body></html>"""
 
 
-def _render_stats_page(dev_mode: bool, user_name: str) -> str:  # noqa: PLR0912,PLR0915
-    traffic  = _load_traffic_stats()
-    q_stats  = _load_questions_stats()
-    themes   = _load_themes()
-    clicks   = _load_clicks_stats()
-    now_str  = datetime.datetime.now().strftime("%d/%m/%Y à %H:%M")
+def _render_stats_page(dev_mode: bool, user_name: str, flash: str = "") -> str:  # noqa: PLR0912,PLR0915
+    traffic        = _load_traffic_stats()
+    q_stats        = _load_questions_stats()
+    themes         = _load_themes()
+    clicks         = _load_clicks_stats()
+    proposals_html = _render_proposals_section(dev_mode)
+    now_str        = datetime.datetime.now().strftime("%d/%m/%Y à %H:%M")
+
+    # Flash message HTML
+    flash_html = ""
+    if flash.startswith("ok:"):
+        flash_html = f'<div class="flash flash-ok">{flash[3:]}</div>'
+    elif flash.startswith("err:"):
+        flash_html = f'<div class="flash flash-err">{flash[4:]}</div>'
 
     # ── Chart: traffic 14 days oldest→newest, skip leading zeros ──────────────
     days14    = list(reversed(traffic["days"][:14]))
@@ -1034,16 +1316,49 @@ td.nd{{text-align:center;color:#94a3b8;font-style:italic;padding:1.2rem;font-siz
 .empty-st span:first-child{{font-size:1.75rem}}
 .empty-st p{{font-size:.85rem;font-weight:500;color:#374151}}
 .empty-sub{{font-size:.77rem}}
+/* ── Flash ── */
+.flash{{border-radius:10px;padding:.7rem 1rem;font-size:.83rem;font-weight:500;margin-bottom:.2rem}}
+.flash-ok{{background:#dcfce7;color:#15803d;border:1px solid #bbf7d0}}
+.flash-err{{background:#fee2e2;color:#b91c1c;border:1px solid #fecaca}}
+/* ── Propositions ── */
+.prop-summary{{display:flex;flex-wrap:wrap;gap:.4rem .55rem;align-items:center;margin-bottom:1rem}}
+.prop-cnt-pub{{background:#dcfce7;color:#15803d;padding:.2rem .65rem;border-radius:20px;font-size:.75rem;font-weight:700}}
+.prop-cnt-chk{{background:#fef3c7;color:#b45309;padding:.2rem .65rem;border-radius:20px;font-size:.75rem;font-weight:700}}
+.prop-from{{font-weight:400;color:#94a3b8;margin-left:.35rem;font-size:.68rem;text-transform:none;letter-spacing:0}}
+.prop-list{{display:flex;flex-direction:column;gap:.7rem}}
+.prop-card{{border:1px solid #e2e8f0;border-radius:10px;padding:.85rem 1rem;background:#f8fafc;transition:border-color .15s}}
+.prop-card:hover{{border-color:#cbd5e1}}
+.prop-top{{display:flex;align-items:flex-start;gap:.55rem;margin-bottom:.4rem;flex-wrap:wrap}}
+.prop-name{{font-weight:600;font-size:.88rem;color:#0f172a;flex:1;min-width:0;line-height:1.3}}
+.conf-badge{{font-size:.67rem;font-weight:700;padding:.18rem .5rem;border-radius:20px;white-space:nowrap;flex-shrink:0;margin-top:.1rem}}
+.conf-vert{{background:#dcfce7;color:#15803d}}
+.conf-amb{{background:#fef3c7;color:#b45309}}
+.conf-grey{{background:#f1f5f9;color:#64748b}}
+.prop-meta{{display:flex;flex-wrap:wrap;gap:.3rem .75rem;margin-bottom:.4rem}}
+.prop-meta-item{{font-size:.74rem;color:#475569}}
+.prop-notes{{font-size:.74rem;color:#64748b;font-style:italic;margin-bottom:.45rem;background:#f1f5f9;border-radius:6px;padding:.35rem .6rem;line-height:1.45}}
+.prop-foot{{display:flex;align-items:center;justify-content:space-between;gap:.6rem;flex-wrap:wrap;margin-top:.5rem;padding-top:.5rem;border-top:1px solid #e2e8f0}}
+.prop-src{{font-size:.74rem;color:#2563eb;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:300px;flex:1;min-width:0}}
+.prop-src:hover{{text-decoration:underline}}
+.prop-actions{{display:flex;gap:.4rem;flex-shrink:0}}
+.prop-form{{display:inline}}
+.btn-prop{{border:none;border-radius:6px;padding:.32rem .75rem;font-size:.76rem;font-weight:600;cursor:pointer;transition:background .15s;white-space:nowrap}}
+.btn-pub{{background:#2563eb;color:#fff}}.btn-pub:hover{{background:#1d4ed8}}
+.btn-rej{{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}}.btn-rej:hover{{background:#e2e8f0;color:#374151}}
 /* ── Misc ── */
 .hint-xs{{font-size:.72rem;color:#94a3b8;margin-top:.9rem}}
 footer{{text-align:center;font-size:.7rem;color:#94a3b8;padding:2rem 0 1.5rem}}
 @media(max-width:768px){{
   .kpi-strip{{grid-template-columns:repeat(2,1fr)}}
   .g2,.int-row,.cb-split{{grid-template-columns:1fr}}
+  .prop-foot{{flex-direction:column;align-items:flex-start}}
+  .prop-src{{max-width:100%;white-space:normal;word-break:break-all}}
+  .prop-actions{{width:100%;display:flex;gap:.4rem}}
+  .btn-prop{{flex:1;text-align:center;padding:.45rem .5rem}}
 }}
 </style></head>
 <body>
-{dev_banner}
+{dev_banner}{flash_html}
 <header class="hdr">
   <div class="hdr-l">
     <div class="hdr-title">📊 Dashboard — Agenda Artisans Réunion</div>
@@ -1088,6 +1403,8 @@ footer{{text-align:center;font-size:.7rem;color:#94a3b8;padding:2rem 0 1.5rem}}
     <tbody>{top_ev_rows}</tbody>
   </table>
 </div>
+
+{proposals_html}
 
 <div class="card">
   <div class="card-h">💬 Assistant « Le ti artisan futé »</div>
@@ -1162,7 +1479,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self.send_header("Content-Length", str(len(body)))
             self.end_headers()
             self.wfile.write(body)
-        elif self.path in ("/admin", "/admin/"):
+        elif self.path.split("?")[0] in ("/admin", "/admin/"):
             self._handle_admin()
         elif self.path == "/admin/logout":
             self.send_response(302)
@@ -1246,7 +1563,16 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         else:
             username = "dev"
 
-        body = _render_stats_page(dev_mode=dev_mode, user_name=username).encode("utf-8")
+        # Flash message depuis query string (?pub=ok ou ?err=<message>)
+        qs     = urllib.parse.parse_qs(self.path.partition("?")[2])
+        flash  = ""
+        if "pub" in qs:
+            flash = "ok:✅ Événement publié et pushé sur GitHub."
+        elif "err" in qs:
+            detail = urllib.parse.unquote(qs["err"][0])
+            flash  = f"err:❌ Erreur : {detail}"
+
+        body = _render_stats_page(dev_mode=dev_mode, user_name=username, flash=flash).encode("utf-8")
         self.send_response(200)
         self.send_header("Content-Type", "text/html; charset=utf-8")
         self.send_header("Content-Length", str(len(body)))
@@ -1298,6 +1624,68 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         )
         self.end_headers()
 
+    def _redirect_admin(self, qs: str = "") -> None:
+        """Redirige vers /admin (avec query string optionnel pour flash)."""
+        loc = f"/admin?{qs}" if qs else "/admin"
+        self.send_response(302)
+        self.send_header("Location", loc)
+        self.end_headers()
+
+    def _handle_publish(self) -> None:
+        """POST /admin/publish — publie un candidat Vérifié dans events.json."""
+        dev_mode = not os.environ.get("REPLIT_DEPLOYMENT")
+        if not dev_mode:
+            token    = _get_session_cookie(self.headers)
+            username = _verify_session_token(token) if token else None
+            if not username:
+                self.send_response(403)
+                self.end_headers()
+                return
+
+        length   = int(self.headers.get("Content-Length", 0))
+        raw_body = self.rfile.read(length).decode("utf-8", errors="replace")
+        params   = urllib.parse.parse_qs(raw_body)
+        key      = params.get("key", [""])[0]
+
+        if not key:
+            self.send_response(400)
+            self.end_headers()
+            return
+
+        _, candidates = _load_latest_proposal()
+        candidate = next((c for c in candidates if _candidate_key(c) == key), None)
+        if not candidate or not candidate.get("event"):
+            self._redirect_admin("err=Candidat+introuvable+ou+sans+fiche+complète.")
+            return
+
+        ok, msg = _publish_event_to_repo(candidate["event"])
+        if ok:
+            _save_decision(key, "published")
+            self._redirect_admin("pub=ok")
+        else:
+            log.error("Publication échouée : %s", msg)
+            self._redirect_admin("err=" + urllib.parse.quote(msg, safe=""))
+
+    def _handle_reject(self) -> None:
+        """POST /admin/reject — rejette un candidat (le masque de la file)."""
+        dev_mode = not os.environ.get("REPLIT_DEPLOYMENT")
+        if not dev_mode:
+            token    = _get_session_cookie(self.headers)
+            username = _verify_session_token(token) if token else None
+            if not username:
+                self.send_response(403)
+                self.end_headers()
+                return
+
+        length   = int(self.headers.get("Content-Length", 0))
+        raw_body = self.rfile.read(length).decode("utf-8", errors="replace")
+        params   = urllib.parse.parse_qs(raw_body)
+        key      = params.get("key", [""])[0]
+
+        if key:
+            _save_decision(key, "rejected")
+        self._redirect_admin()
+
     def _handle_run_analysis(self) -> None:
         """Déclenche l'analyse des thèmes manuellement (POST /admin/run-analysis)."""
         dev_mode = not os.environ.get("REPLIT_DEPLOYMENT")
@@ -1339,6 +1727,14 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
         if self.path == "/admin/run-analysis":
             self._handle_run_analysis()
+            return
+
+        if self.path == "/admin/publish":
+            self._handle_publish()
+            return
+
+        if self.path == "/admin/reject":
+            self._handle_reject()
             return
 
         if self.path == "/chat":

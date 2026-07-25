@@ -24,6 +24,7 @@ data/chat_questions.jsonl
 data/theme_analysis.json
 data/clicks.jsonl
 data/traffic.json
+data/pending_decisions.json
 
 # macOS
 .DS_Store
