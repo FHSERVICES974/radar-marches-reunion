@@ -1,8 +1,12 @@
 #!/bin/bash
 # Script de démarrage pour le déploiement VM.
 # En production Replit, le conteneur reçoit un snapshot du code sans dépôt git.
-# Ce script initialise le dépôt depuis GitHub avant de lancer le serveur,
-# ce qui permet au webhook /sync de faire git pull correctement.
+#
+# ORDRE CRITIQUE :
+#   1. Python démarre en arrière-plan immédiatement → healthcheck Replit passe dès
+#      la première seconde (sinon Replit déclare le déploiement échoué).
+#   2. L'init git se fait pendant que Python tourne → /sync devient disponible
+#      quelques secondes après le démarrage, sans bloquer la réponse HTTP.
 
 set -uo pipefail
 
@@ -13,6 +17,14 @@ RETRY_DELAY=5  # secondes entre chaque tentative
 
 cd "$WORK_DIR"
 
+# ── Étape 1 : démarrer le serveur Python immédiatement ──────────────────────
+# Permet au healthcheck Replit de recevoir un HTTP 200 dès le départ.
+# Si .git n'existe pas encore, server.py démarre en mode dégradé (sans /sync)
+# et se rétablit automatiquement dès que l'étape 2 a terminé l'init git.
+python3 server.py &
+SERVER_PID=$!
+
+# ── Étape 2 : initialiser le dépôt git (en arrière-plan, pendant que Python tourne) ──
 init_git_repo() {
     local attempt=1
     while [ "$attempt" -le "$MAX_RETRIES" ]; do
@@ -39,7 +51,7 @@ if [ ! -d ".git" ]; then
     echo "[start.sh] Pas de dépôt git — initialisation depuis GitHub..."
     if ! init_git_repo; then
         echo "[start.sh] ⚠️  ALERTE : Impossible d'initialiser le dépôt git après $MAX_RETRIES tentatives." >&2
-        echo "[start.sh] ⚠️  GitHub est peut-être inaccessible. Le serveur démarre avec les fichiers du snapshot (code potentiellement ancien)." >&2
+        echo "[start.sh] ⚠️  GitHub est peut-être inaccessible. Le serveur tourne avec les fichiers du snapshot (code potentiellement ancien)." >&2
         echo "[start.sh] ⚠️  La fonctionnalité /sync sera indisponible jusqu'à un redémarrage réussi." >&2
         rm -rf .git
     fi
@@ -47,4 +59,7 @@ else
     echo "[start.sh] Dépôt git existant détecté."
 fi
 
-exec python3 server.py
+# ── Étape 3 : attendre la fin du serveur ────────────────────────────────────
+# Quand Python s'arrête (crash ou signal), bash se termine → Replit redémarre
+# le conteneur automatiquement.
+wait "$SERVER_PID"
