@@ -811,9 +811,12 @@ def _stats_writer_loop() -> None:
     """Thread unique d'écriture : consomme la file et insère en base.
     Reconnexion automatique ; toute perte est loggée explicitement."""
     conn = None
+    backoff = 1
     while True:
         item = _stats_queue.get()
-        for attempt in (1, 2):
+        # Retente indéfiniment avec backoff (1 s → 60 s max) : l'événement n'est
+        # jamais abandonné tant que la file (5000 entrées) absorbe le trafic.
+        while True:
             try:
                 if conn is None or conn.closed:
                     conn = _stats_connect()
@@ -826,11 +829,14 @@ def _stats_writer_loop() -> None:
                         cur.execute(
                             "INSERT INTO interactions (type, event_name, visitor_hash) "
                             "VALUES (%s, %s, %s)", item[1:])
+                backoff = 1
                 break
             except Exception as exc:
                 conn = None
-                if attempt == 2:
-                    log.error("Stats : insertion perdue (%s) : %s", item[0], exc)
+                log.error("Stats : base injoignable (%s) — nouvel essai dans %d s "
+                          "(file : %d en attente).", exc, backoff, _stats_queue.qsize())
+                time.sleep(backoff)
+                backoff = min(backoff * 2, 60)
 
 
 def _stats_retention_loop() -> None:
@@ -876,13 +882,17 @@ def _import_legacy_stats() -> None:
                     log.info("Stats : %d jour(s) de trafic historique repris depuis traffic.json.", len(raw))
                 finally:
                     conn.close()
-        # clicks.jsonl → interactions (une seule fois, si la table est vide)
+        # clicks.jsonl → interactions (une seule fois — marqueur sentinelle en
+        # base, insensible aux interactions live arrivées entre-temps)
         if os.path.exists(_CLICKS_FILE):
             conn = _stats_connect()
             try:
                 with conn.cursor() as cur:
-                    cur.execute("SELECT count(*) FROM interactions")
-                    if cur.fetchone()[0] == 0:
+                    cur.execute("SELECT 1 FROM traffic_daily_legacy WHERE day = '1970-01-01'")
+                    if cur.fetchone() is None:
+                        cur.execute(
+                            "INSERT INTO traffic_daily_legacy (day, views, uniques, refs) "
+                            "VALUES ('1970-01-01', 0, 0, '{}') ON CONFLICT (day) DO NOTHING")
                         n = 0
                         with open(_CLICKS_FILE, encoding="utf-8") as f:
                             for line in f:
@@ -3626,7 +3636,9 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
-    server = http.server.HTTPServer(("0.0.0.0", port), Handler)
+    # ThreadingHTTPServer : une requête admin lente (SQL) ne bloque plus les
+    # visiteurs du site public. L'état partagé est déjà protégé par des locks.
+    server = http.server.ThreadingHTTPServer(("0.0.0.0", port), Handler)
     log.info("Serveur démarré sur le port %d", port)
     log.info("Webhook disponible sur POST /sync")
 
