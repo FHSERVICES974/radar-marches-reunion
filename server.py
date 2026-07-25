@@ -850,22 +850,55 @@ def _publish_event_to_repo(event: dict) -> tuple:
     except Exception as exc:
         return False, f"Rebuild index.html échoué : {exc}"
 
-    # 8 — Commit et push
-    # Sur la VM de production, replit-git-askpass n'existe pas → on pousse via
-    # une URL authentifiée construite à la volée depuis GITHUB_TOKEN (jamais
-    # persistée sur disque, jamais loguée).
+    # 8 — Vérification du token puis commit + push
     gh_token = os.environ.get("GITHUB_TOKEN", "").strip()
     if not gh_token:
         return False, (
             "Secret GITHUB_TOKEN manquant. "
-            "Ajoutez un Personal Access Token GitHub (scope 'Contents: Read & write') "
-            "dans les secrets Replit sous la clé GITHUB_TOKEN, puis republier."
+            "Ajoutez un Personal Access Token GitHub dans les secrets Replit "
+            "sous la clé GITHUB_TOKEN, puis republier."
         )
 
+    # Vérifier le token via l'API REST avant de toucher à git.
+    # Évite un commit orphelin si le token est mauvais.
+    try:
+        import urllib.request as _ureq
+        _req = _ureq.Request(
+            "https://api.github.com/repos/FHSERVICES974/radar-marches-reunion",
+            headers={
+                "Authorization": f"token {gh_token}",
+                "User-Agent": "radar-admin/1.0",
+                "Accept": "application/vnd.github+json",
+            },
+        )
+        with _ureq.urlopen(_req, timeout=10) as _r:
+            _repo = json.loads(_r.read().decode())
+        if not _repo.get("permissions", {}).get("push", False):
+            return False, (
+                "GITHUB_TOKEN valide mais sans droit d'écriture. "
+                "Le token doit avoir le scope 'repo' (classic) "
+                "ou 'Contents: Read & write' sur ce dépôt (fine-grained)."
+            )
+    except Exception as _api_err:
+        _msg = str(_api_err)
+        if "401" in _msg:
+            return False, (
+                "GITHUB_TOKEN invalide ou expiré (erreur 401). "
+                "Créez un nouveau token sur https://github.com/settings/tokens "
+                "et mettez-le à jour dans les secrets Replit."
+            )
+        if "403" in _msg:
+            return False, (
+                "GITHUB_TOKEN refusé par GitHub (erreur 403). "
+                "Vérifiez que le token appartient au compte FHSERVICES974 "
+                "et qu'il a accès à ce dépôt."
+            )
+        # Erreur réseau inattendue : on tente quand même le push
+        log.warning("Vérification API GitHub échouée (%s) — push tenté quand même.", _msg)
+
     ev_label = event.get("name", "événement")
-    # http.extraHeader est le mécanisme officiel Git pour les tokens HTTPS.
-    # Contrairement à l'URL authentifiée, il ne pose aucun problème d'encodage
-    # ni de préfixe (x-access-token, oauth2…) selon le type de PAT.
+    # http.extraHeader = mécanisme officiel Git pour les tokens HTTPS.
+    # Évite tout problème d'encodage ou de préfixe dans l'URL.
     auth_header = f"Authorization: token {gh_token}"
     try:
         subprocess.run(
