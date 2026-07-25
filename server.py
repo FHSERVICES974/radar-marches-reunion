@@ -2266,6 +2266,11 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 "SameSite=Strict; Max-Age=0"
             )
             self.end_headers()
+        elif self.path.startswith(("/data", "/.git", "/scripts")):
+            # Fichiers internes (soumissions, contacts privés, dépôt git) —
+            # jamais servis publiquement.
+            self.send_response(404)
+            self.end_headers()
         else:
             # Enregistre les visites du site public (GET classiques uniquement)
             if not self.path.startswith(("/sync", "/chat", "/health", "/admin", "/track")):
@@ -2347,7 +2352,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         elif "comp" in qs:
             flash = "ok:🔎 Vérification IA lancée — rechargez la page dans ~1 minute."
         elif "err" in qs:
-            detail = urllib.parse.unquote(qs["err"][0])
+            detail = html.escape(urllib.parse.unquote(qs["err"][0]))
             flash  = f"err:❌ Erreur : {detail}"
 
         body = _render_stats_page(dev_mode=dev_mode, user_name=username, flash=flash).encode("utf-8")
