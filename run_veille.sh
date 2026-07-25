@@ -1,11 +1,18 @@
 #!/bin/zsh
-# run_veille.sh — Lance la veille hebdomadaire via l'agent Claude (headless).
-# Appelé par launchd le lundi. Écrit proposition_MAJ_*.md + data/pending/*.
+# run_veille.sh — Lance la veille quotidienne via l'agent Claude (headless).
+# Appelé par launchd chaque jour à 4h. Écrit proposition_MAJ_*.md + data/pending/*.
 # NE PUBLIE RIEN (le playbook interdit publier.py). Journalise dans veille.log.
 
 set -e
 PROJECT_DIR="/Users/fhubert/Claude/radarartisans"
 cd "$PROJECT_DIR"
+
+# launchd ne fournit qu'un PATH minimal (/usr/bin:/bin:/usr/sbin:/sbin) où le CLI
+# `claude` (installé via npm dans ~/.npm-global/bin) est absent -> "command not
+# found" et sortie 127. On l'ajoute explicitement plutôt que de dépendre du
+# profil de login, qui n'est pas toujours chargé sous launchd.
+export PATH="$HOME/.npm-global/bin:/opt/homebrew/bin:/usr/local/bin:$PATH"
+CLAUDE_BIN="$(command -v claude || echo "$HOME/.npm-global/bin/claude")"
 
 STAMP=$(date "+%Y-%m-%d %H:%M:%S")
 echo "===== VEILLE $STAMP =====" >> veille.log
@@ -38,7 +45,7 @@ fi
 # claude en mode -p (print / non interactif). On autorise uniquement les outils
 # nécessaires : recherche, lecture de pages, lecture/écriture de fichiers, et
 # python3 pour status_check.py. Tout le reste est refusé automatiquement.
-claude -p "$(cat veille_agent.md)" \
+"$CLAUDE_BIN" -p "$(cat veille_agent.md)" \
   --allowedTools WebSearch WebFetch Read Write Edit Glob Grep "Bash(python3:*)" \
   --permission-mode acceptEdits \
   --add-dir "$PROJECT_DIR" \

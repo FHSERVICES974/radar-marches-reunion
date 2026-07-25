@@ -7,6 +7,11 @@ set -e
 PROJECT_DIR="/Users/fhubert/Claude/radarartisans"
 cd "$PROJECT_DIR"
 
+# Voir run_veille.sh : PATH minimal sous launchd, `claude` (npm) doit être résolu
+# explicitement pour éviter un "command not found" (sortie 127).
+export PATH="$HOME/.npm-global/bin:/opt/homebrew/bin:/usr/local/bin:$PATH"
+CLAUDE_BIN="$(command -v claude || echo "$HOME/.npm-global/bin/claude")"
+
 # Rien à traiter ? on sort proprement.
 COUNT=$(ls -1 data/inbox_docs 2>/dev/null | grep -viE '^(processed|README.txt)$' | wc -l | tr -d ' ')
 if [ "$COUNT" = "0" ]; then
@@ -16,7 +21,7 @@ if [ "$COUNT" = "0" ]; then
 fi
 
 echo "$(date '+%F %T') — ingestion de $COUNT document(s)" >> ingest.log
-claude -p "$(cat ingest_agent.md)" \
+"$CLAUDE_BIN" -p "$(cat ingest_agent.md)" \
   --allowedTools WebSearch WebFetch Read Write Edit Glob Grep "Bash(python3:*)" "Bash(ls:*)" "Bash(mv:*)" \
   --permission-mode acceptEdits \
   --add-dir "$PROJECT_DIR" \
