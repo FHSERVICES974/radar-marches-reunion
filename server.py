@@ -851,7 +851,22 @@ def _publish_event_to_repo(event: dict) -> tuple:
         return False, f"Rebuild index.html échoué : {exc}"
 
     # 8 — Commit et push
+    # Sur la VM de production, replit-git-askpass n'existe pas → on pousse via
+    # une URL authentifiée construite à la volée depuis GITHUB_TOKEN (jamais
+    # persistée sur disque, jamais loguée).
+    gh_token = os.environ.get("GITHUB_TOKEN", "").strip()
+    if not gh_token:
+        return False, (
+            "Secret GITHUB_TOKEN manquant. "
+            "Ajoutez un Personal Access Token GitHub (scope 'Contents: Read & write') "
+            "dans les secrets Replit sous la clé GITHUB_TOKEN, puis republier."
+        )
+
     ev_label = event.get("name", "événement")
+    push_url = (
+        f"https://x-access-token:{gh_token}"
+        f"@github.com/FHSERVICES974/radar-marches-reunion.git"
+    )
     try:
         subprocess.run(
             ["git", "add", "data/events.json", "data/meta.json", "index.html"],
@@ -864,11 +879,13 @@ def _publish_event_to_repo(event: dict) -> tuple:
             check=True, timeout=30,
         )
         push = subprocess.run(
-            ["git", "push", "origin", BRANCH],
+            ["git", "push", push_url, BRANCH],
             capture_output=True, text=True, timeout=60,
         )
         if push.returncode != 0:
-            return False, f"git push échoué : {push.stderr.strip()}"
+            # Masquer le token dans le message d'erreur
+            err = push.stderr.replace(gh_token, "***").strip()
+            return False, f"git push échoué : {err}"
     except subprocess.CalledProcessError as exc:
         return False, f"Opération git échouée : {exc}"
     except subprocess.TimeoutExpired:
