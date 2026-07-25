@@ -1,3 +1,11 @@
 {
-  "new_events_candidates": []
+  "new_events_candidates": [
+    {
+      "event_name": "Test Suppression B",
+      "zone": "Sud",
+      "confidence": "Probable",
+      "source_url": "https://exemple.re",
+      "notes": "test"
+    }
+  ]
 }
