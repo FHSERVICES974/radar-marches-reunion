@@ -135,6 +135,29 @@
       "_source_url": "https://adir.re/noulelocal/",
       "_confidence": "À confirmer",
       "event": null
+    },
+    {
+      "_source_title": "DM Instagram @inspira_faith — confirmation directe de l'organisatrice (15/08/2026, Bellemène Saint-Paul, 30€/emplacement, 15 places)",
+      "_source_url": "",
+      "_confidence": "Vérifié",
+      "event": {
+        "name": "Inauguration lieu insolite — Bellemène (Inspira Faith)",
+        "zone": "Ouest",
+        "type": "Marché de créateurs / Inauguration",
+        "org": "Inspira Faith",
+        "place": "Bellemène, Saint-Paul",
+        "when": "Samedi 15 août 2026",
+        "badge": "AOÛT",
+        "month": 8,
+        "dateStatus": "confirmée",
+        "status": "open",
+        "deadline": "",
+        "contact": "DM Instagram @inspira_faith",
+        "social": "@inspira_faith",
+        "url": "",
+        "apply": "Contacter @inspira_faith en message privé Instagram pour candidater. Participation : 30€ par emplacement. Places limitées à 15 exposants.",
+        "desc": "Inauguration d'un nouveau logement insolite à Bellemène (Saint-Paul) — recherche 15 exposants créateurs pour une journée découverte, communication et organisation assurées par l'hôte."
+      }
     }
   ],
   "community": []
