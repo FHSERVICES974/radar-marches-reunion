@@ -92,6 +92,11 @@ else
   echo "[git] aucune nouvelle proposition à envoyer" >> veille.log
 fi
 
+# Rapport quotidien par mail (résumé + liens, ne publie rien).
+./venv/bin/python daily_report.py >> veille.log 2>&1 \
+  && echo "[mail] rapport quotidien envoyé" >> veille.log \
+  || echo "[mail] ATTENTION : échec envoi rapport quotidien" >> veille.log
+
 # Notification macOS de fin.
 LATEST=$(ls -t proposition_MAJ_*.md 2>/dev/null | head -1)
 osascript -e "display notification \"Proposition prête : ${LATEST:-aucune}\" with title \"Radar Marchés — veille\"" 2>/dev/null || true
