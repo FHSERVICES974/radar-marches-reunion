@@ -98,7 +98,58 @@ def _send_webhook_alert(url: str) -> bool:
         return False
 
 
-def _send_email(subject: str, body: str, recipient: str) -> bool:
+# ── Gabarit HTML partagé pour TOUS les emails de l'app ──────────────────────
+# Charte du site : fond #f6f4ee, texte #211f1a, gris #8a8474, filets #e7e1d2,
+# émeraude #0e6b52, or #a9812f, rouge-brun #93453a.
+
+_EMAIL_TONES = {"ok": "#0e6b52", "warn": "#a9812f", "alert": "#93453a"}
+_SITE_URL = "https://radar.fhservices.re"
+_LOGO_PATH = os.path.join("assets", "logo_radar_marches.png")
+
+
+def _email_card(tone: str, heading: str, content_html: str) -> str:
+    """Une « carte » blanche à liseré coloré : ok (émeraude), warn (or),
+    alert (rouge-brun). heading et content_html : HTML déjà échappé."""
+    color = _EMAIL_TONES.get(tone, _EMAIL_TONES["ok"])
+    return (
+        f'<table role="presentation" width="100%" cellpadding="0" cellspacing="0" '
+        f'style="margin:0 0 16px 0"><tr><td style="background:#ffffff;'
+        f'border:1px solid #e7e1d2;border-top:4px solid {color};'
+        f'border-radius:12px;padding:18px 20px">'
+        f'<div style="font-weight:700;color:{color};font-size:16px;'
+        f'margin:0 0 8px 0">{heading}</div>'
+        f'<div style="color:#211f1a;font-size:14px;line-height:1.55">'
+        f'{content_html}</div>'
+        f'</td></tr></table>'
+    )
+
+
+def _email_html(subtitle: str, cards_html: str) -> str:
+    """Coquille visuelle commune à tous les emails : logo rond, marque,
+    sous-titre gris, cartes, pied de page avec l'URL du site."""
+    return f"""<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8"></head>
+<body style="margin:0;padding:0;background:#f6f4ee">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+       style="background:#f6f4ee"><tr><td align="center" style="padding:28px 12px">
+<table role="presentation" width="600" cellpadding="0" cellspacing="0"
+       style="max-width:600px;width:100%">
+<tr><td align="center" style="padding:0 0 18px 0">
+  <img src="cid:radar-logo" width="64" height="64" alt="Radar des Marchés"
+       style="display:block;border-radius:50%;margin:0 auto 10px auto">
+  <div style="font-weight:700;font-size:19px;color:#211f1a;
+       font-family:Georgia,'Times New Roman',serif">Radar des Marchés</div>
+  <div style="font-size:13px;color:#8a8474;margin-top:4px">{html.escape(subtitle)}</div>
+</td></tr>
+<tr><td style="font-family:Arial,Helvetica,sans-serif">{cards_html}</td></tr>
+<tr><td align="center" style="padding:8px 0 0 0;border-top:1px solid #e7e1d2">
+  <div style="font-size:12px;color:#8a8474;padding-top:10px">radar.fhservices.re</div>
+</td></tr>
+</table></td></tr></table></body></html>"""
+
+
+def _send_email(subject: str, body: str, recipient: str,
+                html_body: str = "") -> bool:
     """Envoie un email via SMTP (mécanisme unique de l'app).
     Retourne True en cas de succès."""
     # Gmail par défaut (compte du propriétaire) — surchargeables par env vars.
@@ -117,7 +168,17 @@ def _send_email(subject: str, body: str, recipient: str) -> bool:
     msg["Subject"] = subject
     msg["From"] = formataddr(("Radar des Marchés", smtp_from))
     msg["To"] = recipient
-    msg.set_content(body)
+    msg.set_content(body)  # version texte (fallback)
+    if html_body:
+        msg.add_alternative(html_body, subtype="html")
+        # Logo inline (cid:radar-logo) attaché à la partie HTML
+        try:
+            with open(_LOGO_PATH, "rb") as f:
+                msg.get_payload()[1].add_related(
+                    f.read(), maintype="image", subtype="png",
+                    cid="<radar-logo>")
+        except OSError as exc:
+            log.warning("Logo email introuvable (%s) — envoi sans image.", exc)
 
     try:
         with smtplib.SMTP(smtp_host, smtp_port, timeout=10) as server:
@@ -2735,15 +2796,35 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         # Durabilité + notification immédiate — en arrière-plan (serveur mono-thread)
         def _notify():
             _push_org_files(["data/organizer_submissions.json"])
-            _send_email(
-                f"📨 Nouvelle soumission organisateur : {fields['name']}",
+            text_body = (
                 "Une nouvelle proposition d'événement vient d'arriver sur "
                 "/organisateurs :\n\n"
                 + "\n".join(f"- {k} : {v}" for k, v in fields.items() if v)
                 + "\n- liens : " + " ; ".join(links)
                 + f"\n- soumis par : {submitter_name} ({submitter_phone})"
-                + "\n\nÀ relire dans /admin (section Soumissions organisateurs).",
-                _ORG_OWNER_EMAIL,
+                + "\n\nÀ relire dans /admin (section Soumissions organisateurs)."
+            )
+            e = lambda v: html.escape(str(v))  # noqa: E731
+            rows = "".join(
+                f'<div style="padding:3px 0"><span style="color:#8a8474">{e(k)}'
+                f'&nbsp;:</span> {e(v)}</div>'
+                for k, v in fields.items() if v)
+            rows += ('<div style="padding:3px 0"><span style="color:#8a8474">'
+                     'liens&nbsp;:</span> ' + " ; ".join(
+                         f'<a href="{e(u)}" style="color:#0e6b52">{e(u)}</a>'
+                         for u in links) + '</div>')
+            html_body = _email_html(
+                "Nouvelle soumission d'un organisateur",
+                _email_card("warn", f"📨 {e(fields['name'])}", rows)
+                + _email_card(
+                    "ok", "Soumis par",
+                    f'{e(submitter_name)} ({e(submitter_phone)})<br>'
+                    f'À relire dans <a href="{_SITE_URL}/admin" '
+                    f'style="color:#0e6b52">/admin</a> — section '
+                    'Soumissions organisateurs.'))
+            _send_email(
+                f"📨 Nouvelle soumission organisateur : {fields['name']}",
+                text_body, _ORG_OWNER_EMAIL, html_body=html_body,
             )
         threading.Thread(target=_notify, daemon=True).start()
         self._redirect("/organisateurs?ok=1")
@@ -2797,17 +2878,35 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         def _post_approve():
             _push_org_files(paths)
             if org_email:
-                _send_email(
-                    f"✅ Votre événement « {ev_name} » est en ligne",
+                text_body = (
                     "Bonjour,\n\n"
                     f"Bonne nouvelle : votre événement « {ev_name} » a été validé "
                     "et figure désormais sur le Radar des marchés de La Réunion :\n"
-                    "https://radar.fhservices.re\n\n"
+                    f"{_SITE_URL}\n\n"
                     "Merci d'avoir pris le temps de nous le proposer — n'hésitez "
                     "pas à soumettre vos prochains événements sur "
-                    "https://radar.fhservices.re/organisateurs\n\n"
-                    "Bien cordialement,\nRadar Marchés Réunion",
-                    org_email,
+                    f"{_SITE_URL}/organisateurs\n\n"
+                    "Bien cordialement,\nRadar Marchés Réunion"
+                )
+                ev = html.escape(ev_name)
+                html_body = _email_html(
+                    "Votre événement est en ligne",
+                    _email_card(
+                        "ok", f"✅ « {ev} » est publié",
+                        "Bonjour,<br><br>Bonne nouvelle : votre événement a été "
+                        "validé et figure désormais sur le Radar des marchés de "
+                        f'La Réunion : <a href="{_SITE_URL}" '
+                        f'style="color:#0e6b52">{_SITE_URL.replace("https://", "")}</a>.')
+                    + _email_card(
+                        "warn", "Et la suite ?",
+                        "Merci d'avoir pris le temps de nous le proposer — "
+                        "n'hésitez pas à soumettre vos prochains événements sur "
+                        f'<a href="{_SITE_URL}/organisateurs" '
+                        f'style="color:#0e6b52">la page organisateurs</a>.<br><br>'
+                        "Bien cordialement,<br>Radar Marchés Réunion"))
+                _send_email(
+                    f"✅ Votre événement « {ev_name} » est en ligne",
+                    text_body, org_email, html_body=html_body,
                 )
         threading.Thread(target=_post_approve, daemon=True).start()
         self._redirect_admin("pub=ok")
