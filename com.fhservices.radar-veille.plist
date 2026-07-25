@@ -11,13 +11,15 @@
   <array>
     <string>/bin/zsh</string>
     <string>-lc</string>
-    <string>cd "/Users/fhubert/Library/Mobile Documents/com~apple~CloudDocs/PROJETS/CLAUDE/COWORKS/Projects/ARTISANS/radar-marches" &amp;&amp; ./run_veille.sh</string>
+    <string>cd "/Users/fhubert/Claude/radarartisans" &amp;&amp; ./run_veille.sh</string>
   </array>
 
-  <!-- Chaque lundi à 04:00 (Weekday 1 = lundi). -->
+  <!-- Chaque jour à 04:00 (pas de clé Weekday = tous les jours).
+       Fréquence quotidienne pendant la phase de lancement du site (les appels
+       à candidature arrivent au fil de l'eau) ; repasser à hebdomadaire
+       (ajouter Weekday=1 pour lundi) une fois le rythme de croisière atteint. -->
   <key>StartCalendarInterval</key>
   <dict>
-    <key>Weekday</key><integer>1</integer>
     <key>Hour</key><integer>4</integer>
     <key>Minute</key><integer>0</integer>
   </dict>
@@ -27,8 +29,8 @@
   <false/>
 
   <key>StandardOutPath</key>
-  <string>/Users/fhubert/Library/Mobile Documents/com~apple~CloudDocs/PROJETS/CLAUDE/COWORKS/Projects/ARTISANS/radar-marches/launchd.out.log</string>
+  <string>/Users/fhubert/Claude/radarartisans/launchd.out.log</string>
   <key>StandardErrorPath</key>
-  <string>/Users/fhubert/Library/Mobile Documents/com~apple~CloudDocs/PROJETS/CLAUDE/COWORKS/Projects/ARTISANS/radar-marches/launchd.err.log</string>
+  <string>/Users/fhubert/Claude/radarartisans/launchd.err.log</string>
 </dict>
 </plist>

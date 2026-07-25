@@ -4,7 +4,7 @@
 # Lancez-le après avoir déposé un ou plusieurs documents.
 
 set -e
-PROJECT_DIR="/Users/fhubert/Library/Mobile Documents/com~apple~CloudDocs/PROJETS/CLAUDE/COWORKS/Projects/ARTISANS/radar-marches"
+PROJECT_DIR="/Users/fhubert/Claude/radarartisans"
 cd "$PROJECT_DIR"
 
 # Rien à traiter ? on sort proprement.

@@ -4,7 +4,7 @@
 # NE PUBLIE RIEN (le playbook interdit publier.py). Journalise dans veille.log.
 
 set -e
-PROJECT_DIR="/Users/fhubert/Library/Mobile Documents/com~apple~CloudDocs/PROJETS/CLAUDE/COWORKS/Projects/ARTISANS/radar-marches"
+PROJECT_DIR="/Users/fhubert/Claude/radarartisans"
 cd "$PROJECT_DIR"
 
 STAMP=$(date "+%Y-%m-%d %H:%M:%S")

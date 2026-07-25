@@ -203,7 +203,7 @@
     <span><i style="background:var(--perm)"></i>Marché permanent</span>
   </div>
   <div><b>Note sur les dates :</b> « confirmée » = date officiellement annoncée ; « annuel / récurrent » = événement qui revient chaque année (la date 2026 indiquée peut être passée — surveillez l'édition suivante) ; « probable » = estimation basée sur la récurrence. Vérifiez toujours auprès de l'organisateur avant de candidater.</div>
-  <div style="margin-top:8px">Sources : tableau collaboratif d'artisans réunionnais · CMA Réunion · mairies · offices de tourisme · presse locale. <b>Actualisation automatique chaque lundi.</b></div>
+  <div style="margin-top:8px">Sources : tableau collaboratif d'artisans réunionnais · CMA Réunion · mairies · offices de tourisme · presse locale. <b>Veille quotidienne, mise à jour dès qu'une information est vérifiée.</b></div>
 </footer>
 
 </div>
@@ -379,7 +379,7 @@ document.getElementById("suMail").onclick=()=>{
 };
 
 document.getElementById("q").oninput=e=>{q=e.target.value.toLowerCase().trim();render();};
-document.getElementById("upd").textContent="Dernière mise à jour : "+new Date(META.lastUpdate).toLocaleDateString("fr-FR",{day:"numeric",month:"long",year:"numeric"})+" · actualisation automatique chaque lundi.";
+document.getElementById("upd").textContent="Dernière mise à jour : "+new Date(META.lastUpdate).toLocaleDateString("fr-FR",{day:"numeric",month:"long",year:"numeric"})+" · veille quotidienne.";
 
 buildKpis();buildControls();buildDir();render();
 </script>

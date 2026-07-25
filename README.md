@@ -28,9 +28,14 @@ radar-marches/
 ├── run_veille.sh            ← lance l'agent Claude en headless (appelé lundi 7h)
 ├── publier.py               ← valide + build + git push + redeploy Replit
 ├── common.py                ← helpers partagés
-├── com.fhservices.radar-veille.plist  ← tâche launchd (lundi 7h)
+├── com.fhservices.radar-veille.plist  ← tâche launchd (quotidien 4h, phase de lancement)
 └── README.md
 ```
+
+> ⚠️ **Ce qui n'est PAS dans ce dossier / ce repo GitHub** : le widget de chat
+> « Le ti artisan futé » et le tableau de bord privé `/admin` vivent uniquement
+> dans le `server.py` géré côté Replit (écrit par l'agent Replit directement en
+> production). Ils ne sont pas synchronisés ici — voir la section dédiée plus bas.
 
 ## 🔒 Règle d'or (design intouchable)
 
@@ -127,9 +132,14 @@ et images lus **visuellement**), en extrait l'événement vérifié et le propos
 veille du lundi traite aussi ce dossier automatiquement.
 
 ### Réseaux sociaux depuis l'iPhone
-Voir `RACCOURCI_IPHONE.md` : un raccourci « Ajouter à Radar » envoie un post
-Insta/FB vers `data/inbox_mobile.txt` en un tap, repris par la veille (confiance
-« à confirmer »).
+Raccourci « Ajouter à Radar » : un post Insta/FB partagé en un tap s'ajoute à une
+note Apple dédiée **« Radar Inbox »** (synchronisée iCloud). `run_veille.sh`
+exporte cette note en AppleScript natif (`osascript`, sans dépendance MCP — le
+CLI `claude -p` headless n'a pas accès aux serveurs MCP des sessions interactives)
+vers `data/inbox_mobile_export.txt` avant de lancer l'agent, puis archive et vide
+la note pour la semaine suivante. Confiance « à confirmer » sauf recoupement.
+> Note : `RACCOURCI_IPHONE.md` décrit une ancienne variante (fichier texte direct)
+> et est obsolète — le mécanisme réel est celui ci-dessus, basé sur Notes.
 
 ### Modifier les données à la main
 Éditez `data/events.json` (16 champs — voir schéma dans `veille_agent.md`), puis
@@ -149,11 +159,57 @@ git branch -M main && git remote add origin <URL_GITHUB> && git push -u origin m
 Puis Replit : **Create Deployment → Import from GitHub**, fichier servi `index.html`.
 
 Redeploy après `publier.py` :
-- **Option A (défaut)** : clic « Redeploy » dans l'onglet Deployments (rappelé par publier.py).
-- **Option B** : mettez le **Deploy Hook** Replit dans `.env` (`REPLIT_DEPLOY_HOOK=...`)
-  → `publier.py` déclenche le redeploy en HTTP automatiquement.
+- **Webhook `/sync` (actif)** : un webhook GitHub → Replit (sécurisé HMAC via
+  `GITHUB_WEBHOOK_SECRET`) redéploie automatiquement `index.html` à chaque push
+  sur `main`. Aucune action manuelle nécessaire pour les mises à jour de données.
+- **Publish (manuel, à utiliser avec précaution)** : l'action « Publish » de
+  Replit remplace **toute la VM de production** par l'état du workspace — utile
+  pour déployer une évolution du `server.py` (widget, `/admin`…), mais elle peut
+  écraser des données GitHub plus récentes que le workspace si celui-ci n'a pas
+  été resynchronisé au préalable. Toujours vérifier que le workspace est à jour
+  avant de publier.
+- **Option historique** : Deploy Hook HTTP (`REPLIT_DEPLOY_HOOK` dans `.env`),
+  conservée par `publier.py` en repli si le webhook `/sync` est indisponible.
 
-## Tâche automatique (launchd, lundi 7h)
+## Assistant IA « Le ti artisan futé »
+
+Widget de chat flottant sur le site public, géré côté `server.py` (Replit) :
+- **Grounding** : s'appuie d'abord sur les données du site (`events.json`/`orgs.json`),
+  puis sur une recherche web restreinte aux domaines officiels de confiance (CMA,
+  service-public, impots.gouv, etc.) pour les questions générales d'artisan
+  (statut, fiscalité, démarches).
+- **Modèles** : routage à deux niveaux — Haiku par défaut, escalade vers Sonnet
+  si la question est plus complexe/poussée.
+- **Ton** : professionnel et convivial, pensé pour un public peu à l'aise avec l'IA.
+- **Limite** : 20 messages/heure par visiteur.
+- Historique des questions loggé (`data/chat_questions.jsonl` côté VM production)
+  pour alimenter l'analyse de thèmes du tableau de bord `/admin` (voir ci-dessous).
+
+## Tableau de bord privé `/admin`
+
+Page de statistiques **non publique**, réservée au propriétaire :
+- **Authentification par mot de passe** (secret Replit `ADMIN_PASSWORD`, cookie de
+  session signé HMAC-SHA256, `HttpOnly`/`Secure`/`SameSite=Strict`, 12h). L'auth
+  Replit native (header `X-Replit-User-Name`) avait été essayée en premier mais
+  souffrait d'un bug de redirection (`replit.com/login` sans retour vers `/admin`)
+  et a été remplacée par ce mot de passe, choix confirmé par le propriétaire.
+- **Trafic** : visites/visiteurs uniques (IP hachée, jamais stockée en clair),
+  répartition par source de référent (direct / Google / Facebook / Instagram /
+  WhatsApp / autre).
+- **Thèmes du chatbot** : analyse hebdomadaire par Claude des questions posées à
+  « Le ti artisan futé », pour identifier les besoins récurrents des artisans et
+  orienter les évolutions du site. Se déclenche automatiquement dès 3 questions
+  enregistrées, puis toutes les 7 jours.
+- Design premium dédié (graphiques), indépendant du design figé du site public —
+  cette page n'est pas soumise à la règle d'or ci-dessus.
+
+## Tâche automatique (launchd, chaque jour 4h — quotidien pendant le lancement)
+
+> Fréquence actuelle : **tous les jours**, le temps du lancement du site (les
+> appels à candidature arrivent au fil de l'eau). Repasser à hebdomadaire plus
+> tard en ajoutant `<key>Weekday</key><integer>1</integer>` (lundi) dans
+> `StartCalendarInterval` du `.plist`, puis recopier dans
+> `~/Library/LaunchAgents/` et recharger (`launchctl unload` puis `load`).
 ```bash
 cp com.fhservices.radar-veille.plist ~/Library/LaunchAgents/
 launchctl load ~/Library/LaunchAgents/com.fhservices.radar-veille.plist
