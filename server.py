@@ -612,6 +612,7 @@ def _run_completion_job(key: str, candidate: dict, info: str) -> None:
         complete, ev, report = _verify_candidate_with_ai(candidate, info)
         if complete:
             _save_completion(key, {"status": "done", "event": ev, "report": report})
+            _push_completions()  # survit aux resets VM (comme les décisions)
             log.info("Complétion IA réussie : %s", ev.get("name", key))
         else:
             _save_completion(key, {"status": "failed", "report": report})
@@ -962,8 +963,8 @@ def _published_name_zones() -> set:
         return set()
 
 
-def _push_decisions() -> None:
-    """Commit + push le fichier de décisions pour qu'il survive aux resets VM.
+def _push_runtime_file(relpath: str, commit_msg: str, label: str) -> None:
+    """Commit + push un fichier runtime pour qu'il survive aux resets VM.
 
     Non bloquant pour l'utilisateur : toute erreur est loguée, jamais fatale.
     Le token GitHub est masqué dans TOUS les chemins d'erreur.
@@ -982,29 +983,40 @@ def _push_decisions() -> None:
     env["GIT_TERMINAL_PROMPT"] = "0"
     try:
         with _git_ops_lock:
-            subprocess.run(["git", "add", "data/pending_decisions.json"],
-                           check=True, timeout=30)
+            subprocess.run(["git", "add", relpath], check=True, timeout=30)
             c = subprocess.run(
                 ["git", "-c", "user.email=admin@radar.re",
                  "-c", "user.name=Radar Admin",
-                 "commit", "-m", "Décisions propositions (Publier/Rejeter)"],
+                 "commit", "-m", commit_msg],
                 capture_output=True, text=True, timeout=30,
             )
             if c.returncode != 0:
                 return  # rien à committer
             ok, msg = _git_pull_for_publish()  # rebase doux (commits du Mac)
             if not ok:
-                log.warning("Push décisions — pull préalable échoué : %s",
-                            _mask(msg)[:200])
+                log.warning("Push %s — pull préalable échoué : %s",
+                            label, _mask(msg)[:200])
             p = subprocess.run(
                 ["git", "-c", "credential.helper=", "push", push_url, BRANCH],
                 capture_output=True, text=True, timeout=60, env=env,
             )
             if p.returncode != 0:
-                log.warning("Push décisions échoué : %s",
-                            _mask(p.stderr).strip()[:200])
+                log.warning("Push %s échoué : %s",
+                            label, _mask(p.stderr).strip()[:200])
     except Exception as exc:
-        log.warning("Push décisions : %s", _mask(exc)[:200])
+        log.warning("Push %s : %s", label, _mask(exc)[:200])
+
+
+def _push_decisions() -> None:
+    _push_runtime_file("data/pending_decisions.json",
+                       "Décisions propositions (Publier/Rejeter)",
+                       "décisions")
+
+
+def _push_completions() -> None:
+    _push_runtime_file("data/pending_completions.json",
+                       "Complétion IA d'un candidat (vérifié)",
+                       "complétions")
 
 
 def _load_latest_proposal() -> tuple:
