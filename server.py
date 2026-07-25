@@ -863,8 +863,9 @@ def _publish_event_to_repo(event: dict) -> tuple:
         )
 
     ev_label = event.get("name", "événement")
+    import urllib.parse
     push_url = (
-        f"https://x-access-token:{gh_token}"
+        f"https://x-access-token:{urllib.parse.quote(gh_token, safe='')}"
         f"@github.com/FHSERVICES974/radar-marches-reunion.git"
     )
     try:
