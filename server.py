@@ -911,10 +911,13 @@ def _publish_event_to_repo(event: dict) -> tuple:
              "commit", "-m", f"Publier : {ev_label}"],
             check=True, timeout=30,
         )
+        push_env = dict(os.environ)
+        push_env.pop("GIT_ASKPASS", None)      # jamais replit-git-askpass
+        push_env["GIT_TERMINAL_PROMPT"] = "0"  # échec propre au lieu d'un prompt
         push = subprocess.run(
             ["git", "-c", f"http.extraHeader={auth_header}",
              "push", "origin", BRANCH],
-            capture_output=True, text=True, timeout=60,
+            capture_output=True, text=True, timeout=60, env=push_env,
         )
         if push.returncode != 0:
             err = push.stderr.replace(gh_token, "***").strip()
