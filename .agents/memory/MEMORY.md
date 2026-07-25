@@ -1,1 +1,2 @@
 - [GitHub push auth](github-push-auth.md) — seul le push par URL x-access-token fonctionne ; header Authorization refusé ; neutraliser askpass/credential.helper partout.
+- [Stats PostgreSQL](stats-postgres.md) — les stats vivent en base (DATABASE_URL), jamais en fichiers locaux (disque prod effacé à chaque Publish) ; writer à backoff, sentinelle 1970-01-01.
