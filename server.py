@@ -835,7 +835,7 @@ def _publish_event_to_repo(event: dict) -> tuple:
     try:
         with open(meta_path, encoding="utf-8") as f:
             meta = json.load(f)
-        meta["lastUpdate"] = datetime.datetime.now().strftime("%d/%m/%Y")
+        meta["lastUpdate"] = datetime.datetime.now().strftime("%Y-%m-%d")
         with open(meta_path, "w", encoding="utf-8") as f:
             json.dump(meta, f, ensure_ascii=False, indent=2)
     except Exception as exc:
