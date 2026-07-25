@@ -23,30 +23,5 @@
     "submitter_name": "Aurelie",
     "submitter_phone": "+262692551394",
     "reviewer_note": ""
-  },
-  {
-    "id": "781d183be2e7",
-    "ts": "2026-07-25T19:07:04",
-    "status": "pending",
-    "fields": {
-      "name": "Test Suppression",
-      "zone": "Nord",
-      "type": "Marché / Brocante",
-      "org": "T",
-      "place": "T",
-      "when": "12 septembre 2026",
-      "deadline": "",
-      "apply": "x",
-      "email": "del@test.re",
-      "phone": "",
-      "social": "",
-      "desc": "x"
-    },
-    "links": [
-      "https://exemple.re"
-    ],
-    "submitter_name": "T",
-    "submitter_phone": "0692",
-    "reviewer_note": ""
   }
 ]
