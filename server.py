@@ -499,7 +499,19 @@ _VERIFY_SYS = (
 
 
 def _fetch_page_text(url: str) -> str:
-    """Télécharge une page et retourne son texte brut (HTML dépouillé)."""
+    """Télécharge une page publique et retourne son texte brut (HTML dépouillé).
+
+    Refuse les cibles internes (anti-SSRF) : localhost, IPs privées/link-local.
+    """
+    parsed = urllib.parse.urlparse(url)
+    if parsed.scheme not in ("http", "https") or not parsed.hostname:
+        raise ValueError("URL non supportée")
+    import ipaddress
+    import socket
+    for res in socket.getaddrinfo(parsed.hostname, None):
+        ip = ipaddress.ip_address(res[4][0])
+        if ip.is_private or ip.is_loopback or ip.is_link_local or ip.is_reserved:
+            raise ValueError("adresse interne refusée")
     req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (RadarAdmin/1.0)"})
     with urllib.request.urlopen(req, timeout=20) as resp:
         raw = resp.read(300_000).decode("utf-8", errors="replace")
@@ -1124,10 +1136,14 @@ def _render_proposals_section(dev_mode: bool) -> str:  # noqa: PLR0912,PLR0915
     # Filtrer les déjà traités, trier par confiance
     pending = [c for c in candidates if _candidate_key(c) not in decisions]
 
-    # Appliquer les complétions IA validées (overlay local)
+    # Appliquer les complétions IA validées (overlay local).
+    # La clé d'origine est figée AVANT la fusion : _candidate_key dépend de
+    # event.name, qui peut changer après complétion.
     completions = _load_completions()
     for c in pending:
-        comp = completions.get(_candidate_key(c))
+        orig_key = _candidate_key(c)
+        c["_orig_key"] = orig_key
+        comp = completions.get(orig_key)
         if comp and comp.get("status") == "done" and comp.get("event"):
             c["event"] = comp["event"]
             c["_confidence"] = "Vérifié"
@@ -1160,18 +1176,23 @@ def _render_proposals_section(dev_mode: bool) -> str:  # noqa: PLR0912,PLR0915
 
     # Cartes
     cards = []
+    esc = lambda s: (str(s).replace("&", "&amp;").replace("<", "&lt;")  # noqa: E731
+                     .replace(">", "&gt;").replace('"', "&quot;"))
     for c in pending:
-        key     = _candidate_key(c)
+        key     = c.get("_orig_key") or _candidate_key(c)
         conf    = c.get("_confidence") or c.get("confidence", "À confirmer")
         ev      = c.get("event") or {}
         has_ev  = bool(ev and ev.get("name"))
-        name    = ev.get("name") or c.get("_source_title") or c.get("source_title") or "—"
-        place   = ev.get("place", "")
-        when    = ev.get("when", "")
-        dl      = ev.get("deadline", "")
-        notes   = c.get("notes", "")
+        name    = esc(ev.get("name") or c.get("_source_title") or c.get("source_title") or "—")
+        place   = esc(ev.get("place", ""))
+        when    = esc(ev.get("when", ""))
+        dl      = esc(ev.get("deadline", ""))
+        notes   = esc(c.get("notes", ""))
         src_url = c.get("_source_url") or c.get("source_url", "#")
-        src_ttl = (c.get("_source_title") or c.get("source_title") or src_url)[:55]
+        if not src_url.startswith(("http://", "https://")):
+            src_url = "#"
+        src_url = esc(src_url)
+        src_ttl = esc((c.get("_source_title") or c.get("source_title") or src_url)[:55])
 
         if conf == "Vérifié":
             badge = '<span class="conf-badge conf-vert">✓ Vérifié</span>'
