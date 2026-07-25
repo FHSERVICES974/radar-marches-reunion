@@ -1,0 +1,141 @@
+{
+  "generated": "2026-07-25",
+  "status_changes": [],
+  "new_events_candidates": [
+    {
+      "_source_title": "Fête des Agrumes 2026 — appel à candidatures emplacements",
+      "_source_url": "https://letampon.fr/appels-candidatures/appel-a-candidatures-pour-des-emplacements-disponibles-sur-le-domaine-public-fete-des-agrumes-2026/",
+      "_confidence": "Vérifié",
+      "event": {
+        "name": "Fête des Agrumes",
+        "zone": "Sud",
+        "type": "Foire / Terroir",
+        "org": "Ville du Tampon — Service Développement Économique",
+        "place": "Le Tampon",
+        "when": "Août (annuel) · éd. 2026 : 7–9 août",
+        "badge": "AOÛT",
+        "month": 8,
+        "dateStatus": "confirmée",
+        "status": "open",
+        "deadline": "29 juillet 2026, 12h00",
+        "contact": "odp.candidature@mairie-tampon.fr · 0262 57 86 32",
+        "social": "",
+        "url": "https://letampon.fr/appels-candidatures/appel-a-candidatures-pour-des-emplacements-disponibles-sur-le-domaine-public-fete-des-agrumes-2026/",
+        "apply": "Dossier à déposer par email ou en personne au Service Développement Économique (43 A rue Antoine Fontaine, 97430 Le Tampon) avant le 29/07/2026 12h. 17 emplacements : 8 producteurs d'agrumes, 4 transformation/conservation, 5 restauration/snacking.",
+        "desc": "Fête dédiée à la filière agrumes du Tampon : producteurs, transformateurs et restauration autour de 17 emplacements."
+      }
+    },
+    {
+      "_source_title": "La Plaine en Fête (ex-Fête de la Pomme de Terre et du Cheval) 2026 — appel à candidatures emplacements",
+      "_source_url": "https://letampon.fr/appels-candidatures/appel-a-candidatures-pour-des-emplacements-disponibles-sur-le-domaine-public-fete-de-la-pomme-de-terre-et-du-cheval-site-de-miel-vert/",
+      "_confidence": "Vérifié",
+      "event": {
+        "name": "La Plaine en Fête (ex-Fête de la Pomme de Terre et du Cheval)",
+        "zone": "Sud",
+        "type": "Foire / Terroir",
+        "org": "Ville du Tampon — Service Animation/Événements",
+        "place": "Site de Miel Vert, Le Tampon",
+        "when": "Août (annuel, nouvelle formule) · éd. 2026 : 15–16 août",
+        "badge": "AOÛT",
+        "month": 8,
+        "dateStatus": "confirmée",
+        "status": "open",
+        "deadline": "31 juillet 2026",
+        "contact": "animation.dac@mairie-tampon.fr · 14 rue Antoine Fontaine, Le Tampon",
+        "social": "",
+        "url": "https://letampon.fr/appels-candidatures/appel-a-candidatures-pour-des-emplacements-disponibles-sur-le-domaine-public-fete-de-la-pomme-de-terre-et-du-cheval-site-de-miel-vert/",
+        "apply": "90 emplacements (15 alimentaire, 25 non-alimentaire, 40 produits du terroir transformés, 4 attractions enfants, 6 expo matériel agricole). Pièces requises : Kbis <3 mois, assurance, pièce d'identité, attestation MSA pour agriculteurs. Tarifs 3,50 à 50 €/jour selon catégorie. Dossier par email ou dépôt physique.",
+        "desc": "Nouvelle fête fusionnant la Fête de la Pomme de Terre et la Fête du Cheval, sur le site de Miel Vert (Plaine des Cafres)."
+      }
+    },
+    {
+      "_source_title": "Festi-Plantes 2026 (19ᵉ édition) — candidatures closes, informatif",
+      "_source_url": "https://www.saint-andre.re/appel-a-candidatures-festi-plantes-2026/",
+      "_confidence": "Vérifié",
+      "event": {
+        "name": "Festi-Plantes",
+        "zone": "Est",
+        "type": "Foire / Plantes & Jardin",
+        "org": "Ville de Saint-André",
+        "place": "Saint-André",
+        "when": "Septembre (annuel) · éd. 2026 : 9–13 sept. (19ᵉ édition)",
+        "badge": "SEPT",
+        "month": 9,
+        "dateStatus": "confirmée",
+        "status": "closed",
+        "deadline": "Éd. 2026 clôturée le 1er juin 2026 — surveiller l'appel éd. 2027",
+        "contact": "communication@saint-andre.re · 02.62.58.88.88",
+        "social": "",
+        "url": "https://www.saint-andre.re/appel-a-candidatures-festi-plantes-2026/",
+        "apply": "Appel à candidature exposants/forains via la Ville de Saint-André.",
+        "desc": "19ᵉ édition de la foire aux plantes et au jardin de Saint-André."
+      }
+    },
+    {
+      "_source_title": "Marché couvert de Saint-Paul — AMI emplacements artisanat, candidatures closes, informatif",
+      "_source_url": "https://www.mairie-saintpaul.re/wp-content/uploads/2025/12/AMI-2026-Marche-couvert-St-Paul.pdf",
+      "_confidence": "Vérifié",
+      "event": {
+        "name": "Marché couvert de Saint-Paul — emplacements artisanat (AMI)",
+        "zone": "Ouest",
+        "type": "Marché communal (box/boutiques)",
+        "org": "Ville de Saint-Paul",
+        "place": "Marché couvert, centre-ville, Saint-Paul",
+        "when": "Cycle annuel (appel à manifestation d'intérêt) · éd. 2026 : dossiers clos",
+        "badge": "AMI",
+        "month": 99,
+        "dateStatus": "récurrent",
+        "status": "closed",
+        "deadline": "Éd. 2026 clôturée le 29 décembre 2025 — surveiller le prochain cycle",
+        "contact": "maire@mairie-saintpaul.fr · 0262 45 90 69",
+        "social": "",
+        "url": "https://www.mairie-saintpaul.re/wp-content/uploads/2025/12/AMI-2026-Marche-couvert-St-Paul.pdf",
+        "apply": "9 emplacements/box (redevance 90 à 400 €/an) pour artisanat local (couture, bijouterie, artisanat indien, divers, vêtements) — procédure premier demandeur sauf concurrence.",
+        "desc": "Autorisations d'occupation temporaire pour boutiques/box du marché couvert de Saint-Paul, dédiées à l'artisanat local."
+      }
+    },
+    {
+      "_source_title": "Bal la Poussière — Fête patronale Sainte-Marie 2026 (pertinence artisanat à confirmer)",
+      "_source_url": "https://www.ville-saintemarie.re/appel-a-candidatures-pour-lexploitation-demplacements-pour-le-bal-populaire-bal-la-poussiere-fete-patronale-2026/",
+      "_confidence": "Probable",
+      "event": null
+    },
+    {
+      "_source_title": "Fête patronale de Saint-Louis — appel à forains 2026 (deadline 12 août 2026, page source bloquée 403, lue via extraits WebSearch uniquement)",
+      "_source_url": "https://saintlouis.re/",
+      "_confidence": "Probable",
+      "event": null
+    },
+    {
+      "_source_title": "Saint-Benoît — appel à candidature Place Louis Brunet / esplanade front de mer / parking cimetière Sainte-Anne (30 oct.–1 nov. 2026, deadline inconnue, page source bloquée 403)",
+      "_source_url": "https://www.saint-benoit.re/",
+      "_confidence": "Probable",
+      "event": null
+    },
+    {
+      "_source_title": "Saint-Benoît — Marché du Terroir et de Noël (année incertaine, page source bloquée 403)",
+      "_source_url": "https://www.saint-benoit.re/",
+      "_confidence": "À confirmer",
+      "event": null
+    },
+    {
+      "_source_title": "L'Éden des créateurs — Jardin d'Éden, Saint-Gilles (dernière éd. 15-16 nov. 2025, aucune date 2026 confirmée — hôte récurrent à surveiller)",
+      "_source_url": "https://guide-reunion.fr/evenements/eve/eden-des-createurs/",
+      "_confidence": "Probable",
+      "event": null
+    },
+    {
+      "_source_title": "Salon Fait Main — incohérence de numérotation entre la fiche existante (102ᵉ éd. 12-14 juin 2026) et une source presse évoquant une 102ᵉ éd. datée 4-6 décembre 2026 ; à vérifier avant correction",
+      "_source_url": "https://guide-reunion.fr/salon-fait-main/",
+      "_confidence": "Probable",
+      "event": null
+    },
+    {
+      "_source_title": "Salon Nou Lé Lokal — incertitude sur la périodicité (fiche existante attend éd. 2026, source ADIR suggère possible périodicité biennale avec relance en 2027)",
+      "_source_url": "https://adir.re/noulelocal/",
+      "_confidence": "À confirmer",
+      "event": null
+    }
+  ],
+  "community": []
+}

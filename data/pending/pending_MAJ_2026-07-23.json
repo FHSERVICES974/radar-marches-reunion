@@ -1,0 +1,126 @@
+{
+  "generated": "2026-07-23",
+  "status_changes": [],
+  "new_events_candidates": [
+    {
+      "_source_title": "Concert DMM 2026 — appel à forains (Saint-André)",
+      "_source_url": "https://www.saint-andre.re/appel-a-candidature-forains-concert-dmm-2026/",
+      "_confidence": "Vérifié",
+      "event": {
+        "name": "Concert DMM 2026 — appel à forains",
+        "zone": "Est",
+        "type": "Marché forain / concert ponctuel",
+        "org": "Ville de Saint-André",
+        "place": "Parc du Colosse, Saint-André",
+        "when": "Ponctuel · samedi 15 août 2026, 18h–01h30",
+        "badge": "AOÛT",
+        "month": 8,
+        "dateStatus": "confirmée",
+        "status": "open",
+        "deadline": "24 juillet 2026, 14h00",
+        "contact": "culture@saint-andre.re · 02.62.58.88.88",
+        "social": "",
+        "url": "https://www.saint-andre.re/appel-a-candidature-forains-concert-dmm-2026/",
+        "apply": "3 emplacements forains sur le domaine public. Dossier complet par mail (culture@saint-andre.re) ou courrier (Service Courrier – Hôtel de Ville – BP 505 – Place du 2 Décembre – 97440 Saint-André) avant le 24/07/2026 14h. Toute candidature incomplète ou hors délai n'est pas enregistrée.",
+        "desc": "Restitution de l'opération #DMM : concert au Parc du Colosse avec 3 emplacements forains ouverts aux candidatures."
+      }
+    },
+    {
+      "_source_title": "Fête de l'ail — Petite-Île 2026",
+      "_source_url": "https://www.petite-ile.re/",
+      "_confidence": "Vérifié",
+      "event": {
+        "name": "Fête de l'ail — Petite-Île",
+        "zone": "Sud",
+        "type": "Fête / Terroir",
+        "org": "Mairie de Petite-Île",
+        "place": "Petite-Île",
+        "when": "Octobre (annuel) · éd. 2026 : 23–25 oct.",
+        "badge": "OCT",
+        "month": 10,
+        "dateStatus": "confirmée",
+        "status": "soon",
+        "deadline": "Appel 2026 non encore publié à ce jour (historique : ouverture juin–août)",
+        "contact": "02 62 56 79 79 (service épanouissement humain) · 192 rue Mahé de Labourdonnais, 97429 Petite-Île",
+        "social": "",
+        "url": "https://www.petite-ile.re/",
+        "apply": "Appel à forains publié en ligne (petite-ile.re/actualites) — courrier au Maire précisant l'activité pratiquée, le nombre de m² et les besoins en électricité.",
+        "desc": "Fête traditionnelle autour de l'ail, avec forains et exposants (produits du terroir, artisanat)."
+      }
+    },
+    {
+      "_source_title": "Appel à projet — Marché couvert de Saint-André (box commerciaux)",
+      "_source_url": "https://www.saint-andre.re/",
+      "_confidence": "Probable",
+      "event": null
+    },
+    {
+      "_source_title": "Fête de la Forêt, Terroir et Traditions — La Possession (récurrent, dernière éd. connue mai 2025)",
+      "_source_url": "https://www.lapossession.re/page/appels-a-projets-2",
+      "_confidence": "Probable",
+      "event": null
+    },
+    {
+      "_source_title": "Marché de Noël — La Possession (récurrent, dernière éd. connue déc. 2025)",
+      "_source_url": "https://www.lapossession.re/page/appels-a-projets-2",
+      "_confidence": "Probable",
+      "event": null
+    },
+    {
+      "_source_title": "Fête Patronale de Saint-Louis 2026 — appel forains/exposants (non lu en direct, HTTP 403)",
+      "_source_url": "https://saintlouis.re/actualites/169-appel-a-candidatures",
+      "_confidence": "Probable",
+      "event": null
+    }
+  ],
+  "community": [
+    {
+      "name": "Boccaz Run — vente éphémère",
+      "zone": "Ouest",
+      "note": "Compte actif (Instagram, post du 25 mai 2026) mais aucune date de prochaine édition 2026 retrouvée.",
+      "source": "https://www.instagram.com/boccaz_run/"
+    },
+    {
+      "name": "Hulwayat Event — marché halal & végan",
+      "zone": "Est",
+      "note": "Aucune information datée sur un marché 2026 retrouvée en ligne.",
+      "source": "https://www.instagram.com/hulwayat_halal_et_vegan/"
+    },
+    {
+      "name": "Articoco",
+      "zone": "Sud",
+      "note": "Aucune information datée sur un appel 2026 retrouvée en ligne.",
+      "source": ""
+    },
+    {
+      "name": "Oté Z'Artizan / Oté Z'Artisans du Sud",
+      "zone": "Sud",
+      "note": "4ᵉ édition tenue le 12 avril 2026 à Saint-Joseph (déjà passée). Appel à candidatures visible en photo Facebook mais deadline illisible par l'agent — à vérifier manuellement pour une prochaine édition.",
+      "source": "https://m.facebook.com/otezartisans/photos/-appel-a-candidatures-cr%C3%A9ateurs-artisans-et-agriculteurs-du-sud-vous-avez-jusqua/618011787645175/"
+    },
+    {
+      "name": "Grand'Anse en l'air — La Bande à Guinguette",
+      "zone": "Sud",
+      "note": "Dates « 5–6 juillet » trouvées dans un agenda tiers sans année certaine, probablement déjà passées. À reconfirmer avec l'association.",
+      "source": "https://happeningnext.com/event/grand-anse-en-lair-organis%C3%83%C2%A9-par-la-bande-%C3%83%C2%A0-guinguette-eid3a0ciwhgwm"
+    },
+    {
+      "name": "Jardin d'Eden — Eden des créateurs",
+      "zone": "Ouest",
+      "note": "Hôte événementiel confirmé mais aucun appel daté trouvé actuellement. Hôte récurrent à surveiller.",
+      "source": "https://www.jardindeden.re/"
+    },
+    {
+      "name": "Domaine des Tourelles",
+      "zone": "Est",
+      "note": "Hôte confirmé (ateliers & marchés Pâques/JEP/Noël/vacances) mais aucune date 2026 trouvée. Hôte récurrent à surveiller.",
+      "source": "https://tourelles.re/"
+    },
+    {
+      "name": "Village Artisanal de l'Éperon — marché des créateurs",
+      "zone": "Ouest",
+      "note": "Un agenda tiers mentionnait une date du 7 mars 2026 (déjà passée) ; aucune nouvelle date trouvée pour la suite de l'année.",
+      "source": "https://www.ouest-lareunion.com/agenda/les-communes-bougent/marche-des-artisans-et-createurs-de-l-eperon"
+    }
+  ]
+}

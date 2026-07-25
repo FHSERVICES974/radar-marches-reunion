@@ -17,6 +17,14 @@ CLAUDE_BIN="$(command -v claude || echo "$HOME/.npm-global/bin/claude")"
 STAMP=$(date "+%Y-%m-%d %H:%M:%S")
 echo "===== VEILLE $STAMP =====" >> veille.log
 
+# Se resynchroniser AVANT de travailler : la page /admin sur Replit peut avoir
+# publié des événements depuis la dernière veille (elle écrit events.json et
+# pousse sur GitHub). Sans ce pull, le Mac travaillerait sur une base périmée et
+# la veille proposerait des doublons.
+git pull --rebase --autostash origin main >> veille.log 2>&1 \
+  && echo "[git] resynchronisé avec GitHub" >> veille.log \
+  || echo "[git] ATTENTION : pull échoué, base peut-être périmée" >> veille.log
+
 # Export de la note "Radar Inbox" (captures Instagram/FB via le raccourci iPhone).
 # Fait en AppleScript natif (osascript) car l'agent headless n'a PAS accès au
 # serveur MCP Apple Notes (celui-ci n'existe que dans les sessions interactives
@@ -67,6 +75,22 @@ fi
 
 RC=$?
 echo "----- fin veille (rc=$RC) $(date '+%H:%M:%S') -----" >> veille.log
+
+# Fait remonter les propositions vers la page de validation /admin (Replit) :
+# commit + push de data/pending/ uniquement. Ce n'est PAS une publication —
+# events.json et index.html ne sont pas touchés, le site public ne change pas.
+# C'est simplement le canal Mac -> GitHub -> webhook /sync -> Replit.
+if [ -n "$(git status --porcelain data/pending/ 2>/dev/null)" ]; then
+  git add data/pending/ >> veille.log 2>&1
+  git commit -q -m "veille $(date +%F) : propositions à valider" >> veille.log 2>&1
+  if git push origin main >> veille.log 2>&1; then
+    echo "[git] propositions envoyées vers /admin" >> veille.log
+  else
+    echo "[git] ATTENTION : push échoué, propositions restées locales" >> veille.log
+  fi
+else
+  echo "[git] aucune nouvelle proposition à envoyer" >> veille.log
+fi
 
 # Notification macOS de fin.
 LATEST=$(ls -t proposition_MAJ_*.md 2>/dev/null | head -1)
