@@ -100,11 +100,17 @@ def _send_webhook_alert(url: str) -> bool:
 def _send_email(subject: str, body: str, recipient: str) -> bool:
     """Envoie un email via SMTP (mécanisme unique de l'app).
     Retourne True en cas de succès."""
-    smtp_host = os.environ.get("SMTP_HOST", "localhost")
+    # Gmail par défaut (compte du propriétaire) — surchargeables par env vars.
+    smtp_host = os.environ.get("SMTP_HOST", "smtp.gmail.com")
     smtp_port = int(os.environ.get("SMTP_PORT", 587))
-    smtp_user = os.environ.get("SMTP_USER", "")
-    smtp_password = os.environ.get("SMTP_PASSWORD", "")
-    smtp_from = os.environ.get("SMTP_FROM", "noreply@localhost")
+    smtp_user = os.environ.get("SMTP_USER", "shadowneox@gmail.com")
+    smtp_password = (os.environ.get("GMAIL_APP_PASSWORD", "")
+                     or os.environ.get("SMTP_PASSWORD", ""))
+    smtp_from = os.environ.get("SMTP_FROM", "shadowneox@gmail.com")
+
+    if not smtp_password:
+        log.error("Échec envoi email : secret GMAIL_APP_PASSWORD manquant.")
+        return False
 
     msg = EmailMessage()
     msg["Subject"] = subject
@@ -1395,9 +1401,95 @@ def _render_org_submissions_section() -> str:
            style="flex:1;min-width:180px;border:1px solid #e7e1d2;border-radius:8px;padding:7px 10px;font-size:13px">
     <button class="btn-pub" type="submit">✅ Valider &amp; publier</button>
     <button class="btn-rej" type="submit" formaction="/admin/org-reject">❌ Rejeter</button>
+    <button class="btn-rej" type="submit" formaction="/admin/org-delete" style="opacity:.75"
+            onclick="return confirm('Supprimer définitivement cette soumission ? Irréversible (aucune trace conservée).')">🗑 Supprimer</button>
   </form>
 </div>""")
     return header + "".join(cards) + "</div>"
+
+
+def _render_published_events_section() -> str:
+    """Section /admin : événements actuellement publiés (Retirer / Corriger)."""
+    esc = lambda s: html.escape(str(s), quote=True)  # noqa: E731
+    try:
+        with open(os.path.join("data", "events.json"), encoding="utf-8") as f:
+            events = json.load(f)
+    except Exception:
+        events = []
+
+    header = ('<div class="card"><div class="card-h">📚 Événements publiés'
+              f' <span style="color:#8a8474;font-weight:400">({len(events)})</span></div>')
+    if not events:
+        return header + ('<div class="empty-st"><span>📭</span>'
+                         '<p>Aucun événement publié.</p></div></div>')
+
+    zones = ["Nord", "Est", "Ouest", "Sud", "National"]
+    inp_style = ("width:100%;border:1px solid #e7e1d2;border-radius:8px;"
+                 "padding:6px 9px;font-size:13px;box-sizing:border-box")
+    lbl_style = "font-size:12px;color:#8a8474;display:block;margin-top:8px"
+
+    cards = []
+    for ev in events:
+        name = ev.get("name", "")
+        # Formulaire de correction : les 16 champs
+        def field(k, label, ev=ev):
+            return (f'<label style="{lbl_style}">{label}'
+                    f'<input name="{k}" value="{esc(ev.get(k, ""))}" '
+                    f'maxlength="400" style="{inp_style}"></label>')
+        zone_opts = "".join(
+            f'<option value="{z}"{" selected" if ev.get("zone") == z else ""}>{z}</option>'
+            for z in zones)
+        edit_form = (
+            f'<details style="margin-top:8px"><summary style="cursor:pointer;'
+            f'font-size:13px;color:#0e6b52">✏️ Corriger</summary>'
+            f'<form method="POST" action="/admin/event-update" '
+            f'style="margin-top:6px">'
+            f'<input type="hidden" name="orig_name" value="{esc(name)}">'
+            + field("name", "Nom")
+            + f'<label style="{lbl_style}">Zone'
+              f'<select name="zone" style="{inp_style}">{zone_opts}</select></label>'
+            + field("type", "Type") + field("org", "Organisateur")
+            + field("place", "Lieu") + field("when", "Date / période")
+            + field("badge", "Badge (ex. JANV)") + field("month", "Mois (1–12, 99 si inconnu)")
+            + field("dateStatus", "Statut de date (confirmé / annuel / à confirmer)")
+            + field("status", "Statut (open / soon / closed)")
+            + field("deadline", "Date limite") + field("contact", "Contact")
+            + field("social", "Réseaux") + field("url", "Lien")
+            + field("apply", "Comment candidater")
+            + f'<label style="{lbl_style}">Description'
+              f'<textarea name="desc" rows="3" maxlength="1000" '
+              f'style="{inp_style}">{esc(ev.get("desc", ""))}</textarea></label>'
+            f'<button type="submit" class="btn-prop btn-pub" '
+            f'style="margin-top:8px">💾 Enregistrer la correction</button>'
+            f'</form></details>')
+        remove_form = (
+            f'<form method="POST" action="/admin/event-remove" class="prop-form" '
+            f'style="display:inline" onsubmit="return confirm(\'Retirer '
+            f'« {esc(name)} » du site public ? L\\\'événement disparaîtra '
+            f'immédiatement du radar.\')">'
+            f'<input type="hidden" name="name" value="{esc(name)}">'
+            f'<button type="submit" class="btn-prop btn-rej">🗑 Retirer</button>'
+            f'</form>')
+        meta = " · ".join(x for x in [ev.get("zone"), ev.get("type"),
+                                      ev.get("when", "")[:60]] if x)
+        cards.append(
+            f'<div class="prop-card pub-ev-card" '
+            f'data-search="{esc((name + " " + meta).lower())}">'
+            f'<div class="prop-top"><div class="prop-name">{esc(name)}</div>'
+            f'{remove_form}</div>'
+            f'<div class="prop-meta"><span class="prop-meta-item">{esc(meta)}</span></div>'
+            f'{edit_form}</div>')
+
+    search = (
+        '<input id="pub-ev-search" type="search" placeholder="🔍 Filtrer par nom, '
+        f'zone, type…" style="{inp_style};margin:10px 0">'
+        '<script>document.addEventListener("DOMContentLoaded",function(){'
+        'var i=document.getElementById("pub-ev-search");'
+        'i.addEventListener("input",function(){var q=i.value.toLowerCase();'
+        'document.querySelectorAll(".pub-ev-card").forEach(function(c){'
+        'c.style.display=c.dataset.search.indexOf(q)>=0?"":"none";});});});</script>')
+
+    return header + search + "".join(cards) + "</div>"
 
 
 def _load_latest_proposal() -> tuple:
@@ -1480,6 +1572,21 @@ def _publish_event_to_repo_unlocked(event: dict) -> tuple:
     events.append(event)
     events.sort(key=lambda e: (e.get("month", 99), e.get("name", "")))
 
+    ev_label = event.get("name", "événement")
+    ok, msg = _write_events_rebuild_and_push(events, f"Publier : {ev_label}")
+    if not ok:
+        return False, msg
+    log.info("Publié et pushé : %s", ev_label)
+    return True, f"« {ev_label} » publié et pushé sur GitHub."
+
+
+def _write_events_rebuild_and_push(events: list, commit_msg: str) -> tuple:
+    """Écrit events.json, met à jour meta.json, rebuild index.html depuis le
+    template figé, puis commit + push. Appelant : sous _git_ops_lock, après
+    _git_pull_for_publish(). Retourne (ok, message)."""
+    events_path = os.path.join("data", "events.json")
+    meta_path   = os.path.join("data", "meta.json")
+
     # 5 — Écrire events.json
     try:
         with open(events_path, "w", encoding="utf-8") as f:
@@ -1552,7 +1659,6 @@ def _publish_event_to_repo_unlocked(event: dict) -> tuple:
         # Erreur réseau inattendue : on tente quand même le push
         log.warning("Vérification API GitHub échouée (%s) — push tenté quand même.", _msg)
 
-    ev_label = event.get("name", "événement")
     # Forme x-access-token vérifiée fonctionnelle avec ce token
     # (le header "Authorization: token …" est refusé par GitHub).
     push_url = (f"https://x-access-token:{gh_token}"
@@ -1565,7 +1671,8 @@ def _publish_event_to_repo_unlocked(event: dict) -> tuple:
         subprocess.run(
             ["git", "-c", "user.email=admin@radar.re",
              "-c", "user.name=Radar Admin",
-             "commit", "-m", f"Publier : {ev_label}"],
+             "commit", "-m", commit_msg],
+
             check=True, timeout=30,
         )
         push_env = dict(os.environ)
@@ -1584,8 +1691,65 @@ def _publish_event_to_repo_unlocked(event: dict) -> tuple:
     except subprocess.TimeoutExpired:
         return False, "git push expiré (>60 s)."
 
-    log.info("Publié et pushé : %s", ev_label)
-    return True, f"« {ev_label} » publié et pushé sur GitHub."
+    return True, "Modifications poussées sur GitHub."
+
+
+def _remove_event_from_repo(name: str) -> tuple:
+    """Retire un événement publié (par nom exact) : events.json → rebuild →
+    push. Retourne (ok, message)."""
+    with _git_ops_lock:
+        ok, msg = _git_pull_for_publish()
+        if not ok:
+            return False, f"Synchronisation GitHub impossible : {msg}"
+        events_path = os.path.join("data", "events.json")
+        try:
+            with open(events_path, encoding="utf-8") as f:
+                events = json.load(f)
+        except Exception as exc:
+            return False, f"Lecture events.json impossible : {exc}"
+        target = name.strip().lower()
+        kept = [e for e in events
+                if e.get("name", "").strip().lower() != target]
+        if len(kept) == len(events):
+            return False, f"« {name} » introuvable dans events.json."
+        ok, msg = _write_events_rebuild_and_push(kept, f"Retirer : {name}")
+        if not ok:
+            return False, msg
+        log.info("Événement retiré et pushé : %s", name)
+        return True, f"« {name} » retiré du site public."
+
+
+def _update_event_in_repo(orig_name: str, event: dict) -> tuple:
+    """Remplace la fiche d'un événement publié (repéré par son nom d'origine)
+    par la fiche corrigée : events.json → rebuild → push."""
+    with _git_ops_lock:
+        ok, msg = _git_pull_for_publish()
+        if not ok:
+            return False, f"Synchronisation GitHub impossible : {msg}"
+        events_path = os.path.join("data", "events.json")
+        try:
+            with open(events_path, encoding="utf-8") as f:
+                events = json.load(f)
+        except Exception as exc:
+            return False, f"Lecture events.json impossible : {exc}"
+        target = orig_name.strip().lower()
+        idx = next((i for i, e in enumerate(events)
+                    if e.get("name", "").strip().lower() == target), None)
+        if idx is None:
+            return False, f"« {orig_name} » introuvable dans events.json."
+        # Nouveau nom déjà pris par un AUTRE événement ?
+        new_name = event.get("name", "").strip().lower()
+        if any(i != idx and e.get("name", "").strip().lower() == new_name
+               for i, e in enumerate(events)):
+            return False, f"Un autre événement s'appelle déjà « {event.get('name')} »."
+        events[idx] = event
+        events.sort(key=lambda e: (e.get("month", 99), e.get("name", "")))
+        ok, msg = _write_events_rebuild_and_push(
+            events, f"Corriger : {event.get('name', orig_name)}")
+        if not ok:
+            return False, msg
+        log.info("Événement corrigé et pushé : %s", orig_name)
+        return True, f"« {event.get('name', orig_name)} » corrigé et publié."
 
 
 def _render_proposals_section(dev_mode: bool) -> str:  # noqa: PLR0912,PLR0915
@@ -1705,6 +1869,16 @@ def _render_proposals_section(dev_mode: bool) -> str:  # noqa: PLR0912,PLR0915
             f'</form>'
         )
 
+        del_btn = (
+            f'<form method="POST" action="/admin/delete-proposal" class="prop-form" '
+            f'onsubmit="return confirm(\'Supprimer définitivement cette proposition ? '
+            f'Irréversible (aucune trace conservée).\')">'
+            f'<input type="hidden" name="key" value="{key}">'
+            f'<button type="submit" class="btn-prop btn-rej" '
+            f'style="opacity:.75">🗑 Supprimer</button>'
+            f'</form>'
+        )
+
         # Bloc « compléter » pour les candidats sans fiche complète
         complete_html = ""
         if not has_ev:
@@ -1736,7 +1910,7 @@ def _render_proposals_section(dev_mode: bool) -> str:  # noqa: PLR0912,PLR0915
             f'{complete_html}'
             f'<div class="prop-foot">'
             f'<a href="{src_url}" target="_blank" rel="noopener" class="prop-src">🔗 {src_ttl}</a>'
-            f'<div class="prop-actions">{pub_btn}{rej_btn}</div>'
+            f'<div class="prop-actions">{pub_btn}{rej_btn}{del_btn}</div>'
             f'</div></div>'
         )
 
@@ -1896,6 +2070,7 @@ def _render_stats_page(dev_mode: bool, user_name: str, flash: str = "") -> str: 
     clicks         = _load_clicks_stats()
     proposals_html = _render_proposals_section(dev_mode)
     org_subs_html  = _render_org_submissions_section()
+    published_html = _render_published_events_section()
     now_str        = datetime.datetime.now().strftime("%d/%m/%Y à %H:%M")
 
     # Flash message HTML
@@ -2183,6 +2358,7 @@ footer{{text-align:center;font-size:.7rem;color:#94a3b8;padding:2rem 0 1.5rem}}
 
 {proposals_html}
 {org_subs_html}
+{published_html}
 
 <div class="card">
   <div class="card-h">💬 Assistant « Le ti artisan futé »</div>
@@ -2357,6 +2533,9 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             flash = "ok:✅ Événement publié et pushé sur GitHub."
         elif "comp" in qs:
             flash = "ok:🔎 Vérification IA lancée — rechargez la page dans ~1 minute."
+        elif "ok" in qs:
+            detail = html.escape(urllib.parse.unquote(qs["ok"][0]))
+            flash  = f"ok:✅ {detail}"
         elif "err" in qs:
             detail = html.escape(urllib.parse.unquote(qs["err"][0]))
             flash  = f"err:❌ Erreur : {detail}"
@@ -2657,6 +2836,154 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 args=(["data/organizer_submissions.json"],), daemon=True).start()
         self._redirect_admin()
 
+    def _handle_org_delete(self) -> None:
+        """POST /admin/org-delete — supprime définitivement une soumission."""
+        if not self._admin_authorized():
+            self.send_response(403)
+            self.end_headers()
+            return
+        length   = int(self.headers.get("Content-Length", 0))
+        params   = urllib.parse.parse_qs(
+            self.rfile.read(length).decode("utf-8", errors="replace"))
+        sub_id   = params.get("id", [""])[0]
+
+        removed = False
+        with _submissions_lock:
+            subs = _load_json_list(_SUBMISSIONS_FILE)
+            kept = [s for s in subs if s.get("id") != sub_id]
+            if len(kept) != len(subs):
+                _save_json_list(_SUBMISSIONS_FILE, kept)
+                removed = True
+        if removed:
+            log.info("Soumission organisateur supprimée définitivement : %s", sub_id)
+            threading.Thread(
+                target=_push_org_files,
+                args=(["data/organizer_submissions.json"],), daemon=True).start()
+        self._redirect_admin()
+
+    def _handle_delete_proposal(self) -> None:
+        """POST /admin/delete-proposal — supprime définitivement un candidat IA
+        (retiré du fichier de veille + décisions + complétions)."""
+        if not self._admin_authorized():
+            self.send_response(403)
+            self.end_headers()
+            return
+        length = int(self.headers.get("Content-Length", 0))
+        params = urllib.parse.parse_qs(
+            self.rfile.read(length).decode("utf-8", errors="replace"))
+        key    = params.get("key", [""])[0]
+        if not key:
+            self._redirect_admin()
+            return
+
+        filename, candidates = _load_latest_proposal()
+        pushes = []
+        if filename and candidates:
+            # Ne supprime qu'UN candidat (les clés peuvent entrer en collision
+            # si deux candidats partagent la même source).
+            kept, removed_one = [], False
+            for c in candidates:
+                if not removed_one and _candidate_key(c) == key:
+                    removed_one = True
+                    continue
+                kept.append(c)
+            if removed_one:
+                path = os.path.join(_PENDING_DIR, filename)
+                try:
+                    with open(path, encoding="utf-8") as f:
+                        data = json.load(f)
+                    if "new_events_candidates" in data:
+                        data["new_events_candidates"] = kept
+                    else:
+                        data["candidates"] = kept
+                    with open(path, "w", encoding="utf-8") as f:
+                        json.dump(data, f, ensure_ascii=False, indent=2)
+                    pushes.append(path)
+                except Exception as exc:
+                    log.error("Suppression candidat impossible : %s", exc)
+                    self._redirect_admin("err=" + urllib.parse.quote(
+                        f"Suppression impossible : {exc}", safe=""))
+                    return
+
+        # Effacer aussi toute décision / complétion associée (aucune trace).
+        with _decisions_lock:
+            try:
+                with open(_DECISIONS_FILE, encoding="utf-8") as f:
+                    dec = json.load(f)
+            except (FileNotFoundError, json.JSONDecodeError, OSError):
+                dec = {}
+            if key in dec:
+                del dec[key]
+                with open(_DECISIONS_FILE, "w", encoding="utf-8") as f:
+                    json.dump(dec, f, ensure_ascii=False, indent=2)
+                pushes.append("data/pending_decisions.json")
+        with _completions_lock:
+            try:
+                with open(_COMPLETIONS_FILE, encoding="utf-8") as f:
+                    comp = json.load(f)
+            except (FileNotFoundError, json.JSONDecodeError, OSError):
+                comp = {}
+            if key in comp:
+                del comp[key]
+                with open(_COMPLETIONS_FILE, "w", encoding="utf-8") as f:
+                    json.dump(comp, f, ensure_ascii=False, indent=2)
+                pushes.append("data/pending_completions.json")
+
+        if pushes:
+            log.info("Candidat supprimé définitivement : %s", key)
+            threading.Thread(
+                target=_push_runtime_file,
+                args=(pushes, "Suppression définitive d'une proposition",
+                      "suppression"), daemon=True).start()
+        self._redirect_admin()
+
+    def _handle_event_remove(self) -> None:
+        """POST /admin/event-remove — retire un événement publié du site."""
+        if not self._admin_authorized():
+            self.send_response(403)
+            self.end_headers()
+            return
+        length = int(self.headers.get("Content-Length", 0))
+        params = urllib.parse.parse_qs(
+            self.rfile.read(length).decode("utf-8", errors="replace"))
+        name   = params.get("name", [""])[0].strip()
+        if not name:
+            self._redirect_admin()
+            return
+        ok, msg = _remove_event_from_repo(name)
+        if ok:
+            self._redirect_admin("ok=" + urllib.parse.quote(msg, safe=""))
+        else:
+            log.error("Retrait échoué : %s", msg)
+            self._redirect_admin("err=" + urllib.parse.quote(msg, safe=""))
+
+    def _handle_event_update(self) -> None:
+        """POST /admin/event-update — corrige la fiche d'un événement publié."""
+        if not self._admin_authorized():
+            self.send_response(403)
+            self.end_headers()
+            return
+        length = int(self.headers.get("Content-Length", 0))
+        params = urllib.parse.parse_qs(
+            self.rfile.read(length).decode("utf-8", errors="replace"))
+        get = lambda k: params.get(k, [""])[0].strip()  # noqa: E731
+        orig_name = get("orig_name")
+        event = {k: get(k) for k in _EVENT_FIELDS}
+        try:
+            event["month"] = int(event["month"])
+        except ValueError:
+            event["month"] = 99
+        if not orig_name or not event["name"]:
+            self._redirect_admin("err=" + urllib.parse.quote(
+                "Nom manquant — correction ignorée.", safe=""))
+            return
+        ok, msg = _update_event_in_repo(orig_name, event)
+        if ok:
+            self._redirect_admin("ok=" + urllib.parse.quote(msg, safe=""))
+        else:
+            log.error("Correction échouée : %s", msg)
+            self._redirect_admin("err=" + urllib.parse.quote(msg, safe=""))
+
     def _handle_contacts_csv(self) -> None:
         """GET /admin/contacts.csv — export privé de l'annuaire de contacts."""
         if not self._admin_authorized():
@@ -2845,6 +3172,22 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
         if self.path == "/admin/org-reject":
             self._handle_org_reject()
+            return
+
+        if self.path == "/admin/org-delete":
+            self._handle_org_delete()
+            return
+
+        if self.path == "/admin/delete-proposal":
+            self._handle_delete_proposal()
+            return
+
+        if self.path == "/admin/event-remove":
+            self._handle_event_remove()
+            return
+
+        if self.path == "/admin/event-update":
+            self._handle_event_update()
             return
 
         if self.path == "/chat":
