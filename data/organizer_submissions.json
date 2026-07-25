@@ -2,7 +2,7 @@
   {
     "id": "fd14d7225607",
     "ts": "2026-07-25T17:41:21",
-    "status": "pending",
+    "status": "rejected",
     "fields": {
       "name": "Marché test des Lataniers",
       "zone": "Ouest",
@@ -22,6 +22,6 @@
     ],
     "submitter_name": "Jean Test",
     "submitter_phone": "0692 00 00 00",
-    "reviewer_note": ""
+    "reviewer_note": "Test interne — à nettoyer"
   }
 ]
