@@ -9,6 +9,7 @@ import base64
 import datetime
 import hashlib
 import hmac
+import html
 import http.server
 import json
 import logging
@@ -21,6 +22,7 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
+import uuid
 from email.message import EmailMessage
 
 logging.basicConfig(
@@ -95,8 +97,8 @@ def _send_webhook_alert(url: str) -> bool:
         return False
 
 
-def _send_email_alert(recipient: str) -> bool:
-    """Envoie une alerte par email via SMTP.
+def _send_email(subject: str, body: str, recipient: str) -> bool:
+    """Envoie un email via SMTP (mécanisme unique de l'app).
     Retourne True en cas de succès."""
     smtp_host = os.environ.get("SMTP_HOST", "localhost")
     smtp_port = int(os.environ.get("SMTP_PORT", 587))
@@ -105,10 +107,10 @@ def _send_email_alert(recipient: str) -> bool:
     smtp_from = os.environ.get("SMTP_FROM", "noreply@localhost")
 
     msg = EmailMessage()
-    msg["Subject"] = "⚠️ Serveur démarré en mode dégradé (git absent)"
+    msg["Subject"] = subject
     msg["From"] = smtp_from
     msg["To"] = recipient
-    msg.set_content(_ALERT_MESSAGE)
+    msg.set_content(body)
 
     try:
         with smtplib.SMTP(smtp_host, smtp_port, timeout=10) as server:
@@ -119,11 +121,17 @@ def _send_email_alert(recipient: str) -> bool:
             if smtp_user and smtp_password:
                 server.login(smtp_user, smtp_password)
             server.send_message(msg)
-        log.info("Alerte email envoyée à %s.", recipient)
+        log.info("Email envoyé à %s (%s).", recipient, subject[:60])
         return True
     except Exception as exc:
-        log.error("Échec envoi alerte email : %s", exc)
+        log.error("Échec envoi email : %s", exc)
         return False
+
+
+def _send_email_alert(recipient: str) -> bool:
+    """Alerte de démarrage en mode dégradé (compat historique)."""
+    return _send_email("⚠️ Serveur démarré en mode dégradé (git absent)",
+                       _ALERT_MESSAGE, recipient)
 
 
 def _send_degraded_alert():
@@ -963,8 +971,9 @@ def _published_name_zones() -> set:
         return set()
 
 
-def _push_runtime_file(relpath: str, commit_msg: str, label: str) -> None:
-    """Commit + push un fichier runtime pour qu'il survive aux resets VM.
+def _push_runtime_file(relpath, commit_msg: str, label: str) -> None:
+    """Commit + push un ou plusieurs fichiers runtime (str ou liste) pour
+    qu'ils survivent aux resets VM.
 
     Non bloquant pour l'utilisateur : toute erreur est loguée, jamais fatale.
     Le token GitHub est masqué dans TOUS les chemins d'erreur.
@@ -982,8 +991,9 @@ def _push_runtime_file(relpath: str, commit_msg: str, label: str) -> None:
     env.pop("GIT_ASKPASS", None)
     env["GIT_TERMINAL_PROMPT"] = "0"
     try:
+        paths = [relpath] if isinstance(relpath, str) else list(relpath)
         with _git_ops_lock:
-            subprocess.run(["git", "add", relpath], check=True, timeout=30)
+            subprocess.run(["git", "add", *paths], check=True, timeout=30)
             c = subprocess.run(
                 ["git", "-c", "user.email=admin@radar.re",
                  "-c", "user.name=Radar Admin",
@@ -1017,6 +1027,371 @@ def _push_completions() -> None:
     _push_runtime_file("data/pending_completions.json",
                        "Complétion IA d'un candidat (vérifié)",
                        "complétions")
+
+
+# ── Soumissions organisateurs (page publique /organisateurs) ────────────────
+#
+# Principe : soumis ≠ publié. Une soumission atterrit dans une file de
+# relecture (data/organizer_submissions.json) ; seul le propriétaire, depuis
+# /admin, la publie via le MÊME chemin que les candidats IA
+# (_publish_event_to_repo). Annuaire de contacts interne :
+# data/organizer_contacts.json — jamais rendu sur le site public.
+
+_SUBMISSIONS_FILE  = os.path.join(_DATA_DIR, "organizer_submissions.json")
+_ORG_CONTACTS_FILE = os.path.join(_DATA_DIR, "organizer_contacts.json")
+_submissions_lock  = threading.Lock()
+_ORG_OWNER_EMAIL   = "shadowneox@gmail.com"
+
+_ORG_RATE_MAX    = 5          # 5 soumissions / heure / IP
+_ORG_RATE_WINDOW = 3600
+_org_rate_store: dict = {}
+
+
+def _check_org_rate(ip: str) -> bool:
+    now = time.time()
+    with _rate_lock:
+        ts = [t for t in _org_rate_store.get(ip, []) if now - t < _ORG_RATE_WINDOW]
+        if len(ts) >= _ORG_RATE_MAX:
+            _org_rate_store[ip] = ts
+            return False
+        ts.append(now)
+        _org_rate_store[ip] = ts
+        return True
+
+
+def _load_json_list(path: str) -> list:
+    try:
+        with open(path, encoding="utf-8") as f:
+            data = json.load(f)
+        return data if isinstance(data, list) else []
+    except (FileNotFoundError, json.JSONDecodeError, OSError):
+        return []
+
+
+def _save_json_list(path: str, data: list) -> None:
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+
+
+def _push_org_files(paths: list) -> None:
+    _push_runtime_file(paths, "Soumissions organisateurs (file de relecture)",
+                       "soumissions organisateurs")
+
+
+_FR_MONTHS = [("janv", 1), ("févr", 2), ("fevr", 2), ("mars", 3), ("avril", 4),
+              ("avr", 4), ("mai", 5), ("juin", 6), ("juil", 7), ("août", 8),
+              ("aout", 8), ("sept", 9), ("oct", 10), ("nov", 11), ("déc", 12),
+              ("dec", 12)]
+_MONTH_BADGES = {1: "JANV", 2: "FÉV", 3: "MARS", 4: "AVR", 5: "MAI", 6: "JUIN",
+                 7: "JUIL", 8: "AOÛT", 9: "SEPT", 10: "OCT", 11: "NOV", 12: "DÉC"}
+
+
+def _month_from_text(s: str) -> int:
+    """Devine le mois (1-12) depuis un texte de date en français, sinon 99."""
+    low = str(s).lower()
+    for token, m in _FR_MONTHS:
+        if token in low:
+            return m
+    return 99
+
+
+def _norm_email(s: str) -> str:
+    return str(s).strip().lower()
+
+
+_SUBMIT_REQUIRED = ["name", "zone", "type", "org", "place", "when",
+                    "links", "apply", "email", "desc",
+                    "submitter_name", "submitter_phone"]
+_ZONES = ["Nord", "Est", "Ouest", "Sud", "National"]
+
+
+def _parse_links(raw: str) -> list:
+    """Extrait les liens http(s) valides (un par ligne), max 5."""
+    links = []
+    for line in str(raw).splitlines():
+        u = line.strip()
+        if not u:
+            continue
+        if not u.startswith(("http://", "https://")):
+            u = "https://" + u
+        try:
+            p = urllib.parse.urlparse(u)
+            if p.scheme in ("http", "https") and p.netloc and "." in p.netloc:
+                links.append(u)
+        except ValueError:
+            continue
+    return links[:5]
+
+
+def _submission_to_event(sub: dict) -> dict:
+    """Construit la fiche 16 champs (même structure que les candidats IA)."""
+    f = sub.get("fields", {})
+    month = _month_from_text(f.get("when", ""))
+    contact = f.get("email", "")
+    if f.get("phone"):
+        contact += " · " + f["phone"]
+    ev = {k: "" for k in _EVENT_FIELDS}
+    ev.update({
+        "name":       f.get("name", ""),
+        "zone":       f.get("zone", ""),
+        "type":       f.get("type", ""),
+        "org":        f.get("org", ""),
+        "place":      f.get("place", ""),
+        "when":       f.get("when", ""),
+        "badge":      _MONTH_BADGES.get(month, ""),
+        "month":      month,
+        "dateStatus": "à confirmer",
+        "status":     "open",
+        "deadline":   f.get("deadline", ""),
+        "contact":    contact,
+        "social":     f.get("social", ""),
+        "url":        (sub.get("links") or [""])[0],
+        "apply":      f.get("apply", ""),
+        "desc":       f.get("desc", ""),
+    })
+    return ev
+
+
+def _update_org_contact(sub: dict) -> tuple:
+    """Crée ou enrichit (sans écraser) le contact interne + l'annuaire orgs.json.
+
+    Retourne (paths_modifiés: list, contact: dict).
+    """
+    f = sub.get("fields", {})
+    email = _norm_email(f.get("email", ""))
+    now_iso = datetime.datetime.now().strftime("%Y-%m-%d")
+    paths = [_SUBMISSIONS_FILE.replace(os.sep, "/")]
+
+    # 1 — Annuaire de contacts interne (privé, jamais rendu publiquement)
+    contacts = _load_json_list(_ORG_CONTACTS_FILE)
+    entry = next((c for c in contacts if _norm_email(c.get("email")) == email), None)
+    if entry is None:
+        entry = {"email": email, "name": f.get("org", ""),
+                 "phone": f.get("phone", ""), "social": f.get("social", ""),
+                 "first_contact": now_iso, "last_contact": now_iso,
+                 "events_submitted": 1, "notes": ""}
+        contacts.append(entry)
+    else:
+        # Enrichir uniquement les champs vides — jamais écraser
+        for src, dst in (("org", "name"), ("phone", "phone"), ("social", "social")):
+            if not str(entry.get(dst, "")).strip() and f.get(src):
+                entry[dst] = f[src]
+        entry["events_submitted"] = int(entry.get("events_submitted", 0)) + 1
+        entry["last_contact"] = now_iso
+    _save_json_list(_ORG_CONTACTS_FILE, contacts)
+    paths.append(_ORG_CONTACTS_FILE.replace(os.sep, "/"))
+
+    # 2 — Annuaire public orgs.json (même règle : compléter, jamais écraser)
+    orgs_path = os.path.join(_DATA_DIR, "orgs.json")
+    orgs = _load_json_list(orgs_path)
+    org_entry = next((o for o in orgs if _norm_email(o.get("m")) == email), None)
+    if org_entry is None:
+        orgs.append({"n": f.get("org", ""), "m": email,
+                     "t": f.get("phone", ""), "s": f.get("social", ""),
+                     "w": (sub.get("links") or [""])[0]})
+    else:
+        for src_val, dst in ((f.get("phone", ""), "t"),
+                             (f.get("social", ""), "s"),
+                             ((sub.get("links") or [""])[0], "w")):
+            if not str(org_entry.get(dst, "")).strip() and src_val:
+                org_entry[dst] = src_val
+    _save_json_list(orgs_path, orgs)
+    paths.append("data/orgs.json")
+    return paths, entry
+
+
+_ORG_TYPES = ["Marché / Brocante", "Fête / Terroir", "Salon / Foire",
+              "Fête patronale", "Marché de Noël", "Événement culturel"]
+
+
+def _render_organisateurs_page(flash: str = "", form: dict = None) -> str:
+    """Page publique /organisateurs — proposer un événement (file de relecture)."""
+    form = form or {}
+
+    def val(k):
+        return html.escape(str(form.get(k, "")), quote=True)
+
+    flash_html = ""
+    if flash.startswith("ok"):
+        flash_html = ('<div class="flash ok">✅ Merci ! Votre événement a bien été '
+                      'transmis. Il sera relu par notre équipe avant toute mise en '
+                      'ligne — rien n\'est publié automatiquement.</div>')
+    elif flash.startswith("rate"):
+        flash_html = ('<div class="flash err">⏳ Trop de soumissions depuis votre '
+                      'connexion (5 max par heure). Réessayez un peu plus tard.</div>')
+    elif flash.startswith("err:"):
+        flash_html = f'<div class="flash err">❌ {html.escape(flash[4:])}</div>'
+
+    zone_opts = "".join(
+        f'<option value="{z}"{" selected" if form.get("zone") == z else ""}>{z}</option>'
+        for z in _ZONES)
+    type_opts = "".join(
+        f'<option value="{t}"{" selected" if form.get("type_choice") == t else ""}>{t}</option>'
+        for t in _ORG_TYPES)
+
+    return f"""<!doctype html>
+<html lang="fr"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Proposer un événement — Radar Marchés Réunion</title>
+<meta name="description" content="Organisateurs : proposez votre marché, fête ou salon à La Réunion. Relecture avant publication.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{{--bg:#f6f4ee;--panel:#fff;--ink:#211f1a;--muted:#8a8474;--line:#e7e1d2;
+    --accent:#0e6b52;--accent-soft:#e7f2ed;--gold:#a9812f;--gold-soft:#f6efe0;
+    --serif:'Fraunces',Georgia,serif;--sans:'Inter',-apple-system,"Segoe UI",Roboto,sans-serif}}
+  *{{box-sizing:border-box;margin:0;padding:0}}
+  body{{font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.6}}
+  .wrap{{max-width:760px;margin:0 auto;padding:34px 18px 60px}}
+  .eyebrow{{color:var(--gold);font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase}}
+  h1{{font-family:var(--serif);font-weight:600;font-size:34px;letter-spacing:-.3px;margin:8px 0 10px}}
+  .lede{{color:var(--muted);font-size:15.5px;max-width:56ch}}
+  .notice{{margin:20px 0 26px;background:var(--gold-soft);border:1px solid #e8d9b4;border-radius:12px;
+    padding:13px 16px;font-size:14px}}
+  .flash{{margin:0 0 20px;border-radius:12px;padding:13px 16px;font-size:14.5px}}
+  .flash.ok{{background:var(--accent-soft);border:1px solid #bfdccf}}
+  .flash.err{{background:#f4e9e6;border:1px solid #e2c6bf}}
+  form{{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:26px 24px;
+    box-shadow:0 1px 2px rgba(30,26,15,.04),0 10px 28px rgba(30,26,15,.06)}}
+  fieldset{{border:0;margin:0 0 8px}}
+  legend{{font-family:var(--serif);font-size:19px;font-weight:600;color:var(--accent);margin:14px 0 12px}}
+  label{{display:block;font-weight:600;font-size:13.5px;margin:14px 0 5px}}
+  label .opt{{color:var(--muted);font-weight:400}}
+  input,select,textarea{{width:100%;border:1px solid var(--line);border-radius:10px;background:#fdfcf9;
+    padding:10px 12px;font-size:14.5px;font-family:var(--sans);color:var(--ink)}}
+  input:focus,select:focus,textarea:focus{{outline:2px solid var(--accent);outline-offset:0;border-color:var(--accent)}}
+  textarea{{min-height:74px;resize:vertical}}
+  .hint{{font-size:12.5px;color:var(--muted);margin-top:4px}}
+  .grid2{{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}}
+  @media(max-width:560px){{.grid2{{grid-template-columns:1fr}}}}
+  .hp{{position:absolute;left:-6000px;top:-6000px;height:1px;overflow:hidden}}
+  button{{margin-top:22px;width:100%;background:var(--accent);color:#fff;border:0;border-radius:12px;
+    padding:14px;font-size:15.5px;font-weight:700;font-family:var(--sans);cursor:pointer}}
+  button:hover{{background:#0b573f}}
+  .back{{display:inline-block;margin-bottom:18px;color:var(--accent);font-weight:600;font-size:13.5px;text-decoration:none}}
+  .foot{{margin-top:18px;font-size:12.5px;color:var(--muted)}}
+</style></head><body><div class="wrap">
+<a class="back" href="/">← Retour au radar des marchés</a>
+<div class="eyebrow">Espace organisateurs</div>
+<h1>Proposez votre événement</h1>
+<p class="lede">Marché, fête, salon, brocante… à La Réunion ? Transmettez-nous les
+informations : nous vérifions chaque proposition avant de l'ajouter au radar.</p>
+<div class="notice">📋 <strong>Soumis n'est pas publié</strong> : votre proposition
+rejoint une file de relecture. Rien n'apparaît sur le site sans validation manuelle.</div>
+{flash_html}
+<form method="post" action="/organisateurs" novalidate>
+  <div class="hp" aria-hidden="true">
+    <label>Ne pas remplir<input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+  </div>
+  <fieldset><legend>L'événement</legend>
+    <label>Nom de l'événement *<input name="name" required maxlength="120" value="{val('name')}"></label>
+    <div class="grid2">
+      <label>Zone *<select name="zone" required>
+        <option value="" disabled{" selected" if not form.get("zone") else ""}>Choisir…</option>{zone_opts}
+      </select></label>
+      <label>Type d'événement *<select name="type_choice">
+        {type_opts}<option value="Autre"{" selected" if form.get("type_choice") == "Autre" else ""}>Autre (précisez)</option>
+      </select></label>
+    </div>
+    <label>Si « Autre » : précisez le type <span class="opt">(sinon laissez vide)</span>
+      <input name="type_autre" maxlength="60" value="{val('type_autre')}"></label>
+    <label>Organisateur / organisation *<input name="org" required maxlength="120" value="{val('org')}"></label>
+    <label>Lieu précis *<input name="place" required maxlength="160"
+      placeholder="Ex. : Jardins de la plage, Saint-Pierre" value="{val('place')}"></label>
+    <div class="grid2">
+      <label>Date ou période *<input name="when" required maxlength="160"
+        placeholder="Ex. : 12–14 septembre 2026" value="{val('when')}"></label>
+      <label>Date limite de candidature <span class="opt">(recommandé)</span>
+        <input name="deadline" maxlength="160" value="{val('deadline')}"></label>
+    </div>
+    <label>Lien(s) vers l'événement * <span class="opt">— un par ligne</span>
+      <textarea name="links" required placeholder="Page officielle, post Instagram ou Facebook…">{val('links')}</textarea>
+      <div class="hint">C'est le champ clé : il nous permet de vérifier et compléter votre fiche.</div></label>
+    <label>Comment candidater ? *<textarea name="apply" required maxlength="600"
+      placeholder="Ex. : dossier à envoyer par email avant le 30 juin…">{val('apply')}</textarea></label>
+    <label>Description courte (2-3 phrases) *<textarea name="desc" required maxlength="600">{val('desc')}</textarea></label>
+  </fieldset>
+  <fieldset><legend>Contact organisateur</legend>
+    <div class="grid2">
+      <label>Email de contact *<input type="email" name="email" required maxlength="120" value="{val('email')}"></label>
+      <label>Téléphone <span class="opt">(facultatif)</span>
+        <input name="phone" maxlength="40" value="{val('phone')}"></label>
+    </div>
+    <label>Compte réseaux sociaux <span class="opt">(facultatif — ex. @moncompte)</span>
+      <input name="social" maxlength="120" value="{val('social')}"></label>
+  </fieldset>
+  <fieldset><legend>Vos coordonnées (personne qui soumet)</legend>
+    <div class="grid2">
+      <label>Votre nom *<input name="submitter_name" required maxlength="120" value="{val('submitter_name')}"></label>
+      <label>Votre téléphone *<input name="submitter_phone" required maxlength="40" value="{val('submitter_phone')}"></label>
+    </div>
+    <div class="hint">Usage interne uniquement — jamais publié sur le site.</div>
+  </fieldset>
+  <button type="submit">Envoyer ma proposition</button>
+</form>
+<p class="foot">Vos coordonnées servent uniquement à la vérification et au suivi
+de votre proposition. Aucune donnée personnelle n'est publiée sans votre accord.</p>
+</div></body></html>"""
+
+
+def _render_org_submissions_section() -> str:
+    """Section /admin : soumissions organisateurs en attente de relecture."""
+    esc = lambda s: html.escape(str(s), quote=True)  # noqa: E731
+    subs = _load_json_list(_SUBMISSIONS_FILE)
+    pending = [s for s in subs if s.get("status") == "pending"]
+    contacts = {_norm_email(c.get("email")): c for c in _load_json_list(_ORG_CONTACTS_FILE)}
+
+    header = ('<div class="card"><div class="card-h">📨 Soumissions organisateurs'
+              f' <span style="color:#8a8474;font-weight:400">({len(pending)} en attente)</span>'
+              ' — <a href="/admin/contacts.csv" style="font-size:13px">Exporter les contacts (CSV)</a></div>')
+    if not pending:
+        return header + ('<div class="empty-st"><span>📭</span>'
+                         '<p>Aucune soumission en attente.</p>'
+                         '<span class="empty-sub">Les organisateurs peuvent proposer '
+                         'leurs événements sur <a href="/organisateurs">/organisateurs</a>.</span>'
+                         '</div></div>')
+
+    cards = []
+    for s in pending:
+        f = s.get("fields", {})
+        email = _norm_email(f.get("email", ""))
+        known = contacts.get(email)
+        if known and int(known.get("events_submitted", 0)) > 0:
+            n = int(known["events_submitted"])
+            badge = (f'<span class="conf-badge" style="background:#e7f2ed;color:#0e6b52">'
+                     f'✔ Organisateur connu — {n} événement{"s" if n > 1 else ""} soumis</span>')
+        else:
+            badge = ('<span class="conf-badge" style="background:#f6efe0;color:#a9812f">'
+                     '🆕 Nouvel organisateur</span>')
+        links_html = " ".join(
+            f'<a href="{esc(u)}" target="_blank" rel="noopener noreferrer">{esc(u)}</a><br>'
+            for u in s.get("links", []) if str(u).startswith(("http://", "https://")))
+        rows = "".join(
+            f"<div><strong>{lbl} :</strong> {esc(f.get(k, '')) or '<em>—</em>'}</div>"
+            for lbl, k in [("Zone", "zone"), ("Type", "type"), ("Organisateur", "org"),
+                           ("Lieu", "place"), ("Date/période", "when"),
+                           ("Date limite", "deadline"), ("Candidature", "apply"),
+                           ("Email", "email"), ("Téléphone", "phone"),
+                           ("Réseaux", "social"), ("Description", "desc")])
+        cards.append(f"""
+<div class="prop-card">
+  <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center">
+    <strong style="font-size:15px">{esc(f.get('name', '(sans nom)'))}</strong>{badge}
+  </div>
+  <div style="font-size:13.5px;margin-top:8px;display:grid;gap:3px">{rows}
+    <div><strong>Lien(s) :</strong><br>{links_html or '<em>—</em>'}</div>
+    <div><strong>Soumis par :</strong> {esc(s.get('submitter_name', ''))}
+         ({esc(s.get('submitter_phone', ''))}) — {esc(str(s.get('ts', ''))[:16])}</div>
+  </div>
+  <form method="post" action="/admin/org-approve" style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
+    <input type="hidden" name="id" value="{esc(s.get('id', ''))}">
+    <input name="note" placeholder="Note (optionnelle)" maxlength="300"
+           style="flex:1;min-width:180px;border:1px solid #e7e1d2;border-radius:8px;padding:7px 10px;font-size:13px">
+    <button class="btn-pub" type="submit">✅ Valider &amp; publier</button>
+    <button class="btn-rej" type="submit" formaction="/admin/org-reject">❌ Rejeter</button>
+  </form>
+</div>""")
+    return header + "".join(cards) + "</div>"
 
 
 def _load_latest_proposal() -> tuple:
@@ -1514,6 +1889,7 @@ def _render_stats_page(dev_mode: bool, user_name: str, flash: str = "") -> str: 
     themes         = _load_themes()
     clicks         = _load_clicks_stats()
     proposals_html = _render_proposals_section(dev_mode)
+    org_subs_html  = _render_org_submissions_section()
     now_str        = datetime.datetime.now().strftime("%d/%m/%Y à %H:%M")
 
     # Flash message HTML
@@ -1800,6 +2176,7 @@ footer{{text-align:center;font-size:.7rem;color:#94a3b8;padding:2rem 0 1.5rem}}
 </div>
 
 {proposals_html}
+{org_subs_html}
 
 <div class="card">
   <div class="card-h">💬 Assistant « Le ti artisan futé »</div>
@@ -1874,6 +2251,10 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self.send_header("Content-Length", str(len(body)))
             self.end_headers()
             self.wfile.write(body)
+        elif self.path.split("?")[0] in ("/organisateurs", "/organisateurs/"):
+            self._handle_org_page()
+        elif self.path == "/admin/contacts.csv":
+            self._handle_contacts_csv()
         elif self.path.split("?")[0] in ("/admin", "/admin/"):
             self._handle_admin()
         elif self.path == "/admin/logout":
@@ -2028,6 +2409,254 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         self.send_header("Location", loc)
         self.end_headers()
 
+    def _admin_authorized(self) -> bool:
+        """Vrai si dev_mode ou session admin valide (même règle que /admin)."""
+        if not os.environ.get("REPLIT_DEPLOYMENT"):
+            return True
+        token = _get_session_cookie(self.headers)
+        return bool(token and _verify_session_token(token))
+
+    def _client_ip(self) -> str:
+        return (self.headers.get("X-Forwarded-For")
+                or self.client_address[0]).split(",")[0].strip()
+
+    # ── Soumissions organisateurs ────────────────────────────────────────
+
+    def _handle_org_page(self) -> None:
+        """GET /organisateurs — page publique du formulaire."""
+        qs = urllib.parse.parse_qs(self.path.partition("?")[2])
+        flash = "ok" if "ok" in qs else ("rate" if "rate" in qs else "")
+        body = _render_organisateurs_page(flash=flash).encode("utf-8")
+        self.send_response(200)
+        self.send_header("Content-Type", "text/html; charset=utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.send_header("Cache-Control", "no-store")
+        self.end_headers()
+        self.wfile.write(body)
+
+    def _handle_org_submit(self) -> None:
+        """POST /organisateurs — enregistre une soumission (file de relecture)."""
+        length   = int(self.headers.get("Content-Length", 0))
+        if length > 50_000:
+            self.send_response(413)
+            self.end_headers()
+            return
+        raw_body = self.rfile.read(length).decode("utf-8", errors="replace")
+        params   = {k: v[0].strip() for k, v in urllib.parse.parse_qs(raw_body).items()}
+
+        # Honeypot : rejet silencieux (on affiche le succès pour ne rien révéler)
+        if params.get("website"):
+            log.info("Soumission organisateur ignorée (honeypot rempli).")
+            self._redirect("/organisateurs?ok=1")
+            return
+
+        if not _check_org_rate(self._client_ip()):
+            self._redirect("/organisateurs?rate=1")
+            return
+
+        # Type : liste ou champ libre « Autre »
+        type_choice = params.get("type_choice", "")
+        type_autre  = params.get("type_autre", "")[:60]
+        ev_type = type_autre if (type_choice == "Autre" or type_autre) else type_choice
+
+        fields = {
+            "name":  params.get("name", "")[:120],
+            "zone":  params.get("zone", ""),
+            "type":  ev_type[:60],
+            "org":   params.get("org", "")[:120],
+            "place": params.get("place", "")[:160],
+            "when":  params.get("when", "")[:160],
+            "deadline": params.get("deadline", "")[:160],
+            "apply": params.get("apply", "")[:600],
+            "email": params.get("email", "")[:120],
+            "phone": params.get("phone", "")[:40],
+            "social": params.get("social", "")[:120],
+            "desc":  params.get("desc", "")[:600],
+        }
+        links = _parse_links(params.get("links", "")[:2000])
+        submitter_name  = params.get("submitter_name", "")[:120]
+        submitter_phone = params.get("submitter_phone", "")[:40]
+
+        errors = []
+        for label, cond in [
+            ("le nom de l'événement", fields["name"]),
+            ("la zone", fields["zone"] in _ZONES),
+            ("le type d'événement", fields["type"]),
+            ("l'organisateur", fields["org"]),
+            ("le lieu", fields["place"]),
+            ("la date ou période", fields["when"]),
+            ("au moins un lien valide", links),
+            ("comment candidater", fields["apply"]),
+            ("un email de contact valide",
+             re.match(r"^[^@\s]+@[^@\s]+\.[^@\s]+$", fields["email"] or "")),
+            ("la description", fields["desc"]),
+            ("votre nom", submitter_name),
+            ("votre téléphone", submitter_phone),
+        ]:
+            if not cond:
+                errors.append(label)
+        if errors:
+            form = dict(params)
+            flash = "err:Champs manquants ou invalides : " + ", ".join(errors) + "."
+            body = _render_organisateurs_page(flash=flash, form=form).encode("utf-8")
+            self.send_response(400)
+            self.send_header("Content-Type", "text/html; charset=utf-8")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+            return
+
+        sub = {
+            "id": uuid.uuid4().hex[:12],
+            "ts": datetime.datetime.now().isoformat(timespec="seconds"),
+            "status": "pending",
+            "fields": fields,
+            "links": links,
+            "submitter_name": submitter_name,
+            "submitter_phone": submitter_phone,
+            "reviewer_note": "",
+        }
+        with _submissions_lock:
+            subs = _load_json_list(_SUBMISSIONS_FILE)
+            subs.append(sub)
+            _save_json_list(_SUBMISSIONS_FILE, subs)
+        log.info("Nouvelle soumission organisateur : %s (%s)",
+                 fields["name"], sub["id"])
+
+        # Durabilité + notification immédiate — en arrière-plan (serveur mono-thread)
+        def _notify():
+            _push_org_files(["data/organizer_submissions.json"])
+            _send_email(
+                f"📨 Nouvelle soumission organisateur : {fields['name']}",
+                "Une nouvelle proposition d'événement vient d'arriver sur "
+                "/organisateurs :\n\n"
+                + "\n".join(f"- {k} : {v}" for k, v in fields.items() if v)
+                + "\n- liens : " + " ; ".join(links)
+                + f"\n- soumis par : {submitter_name} ({submitter_phone})"
+                + "\n\nÀ relire dans /admin (section Soumissions organisateurs).",
+                _ORG_OWNER_EMAIL,
+            )
+        threading.Thread(target=_notify, daemon=True).start()
+        self._redirect("/organisateurs?ok=1")
+
+    def _redirect(self, loc: str) -> None:
+        self.send_response(303)
+        self.send_header("Location", loc)
+        self.end_headers()
+
+    def _find_submission(self, sub_id: str, subs: list):
+        return next((s for s in subs
+                     if s.get("id") == sub_id and s.get("status") == "pending"), None)
+
+    def _handle_org_approve(self) -> None:
+        """POST /admin/org-approve — publie via le MÊME chemin que les candidats IA."""
+        if not self._admin_authorized():
+            self.send_response(403)
+            self.end_headers()
+            return
+        length   = int(self.headers.get("Content-Length", 0))
+        raw_body = self.rfile.read(length).decode("utf-8", errors="replace")
+        params   = urllib.parse.parse_qs(raw_body)
+        sub_id   = params.get("id", [""])[0]
+        note     = params.get("note", [""])[0][:300]
+
+        with _submissions_lock:
+            subs = _load_json_list(_SUBMISSIONS_FILE)
+            sub  = self._find_submission(sub_id, subs)
+        if not sub:
+            self._redirect_admin(
+                "err=" + urllib.parse.quote("Soumission introuvable ou déjà traitée.", safe=""))
+            return
+
+        ok, msg = _publish_event_to_repo(_submission_to_event(sub))
+        if not ok:
+            log.error("Publication soumission %s échouée : %s", sub_id, msg)
+            self._redirect_admin("err=" + urllib.parse.quote(msg, safe=""))
+            return
+
+        with _submissions_lock:
+            subs = _load_json_list(_SUBMISSIONS_FILE)
+            sub  = next((s for s in subs if s.get("id") == sub_id), sub)
+            sub["status"] = "approved"
+            sub["reviewer_note"] = note
+            _save_json_list(_SUBMISSIONS_FILE, subs)
+            paths, _ = _update_org_contact(sub)
+
+        ev_name = sub["fields"].get("name", "")
+        org_email = sub["fields"].get("email", "")
+
+        def _post_approve():
+            _push_org_files(paths)
+            if org_email:
+                _send_email(
+                    f"✅ Votre événement « {ev_name} » est en ligne",
+                    "Bonjour,\n\n"
+                    f"Bonne nouvelle : votre événement « {ev_name} » a été validé "
+                    "et figure désormais sur le Radar des marchés de La Réunion :\n"
+                    "https://radar.fhservices.re\n\n"
+                    "Merci d'avoir pris le temps de nous le proposer — n'hésitez "
+                    "pas à soumettre vos prochains événements sur "
+                    "https://radar.fhservices.re/organisateurs\n\n"
+                    "Bien cordialement,\nRadar Marchés Réunion",
+                    org_email,
+                )
+        threading.Thread(target=_post_approve, daemon=True).start()
+        self._redirect_admin("pub=ok")
+
+    def _handle_org_reject(self) -> None:
+        """POST /admin/org-reject — marque la soumission rejetée (avec note)."""
+        if not self._admin_authorized():
+            self.send_response(403)
+            self.end_headers()
+            return
+        length   = int(self.headers.get("Content-Length", 0))
+        raw_body = self.rfile.read(length).decode("utf-8", errors="replace")
+        params   = urllib.parse.parse_qs(raw_body)
+        sub_id   = params.get("id", [""])[0]
+        note     = params.get("note", [""])[0][:300]
+
+        with _submissions_lock:
+            subs = _load_json_list(_SUBMISSIONS_FILE)
+            sub  = self._find_submission(sub_id, subs)
+            if sub:
+                sub["status"] = "rejected"
+                sub["reviewer_note"] = note
+                _save_json_list(_SUBMISSIONS_FILE, subs)
+        if sub:
+            threading.Thread(
+                target=_push_org_files,
+                args=(["data/organizer_submissions.json"],), daemon=True).start()
+        self._redirect_admin()
+
+    def _handle_contacts_csv(self) -> None:
+        """GET /admin/contacts.csv — export privé de l'annuaire de contacts."""
+        if not self._admin_authorized():
+            self.send_response(403)
+            self.end_headers()
+            return
+        import csv
+        import io
+        contacts = _load_json_list(_ORG_CONTACTS_FILE)
+        buf = io.StringIO()
+        w = csv.writer(buf)
+        w.writerow(["email", "nom", "telephone", "reseaux_sociaux",
+                    "premier_contact", "dernier_contact",
+                    "evenements_soumis", "notes_internes"])
+        for c in contacts:
+            w.writerow([c.get("email", ""), c.get("name", ""), c.get("phone", ""),
+                        c.get("social", ""), c.get("first_contact", ""),
+                        c.get("last_contact", ""), c.get("events_submitted", 0),
+                        c.get("notes", "")])
+        body = buf.getvalue().encode("utf-8-sig")
+        self.send_response(200)
+        self.send_header("Content-Type", "text/csv; charset=utf-8")
+        self.send_header("Content-Disposition",
+                         'attachment; filename="contacts_organisateurs.csv"')
+        self.send_header("Content-Length", str(len(body)))
+        self.send_header("Cache-Control", "no-store")
+        self.end_headers()
+        self.wfile.write(body)
+
     def _handle_publish(self) -> None:
         """POST /admin/publish — publie un candidat Vérifié dans events.json."""
         dev_mode = not os.environ.get("REPLIT_DEPLOYMENT")
@@ -2175,6 +2804,18 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
         if self.path == "/admin/complete":
             self._handle_complete()
+            return
+
+        if self.path.split("?")[0] in ("/organisateurs", "/organisateurs/"):
+            self._handle_org_submit()
+            return
+
+        if self.path == "/admin/org-approve":
+            self._handle_org_approve()
+            return
+
+        if self.path == "/admin/org-reject":
+            self._handle_org_reject()
             return
 
         if self.path == "/chat":
