@@ -29,7 +29,6 @@ load_dotenv(ROOT / ".env")
 
 DEST_EMAIL = "shadowneox@gmail.com"
 ADMIN_URL = "https://radar.artisanspei.re/admin"
-LOGO_PATH = ROOT / "assets" / "logo_radar_marches.png"
 URGENCE_JOURS = 10  # deadline à moins de N jours -> alerte + inclus dans le message WhatsApp
 
 
@@ -136,20 +135,15 @@ def build_report():
     }
 
 
-def _esc(s) -> str:
-    return (str(s or "")
-            .replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;"))
+import email_template as tpl
+
+_esc = tpl.esc
+card = tpl.card
+C_BG, C_PANEL, C_INK, C_MUTED = tpl.C_BG, tpl.C_PANEL, tpl.C_INK, tpl.C_MUTED
+C_LINE, C_ACCENT, C_GOLD, C_ALERT = tpl.C_LINE, tpl.C_ACCENT, tpl.C_GOLD, tpl.C_ALERT
 
 
 def render_html(r: dict) -> str:
-    C_BG, C_PANEL, C_INK, C_MUTED = "#f6f4ee", "#ffffff", "#211f1a", "#8a8474"
-    C_LINE, C_ACCENT, C_GOLD, C_ALERT = "#e7e1d2", "#0e6b52", "#a9812f", "#93453a"
-
-    def card(inner, top_border=C_LINE):
-        return (f'<div style="background:{C_PANEL};border:1px solid {C_LINE};'
-                f'border-top:3px solid {top_border};border-radius:12px;'
-                f'padding:20px 24px;margin-bottom:18px;">{inner}</div>')
-
     alerts_html = ""
     if r["alerts"]:
         items = "".join(f'<li style="margin-bottom:6px;">{_esc(a)}</li>' for a in r["alerts"])
@@ -172,9 +166,7 @@ def render_html(r: dict) -> str:
         verifies_html = card(
             f'<div style="font-weight:700;color:{C_ACCENT};margin-bottom:8px;">'
             f'✅ Prêts à publier ({len(r["verifies"])})</div>{rows}'
-            f'<a href="{ADMIN_URL}" style="display:inline-block;margin-top:14px;background:{C_ACCENT};'
-            f'color:#fff;text-decoration:none;padding:10px 18px;border-radius:8px;'
-            f'font-size:13.5px;font-weight:700;">Valider dans /admin →</a>',
+            f'{tpl.button("Valider dans /admin →", ADMIN_URL, primary=True)}',
             top_border=C_ACCENT,
         )
 
@@ -189,9 +181,7 @@ def render_html(r: dict) -> str:
         probables_html = card(
             f'<div style="font-weight:700;color:{C_GOLD};margin-bottom:8px;">'
             f'🔎 À vérifier ({len(r["probables"])})</div>{rows}'
-            f'<a href="{ADMIN_URL}" style="display:inline-block;margin-top:14px;background:{C_PANEL};'
-            f'color:{C_INK};text-decoration:none;padding:9px 16px;border:1px solid {C_LINE};border-radius:8px;'
-            f'font-size:13px;font-weight:600;">Voir dans /admin →</a>',
+            f'{tpl.button("Voir dans /admin →", ADMIN_URL, primary=False)}',
             top_border=C_GOLD,
         )
 
@@ -203,40 +193,20 @@ def render_html(r: dict) -> str:
         f'line-height:1.55;">{_esc(r["whatsapp_msg"])}</div>'
     )
 
-    logo_block = (
-        f'<img src="cid:logo" width="64" height="64" alt="Radar des Marchés" '
-        f'style="display:block;margin:0 auto 10px;border-radius:50%;">'
-        if LOGO_PATH.exists() else ""
+    etat_html = card(
+        f'<div style="font-weight:700;color:{C_INK};margin-bottom:10px;">📊 État de la veille</div>'
+        f'<div style="font-size:14px;color:{C_INK};line-height:1.8;">'
+        f'{len(r["verifies"])} appel(s) vérifié(s) prêt(s) à publier<br>'
+        f'{len(r["probables"])} piste(s) à confirmer<br>'
+        f'{len(r["status_changes"])} changement(s) de statut<br>'
+        f'{len(r["community"])} remontée(s) communautaire(s)</div>'
     )
 
-    return f'''<!doctype html>
-<html><head><meta charset="utf-8"></head>
-<body style="margin:0;padding:0;background:{C_BG};font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
-<div style="max-width:600px;margin:0 auto;padding:32px 20px;">
-  <div style="text-align:center;margin-bottom:24px;">
-    {logo_block}
-    <div style="font-size:20px;font-weight:700;color:{C_INK};letter-spacing:-.2px;">Radar des Marchés</div>
-    <div style="font-size:12.5px;color:{C_MUTED};margin-top:4px;">Rapport de veille — {r["today"]}</div>
-  </div>
-
-  {card(
-    f'<div style="font-weight:700;color:{C_INK};margin-bottom:10px;">📊 État de la veille</div>'
-    f'<div style="font-size:14px;color:{C_INK};line-height:1.8;">'
-    f'{len(r["verifies"])} appel(s) vérifié(s) prêt(s) à publier<br>'
-    f'{len(r["probables"])} piste(s) à confirmer<br>'
-    f'{len(r["status_changes"])} changement(s) de statut<br>'
-    f'{len(r["community"])} remontée(s) communautaire(s)</div>'
-  )}
-  {alerts_html}
-  {verifies_html}
-  {probables_html}
-  {whatsapp_html}
-
-  <div style="text-align:center;color:{C_MUTED};font-size:11.5px;margin-top:20px;">
-    Rapport généré automatiquement après la veille quotidienne (4h).
-  </div>
-</div>
-</body></html>'''
+    body = etat_html + alerts_html + verifies_html + probables_html + whatsapp_html + (
+        f'<div style="text-align:center;color:{C_MUTED};font-size:11.5px;margin-top:4px;">'
+        f'Rapport généré automatiquement après la veille quotidienne (4h).</div>'
+    )
+    return tpl.render_shell(subtitle=f'Rapport de veille — {r["today"]}', body_html=body)
 
 
 def render_plain(r: dict) -> str:
@@ -286,12 +256,7 @@ def send_mail(r: dict) -> None:
     msg["To"] = DEST_EMAIL
     msg.set_content(render_plain(r))
     msg.add_alternative(render_html(r), subtype="html")
-
-    if LOGO_PATH.exists():
-        html_part = msg.get_payload()[1]
-        html_part.add_related(
-            LOGO_PATH.read_bytes(), maintype="image", subtype="png", cid="logo"
-        )
+    tpl.attach_logo(msg)
 
     with smtplib.SMTP("smtp.gmail.com", 587, timeout=15) as server:
         server.starttls()
