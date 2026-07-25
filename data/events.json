@@ -954,6 +954,24 @@
     "desc": "Marché mensuel mettant en avant l'artisanat local."
   },
   {
+    "name": "Marché couvert de Saint-Paul — emplacements artisanat (AMI)",
+    "zone": "Ouest",
+    "type": "Marché communal (box/boutiques)",
+    "org": "Ville de Saint-Paul",
+    "place": "Marché couvert, centre-ville, Saint-Paul",
+    "when": "Cycle annuel (appel à manifestation d'intérêt) · éd. 2026 : dossiers clos",
+    "badge": "AMI",
+    "month": 99,
+    "dateStatus": "récurrent",
+    "status": "closed",
+    "deadline": "Éd. 2026 clôturée le 29 décembre 2025 — surveiller le prochain cycle",
+    "contact": "maire@mairie-saintpaul.fr · 0262 45 90 69",
+    "social": "",
+    "url": "https://www.mairie-saintpaul.re/wp-content/uploads/2025/12/AMI-2026-Marche-couvert-St-Paul.pdf",
+    "apply": "9 emplacements/box (redevance 90 à 400 €/an) pour artisanat local (couture, bijouterie, artisanat indien, divers, vêtements) — procédure premier demandeur sauf concurrence.",
+    "desc": "Autorisations d'occupation temporaire pour boutiques/box du marché couvert de Saint-Paul, dédiées à l'artisanat local."
+  },
+  {
     "name": "Marché de Cilaos",
     "zone": "Sud",
     "type": "Marché communal hebdo",
