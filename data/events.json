@@ -450,24 +450,6 @@
     "desc": "Salon de la production locale porté par l'ADIR : agro-alimentaire, artisanat, cosmétique. 200+ exposants."
   },
   {
-    "name": "ZZZ Test Radar",
-    "zone": "Sud",
-    "type": "Marché / Brocante",
-    "org": "Test",
-    "place": "Test corrigé",
-    "when": "septembre 2026",
-    "badge": "SEPT",
-    "month": 9,
-    "dateStatus": "à confirmer",
-    "status": "open",
-    "deadline": "",
-    "contact": "test@test.re",
-    "social": "",
-    "url": "https://exemple.re",
-    "apply": "",
-    "desc": "fiche de test corrigée"
-  },
-  {
     "name": "Florilèges",
     "zone": "Sud",
     "type": "Foire / Horticole",
