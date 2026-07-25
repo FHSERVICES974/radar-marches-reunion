@@ -48,30 +48,5 @@
     "submitter_name": "Aurélie",
     "submitter_phone": "0262692551394",
     "reviewer_note": ""
-  },
-  {
-    "id": "91f9dc5dd04b",
-    "ts": "2026-07-25T19:29:52",
-    "status": "pending",
-    "fields": {
-      "name": "Test Expediteur Prod",
-      "zone": "Nord",
-      "type": "Marché / Brocante",
-      "org": "Test",
-      "place": "Test",
-      "when": "12 septembre 2026",
-      "deadline": "",
-      "apply": "x",
-      "email": "shadowneox@gmail.com",
-      "phone": "",
-      "social": "",
-      "desc": "verification nom expediteur"
-    },
-    "links": [
-      "https://exemple.re"
-    ],
-    "submitter_name": "Agent",
-    "submitter_phone": "0692000000",
-    "reviewer_note": ""
   }
 ]
