@@ -342,6 +342,24 @@
     "desc": "Nouvelle fête fusionnant la Fête de la Pomme de Terre et la Fête du Cheval, sur le site de Miel Vert (Plaine des Cafres)."
   },
   {
+    "name": "Festi-Plantes",
+    "zone": "Est",
+    "type": "Foire / Plantes & Jardin",
+    "org": "Ville de Saint-André",
+    "place": "Saint-André",
+    "when": "Septembre (annuel) · éd. 2026 : 9–13 sept. (19ᵉ édition)",
+    "badge": "SEPT",
+    "month": 9,
+    "dateStatus": "confirmée",
+    "status": "closed",
+    "deadline": "Éd. 2026 clôturée le 1er juin 2026 — surveiller l'appel éd. 2027",
+    "contact": "communication@saint-andre.re · 02.62.58.88.88",
+    "social": "",
+    "url": "https://www.saint-andre.re/appel-a-candidatures-festi-plantes-2026/",
+    "apply": "Appel à candidature exposants/forains via la Ville de Saint-André.",
+    "desc": "19ᵉ édition de la foire aux plantes et au jardin de Saint-André."
+  },
+  {
     "name": "Franco Dan Sin Zil — Marché de créateurs (Francofolies)",
     "zone": "Ouest",
     "type": "Marché de créateurs",
