@@ -10,8 +10,16 @@ Le **design est figé** : seules les **données** évoluent. Chaque lundi, une v
 > confiance**. Vous validez ; `publier.py` met en ligne. Mieux vaut 3 appels
 > vérifiés que 30 douteux — votre crédibilité en dépend.
 
+> 📍 **Emplacement : `/Users/fhubert/Claude/radarartisans`** (hors iCloud, depuis
+> le 25/07/2026). Le projet était sous iCloud Drive : la protection de
+> confidentialité de macOS y bloquait launchd (`can't open input file:
+> ./run_veille.sh`, sortie 127) — le cron ne tournait jamais. Ne pas le remettre
+> dans iCloud. Les chemins sont en dur dans `run_veille.sh`, `run_weekly.sh`,
+> `ingest_docs.sh` et le `.plist` : un déplacement impose de les mettre à jour
+> **et** de recréer le `venv` (non relocalisable).
+
 ```
-radar-marches/
+radarartisans/
 ├── data/
 │   ├── events.json          ← source de vérité : les événements
 │   ├── orgs.json            ← répertoire des organisateurs
@@ -32,10 +40,18 @@ radar-marches/
 └── README.md
 ```
 
-> ⚠️ **Ce qui n'est PAS dans ce dossier / ce repo GitHub** : le widget de chat
-> « Le ti artisan futé » et le tableau de bord privé `/admin` vivent uniquement
-> dans le `server.py` géré côté Replit (écrit par l'agent Replit directement en
-> production). Ils ne sont pas synchronisés ici — voir la section dédiée plus bas.
+> ⚠️ **`server.py` (widget de chat + `/admin`) est écrit par l'agent Replit**, pas
+> par ce pipeline. Il est bien versionné ici depuis la fusion du 25/07/2026 —
+> mais toute modification doit passer par Replit, jamais éditée à la main.
+>
+> 🚨 **Piège corrigé le 25/07/2026, à ne pas réintroduire** : le widget de chat
+> n'existait que dans `index.html`. Comme `build.py` régénère `index.html` depuis
+> `template.html`, la moindre publication (dont la veille quotidienne de 4h)
+> l'aurait effacé du site. Le widget est désormais **dans `template.html`**.
+> Règle : *tout* ce qui doit apparaître sur le site public vit dans
+> `template.html` — si l'agent Replit ajoute quelque chose directement à
+> `index.html`, il faut le reporter dans le template, sinon c'est perdu au
+> prochain build.
 
 ## 🔒 Règle d'or (design intouchable)
 
@@ -80,7 +96,7 @@ cibles depuis un compte dédié, activez les notifications, et déposez les lien
 
 ### Installation
 ```bash
-cd radar-marches
+cd ~/Claude/radarartisans
 python3 -m venv venv && ./venv/bin/pip install -r pipeline-requirements.txt
 cp .env.example .env     # REPLIT_DEPLOY_HOOK (option B) ; Brave n'est plus requis
 ```
@@ -152,7 +168,7 @@ le site (il détruirait le design). GitHub est la source de vérité, Replit imp
 
 Première fois :
 ```bash
-cd radar-marches
+cd ~/Claude/radarartisans
 git init && git add . && git commit -m "init radar-marches"
 git branch -M main && git remote add origin <URL_GITHUB> && git push -u origin main
 ```
@@ -217,10 +233,20 @@ launchctl load ~/Library/LaunchAgents/com.fhservices.radar-veille.plist
 ```
 Le plist appelle `run_veille.sh` (agent Claude headless) et journalise `veille.log`.
 
-> ⚠️ **iCloud Drive** : le projet est sous iCloud. Pour que launchd lise les
-> fichiers, gardez le dossier « Toujours garder sur ce Mac », ou déplacez-le hors
-> d'iCloud (ex. `~/radar-marches`) et ajustez les chemins dans le `.plist` et
-> `run_veille.sh`.
+### Deux pièges launchd déjà rencontrés (et corrigés)
+1. **iCloud Drive** — le projet y était : launchd ne pouvait pas lire
+   `run_veille.sh` (`can't open input file`, sortie 127) à cause de la protection
+   de confidentialité macOS. Le cron n'a jamais tourné tant que c'était le cas.
+   → Résolu en déplaçant le projet vers `~/Claude/radarartisans`.
+2. **PATH minimal** — launchd ne fournit que `/usr/bin:/bin:/usr/sbin:/sbin`, où
+   le CLI `claude` (installé via npm dans `~/.npm-global/bin`) est absent :
+   `command not found`, sortie 127 à nouveau. → Résolu en résolvant le binaire
+   explicitement dans `run_veille.sh` et `ingest_docs.sh`.
+
+Pour tester le cron sans attendre 4h (exécution réelle via launchd) :
+```bash
+launchctl kickstart -p gui/$(id -u)/com.fhservices.radar-veille
+```
 
 ## Non-régression du design
 Après tout build, `index.html` doit rendre à l'identique de
