@@ -465,6 +465,144 @@ def _claude(model: str, system: str, messages: list) -> str:
         return "Désolé, une erreur est survenue. Réessaie dans quelques instants 🙏"
 
 
+# ── Vérification/complétion IA d'un candidat (admin) ────────────────────────
+
+_VERIFY_SYS = (
+    "Tu es un agent de vérification pour un agenda d'appels à candidature "
+    "destiné aux artisans/créateurs exposants de La Réunion (974). "
+    "Ta mission : vérifier et compléter la fiche d'UN candidat d'événement, "
+    "avec une discipline stricte :\n"
+    "1. Ne JAMAIS inventer une date, un lieu ou un contact. Chaque information "
+    "doit être confirmée par une source réellement lue (page fournie ou "
+    "résultat de recherche web que tu as consulté).\n"
+    "2. Exige un signal La Réunion (974) clair : domaine .re, mention "
+    "« Réunion / 974 / La Réunion », ou commune réunionnaise identifiable. "
+    "Attention aux homonymes métropole (Saint-Denis 93, Saint-Paul 60…).\n"
+    "3. La fiche n'est complète que si elle a une URL source réelle que tu as "
+    "effectivement consultée. Sinon, elle reste incomplète.\n"
+    "4. Mieux vaut une fiche incomplète honnête qu'une fiche complète douteuse.\n\n"
+    "La fiche complète comporte EXACTEMENT ces 16 champs :\n"
+    "name, zone (Nord/Est/Ouest/Sud/National), type, org (organisateur), "
+    "place, when (période lisible), badge (court en majuscules ex. OCT), "
+    "month (1-12, ou 99 si variable), dateStatus (confirmée/annuel/récurrent/"
+    "probable…), status (open/soon/closed/perm), deadline, contact, social, "
+    "url, apply (comment candidater), desc (description courte).\n\n"
+    "Réponds UNIQUEMENT avec un objet JSON (aucun texte autour) :\n"
+    '{"complete": true|false, "event": {…16 champs…} ou null, '
+    '"report": "ce qui a été trouvé/vérifié, et ce qui manque ou reste non '
+    'confirmé (en français, 2-5 phrases)"}\n'
+    "Mets complete=true SEULEMENT si les 16 champs sont remplis à partir de "
+    "sources vérifiées. Les champs social/deadline/contact peuvent être vides "
+    "(\"\") s'ils n'existent pas publiquement, mais name, zone, place, when, "
+    "url et desc doivent être confirmés."
+)
+
+
+def _fetch_page_text(url: str) -> str:
+    """Télécharge une page et retourne son texte brut (HTML dépouillé)."""
+    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (RadarAdmin/1.0)"})
+    with urllib.request.urlopen(req, timeout=20) as resp:
+        raw = resp.read(300_000).decode("utf-8", errors="replace")
+    raw = re.sub(r"(?is)<(script|style|noscript)[^>]*>.*?</\1>", " ", raw)
+    raw = re.sub(r"(?s)<[^>]+>", " ", raw)
+    raw = re.sub(r"\s+", " ", raw)
+    return raw[:15_000]
+
+
+def _verify_candidate_with_ai(candidate: dict, info: str) -> tuple:
+    """Vérifie/complète un candidat via Claude + recherche web.
+
+    Retourne (complete: bool, event: dict|None, report: str).
+    """
+    if not _ANTHROPIC_API_KEY:
+        return False, None, "Service IA indisponible (clé API manquante)."
+
+    # Récupérer le contenu des URLs collées par le propriétaire.
+    pages = []
+    for url in re.findall(r"https?://\S+", info)[:3]:
+        try:
+            pages.append(f"--- Contenu de {url} ---\n{_fetch_page_text(url)}")
+        except Exception as exc:
+            pages.append(f"--- {url} : téléchargement impossible ({exc}) ---")
+
+    user_msg = (
+        "Candidat actuel (JSON) :\n"
+        + json.dumps(candidate, ensure_ascii=False, indent=1)
+        + "\n\nInformations fournies par le propriétaire :\n" + (info or "(aucune)")
+        + ("\n\n" + "\n\n".join(pages) if pages else "")
+        + "\n\nVérifie et complète la fiche. Utilise la recherche web si besoin. "
+          "Réponds uniquement avec le JSON demandé."
+    )
+    payload = json.dumps({
+        "model": _get_model("STRONG"),
+        "max_tokens": 3000,
+        "system": _VERIFY_SYS,
+        "tools": [{"type": "web_search_20250305", "name": "web_search", "max_uses": 5}],
+        "messages": [{"role": "user", "content": user_msg}],
+    }).encode()
+    req = urllib.request.Request(
+        "https://api.anthropic.com/v1/messages",
+        data=payload,
+        headers={
+            "content-type":      "application/json",
+            "x-api-key":         _ANTHROPIC_API_KEY,
+            "anthropic-version": "2023-06-01",
+        },
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=240) as resp:
+            data = json.loads(resp.read())
+    except urllib.error.HTTPError as exc:
+        body = exc.read().decode(errors="replace")
+        log.error("Vérification IA — Anthropic HTTP %d : %s", exc.code, body[:300])
+        return False, None, f"Erreur API Anthropic (HTTP {exc.code}). Réessayez."
+    except Exception as exc:
+        log.error("Vérification IA : %s", exc)
+        return False, None, f"Erreur lors de l'appel IA : {exc}"
+
+    text = " ".join(b.get("text", "") for b in data.get("content", [])
+                    if b.get("type") == "text").strip()
+    m = re.search(r"\{.*\}", text, re.DOTALL)
+    if not m:
+        return False, None, "Réponse IA illisible (pas de JSON). Réessayez."
+    try:
+        result = json.loads(m.group(0))
+    except json.JSONDecodeError:
+        return False, None, "Réponse IA illisible (JSON invalide). Réessayez."
+
+    report = str(result.get("report") or "").strip()
+    ev = result.get("event") or {}
+    complete = bool(result.get("complete")) and isinstance(ev, dict)
+    if complete:
+        missing = [f for f in _EVENT_FIELDS if f not in ev]
+        core_empty = [f for f in ("name", "zone", "place", "when", "url", "desc")
+                      if not str(ev.get(f, "")).strip()]
+        if missing or core_empty:
+            complete = False
+            report = (report + f" [Contrôle serveur : champs manquants ou vides : "
+                      f"{', '.join(missing + core_empty)}]").strip()
+    if complete:
+        ev = {f: ev.get(f, "") for f in _EVENT_FIELDS}  # 16 champs exactement
+        return True, ev, report or "Fiche vérifiée et complétée."
+    return False, None, report or "Vérification incomplète — aucun détail fourni par l'IA."
+
+
+def _run_completion_job(key: str, candidate: dict, info: str) -> None:
+    """Thread d'arrière-plan : vérifie le candidat et persiste le résultat."""
+    try:
+        complete, ev, report = _verify_candidate_with_ai(candidate, info)
+        if complete:
+            _save_completion(key, {"status": "done", "event": ev, "report": report})
+            log.info("Complétion IA réussie : %s", ev.get("name", key))
+        else:
+            _save_completion(key, {"status": "failed", "report": report})
+            log.info("Complétion IA incomplète (%s) : %s", key, report[:120])
+    except Exception as exc:
+        log.error("Complétion IA — erreur inattendue : %s", exc)
+        _save_completion(key, {"status": "failed", "report": f"Erreur interne : {exc}"})
+
+
 # ── Analytics — statistiques du site ─────────────────────────────────────────
 
 _DATA_DIR       = "data"
@@ -750,6 +888,40 @@ def _save_decision(key: str, decision: str) -> None:
             json.dump(data, f, ensure_ascii=False, indent=2)
 
 
+_COMPLETIONS_FILE = os.path.join(_DATA_DIR, "pending_completions.json")
+_completions_lock = threading.Lock()
+
+# Les 16 champs obligatoires d'une fiche événement complète.
+_EVENT_FIELDS = ["name", "zone", "type", "org", "place", "when", "badge",
+                 "month", "dateStatus", "status", "deadline", "contact",
+                 "social", "url", "apply", "desc"]
+
+
+def _load_completions() -> dict:
+    """Charge {key: {status, event?, report?, ts}} (résultats de complétion IA)."""
+    try:
+        with _completions_lock:
+            with open(_COMPLETIONS_FILE, encoding="utf-8") as f:
+                return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError, OSError):
+        return {}
+
+
+def _save_completion(key: str, entry: dict) -> None:
+    """Enregistre le résultat de complétion d'un candidat (thread-safe)."""
+    with _completions_lock:
+        try:
+            with open(_COMPLETIONS_FILE, encoding="utf-8") as f:
+                data = json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError, OSError):
+            data = {}
+        entry["ts"] = time.time()
+        data[key] = entry
+        os.makedirs(_DATA_DIR, exist_ok=True)
+        with open(_COMPLETIONS_FILE, "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+
+
 def _load_latest_proposal() -> tuple:
     """Lit le fichier de proposition le plus récent (tri alphabétique desc).
 
@@ -951,6 +1123,15 @@ def _render_proposals_section(dev_mode: bool) -> str:  # noqa: PLR0912,PLR0915
 
     # Filtrer les déjà traités, trier par confiance
     pending = [c for c in candidates if _candidate_key(c) not in decisions]
+
+    # Appliquer les complétions IA validées (overlay local)
+    completions = _load_completions()
+    for c in pending:
+        comp = completions.get(_candidate_key(c))
+        if comp and comp.get("status") == "done" and comp.get("event"):
+            c["event"] = comp["event"]
+            c["_confidence"] = "Vérifié"
+
     pending.sort(key=lambda c: _CONF_RANK.get(c.get("_confidence") or c.get("confidence", "À confirmer"), 3))
 
     if not pending:
@@ -1022,11 +1203,35 @@ def _render_proposals_section(dev_mode: bool) -> str:  # noqa: PLR0912,PLR0915
             f'</form>'
         )
 
+        # Bloc « compléter » pour les candidats sans fiche complète
+        complete_html = ""
+        if not has_ev:
+            comp = completions.get(key)
+            if comp and comp.get("status") == "running":
+                complete_html = ('<div class="prop-running">⏳ Vérification IA en cours… '
+                                 'rechargez la page dans une minute.</div>')
+            else:
+                report_html = ""
+                if comp and comp.get("status") == "failed" and comp.get("report"):
+                    rep = (comp["report"].replace("&", "&amp;")
+                           .replace("<", "&lt;").replace(">", "&gt;"))
+                    report_html = f'<div class="prop-report">🔎 {rep}</div>'
+                complete_html = (
+                    f'{report_html}'
+                    f'<form method="POST" action="/admin/complete" class="prop-complete">'
+                    f'<input type="hidden" name="key" value="{key}">'
+                    f'<input type="text" name="info" class="inp-comp" maxlength="600" '
+                    f'placeholder="URL de l\'annonce officielle, contact, date confirmée…">'
+                    f'<button type="submit" class="btn-prop btn-comp">🔎 Vérifier et compléter</button>'
+                    f'</form>'
+                )
+
         cards.append(
             f'<div class="prop-card">'
             f'<div class="prop-top">{badge}<div class="prop-name">{name}</div></div>'
             f'<div class="prop-meta">{meta_html}</div>'
             f'{notes_html}'
+            f'{complete_html}'
             f'<div class="prop-foot">'
             f'<a href="{src_url}" target="_blank" rel="noopener" class="prop-src">🔗 {src_ttl}</a>'
             f'<div class="prop-actions">{pub_btn}{rej_btn}</div>'
@@ -1408,6 +1613,12 @@ td.nd{{text-align:center;color:#94a3b8;font-style:italic;padding:1.2rem;font-siz
 .btn-prop{{border:none;border-radius:6px;padding:.32rem .75rem;font-size:.76rem;font-weight:600;cursor:pointer;transition:background .15s;white-space:nowrap}}
 .btn-pub{{background:#2563eb;color:#fff}}.btn-pub:hover{{background:#1d4ed8}}
 .btn-rej{{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}}.btn-rej:hover{{background:#e2e8f0;color:#374151}}
+.prop-complete{{display:flex;gap:.4rem;margin:.45rem 0;flex-wrap:wrap}}
+.inp-comp{{flex:1;min-width:200px;border:1px solid #e2e8f0;border-radius:6px;padding:.32rem .6rem;font-size:.76rem;color:#0f172a}}
+.inp-comp:focus{{outline:none;border-color:#2563eb}}
+.btn-comp{{background:#f0f9ff;color:#0369a1;border:1px solid #bae6fd}}.btn-comp:hover{{background:#e0f2fe}}
+.prop-report{{font-size:.74rem;color:#92400e;background:#fffbeb;border:1px solid #fde68a;border-radius:6px;padding:.4rem .6rem;margin:.45rem 0;line-height:1.45}}
+.prop-running{{font-size:.74rem;color:#0369a1;background:#f0f9ff;border:1px solid #bae6fd;border-radius:6px;padding:.4rem .6rem;margin:.45rem 0}}
 /* ── Misc ── */
 .hint-xs{{font-size:.72rem;color:#94a3b8;margin-top:.9rem}}
 footer{{text-align:center;font-size:.7rem;color:#94a3b8;padding:2rem 0 1.5rem}}
@@ -1631,6 +1842,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         flash  = ""
         if "pub" in qs:
             flash = "ok:✅ Événement publié et pushé sur GitHub."
+        elif "comp" in qs:
+            flash = "ok:🔎 Vérification IA lancée — rechargez la page dans ~1 minute."
         elif "err" in qs:
             detail = urllib.parse.unquote(qs["err"][0])
             flash  = f"err:❌ Erreur : {detail}"
@@ -1717,6 +1930,10 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
         _, candidates = _load_latest_proposal()
         candidate = next((c for c in candidates if _candidate_key(c) == key), None)
+        if candidate and not candidate.get("event"):
+            comp = _load_completions().get(key)
+            if comp and comp.get("status") == "done" and comp.get("event"):
+                candidate["event"] = comp["event"]
         if not candidate or not candidate.get("event"):
             self._redirect_admin("err=Candidat+introuvable+ou+sans+fiche+complète.")
             return
@@ -1748,6 +1965,39 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         if key:
             _save_decision(key, "rejected")
         self._redirect_admin()
+
+    def _handle_complete(self) -> None:
+        """POST /admin/complete — lance la vérification/complétion IA d'un candidat."""
+        dev_mode = not os.environ.get("REPLIT_DEPLOYMENT")
+        if not dev_mode:
+            token    = _get_session_cookie(self.headers)
+            username = _verify_session_token(token) if token else None
+            if not username:
+                self.send_response(403)
+                self.end_headers()
+                return
+
+        length   = int(self.headers.get("Content-Length", 0))
+        raw_body = self.rfile.read(length).decode("utf-8", errors="replace")
+        params   = urllib.parse.parse_qs(raw_body)
+        key      = params.get("key", [""])[0]
+        info     = params.get("info", [""])[0].strip()[:600]
+
+        if not key:
+            self.send_response(400)
+            self.end_headers()
+            return
+
+        _, candidates = _load_latest_proposal()
+        candidate = next((c for c in candidates if _candidate_key(c) == key), None)
+        if not candidate:
+            self._redirect_admin("err=Candidat+introuvable.")
+            return
+
+        _save_completion(key, {"status": "running", "report": ""})
+        threading.Thread(target=_run_completion_job, args=(key, candidate, info),
+                         daemon=True, name="ai-complete").start()
+        self._redirect_admin("comp=run")
 
     def _handle_run_analysis(self) -> None:
         """Déclenche l'analyse des thèmes manuellement (POST /admin/run-analysis)."""
@@ -1798,6 +2048,10 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
         if self.path == "/admin/reject":
             self._handle_reject()
+            return
+
+        if self.path == "/admin/complete":
+            self._handle_complete()
             return
 
         if self.path == "/chat":
