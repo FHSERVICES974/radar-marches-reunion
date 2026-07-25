@@ -863,11 +863,10 @@ def _publish_event_to_repo(event: dict) -> tuple:
         )
 
     ev_label = event.get("name", "événement")
-    import urllib.parse
-    push_url = (
-        f"https://x-access-token:{urllib.parse.quote(gh_token, safe='')}"
-        f"@github.com/FHSERVICES974/radar-marches-reunion.git"
-    )
+    # http.extraHeader est le mécanisme officiel Git pour les tokens HTTPS.
+    # Contrairement à l'URL authentifiée, il ne pose aucun problème d'encodage
+    # ni de préfixe (x-access-token, oauth2…) selon le type de PAT.
+    auth_header = f"Authorization: token {gh_token}"
     try:
         subprocess.run(
             ["git", "add", "data/events.json", "data/meta.json", "index.html"],
@@ -880,11 +879,11 @@ def _publish_event_to_repo(event: dict) -> tuple:
             check=True, timeout=30,
         )
         push = subprocess.run(
-            ["git", "push", push_url, BRANCH],
+            ["git", "-c", f"http.extraHeader={auth_header}",
+             "push", "origin", BRANCH],
             capture_output=True, text=True, timeout=60,
         )
         if push.returncode != 0:
-            # Masquer le token dans le message d'erreur
             err = push.stderr.replace(gh_token, "***").strip()
             return False, f"git push échoué : {err}"
     except subprocess.CalledProcessError as exc:
