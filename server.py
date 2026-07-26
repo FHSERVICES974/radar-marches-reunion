@@ -993,6 +993,20 @@ def _stats_snapshot_loop() -> None:
             _backfill_event_meta()
         except Exception as exc:
             log.error("event_meta : rattrapage impossible : %s", exc)
+        try:
+            # Hygiène : purge les interactions de test (vérifications agent).
+            conn = _stats_connect()
+            try:
+                with conn.cursor() as cur:
+                    cur.execute("DELETE FROM interactions "
+                                "WHERE event_name = 'TEST-AGENT-PROD'")
+                    if cur.rowcount:
+                        log.info("Stats : %d interaction(s) de test supprimée(s).",
+                                 cur.rowcount)
+            finally:
+                conn.close()
+        except Exception as exc:
+            log.error("Stats : purge des interactions de test impossible : %s", exc)
         time.sleep(3600)
 
 
