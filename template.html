@@ -539,7 +539,11 @@ window.chatSend=function(){
 <script>
 /* Tracking invisible — aucun effet sur l'interface publique */
 (function(){
-  var _s=function(d){try{navigator.sendBeacon('/track',JSON.stringify(d));}catch(e){}};
+  var _s=function(d){try{
+    var p=JSON.stringify(d);
+    if(navigator.sendBeacon&&navigator.sendBeacon('/track',p))return;
+    fetch('/track',{method:'POST',body:p,keepalive:true}).catch(function(){});
+  }catch(e){}};
   var _orig=window.chatOpen;
   window.chatOpen=function(){_s({e:'chatbot_open'});if(_orig)_orig.apply(this,arguments);};
   /* Vue de fiche : dédupliquée par nom d'événement (1 fois par chargement) */
@@ -561,7 +565,7 @@ window.chatSend=function(){
     document.querySelectorAll('.tl-item').forEach(function(el){
       if(!el.__rt){el.__rt=1;io.observe(el);}});};
   _obs();
-  new MutationObserver(_obs).observe(document.body,{childList:true,subtree:true});
+  if(window.MutationObserver)new MutationObserver(_obs).observe(document.body,{childList:true,subtree:true});
   document.addEventListener('click',function(ev){
     var t=ev.target;if(!t.closest)return;
     if(t.closest('#suBtn')){_s({e:'signup_whatsapp'});return;}

@@ -2628,7 +2628,7 @@ def _render_stats_page(dev_mode: bool, user_name: str, flash: str = "") -> str: 
     for i, (name, cnt) in enumerate((clicks.get("top_events") or []), 1):
         top_ev_rows += (
             f'<tr><td class="rk">#{i}</td>'
-            f'<td class="en">{name[:55]}</td>'
+            f'<td class="en">{html.escape(name[:55])}</td>'
             f'<td class="ec">{cnt}</td></tr>'
         )
     if not top_ev_rows:
