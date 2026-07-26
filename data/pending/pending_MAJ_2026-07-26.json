@@ -1,0 +1,73 @@
+{
+  "generated": "2026-07-26",
+  "status_changes": [],
+  "new_events_candidates": [
+    {
+      "_source_title": "Fête du Vacoa 2026 (33ᵉ édition) — Saint-Philippe, Cap Méchant",
+      "_source_url": "https://saintphilippe.re/",
+      "_confidence": "Vérifié",
+      "event": {
+        "name": "Fête du Vacoa",
+        "zone": "Sud",
+        "type": "Fête / Terroir",
+        "org": "Ville de Saint-Philippe",
+        "place": "Cap Méchant, Basse-Vallée, Saint-Philippe",
+        "when": "Août (annuel) · éd. 2026 : 7–16 août (33ᵉ édition)",
+        "badge": "AOÛT",
+        "month": 8,
+        "dateStatus": "confirmée",
+        "status": "soon",
+        "deadline": "Non communiquée sur le site officiel — se renseigner directement auprès du service MD2A de la mairie",
+        "contact": "Mairie de Saint-Philippe — MD2A, 64 rue Leconte Delisle, 97442 Saint-Philippe · 0262 37 00 12",
+        "social": "",
+        "url": "https://saintphilippe.re/",
+        "apply": "Modalités de candidature exposants non publiées en ligne à ce jour ; se renseigner directement auprès du service MD2A de la mairie de Saint-Philippe.",
+        "desc": "33ᵉ édition de la Fête du Vacoa à Cap Méchant (Basse-Vallée) : artisanat, savoir-faire, fête foraine et produits péi, dans le Sud sauvage."
+      }
+    },
+    {
+      "_source_title": "FANMS – PopUp XL, Le Tampon, 6 septembre (année non confirmée dans le texte lu)",
+      "_source_url": "https://fanms.re/",
+      "_confidence": "Probable",
+      "event": null
+    },
+    {
+      "_source_title": "Saint-Joseph — Week-end Commercial, 4-6 sept. 2026, appel forains/artisans centre-ville (page source bloquée 403, lue via extrait WebSearch uniquement)",
+      "_source_url": "https://freedom.fr/centre-ville-de-saint-joseph-en-fete-avec-le-week-end-commercial-en-septembre/",
+      "_confidence": "Probable",
+      "event": null
+    },
+    {
+      "_source_title": "Saint-Joseph — Fête du Safran, appel à candidatures forains/exposants (page source bloquée 403, lue via extrait WebSearch uniquement)",
+      "_source_url": "https://freedom.fr/fete-du-safran-la-maison-des-associations-de-st-joseph-lance-un-appel-a-candidatures-pour-les-forains-et-exposants/",
+      "_confidence": "Probable",
+      "event": null
+    },
+    {
+      "_source_title": "Salon du Bien-être & des Artisans (Zenial), La Saline, \"11-12 mai\" — année non certaine dans la page source",
+      "_source_url": "https://zenial.re/",
+      "_confidence": "À confirmer",
+      "event": null
+    }
+  ],
+  "community": [
+    {
+      "name": "Marché de Noël de Saint-Leu — appel exposants 2026",
+      "zone": "Ouest",
+      "note": "Posts Instagram @marchedenoelstleu (\"APPEL A EXPOSANTS MARCHE DE NOEL 2026\") repérés par recherche mais contenu illisible (mur de connexion Instagram). Contact déjà connu : compagnietendance.marchedenoel@gmail.com",
+      "source": "https://www.instagram.com/p/DUQ6roFDyrc/"
+    },
+    {
+      "name": "Oté Z'Artizan — appel à candidatures (Sud)",
+      "zone": "Sud",
+      "note": "Post Facebook repéré (\"APPEL A CANDIDATURES ! Créateurs, artisans et agriculteurs du sud, vous avez jusqu'au...\") mais contenu non accessible (mur de connexion Facebook). Contact déjà connu : otezartisans@gmail.com",
+      "source": "https://m.facebook.com/otezartisans"
+    },
+    {
+      "name": "Couleurs d'ailleurs Réunion — boutique éphémère",
+      "zone": "à déterminer",
+      "note": "Piste repérée via WebSearch, contenu Facebook non accessible, non recoupée. À vérifier avant toute intégration.",
+      "source": ""
+    }
+  ]
+}
