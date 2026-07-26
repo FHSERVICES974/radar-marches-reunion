@@ -2800,11 +2800,14 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         domaine public (ex. radar.fhservices.re). Le chemin et la query string
         sont conservés. Les hôtes de développement (localhost, IP, *.replit.*)
         ne sont jamais redirigés."""
-        host = (self.headers.get("Host") or "").split(":")[0].strip().lower()
+        host = (self.headers.get("Host") or "").strip().lower()
+        if host.startswith("["):                    # IPv6 littéral, ex. [::1]:5000
+            return False
+        host = host.split(":")[0]
         if (not host or host == _CANONICAL_HOST
                 or host == "localhost"
                 or host.endswith((".replit.dev", ".repl.co", ".replit.app"))
-                or all(c.isdigit() or c == "." for c in host)):   # adresse IP
+                or all(c.isdigit() or c == "." for c in host)):   # adresse IPv4
             return False
         self.send_response(301)
         self.send_header("Location", f"https://{_CANONICAL_HOST}{self.path}")
@@ -2845,7 +2848,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 "SameSite=Strict; Max-Age=0"
             )
             self.end_headers()
-        elif self.path == "/robots.txt":
+        elif self.path.split("?")[0] == "/robots.txt":
             body = (
                 "User-agent: *\n"
                 "Allow: /\n"
@@ -2861,7 +2864,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self.send_header("Content-Length", str(len(body)))
             self.end_headers()
             self.wfile.write(body)
-        elif self.path == "/sitemap.xml":
+        elif self.path.split("?")[0] == "/sitemap.xml":
             # Généré côté Mac et committé à la racine du dépôt — servi tel quel.
             try:
                 with open("sitemap.xml", "rb") as f:
