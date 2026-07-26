@@ -989,7 +989,125 @@ def _stats_snapshot_loop() -> None:
                 _snapshot_one_day(today_local - datetime.timedelta(days=back))
         except Exception as exc:
             log.error("Stats : snapshot quotidien impossible : %s", exc)
+        try:
+            _backfill_event_meta()
+        except Exception as exc:
+            log.error("event_meta : rattrapage impossible : %s", exc)
         time.sleep(3600)
+
+
+# ── Métadonnées par événement (date de publication, date limite) ─────────────
+
+_FR_MONTH_NUM = {"janvier": 1, "février": 2, "fevrier": 2, "mars": 3, "avril": 4,
+              "mai": 5, "juin": 6, "juillet": 7, "août": 8, "aout": 8,
+              "septembre": 9, "octobre": 10, "novembre": 11, "décembre": 12,
+              "decembre": 12, "janv": 1, "févr": 2, "fevr": 2, "avr": 4,
+              "juil": 7, "sept": 9, "oct": 10, "nov": 11, "déc": 12, "dec": 12}
+
+
+def _parse_deadline_date(text: str, ref: "datetime.date | None" = None):
+    """Extrait une date explicite (« 15/08/2026 » ou « 31 août [2026] ») du texte
+    libre de la limite de candidature. Retourne None si rien d'explicite :
+    on préfère aucune date à une date devinée."""
+    if not text:
+        return None
+    t = text.lower()
+    m = re.search(r"\b(\d{1,2})[/.](\d{1,2})[/.](\d{4})\b", t)
+    if m:
+        try:
+            return datetime.date(int(m.group(3)), int(m.group(2)), int(m.group(1)))
+        except ValueError:
+            return None
+    m = re.search(r"\b(1er|\d{1,2})\s+([a-zéèêûôîc]+)\.?\s*(\d{4})?\b", t)
+    if m:
+        day = 1 if m.group(1) == "1er" else int(m.group(1))
+        mon = _FR_MONTH_NUM.get(m.group(2))
+        if not mon:
+            return None
+        ref = ref or datetime.date.today()
+        year = int(m.group(3)) if m.group(3) else ref.year
+        try:
+            d = datetime.date(year, mon, day)
+        except ValueError:
+            return None
+        if not m.group(3) and d < ref - datetime.timedelta(days=90):
+            try:
+                d = datetime.date(year + 1, mon, day)
+            except ValueError:
+                return None
+        return d
+    return None
+
+
+def _upsert_event_meta(name: str, published_on, deadline_on) -> None:
+    """Enregistre les métadonnées d'un événement. La date de publication n'est
+    jamais écrasée (la première publication fait foi)."""
+    conn = _stats_connect()
+    try:
+        with conn.cursor() as cur:
+            cur.execute(
+                "INSERT INTO event_meta (name, published_on, deadline_on) "
+                "VALUES (%s,%s,%s) ON CONFLICT (name) DO UPDATE SET "
+                "deadline_on = COALESCE(EXCLUDED.deadline_on, event_meta.deadline_on)",
+                (name, published_on, deadline_on))
+    finally:
+        conn.close()
+
+
+def _backfill_event_meta() -> None:
+    """Complète event_meta pour les événements sans date de publication connue.
+    Sources, par fiabilité décroissante : commit git « Publier : X », première
+    vue de fiche en base, sinon date du premier commit du dépôt. Idempotent."""
+    try:
+        with open(os.path.join("data", "events.json"), encoding="utf-8") as f:
+            events = json.load(f)
+    except Exception as exc:
+        log.error("event_meta : lecture events.json impossible : %s", exc)
+        return
+    known = {r[0] for r in _stats_query("SELECT name FROM event_meta")}
+    missing = [e for e in events if e.get("name") and e["name"] not in known]
+    if not missing:
+        return
+    git_dates: dict = {}
+    first_commit = None
+    try:
+        out = subprocess.run(
+            ["git", "log", "--reverse", "--pretty=%ad|%s", "--date=short"],
+            capture_output=True, text=True, timeout=30).stdout
+        for line in out.splitlines():
+            d, _, msg = line.partition("|")
+            if first_commit is None and d:
+                first_commit = d
+            if msg.startswith("Publier : "):
+                git_dates.setdefault(msg[len("Publier : "):].strip(), d)
+    except Exception as exc:
+        log.error("event_meta : git log impossible : %s", exc)
+    done = 0
+    for e in missing:
+        name = e["name"]
+        pub = git_dates.get(name)
+        if pub:
+            pub = datetime.date.fromisoformat(pub)
+        else:
+            try:
+                r = _stats_query(
+                    "SELECT min((ts AT TIME ZONE 'Indian/Reunion')::date) "
+                    "FROM interactions WHERE event_name = %s AND type = 'event_view'",
+                    (name,))
+                pub = r[0][0] if r and r[0][0] else None
+            except Exception:
+                pub = None
+        if not pub and first_commit:
+            pub = datetime.date.fromisoformat(first_commit)
+        if not pub:
+            continue
+        try:
+            _upsert_event_meta(name, pub, _parse_deadline_date(e.get("deadline", ""), pub))
+            done += 1
+        except Exception as exc:
+            log.error("event_meta : upsert « %s » impossible : %s", name, exc)
+    if done:
+        log.info("event_meta : %d événement(s) complété(s).", done)
 
 
 def _record_visit(ip: str, referrer: str = "", path: str = "/", user_agent: str = "") -> None:
@@ -1920,6 +2038,13 @@ def _publish_event_to_repo_unlocked(event: dict) -> tuple:
     if not ok:
         return False, msg
     log.info("Publié et pushé : %s", ev_label)
+    try:
+        today_reu = datetime.datetime.now(
+            datetime.timezone(datetime.timedelta(hours=4))).date()
+        _upsert_event_meta(ev_label, today_reu,
+                           _parse_deadline_date(event.get("deadline", ""), today_reu))
+    except Exception as exc:
+        log.error("event_meta : enregistrement publication impossible : %s", exc)
     return True, f"« {ev_label} » publié et pushé sur GitHub."
 
 
@@ -2453,28 +2578,170 @@ def _render_event_stats_section() -> str:
 </div>'''
 
 
-def _render_event_report(name: str, days: int = 30) -> str:
-    """Rapport imprimable une page pour UN événement (offre visibilité)."""
-    try:
-        days = max(1, min(int(days), 365))
-    except (TypeError, ValueError):
-        days = 30
+def _render_event_report(name: str) -> str:  # noqa: PLR0912,PLR0915
+    """Rapport imprimable une page pour UN événement (offre visibilité) :
+    totaux depuis la publication, courbe jour par jour, comparaison zone/type."""
     stats = {"views": 0, "uniq": 0, "contacts": 0}
     try:
         rows = _stats_query(
             "SELECT count(*) FILTER (WHERE type = 'event_view'), "
             "count(DISTINCT visitor_hash) FILTER (WHERE type = 'event_view' AND visitor_hash <> ''), "
             "count(*) FILTER (WHERE type = ANY(%s)) "
-            "FROM interactions WHERE event_name = %s "
-            "AND ts >= now() - make_interval(days => %s)", (list(_CONTACT_TYPES), name, days))
+            "FROM interactions WHERE event_name = %s", (list(_CONTACT_TYPES), name))
         if rows:
             stats = {"views": rows[0][0], "uniq": rows[0][1], "contacts": rows[0][2]}
     except Exception as exc:
         log.error("Stats : rapport événement impossible : %s", exc)
-    n     = html.escape(name)
-    end   = datetime.date.today()
-    start = end - datetime.timedelta(days=days)
+
+    today = datetime.datetime.now(
+        datetime.timezone(datetime.timedelta(hours=4))).date()
+
+    # Métadonnées : date de publication + date limite (repli : 1re vue en base)
+    pub = dl = None
+    try:
+        r = _stats_query(
+            "SELECT published_on, deadline_on FROM event_meta WHERE name = %s", (name,))
+        if r:
+            pub, dl = r[0]
+    except Exception as exc:
+        log.error("event_meta : lecture rapport impossible : %s", exc)
+    if not pub:
+        try:
+            r = _stats_query(
+                "SELECT min((ts AT TIME ZONE 'Indian/Reunion')::date) FROM interactions "
+                "WHERE event_name = %s AND type = 'event_view'", (name,))
+            pub = r[0][0] if r and r[0][0] else None
+        except Exception:
+            pub = None
+    if dl and pub and dl < pub:
+        dl = None
+    curve_end = min(dl, today) if dl else today
+    days_online = max(1, (curve_end - pub).days + 1) if pub else None
+
+    # Zone / type depuis events.json
+    zone = ev_type = ""
+    peer_names: list = []
+    try:
+        with open(os.path.join("data", "events.json"), encoding="utf-8") as f:
+            events = json.load(f)
+        me = next((e for e in events if e.get("name") == name), None)
+        if me:
+            zone, ev_type = me.get("zone", ""), me.get("type", "")
+            peer_names = [e["name"] for e in events
+                          if e.get("name") and e["name"] != name
+                          and e.get("zone") == zone and e.get("type") == ev_type]
+    except Exception as exc:
+        log.error("Rapport : lecture events.json impossible : %s", exc)
+
+    # Courbe jour par jour entre publication et limite (ou aujourd'hui)
+    daily: dict = {}
+    if pub:
+        try:
+            daily = dict(_stats_query(
+                "SELECT (ts AT TIME ZONE 'Indian/Reunion')::date AS d, count(*) "
+                "FROM interactions WHERE event_name = %s AND type = 'event_view' "
+                "AND (ts AT TIME ZONE 'Indian/Reunion')::date BETWEEN %s AND %s "
+                "GROUP BY d", (name, pub, curve_end)))
+        except Exception as exc:
+            log.error("Rapport : courbe quotidienne impossible : %s", exc)
+
+    # Comparaison : autres événements même zone + même type, ayant des vues.
+    # Fenêtres homogènes : publication → min(limite, aujourd'hui) pour chacun.
+    comparison = ""
+    if peer_names and stats["views"] > 0 and pub:
+        try:
+            peer_views = dict(_stats_query(
+                "SELECT event_name, count(*) FROM interactions "
+                "WHERE type = 'event_view' AND event_name = ANY(%s) "
+                "GROUP BY event_name", (peer_names,)))
+            windowed = _stats_query(
+                "SELECT i.event_name, count(*), max(m.published_on), max(m.deadline_on) "
+                "FROM interactions i JOIN event_meta m ON m.name = i.event_name "
+                "WHERE i.type = 'event_view' AND i.event_name = ANY(%s) "
+                "AND (m.deadline_on IS NULL OR m.deadline_on >= m.published_on) "
+                "AND (i.ts AT TIME ZONE 'Indian/Reunion')::date "
+                "BETWEEN m.published_on AND LEAST(COALESCE(m.deadline_on, %s), %s) "
+                "GROUP BY i.event_name", (peer_names, today, today))
+            active = {p: v for p, v in peer_views.items() if v > 0}
+            rates = []
+            for _p, v, p_pub, p_dl in windowed:
+                p_end = min(p_dl, today) if p_dl else today
+                if v > 0:
+                    rates.append(v / max(1, (p_end - p_pub).days + 1))
+            zt = f"« {html.escape(ev_type)} » de la zone {html.escape(zone)}"
+            win_views = sum(daily.values())
+            if len(rates) >= 3 and days_online and win_views > 0:
+                avg = sum(rates) / len(rates)
+                if avg > 0:
+                    mult = (win_views / days_online) / avg
+                    mult_txt = f"{mult:.1f}".replace(".", ",")
+                    comparison = (f"Cette fiche a été consultée <b>{mult_txt}×</b> "
+                                  f"{'plus' if mult >= 1 else 'moins'} que la moyenne des "
+                                  f"{len(rates)} autres événements {zt} "
+                                  f"(en consultations par jour de présence sur le radar).")
+            elif len(active) >= 3:
+                avg = sum(active.values()) / len(active)
+                if avg > 0:
+                    mult = stats["views"] / avg
+                    mult_txt = f"{mult:.1f}".replace(".", ",")
+                    comparison = (f"Cette fiche totalise <b>{mult_txt}×</b> "
+                                  f"{'plus' if mult >= 1 else 'moins'} de consultations que la "
+                                  f"moyenne des {len(active)} autres événements {zt}.")
+        except Exception as exc:
+            log.error("Rapport : comparaison zone/type impossible : %s", exc)
+
+    n = html.escape(name)
     def _fr(d): return d.strftime("%d/%m/%Y")
+
+    # Graphique SVG (barres par jour ; regroupement hebdo au-delà de 100 jours)
+    chart = ('<div style="color:#8a8474;font-size:13px">Aucune consultation '
+             'enregistrée sur la période.</div>')
+    if pub and daily and sum(daily.values()) > 0:
+        span = [pub + datetime.timedelta(days=i) for i in range((curve_end - pub).days + 1)]
+        if len(span) > 100:
+            buckets: dict = {}
+            for d in span:
+                wk = d - datetime.timedelta(days=d.weekday())
+                buckets[wk] = buckets.get(wk, 0) + daily.get(d, 0)
+            keys = sorted(buckets)
+            vals = [buckets[k] for k in keys]
+            labels = [f"sem. du {k.strftime('%d/%m')}" for k in keys]
+            unit = "sem."
+        else:
+            vals = [daily.get(d, 0) for d in span]
+            labels = [d.strftime("%d/%m") for d in span]
+            unit = "jour"
+        W, H, PAD = 584, 110, 14
+        mx = max(vals)
+        step = (W - 2 * PAD) / len(vals)
+        bw = max(1.5, step - 2)
+        bars = "".join(
+            f'<rect x="{PAD + i * step:.1f}" y="{H - 15 - (v / mx * (H - 32)):.1f}" '
+            f'width="{bw:.1f}" height="{(v / mx * (H - 32)):.1f}" rx="1.5" '
+            f'fill="#0e6b52"><title>{labels[i]} : {v}</title></rect>'
+            for i, v in enumerate(vals) if v > 0)
+        chart = (f'<svg viewBox="0 0 {W} {H}" width="100%" role="img" '
+                 f'aria-label="Consultations de la fiche par {unit}">'
+                 f'<line x1="{PAD}" y1="{H-15}" x2="{W-PAD}" y2="{H-15}" '
+                 f'stroke="#e7e1d2" stroke-width="1"/>{bars}'
+                 f'<text x="{PAD}" y="{H-2}" font-size="10" fill="#8a8474">{labels[0]}</text>'
+                 f'<text x="{W-PAD}" y="{H-2}" font-size="10" fill="#8a8474" '
+                 f'text-anchor="end">{labels[-1]}</text>'
+                 f'<text x="{W-PAD}" y="12" font-size="10" fill="#8a8474" '
+                 f'text-anchor="end">max : {mx} / {unit}</text></svg>')
+
+    if pub:
+        dl_txt = f" · limite de candidature : {_fr(dl)}" if dl else ""
+        period = (f"Fiche publiée sur le radar le {_fr(pub)}{dl_txt} · "
+                  f"{days_online} jour{'s' if days_online > 1 else ''} d'exposition"
+                  f" (au {_fr(curve_end)})")
+    else:
+        period = f"Totaux mesurés à ce jour ({_fr(today)})"
+    comparison_html = (f'<div class="note" style="border-left:4px solid #0e6b52;'
+                       f'margin-top:14px">📈 {comparison}</div>') if comparison else ""
+    chart_html = (f'<div class="note" style="margin-top:14px"><b>Consultations '
+                  f'{"jour par jour" if pub else ""} :</b><div style="margin-top:10px">'
+                  f'{chart}</div></div>') if pub else ""
     return f'''<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8">
 <title>Rapport de visibilité — {n}</title>
 <style>
@@ -2504,21 +2771,23 @@ def _render_event_report(name: str, days: int = 30) -> str:
 <div class="head">
   <img src="/assets/logo_radar_marches.png" alt="Radar des Marchés">
   <div class="brand">Radar des Marchés</div>
-  <div class="sub">Rapport de visibilité — radar.fhservices.re</div>
+  <div class="sub">Rapport de visibilité — radar.artisanspei.re</div>
 </div>
 <h1>{n}</h1>
-<div class="period">Exposition de la fiche du {_fr(start)} au {_fr(end)} ({days} jours)</div>
+<div class="period">{html.escape(period)}{f" · {html.escape(zone)} · {html.escape(ev_type)}" if zone else ""}</div>
 <div class="grid">
   <div class="kpi"><div class="val">{stats["views"]}</div><div class="lbl">Consultations de la fiche</div></div>
   <div class="kpi"><div class="val">{stats["uniq"]}</div><div class="lbl">Visiteurs uniques</div></div>
   <div class="kpi or"><div class="val">{stats["contacts"]}</div><div class="lbl">Clics vers le contact</div></div>
 </div>
-<div class="note"><b>Comment lire ces chiffres :</b> les « consultations » comptent chaque
+{chart_html}
+{comparison_html}
+<div class="note" style="margin-top:14px"><b>Comment lire ces chiffres :</b> les « consultations » comptent chaque
 ouverture de la fiche de l'événement sur le Radar des marchés de La Réunion ; les
 « visiteurs uniques » comptent les personnes distinctes (mesure anonyme, sans cookie
 publicitaire ni traceur tiers) ; les « clics vers le contact » comptent les artisans
 ayant cliqué pour contacter l'organisateur.</div>
-<footer>Radar des Marchés de La Réunion · radar.fhservices.re · rapport généré le {_fr(end)}</footer>
+<footer>Radar des Marchés de La Réunion · radar.artisanspei.re · rapport généré le {_fr(today)}</footer>
 <div class="noprint"><button onclick="window.print()">Imprimer / Enregistrer en PDF</button></div>
 </body></html>'''
 
@@ -3587,12 +3856,11 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             return
         qs   = urllib.parse.parse_qs(urllib.parse.urlparse(self.path).query)
         name = qs.get("name", [""])[0].strip()
-        days = qs.get("days", ["30"])[0]
         if not name:
             self.send_response(404)
             self.end_headers()
             return
-        body = _render_event_report(name, days).encode()
+        body = _render_event_report(name).encode()
         self.send_response(200)
         self.send_header("Content-Type", "text/html; charset=utf-8")
         self.send_header("Content-Length", str(len(body)))
