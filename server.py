@@ -771,6 +771,7 @@ def _categorize_source(referrer: str, path: str) -> str:
 # chaque publication (disque réinitialisé). Elles vivent désormais dans la
 # base PostgreSQL Replit (DATABASE_URL), qui survit aux redéploiements.
 
+_CANONICAL_HOST  = "radar.artisanspei.re"   # domaine canonique (SEO, 301)
 _DB_URL          = os.environ.get("DATABASE_URL", "")
 _STATS_SALT      = os.environ.get("SESSION_SECRET", "radar-stats-salt")
 _STATS_RETENTION_MONTHS = 24
@@ -2794,7 +2795,26 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         if args and str(args[1]) not in ("200", "304"):
             log.info(fmt, *args)
 
+    def _redirect_to_canonical(self) -> bool:
+        """301 vers le domaine canonique si la requête arrive sur un autre
+        domaine public (ex. radar.fhservices.re). Le chemin et la query string
+        sont conservés. Les hôtes de développement (localhost, IP, *.replit.*)
+        ne sont jamais redirigés."""
+        host = (self.headers.get("Host") or "").split(":")[0].strip().lower()
+        if (not host or host == _CANONICAL_HOST
+                or host == "localhost"
+                or host.endswith((".replit.dev", ".repl.co", ".replit.app"))
+                or all(c.isdigit() or c == "." for c in host)):   # adresse IP
+            return False
+        self.send_response(301)
+        self.send_header("Location", f"https://{_CANONICAL_HOST}{self.path}")
+        self.send_header("Content-Length", "0")
+        self.end_headers()
+        return True
+
     def do_GET(self):
+        if self._redirect_to_canonical():
+            return
         if self.path == "/health":
             git_ok = _git_available()
             status = {
@@ -2825,6 +2845,36 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 "SameSite=Strict; Max-Age=0"
             )
             self.end_headers()
+        elif self.path == "/robots.txt":
+            body = (
+                "User-agent: *\n"
+                "Allow: /\n"
+                "Disallow: /admin\n"
+                "Disallow: /sync\n"
+                "Disallow: /track\n"
+                "Disallow: /chat\n"
+                "\n"
+                f"Sitemap: https://{_CANONICAL_HOST}/sitemap.xml\n"
+            ).encode()
+            self.send_response(200)
+            self.send_header("Content-Type", "text/plain; charset=utf-8")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+        elif self.path == "/sitemap.xml":
+            # Généré côté Mac et committé à la racine du dépôt — servi tel quel.
+            try:
+                with open("sitemap.xml", "rb") as f:
+                    body = f.read()
+            except OSError:
+                self.send_response(404)
+                self.end_headers()
+                return
+            self.send_response(200)
+            self.send_header("Content-Type", "application/xml; charset=utf-8")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
         elif self.path.startswith(("/data", "/.git", "/scripts")):
             # Fichiers internes (soumissions, contacts privés, dépôt git) —
             # jamais servis publiquement.
