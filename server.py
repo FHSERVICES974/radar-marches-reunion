@@ -2353,11 +2353,13 @@ def _render_event_stats_section() -> str:
     return f'''
 <div class="card">
   <div class="card-h">📊 Statistiques par événement · 30 jours</div>
+  <div style="overflow-x:auto;-webkit-overflow-scrolling:touch">
   <table class="ev-tbl">
     <thead><tr><th>Événement</th><th style="text-align:right">Vues fiche</th>
     <th style="text-align:right">Visiteurs uniques</th><th style="text-align:right">Clics contact</th><th></th></tr></thead>
     <tbody>{body}</tbody>
   </table>
+  </div>
 </div>'''
 
 
