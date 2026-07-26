@@ -1645,79 +1645,118 @@ def _render_published_events_section() -> str:
     except Exception:
         events = []
 
-    header = ('<div class="card"><div class="card-h">📚 Événements publiés'
-              f' <span style="color:#8a8474;font-weight:400">({len(events)})</span></div>')
     if not events:
-        return header + ('<div class="empty-st"><span>📭</span>'
-                         '<p>Aucun événement publié.</p></div></div>')
+        return ('<div class="card"><div class="card-h">📚 Événements publiés (0)</div>'
+                '<div class="empty-st"><span>📭</span>'
+                '<p>Aucun événement publié.</p></div></div>')
 
-    zones = ["Nord", "Est", "Ouest", "Sud", "National"]
-    inp_style = ("width:100%;border:1px solid #e7e1d2;border-radius:8px;"
-                 "padding:6px 9px;font-size:13px;box-sizing:border-box")
-    lbl_style = "font-size:12px;color:#8a8474;display:block;margin-top:8px"
-
-    cards = []
-    for ev in events:
-        name = ev.get("name", "")
-        # Formulaire de correction : les 16 champs
-        def field(k, label, ev=ev):
-            return (f'<label style="{lbl_style}">{label}'
-                    f'<input name="{k}" value="{esc(ev.get(k, ""))}" '
-                    f'maxlength="400" style="{inp_style}"></label>')
-        zone_opts = "".join(
-            f'<option value="{z}"{" selected" if ev.get("zone") == z else ""}>{z}</option>'
-            for z in zones)
-        edit_form = (
-            f'<details style="margin-top:8px"><summary style="cursor:pointer;'
-            f'font-size:13px;color:#0e6b52">✏️ Corriger</summary>'
-            f'<form method="POST" action="/admin/event-update" '
-            f'style="margin-top:6px">'
-            f'<input type="hidden" name="orig_name" value="{esc(name)}">'
-            + field("name", "Nom")
-            + f'<label style="{lbl_style}">Zone'
-              f'<select name="zone" style="{inp_style}">{zone_opts}</select></label>'
-            + field("type", "Type") + field("org", "Organisateur")
-            + field("place", "Lieu") + field("when", "Date / période")
-            + field("badge", "Badge (ex. JANV)") + field("month", "Mois (1–12, 99 si inconnu)")
-            + field("dateStatus", "Statut de date (confirmé / annuel / à confirmer)")
-            + field("status", "Statut (open / soon / closed)")
-            + field("deadline", "Date limite") + field("contact", "Contact")
-            + field("social", "Réseaux") + field("url", "Lien")
-            + field("apply", "Comment candidater")
-            + f'<label style="{lbl_style}">Description'
-              f'<textarea name="desc" rows="3" maxlength="1000" '
-              f'style="{inp_style}">{esc(ev.get("desc", ""))}</textarea></label>'
-            f'<button type="submit" class="btn-prop btn-pub" '
-            f'style="margin-top:8px">💾 Enregistrer la correction</button>'
-            f'</form></details>')
-        remove_form = (
+    # Lignes compactes : nom · lieu · période · statut. Le formulaire de
+    # correction (16 champs) n'est PAS rendu ici : il est construit côté
+    # navigateur, uniquement au clic sur « Corriger », un seul à la fois,
+    # à partir du bloc JSON ci-dessous.
+    status_badge = {"open":  '<span class="pub-st" style="background:#dcfce7;color:#15803d">ouvert</span>',
+                    "soon":  '<span class="pub-st" style="background:#fef3c7;color:#b45309">bientôt</span>',
+                    "closed":'<span class="pub-st" style="background:#f1f5f9;color:#64748b">clos</span>'}
+    rows = []
+    for i, ev in enumerate(events):
+        name  = ev.get("name", "")
+        place = ev.get("place", "") or ev.get("zone", "")
+        when  = ev.get("when", "")[:40]
+        blob  = " ".join([name, ev.get("place", ""), ev.get("org", ""),
+                          ev.get("zone", ""), ev.get("type", "")]).lower()
+        rows.append(
+            f'<div class="pub-row" data-i="{i}" data-search="{esc(blob)}">'
+            f'<div class="pub-txt"><span class="pub-nm">{esc(name)}</span>'
+            f'<span class="pub-mt">{esc(" · ".join(x for x in [place, when] if x))}</span></div>'
+            f'{status_badge.get(ev.get("status", ""), "")}'
+            f'<div class="pub-act">'
+            f'<button type="button" class="btn-prop btn-pub pub-edit" data-i="{i}">✏️ Corriger</button>'
             f'<form method="POST" action="/admin/event-remove" class="prop-form" '
-            f'style="display:inline" onsubmit="return confirm('
-            f'\'Retirer cet événement du site public ? '
+            f'onsubmit="return confirm(\'Retirer cet événement du site public ? '
             f'Il disparaîtra immédiatement du radar.\')">'
             f'<input type="hidden" name="name" value="{esc(name)}">'
-            f'<button type="submit" class="btn-prop btn-rej">🗑 Retirer</button>'
-            f'</form>')
-        meta = " · ".join(x for x in [ev.get("zone"), ev.get("type"),
-                                      ev.get("when", "")[:60]] if x)
-        cards.append(
-            f'<div class="prop-card pub-ev-card" '
-            f'data-search="{esc((name + " " + meta).lower())}">'
-            f'<div class="prop-top"><div class="prop-name">{esc(name)}</div>'
-            f'{remove_form}</div>'
-            f'<div class="prop-meta"><span class="prop-meta-item">{esc(meta)}</span></div>'
-            f'{edit_form}</div>')
+            f'<button type="submit" class="btn-prop btn-rej">🗑 Retirer</button></form>'
+            f'</div></div>')
 
-    search = (
-        '<input id="pub-ev-search" type="search" placeholder="🔍 Filtrer par nom, '
-        f'zone, type…" style="{inp_style};margin:10px 0">'
-        '<script>document.addEventListener("DOMContentLoaded",function(){'
-        'var i=document.getElementById("pub-ev-search");'
-        'i.addEventListener("input",function(){var q=i.value.toLowerCase();'
-        'document.querySelectorAll(".pub-ev-card").forEach(function(c){'
-        'c.style.display=c.dataset.search.indexOf(q)>=0?"":"none";});});});</script>')
-
-    return header + search + "".join(cards) + "</div>"
+    data_json = json.dumps(events, ensure_ascii=False).replace("</", "<\\/")
+    return f'''
+<details class="card" id="pub-ev" style="padding:0">
+  <summary class="card-h" style="cursor:pointer;padding:1.25rem 1.5rem;margin:0;list-style-position:inside">
+    📚 Événements publiés — {len(events)}
+    <span style="color:#8a8474;font-weight:400;font-size:.78rem">(retirer / corriger)</span>
+  </summary>
+  <div style="padding:0 1.5rem 1.25rem">
+    <input id="pub-search" type="search" placeholder="🔍 Chercher un événement (nom, lieu, organisateur)…"
+           style="width:100%;border:1px solid #e2e8f0;border-radius:8px;padding:9px 12px;font-size:14px;box-sizing:border-box;margin:4px 0 12px">
+    <style>
+      .pub-row{{display:flex;align-items:center;gap:.6rem;padding:.5rem .2rem;border-bottom:1px solid #f1f5f9;flex-wrap:wrap}}
+      .pub-txt{{flex:1;min-width:180px;display:flex;flex-direction:column;gap:.1rem}}
+      .pub-nm{{font-weight:600;font-size:.85rem;color:#0f172a;line-height:1.25}}
+      .pub-mt{{font-size:.73rem;color:#64748b}}
+      .pub-st{{font-size:.67rem;font-weight:700;padding:.15rem .5rem;border-radius:20px;white-space:nowrap}}
+      .pub-act{{display:flex;gap:.4rem;flex-shrink:0}}
+      #pub-editor{{background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:.85rem 1rem;margin:.5rem 0}}
+      #pub-editor label{{font-size:12px;color:#64748b;display:block;margin-top:8px}}
+      #pub-editor input,#pub-editor select,#pub-editor textarea{{width:100%;border:1px solid #e2e8f0;border-radius:8px;padding:6px 9px;font-size:13px;box-sizing:border-box;font-family:inherit}}
+      @media(max-width:520px){{.pub-act{{width:100%;justify-content:flex-end}}}}
+    </style>
+    <div id="pub-list">{"".join(rows)}</div>
+    <div style="text-align:center;margin-top:.8rem">
+      <button type="button" id="pub-more" class="btn-prop btn-rej">Afficher plus</button>
+    </div>
+  </div>
+</details>
+<script type="application/json" id="pub-data">{data_json}</script>
+<script>
+(function(){{
+  var EVENTS=JSON.parse(document.getElementById("pub-data").textContent);
+  var PAGE=20,shown=PAGE,rows=[].slice.call(document.querySelectorAll("#pub-list .pub-row"));
+  var search=document.getElementById("pub-search"),more=document.getElementById("pub-more");
+  var FIELDS=[["name","Nom"],["zone","Zone"],["type","Type"],["org","Organisateur"],
+    ["place","Lieu"],["when","Date / période"],["badge","Badge (ex. JANV)"],
+    ["month","Mois (1–12, 99 si inconnu)"],["dateStatus","Statut de date (confirmé / annuel / à confirmer)"],
+    ["status","Statut (open / soon / closed)"],["deadline","Date limite"],["contact","Contact"],
+    ["social","Réseaux"],["url","Lien"],["apply","Comment candidater"],["desc","Description"]];
+  var ZONES=["Nord","Est","Ouest","Sud","National"];
+  function refresh(){{
+    var q=search.value.toLowerCase().trim(),n=0;
+    rows.forEach(function(r){{
+      var ok=!q||r.dataset.search.indexOf(q)>=0;
+      r.style.display=(ok&&n<shown)?"":"none";
+      if(ok)n++;
+    }});
+    more.style.display=n>shown?"":"none";
+  }}
+  search.addEventListener("input",function(){{shown=PAGE;closeEditor();refresh();}});
+  more.addEventListener("click",function(){{shown+=PAGE;refresh();}});
+  function closeEditor(){{var e=document.getElementById("pub-editor");if(e)e.remove();}}
+  function el(tag,attrs){{var e=document.createElement(tag);for(var k in attrs)e.setAttribute(k,attrs[k]);return e;}}
+  document.getElementById("pub-list").addEventListener("click",function(ev){{
+    var b=ev.target.closest(".pub-edit");if(!b)return;
+    var i=+b.dataset.i,data=EVENTS[i]||{{}};
+    var already=document.getElementById("pub-editor");
+    closeEditor();
+    if(already&&already.dataset.i==String(i))return; /* re-clic = fermer */
+    var box=el("div",{{id:"pub-editor","data-i":i}});
+    var f=el("form",{{method:"POST",action:"/admin/event-update"}});
+    var h=el("input",{{type:"hidden",name:"orig_name"}});h.value=data.name||"";f.appendChild(h);
+    FIELDS.forEach(function(fd){{
+      var k=fd[0],lab=document.createElement("label");lab.textContent=fd[1];var inp;
+      if(k==="zone"){{inp=document.createElement("select");inp.name="zone";
+        ZONES.forEach(function(z){{var o=document.createElement("option");o.value=z;o.textContent=z;
+          if((data.zone||"")===z)o.selected=true;inp.appendChild(o);}});
+      }}else if(k==="desc"){{inp=el("textarea",{{name:"desc",rows:"3",maxlength:"1000"}});inp.value=data.desc||"";
+      }}else{{inp=el("input",{{name:k,maxlength:"400"}});inp.value=data[k]==null?"":String(data[k]);}}
+      lab.appendChild(inp);f.appendChild(lab);
+    }});
+    var s=el("button",{{type:"submit",class:"btn-prop btn-pub",style:"margin-top:10px"}});
+    s.textContent="💾 Enregistrer la correction";f.appendChild(s);
+    box.appendChild(f);
+    b.closest(".pub-row").insertAdjacentElement("afterend",box);
+  }});
+  refresh();
+}})();
+</script>'''
 
 
 def _load_latest_proposal() -> tuple:
