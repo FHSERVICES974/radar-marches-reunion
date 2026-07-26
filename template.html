@@ -542,14 +542,47 @@ window.chatSend=function(){
   var _s=function(d){try{navigator.sendBeacon('/track',JSON.stringify(d));}catch(e){}};
   var _orig=window.chatOpen;
   window.chatOpen=function(){_s({e:'chatbot_open'});if(_orig)_orig.apply(this,arguments);};
+  /* Vue de fiche : dédupliquée par nom d'événement (1 fois par chargement) */
+  var seen={};
+  var _ev=function(n){if(n&&!seen[n]){seen[n]=1;_s({e:'event_view',n:n});}};
+  var _iname=function(el){var it=el.closest('.tl-item');var h=it&&it.querySelector('h3');return h?h.textContent:'';};
+  /* Fiche réellement vue : visible à ≥50% pendant 2 secondes */
+  var timers={};
+  var io=('IntersectionObserver' in window)?new IntersectionObserver(function(es){
+    es.forEach(function(en){
+      var h=en.target.querySelector('h3'),n=h?h.textContent:'';
+      if(!n)return;
+      if(en.isIntersecting){
+        if(!timers[n]&&!seen[n])timers[n]=setTimeout(function(){delete timers[n];_ev(n);},2000);
+      }else if(timers[n]){clearTimeout(timers[n]);delete timers[n];}
+    });
+  },{threshold:[0.5]}):null;
+  var _obs=function(){if(!io)return;
+    document.querySelectorAll('.tl-item').forEach(function(el){
+      if(!el.__rt){el.__rt=1;io.observe(el);}});};
+  _obs();
+  new MutationObserver(_obs).observe(document.body,{childList:true,subtree:true});
   document.addEventListener('click',function(ev){
     var t=ev.target;if(!t.closest)return;
-    var m=t.closest('.btn-mail');
-    if(m){var b=m.closest('.tl-body');_s({e:'candidater',n:((b&&b.querySelector('h3'))||{}).textContent||''});return;}
     if(t.closest('#suBtn')){_s({e:'signup_whatsapp'});return;}
     if(t.closest('#suMail')){_s({e:'signup_email'});return;}
-    var it=t.closest('.tl-item');
-    if(it){var h=it.querySelector('h3');_s({e:'event_view',n:(h||{}).textContent||''});}
+    /* Clics contact : tout lien d'une fiche ou du répertoire (email/tél/social/url) */
+    var a=t.closest('a');
+    if(a){
+      var it=a.closest('.tl-item'),dr=a.closest('.dir-row');
+      if(it||dr){
+        var n=it?_iname(a):(((dr.querySelector('h4'))||{}).textContent||'');
+        var href=a.getAttribute('href')||'';
+        var k=href.indexOf('mailto:')===0?'email':href.indexOf('tel:')===0?'phone':
+              /facebook\.|instagram\.|fb\.com|wa\.me|whatsapp\.|m\.me/.test(href)?'social':'url';
+        _s({e:'contact_'+k,n:n});
+        if(it)_ev(n);
+        return;
+      }
+    }
+    /* Ouverture / clic sur une fiche = vue (dédupliquée) */
+    var it2=t.closest('.tl-item');
+    if(it2){var h2=it2.querySelector('h3');_ev((h2||{}).textContent||'');}
   },false);
 })();
 </script>

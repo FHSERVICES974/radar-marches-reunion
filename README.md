@@ -229,7 +229,14 @@ PostgreSQL Replit** (`DATABASE_URL`), indépendante du cycle de déploiement :
   hachage salé, referrer brut, source catégorisée, user agent) ;
 - `interactions` : chaque interaction (horodatage, type, événement concerné,
   visiteur anonymisé) ;
-- `traffic_daily_legacy` : agrégats journaliers repris de l'ancien système.
+- `traffic_daily_legacy` : agrégats journaliers repris de l'ancien système ;
+- `daily_snapshot` : résumé agrégé par jour (visites, uniques, nouveaux/
+  récurrents, événements publiés, fiches vues, clics contact, questions
+  chatbot, soumissions organisateurs, abonnés WhatsApp) — recalculé chaque
+  heure pour J-1..J-3, assurance anti-perte de l'historique ;
+- `wa_subscribers` : nombre d'abonnés du groupe WhatsApp, **saisi
+  manuellement** dans /admin (~1×/semaine) — à ne pas confondre avec les
+  mesures automatiques.
 - **Rétention : 24 mois**, purge automatique quotidienne. Aucune IP en clair,
   aucun cookie publicitaire, aucun traceur tiers (mention dans le pied de page
   du site public).
@@ -238,10 +245,14 @@ PostgreSQL Replit** (`DATABASE_URL`), indépendante du cycle de déploiement :
 
 `utm_source` est prioritaire sur le referrer (WhatsApp masque souvent le
 sien). Utiliser ces liens lors des partages :
-- Groupe WhatsApp : `https://radar.fhservices.re/?utm_source=whatsapp`
-- Instagram (bio/stories) : `https://radar.fhservices.re/?utm_source=instagram`
-- Facebook : `https://radar.fhservices.re/?utm_source=facebook`
-- Signature email / newsletter : `https://radar.fhservices.re/?utm_source=email`
+- Groupe WhatsApp : `https://radar.artisanspei.re/?utm_source=whatsapp`
+- Instagram (bio/stories) : `https://radar.artisanspei.re/?utm_source=instagram`
+- Facebook / Messenger : `https://radar.artisanspei.re/?utm_source=facebook`
+- Signature email / newsletter : `https://radar.artisanspei.re/?utm_source=email`
+
+Referrers reconnus sans utm : Google/Bing/Yahoo/DuckDuckGo (→ Recherche),
+Facebook/Messenger, Instagram, WhatsApp (`wa.me`), LinkedIn. Les referrers du
+site lui-même sont classés « Navigation interne » (plus dans « Autre »).
 - **Thèmes du chatbot** : analyse hebdomadaire par Claude des questions posées à
   « Le ti artisan futé », pour identifier les besoins récurrents des artisans et
   orienter les évolutions du site. Se déclenche automatiquement dès 3 questions

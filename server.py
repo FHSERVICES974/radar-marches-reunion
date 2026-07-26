@@ -723,10 +723,15 @@ _THEMES_INTERVAL = 7 * 24 * 3600  # analyse hebdomadaire
 
 _REF_SOURCES = [
     ("google",    ("google.", "bing.", "yahoo.", "duckduckgo.", "qwant.", "ecosia.")),
-    ("facebook",  ("facebook.com", "fb.com")),
-    ("instagram", ("instagram.com",)),
-    ("whatsapp",  ("whatsapp.com",)),
+    ("facebook",  ("facebook.com", "fb.com", "messenger.com", "m.me")),
+    ("instagram", ("instagram.com", "instagr.am")),
+    ("whatsapp",  ("whatsapp.com", "wa.me")),
+    ("linkedin",  ("linkedin.com", "lnkd.in")),
 ]
+
+# Referrer venant du site lui-même (navigation interne) — à ne pas classer
+# « autre » : c'était la cause du gros paquet de visites non attribuées.
+_INTERNAL_REF_HOSTS = ("radar.artisanspei.re", "radar.fhservices.re")
 
 
 _UTM_SOURCES = {
@@ -746,6 +751,8 @@ def _categorize_referrer(referrer: str) -> str:
         host = (urllib.parse.urlparse(referrer).hostname or "").lower()
         if host.startswith("www."):
             host = host[4:]
+        if host in _INTERNAL_REF_HOSTS or host.endswith((".replit.dev", ".replit.app", ".repl.co")):
+            return "interne"
         for src, patterns in _REF_SOURCES:
             if any(p in host for p in patterns):
                 return src
@@ -915,6 +922,74 @@ def _import_legacy_stats() -> None:
                 conn.close()
     except Exception as exc:
         log.error("Stats : reprise de l'historique impossible : %s", exc)
+
+
+def _snapshot_one_day(day: "datetime.date") -> None:
+    """Calcule et enregistre (upsert, idempotent) le résumé agrégé d'une journée.
+
+    Assurance anti-perte : même si le détail (page_views / interactions) était
+    un jour perdu ou corrompu, cette ligne par jour préserve la tendance.
+    """
+    tz = "Indian/Reunion"
+    v, u = _stats_query(
+        "SELECT count(*), count(DISTINCT visitor_hash) FROM page_views "
+        f"WHERE (ts AT TIME ZONE '{tz}')::date = %s", (day,))[0]
+    new_v = _stats_query(
+        "SELECT count(*) FROM (SELECT visitor_hash FROM page_views "
+        "WHERE visitor_hash <> '' GROUP BY visitor_hash "
+        f"HAVING min((ts AT TIME ZONE '{tz}')::date) = %s) t", (day,))[0][0]
+    counts = dict(_stats_query(
+        "SELECT type, count(*) FROM interactions "
+        f"WHERE (ts AT TIME ZONE '{tz}')::date = %s GROUP BY type", (day,)))
+    contact_clicks = sum(counts.get(t, 0) for t in _CONTACT_TYPES)
+    wa_rows = _stats_query("SELECT count FROM wa_subscribers WHERE day = %s", (day,))
+    wa = wa_rows[0][0] if wa_rows else None
+    try:
+        with open(os.path.join("data", "events.json"), encoding="utf-8") as f:
+            published = len(json.load(f))
+    except Exception:
+        published = 0
+    conn = _stats_connect()
+    try:
+        with conn.cursor() as cur:
+            cur.execute(
+                "INSERT INTO daily_snapshot (day, views, uniques, new_visitors, "
+                "returning_visitors, published_events, event_views, contact_clicks, "
+                "chatbot_questions, org_submissions, whatsapp_subscribers) "
+                "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) "
+                "ON CONFLICT (day) DO UPDATE SET views=EXCLUDED.views, "
+                "uniques=EXCLUDED.uniques, new_visitors=EXCLUDED.new_visitors, "
+                "returning_visitors=EXCLUDED.returning_visitors, "
+                "published_events=EXCLUDED.published_events, "
+                "event_views=EXCLUDED.event_views, "
+                "contact_clicks=EXCLUDED.contact_clicks, "
+                "chatbot_questions=EXCLUDED.chatbot_questions, "
+                "org_submissions=EXCLUDED.org_submissions, "
+                "whatsapp_subscribers=COALESCE(EXCLUDED.whatsapp_subscribers, "
+                "daily_snapshot.whatsapp_subscribers)",
+                (day, v, u, new_v, max(0, u - new_v), published,
+                 counts.get("event_view", 0), contact_clicks,
+                 counts.get("chat_question", 0), counts.get("org_submission", 0), wa))
+    finally:
+        conn.close()
+
+
+def _stats_snapshot_loop() -> None:
+    """Thread démon : une fois par heure, (re)calcule les 3 derniers jours révolus.
+
+    L'upsert horaire des jours J-1..J-3 rend le rattrapage automatique après
+    un redémarrage ou une panne — pas besoin d'un réveil précis à minuit.
+    """
+    time.sleep(120)  # laisse le serveur démarrer et la base s'initialiser
+    while True:
+        try:
+            today_local = _stats_query(
+                "SELECT (now() AT TIME ZONE 'Indian/Reunion')::date")[0][0]
+            for back in (1, 2, 3):
+                _snapshot_one_day(today_local - datetime.timedelta(days=back))
+        except Exception as exc:
+            log.error("Stats : snapshot quotidien impossible : %s", exc)
+        time.sleep(3600)
 
 
 def _record_visit(ip: str, referrer: str = "", path: str = "/", user_agent: str = "") -> None:
@@ -2203,10 +2278,19 @@ def _record_click(event: str, name: str = "", visitor: str = "") -> None:
         log.error("Stats : file d'écriture pleine — interaction perdue.")
 
 
+
+# Types d'interaction comptés comme « clic contact » ('candidater' = ancien nom
+# des clics mailto, conservé pour l'historique déjà en base).
+_CONTACT_TYPES = ("candidater", "contact_email", "contact_phone",
+                  "contact_social", "contact_url")
+
+
 def _load_clicks_stats() -> dict:
     """Statistiques d'interactions des 30 derniers jours (PostgreSQL)."""
     totals: dict = {"chatbot_open": 0, "candidater": 0, "event_view": 0,
-                    "signup_whatsapp": 0, "signup_email": 0}
+                    "signup_whatsapp": 0, "signup_email": 0,
+                    "contact_email": 0, "contact_phone": 0,
+                    "contact_social": 0, "contact_url": 0}
     top_events: dict = {}
     top_cand: dict = {}
     try:
@@ -2218,10 +2302,15 @@ def _load_clicks_stats() -> dict:
         for ev, name, c in _stats_query(
                 "SELECT type, event_name, count(*) FROM interactions "
                 "WHERE ts >= now() - interval '30 days' AND event_name <> '' "
-                "AND type IN ('event_view', 'candidater') GROUP BY type, event_name"):
-            (top_events if ev == "event_view" else top_cand)[name] = c
+                "AND type = ANY(%s) GROUP BY type, event_name",
+                (list(("event_view",) + _CONTACT_TYPES),)):
+            if ev == "event_view":
+                top_events[name] = top_events.get(name, 0) + c
+            else:
+                top_cand[name] = top_cand.get(name, 0) + c
     except Exception as exc:
         log.error("Stats : lecture des interactions impossible : %s", exc)
+    totals["contacts"] = sum(totals[t] for t in _CONTACT_TYPES)
     return {
         **totals,
         "top_events": sorted(top_events.items(), key=lambda x: x[1], reverse=True)[:8],
@@ -2237,10 +2326,10 @@ def _load_event_stats(days: int = 30) -> list:
             "SELECT event_name, "
             "count(*) FILTER (WHERE type = 'event_view'), "
             "count(DISTINCT visitor_hash) FILTER (WHERE type = 'event_view' AND visitor_hash <> ''), "
-            "count(*) FILTER (WHERE type = 'candidater') "
+            "count(*) FILTER (WHERE type = ANY(%s)) "
             "FROM interactions "
             "WHERE event_name <> '' AND ts >= now() - make_interval(days => %s) "
-            "GROUP BY event_name ORDER BY 2 DESC, 4 DESC", (days,))
+            "GROUP BY event_name ORDER BY 2 DESC, 4 DESC", (list(_CONTACT_TYPES), days))
         return [{"name": r[0], "views": r[1], "uniq": r[2], "contacts": r[3]} for r in rows]
     except Exception as exc:
         log.error("Stats : lecture par événement impossible : %s", exc)
@@ -2375,9 +2464,9 @@ def _render_event_report(name: str, days: int = 30) -> str:
         rows = _stats_query(
             "SELECT count(*) FILTER (WHERE type = 'event_view'), "
             "count(DISTINCT visitor_hash) FILTER (WHERE type = 'event_view' AND visitor_hash <> ''), "
-            "count(*) FILTER (WHERE type = 'candidater') "
+            "count(*) FILTER (WHERE type = ANY(%s)) "
             "FROM interactions WHERE event_name = %s "
-            "AND ts >= now() - make_interval(days => %s)", (name, days))
+            "AND ts >= now() - make_interval(days => %s)", (list(_CONTACT_TYPES), name, days))
         if rows:
             stats = {"views": rows[0][0], "uniq": rows[0][1], "contacts": rows[0][2]}
     except Exception as exc:
@@ -2439,6 +2528,12 @@ def _render_stats_page(dev_mode: bool, user_name: str, flash: str = "") -> str: 
     q_stats        = _load_questions_stats()
     themes         = _load_themes()
     clicks         = _load_clicks_stats()
+    try:
+        wa_rows = _stats_query(
+            "SELECT day, count FROM wa_subscribers ORDER BY day DESC LIMIT 8")
+    except Exception as exc:
+        log.error("Stats : lecture abonnés WhatsApp impossible : %s", exc)
+        wa_rows = []
     proposals_html = _render_proposals_section(dev_mode)
     event_stats_html = _render_event_stats_section()
     org_subs_html  = _render_org_submissions_section()
@@ -2462,11 +2557,14 @@ def _render_stats_page(dev_mode: bool, user_name: str, flash: str = "") -> str: 
 
     # ── Referrer sources ───────────────────────────────────────────────────────
     refs       = traffic.get("refs", {})
-    ref_order  = ["direct", "google", "facebook", "instagram", "whatsapp", "email", "autre"]
+    ref_order  = ["direct", "google", "facebook", "instagram", "whatsapp",
+                  "linkedin", "email", "interne", "autre"]
     ref_labels = {"direct":"Lien direct","google":"Recherche","facebook":"Facebook",
-                  "instagram":"Instagram","whatsapp":"WhatsApp","email":"Email","autre":"Autre"}
+                  "instagram":"Instagram","whatsapp":"WhatsApp","linkedin":"LinkedIn",
+                  "email":"Email","interne":"Navigation interne","autre":"Autre"}
     ref_colors = {"direct":"#6366f1","google":"#f59e0b","facebook":"#3b82f6",
-                  "instagram":"#ec4899","whatsapp":"#22c55e","email":"#0ea5e9","autre":"#94a3b8"}
+                  "instagram":"#ec4899","whatsapp":"#22c55e","linkedin":"#0a66c2",
+                  "email":"#0ea5e9","interne":"#cbd5e1","autre":"#94a3b8"}
     refs_data  = [(ref_labels[k], refs.get(k, 0), ref_colors[k])
                   for k in ref_order if refs.get(k, 0) > 0]
     has_refs   = bool(refs_data)
@@ -2719,7 +2817,7 @@ footer{{text-align:center;font-size:.7rem;color:#94a3b8;padding:2rem 0 1.5rem}}
   <div class="int-row">
     <div class="int-kpi"><div class="int-val c-purple">{clicks["chatbot_open"]}</div><div class="int-lbl">Ouvertures chatbot</div></div>
     <div class="int-kpi"><div class="int-val c-blue">{clicks["event_view"]}</div><div class="int-lbl">Fiches consultées</div></div>
-    <div class="int-kpi"><div class="int-val c-green">{clicks["candidater"]}</div><div class="int-lbl">Clics « Écrire »</div></div>
+    <div class="int-kpi"><div class="int-val c-green">{clicks["contacts"]}</div><div class="int-lbl">Clics contact</div></div>
     <div class="int-kpi"><div class="int-val c-green">{clicks["signup_whatsapp"]}</div><div class="int-lbl">Inscriptions WhatsApp</div></div>
     <div class="int-kpi"><div class="int-val c-blue">{clicks["signup_email"]}</div><div class="int-lbl">Inscriptions email</div></div>
   </div>
@@ -2728,6 +2826,30 @@ footer{{text-align:center;font-size:.7rem;color:#94a3b8;padding:2rem 0 1.5rem}}
     <thead><tr><th></th><th>Événement</th><th style="text-align:right">Vues</th></tr></thead>
     <tbody>{top_ev_rows}</tbody>
   </table>
+</div>
+
+<div class="card" style="border:1.5px dashed #f59e0b;background:#fffbeb">
+  <div class="card-h">📱 Abonnés du groupe WhatsApp
+    <span style="font-size:.72rem;font-weight:600;background:#fef3c7;color:#92400e;
+    border:1px solid #fcd34d;border-radius:99px;padding:2px 10px;margin-left:8px;vertical-align:middle">
+    ✍️ Saisie manuelle — pas un chiffre mesuré automatiquement</span></div>
+  <div style="display:flex;gap:1.4rem;flex-wrap:wrap;align-items:flex-start">
+    <div>
+      <div class="int-val" style="color:#b45309">{wa_rows[0][1] if wa_rows else "—"}</div>
+      <div class="int-lbl">{"au " + wa_rows[0][0].strftime("%d/%m/%Y") if wa_rows else "Aucune valeur saisie"}</div>
+    </div>
+    <form method="POST" action="/admin/wa-subscribers" style="display:flex;gap:8px;align-items:center">
+      <input type="number" name="count" min="0" max="1000000" required
+        placeholder="Nombre d'abonnés" style="width:160px;padding:.45rem .6rem;border:1px solid #fcd34d;
+        border-radius:8px;font-size:.9rem" value="{wa_rows[0][1] if wa_rows else ""}">
+      <button type="submit" style="background:#b45309;color:#fff;border:none;padding:.5rem 1rem;
+        border-radius:8px;font-size:.85rem;cursor:pointer">Enregistrer (aujourd'hui)</button>
+    </form>
+    <div style="font-size:.8rem;color:#92400e;line-height:1.5">
+      Historique : {" · ".join(f"{d.strftime('%d/%m')} : {c}" for d, c in wa_rows) if wa_rows else "—"}<br>
+      À mettre à jour ~1×/semaine depuis le nombre réel de membres du groupe.
+    </div>
+  </div>
 </div>
 
 {event_stats_html}
@@ -2928,6 +3050,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             model  = _get_model("STRONG")
         # Enregistrement anonyme de la question pour les statistiques
         threading.Thread(target=_record_question, args=(user_msg,), daemon=True).start()
+        _record_click("chat_question", "", _visitor_hash(ip))
         reply = _claude(model, system, history + [{"role": "user", "content": user_msg}])
         self._json(200, {"reply": reply})
 
@@ -3158,6 +3281,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                         self._redirect("/organisateurs?ok=1")
                         return
             subs.append(sub)
+            _record_click("org_submission", "", _visitor_hash(self._client_ip()))
             _save_json_list(_SUBMISSIONS_FILE, subs)
         log.info("Nouvelle soumission organisateur : %s (%s)",
                  fields["name"], sub["id"])
@@ -3598,6 +3722,34 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                          daemon=True, name="ai-complete").start()
         self._redirect_admin("comp=run")
 
+    def _handle_wa_subscribers(self) -> None:
+        """POST /admin/wa-subscribers — compteur d'abonnés WhatsApp (saisie manuelle)."""
+        if not self._admin_authorized():
+            self.send_response(403)
+            self.end_headers()
+            return
+        length = int(self.headers.get("Content-Length", 0))
+        raw    = self.rfile.read(min(length, 1000)).decode("utf-8", errors="replace")
+        val    = urllib.parse.parse_qs(raw).get("count", [""])[0].strip()
+        if not val.isdigit() or int(val) > 1_000_000:
+            self._redirect_admin("err=" + urllib.parse.quote("Nombre d'abonnés invalide"))
+            return
+        try:
+            day  = _stats_query("SELECT (now() AT TIME ZONE 'Indian/Reunion')::date")[0][0]
+            conn = _stats_connect()
+            try:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        "INSERT INTO wa_subscribers (day, count) VALUES (%s, %s) "
+                        "ON CONFLICT (day) DO UPDATE SET count = EXCLUDED.count, "
+                        "entered_at = now()", (day, int(val)))
+            finally:
+                conn.close()
+            self._redirect_admin("ok=" + urllib.parse.quote("Abonnés WhatsApp enregistrés"))
+        except Exception as exc:
+            log.error("Abonnés WhatsApp : enregistrement impossible : %s", exc)
+            self._redirect_admin("err=" + urllib.parse.quote("Enregistrement impossible (base)"))
+
     def _handle_run_analysis(self) -> None:
         """Déclenche l'analyse des thèmes manuellement (POST /admin/run-analysis)."""
         dev_mode = not os.environ.get("REPLIT_DEPLOYMENT")
@@ -3622,7 +3774,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             ev     = entry.get("e", "")[:32]
             name   = entry.get("n", "")[:80]
             if ev in ("chatbot_open", "candidater", "event_view",
-                      "signup_whatsapp", "signup_email"):
+                      "signup_whatsapp", "signup_email",
+                      "contact_email", "contact_phone", "contact_social", "contact_url"):
                 ip = (self.headers.get("X-Forwarded-For")
                       or self.client_address[0]).split(",")[0].strip()
                 _record_click(ev, name, _visitor_hash(ip))
@@ -3642,6 +3795,10 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
         if self.path == "/admin/run-analysis":
             self._handle_run_analysis()
+            return
+
+        if self.path == "/admin/wa-subscribers":
+            self._handle_wa_subscribers()
             return
 
         if self.path == "/admin/publish":
@@ -3769,6 +3926,7 @@ if __name__ == "__main__":
     if psycopg2 and _DB_URL:
         threading.Thread(target=_stats_writer_loop, daemon=True, name="stats-writer").start()
         threading.Thread(target=_stats_retention_loop, daemon=True, name="stats-retention").start()
+        threading.Thread(target=_stats_snapshot_loop, daemon=True, name="stats-snapshot").start()
         threading.Thread(target=_import_legacy_stats, daemon=True, name="stats-import").start()
         log.info("Statistiques persistantes : base PostgreSQL active.")
     else:
