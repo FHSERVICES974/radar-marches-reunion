@@ -21,5 +21,28 @@
     },
     "report": "Fiche complète et vérifiée. L'URL source (ville-saintemarie.re, domaine .re confirmé La Réunion 974) indique clairement un appel à candidatures pour le bal populaire du 14 août 2026 à Beauséjour, Sainte-Marie. Date de publication de l'appel : à compter du 17/07/2026 (deadline implicite). Contact mairie vérifié sur sources officielles. Zone Nord confirmée (Sainte-Marie est dans le nord de La Réunion, proche Saint-Denis). Il s'agit bien d'un appel à exposants/artisans pour restauration et vente d'articles de fête, pertinence artisanat confirmée.",
     "ts": 1784995771.040888
+  },
+  "ae6e9d309bb53772": {
+    "status": "done",
+    "event": {
+      "name": "Week-end Commercial Saint-Joseph",
+      "zone": "Sud",
+      "type": "Salon/Marché artisans & forains",
+      "org": "Association des Commerçants et Artisans de Saint-Joseph",
+      "place": "Centre-ville de Saint-Joseph",
+      "when": "4-6 septembre 2026",
+      "badge": "SEPT",
+      "month": 9,
+      "dateStatus": "confirmée",
+      "status": "open",
+      "deadline": "",
+      "contact": "assocommercantstjo@gmail.com / 06 92 01 44 45",
+      "social": "https://www.facebook.com/commercantstjo/",
+      "url": "https://freedom.fr/centre-ville-de-saint-joseph-en-fete-avec-le-week-end-commercial-en-septembre/",
+      "apply": "Envoyer un courriel à assocommercantstjo@gmail.com ou téléphoner au 06 92 01 44 45 pour obtenir le dossier de candidature",
+      "desc": "Grand week-end commercial organisé au cœur du centre-ville de Saint-Joseph du vendredi 4 au dimanche 6 septembre 2026. Appel à candidature pour forains (vêtements, mode, équipements maison) et artisans (créations originales, produits locaux). Food trucks complets."
+    },
+    "report": "La fiche est complète et vérifiée. L'article Freedom.fr confirme l'événement à Saint-Joseph (974) du 4-6 septembre 2026. L'organisateur est l'Association des Commerçants et Artisans de Saint-Joseph. Les contacts email et téléphone sont confirmés par recherche web (Facebook et registres officiels). La zone Sud est correcte pour Saint-Joseph 974. Les 16 champs sont remplis avec des sources vérifiées.",
+    "ts": 1785033861.6923947
   }
 }
