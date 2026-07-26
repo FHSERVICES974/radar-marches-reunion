@@ -10,3 +10,6 @@ description: Conventions du système de statistiques (tables, types d'interactio
 - Sources : `utm_source` prioritaire (vérifié fonctionnel) ; referrer du site lui-même → `interne` ; WhatsApp sans utm → « direct » (l'appli n'envoie pas de referrer) — d'où l'importance des liens tagués sur radar.artisanspei.re.
 - `event_meta` (published_on jamais écrasée, deadline_on parsée du texte libre — None si pas de date explicite) : rattrapage idempotent au fil de la boucle snapshot depuis les commits git « Publier : X » ; le rapport organisateur compare en fenêtres homogènes publication→min(limite, aujourd'hui) et omet la comparaison sous 3 pairs avec vues.
 - Tout `event_name` venant de `/track` est du texte non fiable : `html.escape` obligatoire à chaque rendu dans /admin (XSS stockée déjà tentée en test).
+
+## Nettoyage de données en prod
+La base prod est en lecture seule pour l’agent (SELECT uniquement). Toute suppression/écriture prod doit passer par le serveur de production lui-même (ex. purge idempotente dans la boucle d’entretien horaire, effective ~2 min après un Publish).
