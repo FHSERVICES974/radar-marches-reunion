@@ -1,0 +1,157 @@
+{
+  "generated": "2026-07-27",
+  "status_changes": [],
+  "new_events_candidates": [
+    {
+      "_source_title": "AMI Brocante — front de mer Saint-Paul",
+      "_source_url": "https://www.mairie-saintpaul.re/avis-de-publicite/",
+      "_confidence": "Vérifié",
+      "event": {
+        "name": "AMI Brocante — Front de mer de Saint-Paul",
+        "zone": "Ouest",
+        "type": "Brocante / vide-grenier",
+        "org": "Ville de Saint-Paul",
+        "place": "Front de mer, entre le bar Dabreton et le bar du Quai Gilbert, Saint-Paul",
+        "when": "2ᵉ et dernier dimanche de chaque mois · cycle 2026 clôturé",
+        "badge": "MENS.",
+        "month": 99,
+        "dateStatus": "récurrent",
+        "status": "closed",
+        "deadline": "Cycle 2026 clôturé le 29 décembre 2025, 16h — surveiller le prochain cycle",
+        "contact": "maire@mairie-saintpaul.fr · 0262 45 90 69",
+        "social": "",
+        "url": "https://www.mairie-saintpaul.re/avis-de-publicite/",
+        "apply": "Appel à Manifestation d'Intérêt (AMI) via la Direction de la Valorisation Économique de la Ville de Saint-Paul. Redevance 520 €/événement.",
+        "desc": "Brocante mensuelle du front de mer de Saint-Paul, deux dimanches par mois."
+      }
+    },
+    {
+      "_source_title": "AMI Festival culinaire — esplanade front de mer Saint-Paul",
+      "_source_url": "https://www.mairie-saintpaul.re/avis-de-publicite/",
+      "_confidence": "Vérifié",
+      "event": {
+        "name": "AMI Festival culinaire — Esplanade front de mer Saint-Paul",
+        "zone": "Ouest",
+        "type": "Marché gourmand / food",
+        "org": "Ville de Saint-Paul",
+        "place": "Esplanade du front de mer, Saint-Paul",
+        "when": "2ᵉ samedi de chaque mois · cycle 2026 clôturé",
+        "badge": "MENS.",
+        "month": 99,
+        "dateStatus": "récurrent",
+        "status": "closed",
+        "deadline": "Cycle 2026 clôturé le 29 décembre 2025, 16h — surveiller le prochain cycle",
+        "contact": "maire@mairie-saintpaul.fr · 0262 45 90 69",
+        "social": "",
+        "url": "https://www.mairie-saintpaul.re/avis-de-publicite/",
+        "apply": "Appel à Manifestation d'Intérêt (AMI) via la Direction de la Valorisation Économique de la Ville de Saint-Paul.",
+        "desc": "Festival culinaire mensuel sur l'esplanade du front de mer de Saint-Paul."
+      }
+    },
+    {
+      "_source_title": "Fête du Choca — Entre-Deux, édition 2026",
+      "_source_url": "https://entredeux.re/sites/default/files/2026-04/Appel%20à%20candidature%20-%20Fête%20du%20Choca%202026.pdf",
+      "_confidence": "Vérifié",
+      "event": {
+        "name": "Fête du Choca",
+        "zone": "Sud",
+        "type": "Fête / Terroir",
+        "org": "Commune d'Entre-Deux",
+        "place": "Centre-ville, Entre-Deux",
+        "when": "Annuel (mi-juillet) · éd. 2026 : 17–19 juillet 2026 (passée)",
+        "badge": "JUIL.",
+        "month": 7,
+        "dateStatus": "annuel",
+        "status": "closed",
+        "deadline": "Éd. 2026 clôturée le 15 mai 2026, 15h (cachet de la poste) — surveiller l'appel éd. 2027",
+        "contact": "mickaele.ceus@entredeux.re · 0262 39 50 50",
+        "social": "",
+        "url": "https://entredeux.re/",
+        "apply": "Dossier de candidature auprès de la mairie d'Entre-Deux. Une cinquantaine de stands forains/exposants.",
+        "desc": "Fête du terroir d'Entre-Deux autour du choca, avec une cinquantaine de stands forains et exposants."
+      }
+    },
+    {
+      "_source_title": "FANMS — PopUp XL",
+      "_source_url": "https://fanms.re/",
+      "_confidence": "Probable",
+      "event": null
+    },
+    {
+      "_source_title": "Fête patronale de Saint-Louis — appel à forains",
+      "_source_url": "https://saintlouis.re/ (site officiel inaccessible — HTTP 403 lors de la vérification ; info via recherche indexée uniquement)",
+      "_confidence": "Probable",
+      "event": null
+    }
+  ],
+  "community": [
+    {
+      "name": "Marché des Créateurs de l'Éperon",
+      "zone": "Ouest",
+      "note": "Village Artisanal de l'Éperon, Saint-Paul — marché récurrent, aucune date future confirmée ni procédure de candidature détaillée.",
+      "source": "https://guide-reunion.fr/evenements/eve/marche-artisanal-eperon/"
+    },
+    {
+      "name": "Marché de Noël du Village de l'Éperon",
+      "zone": "Ouest",
+      "note": "Éd. 2025 : candidature 1–15 sept. 2025, événement 12–14 déc. 2025 (140+ exposants). Éd. 2026 probable sur calendrier similaire, non confirmée.",
+      "source": "Facebook @asso.eperon974"
+    },
+    {
+      "name": "Marché de Noël décalé — Vavang'Art",
+      "zone": "Sud",
+      "note": "Process de candidature historique (avant le 31 octobre, programmation@vavangart.com) mais aucune date 2026 encore annoncée.",
+      "source": "https://vavangart.com/"
+    },
+    {
+      "name": "Maison Banian — pop-up « Mille et une femmes » (spécial Aïd)",
+      "zone": "Sud",
+      "note": "Recherche d'exposants (stands 3x3m), date précise non trouvée.",
+      "source": "Groupe Facebook Maison Banian"
+    },
+    {
+      "name": "La Guinguette à Pierrefonds (La Bande à Guinguette)",
+      "zone": "Sud",
+      "note": "Marché créateurs/artisans/producteurs, dernière date confirmée 7–8 mars 2026 (passée). Procédure de candidature pour prochaine édition non trouvée.",
+      "source": "Posts évoquant l'événement, pas de source officielle candidature identifiée"
+    },
+    {
+      "name": "Marché artisanal de Saint-Leu (AOT boutiques)",
+      "zone": "Ouest",
+      "note": "Déjà en base ; seule piste presse retrouvée (zinfos974) semble dater de 2023 — à re-vérifier si un nouveau cycle a été relancé.",
+      "source": "https://www.zinfos974.com/appel-a-candidatures-devenez-exposant-au-marche-artisanal-de-saint-leu/"
+    }
+  ],
+  "_updates_existants_a_verifier": [
+    {
+      "name": "Bal la Poussière - Fête patronale Sainte-Marie",
+      "note": "Relecture de la MÊME url officielle en base a donné deadline 1er août 2026 (contact 0262.80.02.35) au lieu de la deadline 17 juillet 2026 actuellement enregistrée (statut closed). Si confirmé par un humain, passer status à 'open' et mettre à jour deadline + contact.",
+      "url": "https://www.ville-saintemarie.re/appel-a-candidatures-pour-lexploitation-demplacements-pour-le-bal-populaire-bal-la-poussiere-fete-patronale-2026/",
+      "confidence": "Vérifié (relecture directe)"
+    },
+    {
+      "name": "Fête de l'ail",
+      "note": "Page officielle dédiée trouvée : période d'inscription du 8 juin au 14 août 2026 inclus — encore ouverte à la date de veille (27/07/2026). Recommandé : status 'soon' → 'open', deadline → '14 août 2026', url → page spécifique.",
+      "url": "https://www.petite-ile.re/actualites/news/appel-forains-1",
+      "confidence": "Vérifié"
+    },
+    {
+      "name": "Fête du Vacoa",
+      "note": "Deadline précise trouvée : 30 juin 2026 (déjà passée). Contact : feteduvacoa@yahoo.fr. URL spécifique trouvée (au lieu de l'URL générique actuelle).",
+      "url": "https://saintphilippe.re/appel-a-candidature-fete-du-vacoa-edition-2026/",
+      "confidence": "Vérifié"
+    },
+    {
+      "name": "Marché de Saint-Joseph",
+      "note": "Nom officiel complémentaire trouvé : 'Marché forain du Sud Sauvage'. Contact précisé : deveco@saintjoseph.re, 0262 35 71 93.",
+      "url": "https://saintjoseph.re/Marche-forain-du-Sud-Sauvage",
+      "confidence": "Vérifié"
+    },
+    {
+      "name": "Marché nocturne de Saint-Gilles",
+      "note": "Formulaire d'inscription 2026 avec calendrier complet des 12 dates de l'année disponible en PDF sur le site de la mairie de Saint-Paul.",
+      "url": "https://www.mairie-saintpaul.re/avis-de-publicite/",
+      "confidence": "Vérifié"
+    }
+  ]
+}
