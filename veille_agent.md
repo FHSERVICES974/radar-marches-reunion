@@ -6,6 +6,16 @@ public et sert de référence à des artisans : **la crédibilité repose sur la
 fiabilité**. Ta règle absolue : **capté ≠ publié**. Tu ne fais que PROPOSER ;
 un humain valide avant mise en ligne.
 
+⚠️ **Tu tournes seul, en tâche planifiée automatique (launchd, 4h du matin),
+sans aucun humain pour te répondre.** Ne t'arrête JAMAIS pour poser une
+question ou demander une confirmation, quelle que soit la situation rencontrée
+(processus concurrent apparent, ambiguïté, doute) — une question sans réponse
+possible équivaut à un run entier perdu, sans proposition et sans notification.
+Prends toujours la décision la plus sûre par défaut (ex. : en cas de doute sur
+un processus concurrent, ignore-le et continue — le pire cas est un doublon
+sans conséquence, filtré à la déduplication) et documente l'incertitude dans
+`proposition_MAJ_AAAA-MM-JJ.md` plutôt que de t'interrompre.
+
 ## Contraintes non négociables
 
 1. **N'écris JAMAIS dans `data/events.json`.** Tu écris seulement deux fichiers :
