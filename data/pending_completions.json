@@ -53,19 +53,19 @@
       "type": "Braderie",
       "org": "Ville de Sainte-Marie",
       "place": "Centre-ville, rue de la République, Sainte-Marie",
-      "when": "12–14 août 2026, 10h–17h",
+      "when": "12–14 août 2026, 10h00–17h00",
       "badge": "AOÛT",
       "month": 8,
       "dateStatus": "confirmée",
       "status": "open",
       "deadline": "29 juillet 2026, 16h00",
-      "contact": "Direction du développement économique de l'emploi et de l'insertion · 31, rue du Centre – Local 4, Beauséjour, 97438 Sainte-Marie · 0262.80.02.35 / 0262.80.02.36 · serviceeconomique@ville-saintemarie.re",
+      "contact": "Direction du développement économique de l'emploi et de l'insertion · 31 rue du Centre, Local 4, Beauséjour, 97438 Sainte-Marie · 0262.80.02.35 / 0262.80.02.36 · serviceeconomique@ville-saintemarie.re",
       "social": "",
       "url": "https://www.ville-saintemarie.re/braderie-commerciale/",
-      "apply": "Candidature par courriel à serviceeconomique@ville-saintemarie.re ou par téléphone au 0262.80.02.36. L'avis de publicité et le formulaire de candidature sont disponibles sur le site de la mairie. Date limite : 29/07/2026 à 16h00 (prorogation de la date initiale du 24/07/2026).",
-      "desc": "Braderie commerciale organisée par la Ville de Sainte-Marie du 12 au 14 août 2026 en centre-ville (rue de la République). Mise à disposition d'emplacements pour opérateurs économiques : vente de vêtements, accessoires, bijoux fantaisie, produits artisanaux, objets de décoration et toute activité compatible avec l'esprit d'une braderie."
+      "apply": "Candidater par courriel à serviceeconomique@ville-saintemarie.re avant le 29/07/2026 à 16h00. L'avis de publicité et le formulaire de candidature sont disponibles sur le site de la mairie.",
+      "desc": "Braderie commerciale du centre-ville de Sainte-Marie (12–14 août 2026) : vente de vêtements, accessoires, bijoux fantaisie, produits artisanaux, objets de décoration et toute activité compatible avec l'esprit d'une braderie. Appel à candidatures pour l'exploitation d'emplacements."
     },
-    "report": "Fiche complète et vérifiée. La page source ville-saintemarie.re/braderie-commerciale/ confirme l'événement du 12–14 août 2026, les horaires 10h–17h, le lieu (rue de la République, centre-ville), l'objet (emplacements pour braderie), et les coordonnées de contact. La page de prorogation AC 04/2026 confirme la date limite repoussée au 29/07/2026 à 16h00 (initialement 24/07/2026) et détaille les coordonnées complètes de la Direction du développement économique. Signal Réunion clair : domaine .re, commune Sainte-Marie (974), adresse postale 97438. Tous les 16 champs sont remplis avec des sources vérifiées.",
-    "ts": 1785205850.4725983
+    "report": "Fiche complète et vérifiée. La page fournie (ville-saintemarie.re/braderie-commerciale/) confirme les dates (12–14 août 2026, 10h–17h), le lieu (Centre-ville, rue de la République), les contacts et l'adresse de candidature. La recherche web a permis de trouver l'avis de prorogation officiel qui confirme la nouvelle deadline (29/07/2026 16h00, initialement 24/07) et précise l'adresse complète de la Direction du développement économique. Toutes les informations sont vérifiées depuis des sources réunionnaises (.re) officielles.",
+    "ts": 1785205906.4038494
   }
 }
