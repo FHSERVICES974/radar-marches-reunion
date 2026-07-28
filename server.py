@@ -2315,11 +2315,19 @@ def _render_proposals_section(dev_mode: bool) -> str:  # noqa: PLR0912,PLR0915
         when    = esc(ev.get("when", ""))
         dl      = esc(ev.get("deadline", ""))
         notes   = esc(c.get("notes", ""))
-        src_url = c.get("_source_url") or c.get("source_url", "#")
+        # Lien de la carte : l'url de la fiche actuelle (celle qui sera
+        # publiée, y compris après re-vérification IA), sinon la source brute.
+        src_url = (ev.get("url") or c.get("_source_url")
+                   or c.get("source_url", "#"))
         if not src_url.startswith(("http://", "https://")):
             src_url = "#"
         src_url = esc(src_url)
-        src_ttl = esc((c.get("_source_title") or c.get("source_title") or src_url)[:55])
+        # Libellé : l'url de la fiche si c'est elle qui est affichée (sinon on
+        # montrerait un ancien titre de page avec un lien devenu différent).
+        if ev.get("url"):
+            src_ttl = esc(ev["url"][:55])
+        else:
+            src_ttl = esc((c.get("_source_title") or c.get("source_title") or src_url)[:55])
 
         if conf == "Vérifié":
             badge = '<span class="conf-badge conf-vert">✓ Vérifié</span>'
