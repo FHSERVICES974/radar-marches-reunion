@@ -12,6 +12,16 @@ cd "$PROJECT_DIR"
 export PATH="$HOME/.npm-global/bin:/opt/homebrew/bin:/usr/local/bin:$PATH"
 CLAUDE_BIN="$(command -v claude || echo "$HOME/.npm-global/bin/claude")"
 
+# Passerelle iPhone : le projet est hors iCloud (launchd exige un disque local,
+# voir README), donc l'iPhone ne peut plus déposer directement dans
+# data/inbox_docs/. Il dépose dans ce dossier iCloud à part, qu'on rapatrie ici
+# avant traitement.
+ICLOUD_INBOX="$HOME/Library/Mobile Documents/com~apple~CloudDocs/RadarInbox"
+if [ -d "$ICLOUD_INBOX" ]; then
+  mkdir -p data/inbox_docs
+  find "$ICLOUD_INBOX" -maxdepth 1 -type f ! -name '.*' -exec mv {} data/inbox_docs/ \;
+fi
+
 # Rien à traiter ? on sort proprement.
 COUNT=$(ls -1 data/inbox_docs 2>/dev/null | grep -viE '^(processed|README.txt)$' | wc -l | tr -d ' ')
 if [ "$COUNT" = "0" ]; then

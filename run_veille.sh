@@ -25,6 +25,15 @@ git pull --rebase --autostash origin main >> veille.log 2>&1 \
   && echo "[git] resynchronisé avec GitHub" >> veille.log \
   || echo "[git] ATTENTION : pull échoué, base peut-être périmée" >> veille.log
 
+# Passerelle iPhone documents (photos/PDF de flyers) : le projet est hors iCloud
+# (launchd exige un disque local), donc l'iPhone dépose dans un dossier iCloud à
+# part, qu'on rapatrie ici avant que l'agent ne lise data/inbox_docs/.
+ICLOUD_INBOX="$HOME/Library/Mobile Documents/com~apple~CloudDocs/RadarInbox"
+if [ -d "$ICLOUD_INBOX" ]; then
+  mkdir -p data/inbox_docs
+  find "$ICLOUD_INBOX" -maxdepth 1 -type f ! -name '.*' -exec mv {} data/inbox_docs/ \;
+fi
+
 # Export de la note "Radar Inbox" (captures Instagram/FB via le raccourci iPhone).
 # Fait en AppleScript natif (osascript) car l'agent headless n'a PAS accès au
 # serveur MCP Apple Notes (celui-ci n'existe que dans les sessions interactives

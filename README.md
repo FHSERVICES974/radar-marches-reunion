@@ -145,7 +145,15 @@ réellement « en ligne sans intervention » qu'une fois **git push non interact
 Déposez tout appel reçu (mail, scan, **photo d'un flyer**, formulaire) dans
 `data/inbox_docs/`, puis `./ingest_docs.sh` — l'agent lit le document (PDF scanné
 et images lus **visuellement**), en extrait l'événement vérifié et le propose. La
-veille du lundi traite aussi ce dossier automatiquement.
+veille quotidienne traite aussi ce dossier automatiquement.
+
+**Depuis l'iPhone** : le projet vit hors iCloud (nécessaire pour launchd — voir
+plus bas), donc impossible de déposer directement dans `data/inbox_docs/` depuis
+le téléphone. Utilisez le dossier passerelle iCloud dédié :
+`iCloud Drive → RadarInbox` (visible dans l'app Fichiers de l'iPhone, ou via
+« Enregistrer dans Fichiers » depuis Photos/Partage). `run_veille.sh` et
+`ingest_docs.sh` rapatrient automatiquement son contenu vers `data/inbox_docs/`
+avant traitement — rien à faire côté Mac.
 
 ### Réseaux sociaux depuis l'iPhone
 Raccourci « Ajouter à Radar » : un post Insta/FB partagé en un tap s'ajoute à une
