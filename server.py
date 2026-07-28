@@ -3934,10 +3934,14 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
         _, candidates = _load_latest_proposal()
         candidate = next((c for c in candidates if _candidate_key(c) == key), None)
-        if candidate and not candidate.get("event"):
+        if candidate:
+            # La complétion IA (si validée) prime toujours sur la fiche brute :
+            # c'est elle qui est affichée dans l'admin, y compris pour une
+            # fiche « Vérifié » corrigée puis re-vérifiée.
             comp = _load_completions().get(key)
             if comp and comp.get("status") == "done" and comp.get("event"):
                 candidate["event"] = comp["event"]
+                log.info("Publication : fiche issue de la complétion IA (%s).", key)
         if not candidate or not candidate.get("event"):
             self._redirect_admin("err=Candidat+introuvable+ou+sans+fiche+complète.")
             return
