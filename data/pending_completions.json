@@ -44,5 +44,28 @@
     },
     "report": "La fiche est complète et vérifiée. L'article Freedom.fr confirme l'événement à Saint-Joseph (974) du 4-6 septembre 2026. L'organisateur est l'Association des Commerçants et Artisans de Saint-Joseph. Les contacts email et téléphone sont confirmés par recherche web (Facebook et registres officiels). La zone Sud est correcte pour Saint-Joseph 974. Les 16 champs sont remplis avec des sources vérifiées.",
     "ts": 1785033861.6923947
+  },
+  "b02d19d29b68d415": {
+    "status": "done",
+    "event": {
+      "name": "Braderie commerciale de Sainte-Marie",
+      "zone": "Nord",
+      "type": "Braderie",
+      "org": "Ville de Sainte-Marie",
+      "place": "Centre-ville, rue de la République, Sainte-Marie",
+      "when": "12–14 août 2026, 10h–17h",
+      "badge": "AOÛT",
+      "month": 8,
+      "dateStatus": "confirmée",
+      "status": "open",
+      "deadline": "29 juillet 2026, 16h00",
+      "contact": "Direction du développement économique de l'emploi et de l'insertion · 31, rue du Centre – Local 4, Beauséjour, 97438 Sainte-Marie · 0262.80.02.35 / 0262.80.02.36 · serviceeconomique@ville-saintemarie.re",
+      "social": "",
+      "url": "https://www.ville-saintemarie.re/braderie-commerciale/",
+      "apply": "Candidature par courriel à serviceeconomique@ville-saintemarie.re ou par téléphone au 0262.80.02.36. L'avis de publicité et le formulaire de candidature sont disponibles sur le site de la mairie. Date limite : 29/07/2026 à 16h00 (prorogation de la date initiale du 24/07/2026).",
+      "desc": "Braderie commerciale organisée par la Ville de Sainte-Marie du 12 au 14 août 2026 en centre-ville (rue de la République). Mise à disposition d'emplacements pour opérateurs économiques : vente de vêtements, accessoires, bijoux fantaisie, produits artisanaux, objets de décoration et toute activité compatible avec l'esprit d'une braderie."
+    },
+    "report": "Fiche complète et vérifiée. La page source ville-saintemarie.re/braderie-commerciale/ confirme l'événement du 12–14 août 2026, les horaires 10h–17h, le lieu (rue de la République, centre-ville), l'objet (emplacements pour braderie), et les coordonnées de contact. La page de prorogation AC 04/2026 confirme la date limite repoussée au 29/07/2026 à 16h00 (initialement 24/07/2026) et détaille les coordonnées complètes de la Direction du développement économique. Signal Réunion clair : domaine .re, commune Sainte-Marie (974), adresse postale 97438. Tous les 16 champs sont remplis avec des sources vérifiées.",
+    "ts": 1785205850.4725983
   }
 }
