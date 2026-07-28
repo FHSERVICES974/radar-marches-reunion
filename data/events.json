@@ -450,6 +450,24 @@
     "desc": "Marché nocturne de créateurs & artisans locaux lors de « Franco Dan Sin Zil », événement festif des Francofolies 2026 à Saint-Gilles."
   },
   {
+    "name": "Fête de la Vanille — appel à un organisateur de fête foraine",
+    "zone": "Nord",
+    "type": "Fête / Terroir (foraine)",
+    "org": "Ville de Sainte-Suzanne",
+    "place": "Stade B du Bocage, Sainte-Suzanne",
+    "when": "Septembre (annuel) · éd. 2026 : 9–13 sept.",
+    "badge": "SEPT",
+    "month": 9,
+    "dateStatus": "confirmée",
+    "status": "soon",
+    "deadline": "3 août 2026, 15h00 (dossier ORGANISATEUR ; notification le 07/08/2026)",
+    "contact": "Direction de l'Animation et de la Vie Culturelle · 0262 81 85 88 · davc@ville-saintesuzanne.re",
+    "social": "",
+    "url": "https://ville-saintesuzanne.re/actualite/appel-a-candidatures-organisation-de-la-fete-foraine-de-la-fete-de-la-vanille-2026/",
+    "apply": "ATTENTION : cet appel vise un organisateur/prestataire unique chargé de monter la fête foraine (pas une candidature exposant directe à la mairie). Le prestataire retenu recrutera ensuite forains et exposants, dont un « village des exposants » avec au moins 5 emplacements réservés aux producteurs de vanille et à l'artisanat local. Les artisans intéressés devront surveiller l'annonce du prestataire sélectionné (courant août 2026) plutôt que candidater dès maintenant en mairie.",
+    "desc": "Fête de la Vanille de Sainte-Suzanne, 9–13 septembre 2026 (Stade B du Bocage). La mairie recherche un organisateur pour la fête foraine, incluant un village des exposants dédié à la vanille et à l'artisanat local."
+  },
+  {
     "name": "Rencontres de l'Artisanat (Plaine des Palmistes)",
     "zone": "Est",
     "type": "Salon artisanal",
