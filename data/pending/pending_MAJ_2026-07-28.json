@@ -1,0 +1,114 @@
+{
+  "generated": "2026-07-28",
+  "status_changes": [],
+  "new_events_candidates": [
+    {
+      "_source_title": "Braderie commerciale de Sainte-Marie 2026",
+      "_source_url": "https://www.ville-saintemarie.re/",
+      "_confidence": "Vérifié",
+      "event": {
+        "name": "Braderie commerciale de Sainte-Marie",
+        "zone": "Nord",
+        "type": "Braderie",
+        "org": "Ville de Sainte-Marie",
+        "place": "Centre-ville, Sainte-Marie",
+        "when": "Août (annuel) · éd. 2026 : 12–14 août",
+        "badge": "AOÛT",
+        "month": 8,
+        "dateStatus": "confirmée",
+        "status": "open",
+        "deadline": "29 juillet 2026, 16h00 (date prorogée — avis AC 04/2026)",
+        "contact": "Direction du développement économique · 31 rue du Centre, Local 4, Beauséjour, Sainte-Marie · 0262 80 02 35/36 · serviceeconomique@ville-saintemarie.re",
+        "social": "",
+        "url": "https://www.ville-saintemarie.re/",
+        "apply": "Avis à candidatures AC 04/2026 pour l'exploitation d'emplacements lors de la braderie commerciale du centre-ville. Dossier à déposer auprès de la Direction du développement économique avant le 29/07/2026 16h00 (délai prorogé). Modalités détaillées du dossier non extraites de la page listing — à vérifier directement sur le site pour le formulaire complet.",
+        "desc": "Braderie commerciale du centre-ville de Sainte-Marie, 12–14 août 2026 — avis à candidatures pour l'exploitation d'emplacements (commerçants/exposants)."
+      }
+    },
+    {
+      "_source_title": "Fête de la Vanille 2026 (Sainte-Suzanne) — appel à un organisateur de fête foraine",
+      "_source_url": "https://ville-saintesuzanne.re/actualite/appel-a-candidatures-organisation-de-la-fete-foraine-de-la-fete-de-la-vanille-2026/",
+      "_confidence": "Vérifié",
+      "event": {
+        "name": "Fête de la Vanille — appel à un organisateur de fête foraine",
+        "zone": "Nord",
+        "type": "Fête / Terroir (foraine)",
+        "org": "Ville de Sainte-Suzanne",
+        "place": "Stade B du Bocage, Sainte-Suzanne",
+        "when": "Septembre (annuel) · éd. 2026 : 9–13 sept.",
+        "badge": "SEPT",
+        "month": 9,
+        "dateStatus": "confirmée",
+        "status": "soon",
+        "deadline": "3 août 2026, 15h00 (dossier ORGANISATEUR ; notification le 07/08/2026)",
+        "contact": "Direction de l'Animation et de la Vie Culturelle · 0262 81 85 88 · davc@ville-saintesuzanne.re",
+        "social": "",
+        "url": "https://ville-saintesuzanne.re/actualite/appel-a-candidatures-organisation-de-la-fete-foraine-de-la-fete-de-la-vanille-2026/",
+        "apply": "ATTENTION : cet appel vise un organisateur/prestataire unique chargé de monter la fête foraine (pas une candidature exposant directe à la mairie). Le prestataire retenu recrutera ensuite forains et exposants, dont un « village des exposants » avec au moins 5 emplacements réservés aux producteurs de vanille et à l'artisanat local. Les artisans intéressés devront surveiller l'annonce du prestataire sélectionné (courant août 2026) plutôt que candidater dès maintenant en mairie.",
+        "desc": "Fête de la Vanille de Sainte-Suzanne, 9–13 septembre 2026 (Stade B du Bocage). La mairie recherche un organisateur pour la fête foraine, incluant un village des exposants dédié à la vanille et à l'artisanat local."
+      }
+    },
+    {
+      "_source_title": "Marché couvert de Saint-André — appel à projet (6 box, 336 m²)",
+      "_source_url": "https://www.saint-andre.re/",
+      "_confidence": "Probable",
+      "event": null
+    },
+    {
+      "_source_title": "Marché de Noël de Saint-Leu 2026 — inscriptions évoquées sur Facebook",
+      "_source_url": "",
+      "_confidence": "Probable",
+      "event": null
+    },
+    {
+      "_source_title": "Saint-Paul — Marché de Nuit de Saint-Gilles 2026 (renouvellement, avis de publicité)",
+      "_source_url": "https://www.mairie-saintpaul.re/avis-de-publicite/",
+      "_confidence": "Probable",
+      "event": null
+    },
+    {
+      "_source_title": "Saint-Paul — Marché Forain (renouvellement + nouvelles demandes, avis de publicité)",
+      "_source_url": "https://www.mairie-saintpaul.re/avis-de-publicite/",
+      "_confidence": "Probable",
+      "event": null
+    }
+  ],
+  "community": [
+    {
+      "name": "Oté Z'Artisans du Sud — appel créateurs/artisans/agriculteurs",
+      "zone": "Sud",
+      "note": "Appel à candidatures repéré sur Facebook (Halle François-Mitterrand, Saint-Joseph), deadline illisible dans les résultats de recherche.",
+      "source": "otezartisans@gmail.com / @otezartisans"
+    },
+    {
+      "name": "Marché des Créateurs — Carré Cathédrale (Saint-Denis)",
+      "zone": "Nord",
+      "note": "Cadence ~bimestrielle, dernière édition connue 14 juin 2026 ; prochaine édition possible le 9 août ou en octobre 2026, non confirmée.",
+      "source": "marion.carrecathedrale@gmail.com / @galerie_artefact"
+    },
+    {
+      "name": "Rencontres Alternatives — 4ᵉ édition (Carré Cathédrale, Saint-Denis)",
+      "zone": "Nord",
+      "note": "Nouveaux créateurs (design, mode, bijoux, céramique), dates non confirmées. Repéré via un résumé de recherche Zinfos974 (article non lu en direct, page bloquée 403).",
+      "source": "zinfos974.com (recherche)"
+    },
+    {
+      "name": "Pop-up « Ô Féminin » (Initiative Réunion / Muta Réunion)",
+      "zone": "National",
+      "note": "Pop-up store mentionné sans date précisée, à surveiller.",
+      "source": "recherche WebSearch"
+    },
+    {
+      "name": "Marché du terroir et de Noël — Saint-Benoît",
+      "zone": "Est",
+      "note": "Mention presse (Linfo.re, page bloquée 402), dates non récupérables. À recouper auprès de la mairie de Saint-Benoît.",
+      "source": "linfo.re (recherche)"
+    },
+    {
+      "name": "Marché de l'art — Village de l'Éperon (2ᵉ édition)",
+      "zone": "Ouest",
+      "note": "Mention presse (Linfo.re, page bloquée 402), dates non récupérables.",
+      "source": "linfo.re (recherche)"
+    }
+  ]
+}
