@@ -67,5 +67,28 @@
     },
     "report": "Fiche complète et vérifiée. La page fournie (ville-saintemarie.re/braderie-commerciale/) confirme les dates (12–14 août 2026, 10h–17h), le lieu (Centre-ville, rue de la République), les contacts et l'adresse de candidature. La recherche web a permis de trouver l'avis de prorogation officiel qui confirme la nouvelle deadline (29/07/2026 16h00, initialement 24/07) et précise l'adresse complète de la Direction du développement économique. Toutes les informations sont vérifiées depuis des sources réunionnaises (.re) officielles.",
     "ts": 1785205906.4038494
+  },
+  "2796f2f38c44b492": {
+    "status": "done",
+    "event": {
+      "name": "Salon du Mariage — Le Vieux Saltimbanque",
+      "zone": "Est",
+      "type": "Salon (mariage)",
+      "org": "Le Vieux Saltimbanque",
+      "place": "Le Vieux Saltimbanque, 463 chemin du Centre, Saint-André",
+      "when": "7-8 novembre 2026",
+      "badge": "NOV",
+      "month": 11,
+      "dateStatus": "confirmée",
+      "status": "open",
+      "deadline": "15 septembre 2026",
+      "contact": "",
+      "social": "https://www.facebook.com/p/Le-Vieux-Saltimbanque-100075563307068/",
+      "url": "https://docs.google.com/forms/d/e/1FAIpQLScJbjaNc4hVUNZ8dj5tC7qc-ACp96YQAXBHIlq06FNHh9yDhA/viewform",
+      "apply": "Pré-inscription via formulaire Google Form. Candidatures étudiées pour garantir une offre variée et des prestations de qualité. Réservation définitive après validation de la candidature et réception de l'acompte. Stand 2 jours (7-8 novembre 2026) comprenant : emplacement, tables rectangles et nappages (noir ou blanc), chaises, accès électricité (sur demande), café/thé, chapiteau si extérieur, communication réseaux sociaux/radio/écran. Tarif : 500-800€ HT/2 jours selon emplacement.",
+      "desc": "Salon du Mariage 2026 organisé par Le Vieux Saltimbanque à Saint-André (974), les 7 et 8 novembre 2026. Recherche prestataires passionnés autour du mariage avec attention particulière portée aux talents de La Réunion. Places limitées, candidatures sélectionnées pour une offre variée."
+    },
+    "report": "Fiche complète et vérifiée. Le formulaire Google fourni confirme toutes les informations : nom de l'événement, dates (7-8 novembre 2026), deadline (15 septembre), lieu (Le Vieux Saltimbanque, Saint-André), tarifs (500-800€ HT), modalités de candidature et prestations incluses. L'adresse 463 chemin du Centre à Saint-André (97440) est confirmée par plusieurs sources officielles (Kompass, Pappers, annuaire-entreprises). Le signal La Réunion est clair (Saint-André 97440, mentions 974/La Réunion). Page Facebook officielle identifiée. L'URL source est le formulaire Google Form lui-même, utilisé comme URL officielle de l'appel.",
+    "ts": 1785258012.2890458
   }
 }
