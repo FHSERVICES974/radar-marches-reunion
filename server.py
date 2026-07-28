@@ -2361,9 +2361,10 @@ def _render_proposals_section(dev_mode: bool) -> str:  # noqa: PLR0912,PLR0915
             f'</form>'
         )
 
-        # Bloc « compléter » pour les candidats sans fiche complète
+        # Bloc « compléter » : candidats sans fiche complète, et fiches déjà
+        # « Vérifié » (corriger une URL source erronée et relancer l'IA).
         complete_html = ""
-        if not has_ev:
+        if not has_ev or conf == "Vérifié":
             comp = completions.get(key)
             if comp and comp.get("status") == "running":
                 complete_html = ('<div class="prop-running">⏳ Vérification IA en cours… '
