@@ -71,6 +71,29 @@
       "_source_url": "https://www.mairie-saintpaul.re/avis-de-publicite/",
       "_confidence": "Probable",
       "event": null
+    },
+    {
+      "_source_title": "Capture d'écran — formulaire de pré-inscription Google Form du Vieux Saltimbanque (transféré via WhatsApp, 3 captures)",
+      "_source_url": "",
+      "_confidence": "Vérifié",
+      "event": {
+        "name": "Salon du Mariage — Le Vieux Saltimbanque",
+        "zone": "Est",
+        "type": "Salon (mariage)",
+        "org": "Le Vieux Saltimbanque",
+        "place": "Le Vieux Saltimbanque, 463 chemin du Centre, Saint-André",
+        "when": "7-8 novembre 2026",
+        "badge": "NOV",
+        "month": 11,
+        "dateStatus": "confirmée",
+        "status": "open",
+        "deadline": "15 septembre 2026",
+        "contact": "",
+        "social": "",
+        "url": "",
+        "apply": "Pré-inscription via formulaire Google Form (partagé par l'organisateur) ; réservation définitive après validation de la candidature et réception d'un acompte. Stand 2 jours : emplacement, table, chaises, chapiteau si extérieur, café/thé. Tarif 500-800€ HT/2 jours selon emplacement. Places limitées, sélection pour une offre variée.",
+        "desc": "Salon du Mariage 2026 organisé par Le Vieux Saltimbanque (Saint-André) : recherche de prestataires/exposants passionnés autour du mariage, attention particulière aux talents réunionnais."
+      }
     }
   ],
   "community": [
