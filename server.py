@@ -1309,6 +1309,29 @@ def _load_questions_stats() -> dict:
     return {"total": total, "last30": last30}
 
 
+def _load_recent_questions(limit: int = 100) -> list:
+    """Retourne les dernières questions posées au chatbot : [(ts, texte)…],
+    les plus récentes d'abord. Aucune donnée identifiante (ni hash, ni IP)."""
+    entries = []
+    try:
+        with _questions_lock:
+            with open(_QUESTIONS_FILE, encoding="utf-8") as f:
+                for line in f:
+                    line = line.strip()
+                    if not line:
+                        continue
+                    try:
+                        e = json.loads(line)
+                        if e.get("q"):
+                            entries.append((float(e.get("ts", 0)), str(e["q"])))
+                    except Exception:
+                        pass
+    except FileNotFoundError:
+        pass
+    entries.sort(key=lambda x: x[0], reverse=True)
+    return entries[:limit]
+
+
 def _load_themes() -> dict:
     try:
         with open(_THEMES_FILE, encoding="utf-8") as f:
@@ -2877,6 +2900,27 @@ def _render_stats_page(dev_mode: bool, user_name: str, flash: str = "") -> str: 
     refs_canvas = '<canvas id="refChart"></canvas>' if has_refs else \
                   '<div class="no-chart">Aucune source enregistrée pour le moment</div>'
 
+    # ── Questions récentes du chatbot (texte + date uniquement, anonyme) ───────
+    _tz_run = datetime.timezone(datetime.timedelta(hours=4))  # La Réunion
+    recent_q = _load_recent_questions(100)
+    if recent_q:
+        q_rows = "".join(
+            f'<div class="qz-row"><span class="qz-ts">'
+            f'{datetime.datetime.fromtimestamp(ts, _tz_run).strftime("%d/%m/%Y %H:%M")}</span>'
+            f'<span class="qz-txt">{html.escape(q)}</span></div>'
+            for ts, q in recent_q
+        )
+        questions_html = (
+            f'<details class="qz-box"><summary class="qz-sum">'
+            f'📜 Lire les questions posées — {len(recent_q)} dernière'
+            f'{"s" if len(recent_q) > 1 else ""}</summary>'
+            f'<div class="qz-list">{q_rows}</div>'
+            f'<p class="hint-xs">Texte et date uniquement — aucune donnée '
+            f'permettant d\'identifier le visiteur.</p></details>'
+        )
+    else:
+        questions_html = ""
+
     # ── Themes ─────────────────────────────────────────────────────────────────
     theme_list = (themes or {}).get("themes", [])
     max_cnt    = max((t.get("count", 0) for t in theme_list), default=1) or 1
@@ -3009,6 +3053,12 @@ td.nd{{text-align:center;color:#94a3b8;font-style:italic;padding:1.2rem;font-siz
 /* ── Chatbot layout ── */
 .cb-split{{display:grid;grid-template-columns:155px 1fr;gap:1.4rem;align-items:start}}
 .cb-kpis{{display:flex;flex-direction:column;gap:.75rem}}
+.qz-box{{margin-top:1rem;border-top:1px solid #f1f5f9;padding-top:.75rem}}
+.qz-sum{{cursor:pointer;font-size:.85rem;font-weight:600;color:#475569}}
+.qz-list{{max-height:320px;overflow-y:auto;margin-top:.6rem}}
+.qz-row{{display:flex;gap:.6rem;padding:.4rem .2rem;border-bottom:1px solid #f8fafc;align-items:baseline}}
+.qz-ts{{font-size:.72rem;color:#94a3b8;white-space:nowrap;flex-shrink:0}}
+.qz-txt{{font-size:.83rem;color:#0f172a;line-height:1.4;word-break:break-word}}
 /* ── Themes ── */
 .th-meta{{font-size:.75rem;color:#64748b;margin-bottom:.9rem;font-style:italic}}
 .th-list{{display:flex;flex-direction:column;gap:.65rem}}
@@ -3162,6 +3212,7 @@ footer{{text-align:center;font-size:.7rem;color:#94a3b8;padding:2rem 0 1.5rem}}
       {themes_body}
     </div>
   </div>
+  {questions_html}
 </div>
 
 </main>
