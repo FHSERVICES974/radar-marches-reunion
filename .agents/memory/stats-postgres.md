@@ -13,3 +13,4 @@ description: Conventions du système de statistiques (tables, types d'interactio
 
 ## Nettoyage de données en prod
 La base prod est en lecture seule pour l’agent (SELECT uniquement). Toute suppression/écriture prod doit passer par le serveur de production lui-même (ex. purge idempotente dans la boucle d’entretien horaire, effective ~2 min après un Publish).
+- Questions chatbot : table `chat_questions` (ts, question, model_tier — jamais de hash/IP), écriture via `_stats_queue` (« cq »), rétention 24 mois, reprise legacy transactionnelle avec sentinelle `1970-01-02` dans traffic_daily_legacy (ne pas supprimer).
