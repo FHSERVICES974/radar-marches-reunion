@@ -127,6 +127,27 @@ Niveau de confiance obligatoire par item :
 - **Probable** — source fiable mais date non confirmée (ex. récurrence connue). → proposé, à confirmer.
 - **À confirmer** — social/presse seulement, non recoupé. → section communauté, non publiable.
 
+### Étape 3 bis — Filtre d'ACTIONNABILITÉ (obligatoire, avant d'écrire quoi que ce soit)
+
+Le niveau de confiance dit si l'information est **exacte**. Il ne dit PAS si elle
+est **utile maintenant**. Un artisan ne peut pas candidater à une édition déjà
+passée : la proposer encombre la file de validation pour rien.
+
+Un item ne va dans `new_events_candidates` (donc dans la file de validation)
+**QUE SI** au moins l'une de ces conditions est vraie :
+- la **candidature est ouverte maintenant** (deadline dans le futur), OU
+- l'**événement lui-même est à venir** (date future), même sans deadline connue, OU
+- un **appel pour la prochaine édition est explicitement annoncé et daté**.
+
+Sinon — édition passée, dossiers clos, « à resurveiller l'an prochain », prochaine
+échéance à plus de ~6 mois sans appel ouvert — **n'en fais PAS un candidat**.
+Mentionne-le uniquement en section 6 du rapport (« à resurveiller »), avec le mois
+habituel de l'appel. Ça reste tracé pour toi sans polluer la file de l'humain.
+
+Cas concret à ne plus reproduire : « Fête du Choca — éd. 2026 : 17-19 juillet
+(passée) · surveiller l'appel éd. 2027 » a été proposé en Vérifié fin juillet 2026.
+L'information était exacte, mais sans aucune action possible avant ~9 mois.
+
 ## Sorties à écrire (outil Write)
 
 ### 1) `proposition_MAJ_AAAA-MM-JJ.md`
@@ -155,8 +176,12 @@ Pour chacun : **Nom** — zone · type · lieu
 ## 5. Réseaux sociaux / communauté (à confirmer manuellement)
 <captures social + lien du post + contact>
 
-## 6. Sources balayées & angles morts
+## 6. Sources balayées, angles morts & à resurveiller
 <liste des sources lues, celles en échec/login, ce qui n'a pas pu être vérifié>
+<PUIS : les événements écartés par le filtre d'actionnabilité (étape 3 bis) —
+ éditions passées, dossiers clos — avec le mois habituel de l'appel, sous la forme :
+ « Fête du Choca (Entre-Deux) — éd. passée en juillet ; appel éd. suivante à
+ surveiller vers mai-juin ». Ils ne sont PAS des candidats, juste un pense-bête.>
 ```
 Sois explicite sur les **angles morts** (pages en login, comptes non lisibles) :
 l'honnêteté sur ce qui n'a PAS été vérifié protège la crédibilité.
