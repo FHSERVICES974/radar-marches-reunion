@@ -926,32 +926,44 @@ def _import_legacy_stats() -> None:
                             log.info("Stats : %d interaction(s) historiques reprises depuis clicks.jsonl.", n)
             finally:
                 conn.close()
-        # chat_questions.jsonl → chat_questions (une seule fois : le fichier
-        # est renommé .imported après reprise)
+        # chat_questions.jsonl → chat_questions (une seule fois — import
+        # transactionnel avec sentinelle '1970-01-02' : soit tout est repris et
+        # marqué, soit rien, donc jamais de doublons même après une coupure)
         if os.path.exists(_QUESTIONS_FILE):
             conn = _stats_connect()
+            conn.autocommit = False
             try:
                 n = 0
                 with conn.cursor() as cur:
-                    with open(_QUESTIONS_FILE, encoding="utf-8") as f:
-                        for line in f:
-                            line = line.strip()
-                            if not line:
-                                continue
-                            try:
-                                e = json.loads(line)
+                    cur.execute("SELECT 1 FROM traffic_daily_legacy WHERE day = '1970-01-02'")
+                    if cur.fetchone() is None:
+                        with open(_QUESTIONS_FILE, encoding="utf-8") as f:
+                            for line in f:
+                                line = line.strip()
+                                if not line:
+                                    continue
+                                try:
+                                    e = json.loads(line)
+                                except Exception:
+                                    continue
                                 if e.get("q"):
                                     cur.execute(
                                         "INSERT INTO chat_questions (ts, question) "
                                         "VALUES (to_timestamp(%s), %s)",
                                         (e.get("ts", 0), str(e["q"])[:300]))
                                     n += 1
-                            except Exception:
-                                pass
+                        cur.execute(
+                            "INSERT INTO traffic_daily_legacy (day, views, uniques, refs) "
+                            "VALUES ('1970-01-02', 0, 0, '{}')")
+                conn.commit()
+            except Exception:
+                conn.rollback()
+                raise
             finally:
                 conn.close()
             os.rename(_QUESTIONS_FILE, _QUESTIONS_FILE + ".imported")
-            log.info("Stats : %d question(s) chatbot reprises depuis le fichier local.", n)
+            if n:
+                log.info("Stats : %d question(s) chatbot reprises depuis le fichier local.", n)
     except Exception as exc:
         log.error("Stats : reprise de l'historique impossible : %s", exc)
 
