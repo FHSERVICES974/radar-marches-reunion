@@ -1,0 +1,88 @@
+{
+  "generated": "2026-07-29",
+  "status_changes": [],
+  "new_events_candidates": [
+    {
+      "_source_title": "Occupation du domaine public — artisans & commerçants (Saint-André) 2026",
+      "_source_url": "https://www.saint-andre.re/appel-a-candidatures-occupation-du-domaine-public-2026/",
+      "_confidence": "Vérifié",
+      "event": {
+        "name": "Occupation du domaine public — artisans & commerçants (Saint-André)",
+        "zone": "Est",
+        "type": "Marché communal (occupation domaine public)",
+        "org": "Ville de Saint-André",
+        "place": "Saint-André",
+        "when": "Appel permanent pour l'année 2026",
+        "badge": "PERM.",
+        "month": 99,
+        "dateStatus": "récurrent",
+        "status": "open",
+        "deadline": "Non précisée sur la page (dossier à déposer à tout moment pour 2026)",
+        "contact": "communication@saint-andre.re · 02.62.58.88.88",
+        "social": "",
+        "url": "https://www.saint-andre.re/appel-a-candidatures-occupation-du-domaine-public-2026/",
+        "apply": "Formulaire de candidature à télécharger sur le site municipal. Public visé : restaurateurs, food trucks, marchands de fruits et artisans souhaitant s'installer sur le domaine public de Saint-André.",
+        "desc": "Appel permanent de la Ville de Saint-André pour l'occupation d'emplacements sur le domaine public (marché fixe) : restaurateurs, food trucks, marchands de fruits, artisans."
+      }
+    },
+    {
+      "_source_title": "Concert DMM 2026 — appel à forains (Saint-André)",
+      "_source_url": "https://www.saint-andre.re/appel-a-candidature-forains-concert-dmm-2026/",
+      "_confidence": "Vérifié",
+      "event": {
+        "name": "Concert DMM — appel à forains (Saint-André)",
+        "zone": "Est",
+        "type": "Concert / événement forain",
+        "org": "Ville de Saint-André",
+        "place": "Parc du Colosse, Saint-André",
+        "when": "Samedi 15 août 2026, 18h00–1h30",
+        "badge": "AOÛT",
+        "month": 8,
+        "dateStatus": "confirmée",
+        "status": "closed",
+        "deadline": "24 juillet 2026, 14h00 (clôturée)",
+        "contact": "culture@saint-andre.re · 02.62.58.88.88",
+        "social": "",
+        "url": "https://www.saint-andre.re/appel-a-candidature-forains-concert-dmm-2026/",
+        "apply": "3 emplacements forains pour l'événement musical DMM 2026 au Parc du Colosse. Candidature déjà clôturée le 24/07/2026 — ajouté à titre informatif pour anticiper une prochaine édition.",
+        "desc": "Concert DMM 2026 à Saint-André (Parc du Colosse) : appel à forains pour 3 emplacements, clôturé le 24 juillet 2026."
+      }
+    },
+    {
+      "_source_title": "Fête du Choca 2026 (Entre-Deux, 21ᵉ édition)",
+      "_source_url": "https://entredeux.re/",
+      "_confidence": "Vérifié",
+      "event": {
+        "name": "Fête du Choca",
+        "zone": "Sud",
+        "type": "Fête / Terroir",
+        "org": "Mairie de l'Entre-Deux",
+        "place": "Entre-Deux",
+        "when": "Juillet (annuel) · éd. 2026 : 17–19 juil. (21ᵉ édition, passée)",
+        "badge": "JUIL",
+        "month": 7,
+        "dateStatus": "annuel",
+        "status": "closed",
+        "deadline": "Éd. 2026 passée — surveiller l'appel éd. 2027",
+        "contact": "mairie@entredeux.re · 0262 39 50 50",
+        "social": "",
+        "url": "https://entredeux.re/",
+        "apply": "Appel à candidatures exposants publié en amont par la mairie (document PDF non lisible automatiquement lors de cette veille — à consulter directement sur entredeux.re).",
+        "desc": "21ᵉ édition de la Fête du Choca à l'Entre-Deux (17–19 juillet 2026), fête du terroir dans le Sud."
+      }
+    },
+    {
+      "_source_title": "Fête patronale de Saint-Louis 2026",
+      "_source_url": "https://saintlouis.re/actualites/169-appel-a-candidatures",
+      "_confidence": "Probable",
+      "event": null
+    },
+    {
+      "_source_title": "Saint-Benoît — appels marché de nuit / marché du terroir / 20 Désanm / possible grande foire commerciale sept. 2026",
+      "_source_url": "https://www.saint-benoit.re/actualites/articles/9262-appels-a-candidature-marche-de-nuit-marche-du-terroir-20-desanm",
+      "_confidence": "Probable",
+      "event": null
+    }
+  ],
+  "community": []
+}
