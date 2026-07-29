@@ -342,6 +342,24 @@
     "desc": "Braderie commerciale du centre-ville de Sainte-Marie (12–14 août 2026) : vente de vêtements, accessoires, bijoux fantaisie, produits artisanaux, objets de décoration et toute activité compatible avec l'esprit d'une braderie. Appel à candidatures pour l'exploitation d'emplacements."
   },
   {
+    "name": "Concert DMM — appel à forains (Saint-André)",
+    "zone": "Est",
+    "type": "Concert / événement forain",
+    "org": "Ville de Saint-André",
+    "place": "Parc du Colosse, Saint-André",
+    "when": "Samedi 15 août 2026, 18h00–1h30",
+    "badge": "AOÛT",
+    "month": 8,
+    "dateStatus": "confirmée",
+    "status": "closed",
+    "deadline": "24 juillet 2026, 14h00 (clôturée)",
+    "contact": "culture@saint-andre.re · 02.62.58.88.88",
+    "social": "",
+    "url": "https://www.saint-andre.re/appel-a-candidature-forains-concert-dmm-2026/",
+    "apply": "3 emplacements forains pour l'événement musical DMM 2026 au Parc du Colosse. Candidature déjà clôturée le 24/07/2026 — ajouté à titre informatif pour anticiper une prochaine édition.",
+    "desc": "Concert DMM 2026 à Saint-André (Parc du Colosse) : appel à forains pour 3 emplacements, clôturé le 24 juillet 2026."
+  },
+  {
     "name": "Fête des Agrumes",
     "zone": "Sud",
     "type": "Foire / Terroir",
