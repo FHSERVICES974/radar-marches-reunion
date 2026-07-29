@@ -709,7 +709,6 @@ _PENDING_DIR    = "data/pending"
 _DECISIONS_FILE = os.path.join(_DATA_DIR, "pending_decisions.json")
 
 _traffic_lock   = threading.Lock()
-_questions_lock = threading.Lock()
 _decisions_lock = threading.Lock()
 
 _CONF_RANK: dict = {"Vérifié": 0, "Probable": 1, "À confirmer": 2}
@@ -833,6 +832,10 @@ def _stats_writer_loop() -> None:
                         cur.execute(
                             "INSERT INTO page_views (page, visitor_hash, referrer, ref_type, user_agent) "
                             "VALUES (%s, %s, %s, %s, %s)", item[1:])
+                    elif item[0] == "cq":
+                        cur.execute(
+                            "INSERT INTO chat_questions (question, model_tier) "
+                            "VALUES (%s, %s)", item[1:])
                     else:
                         cur.execute(
                             "INSERT INTO interactions (type, event_name, visitor_hash) "
@@ -859,9 +862,12 @@ def _stats_retention_loop() -> None:
                     pv = cur.rowcount
                     cur.execute("DELETE FROM interactions WHERE ts < now() - interval '%s months'"
                                 % _STATS_RETENTION_MONTHS)
-                    if pv or cur.rowcount:
-                        log.info("Stats : purge rétention — %d vues, %d interactions supprimées.",
-                                 pv, cur.rowcount)
+                    ix = cur.rowcount
+                    cur.execute("DELETE FROM chat_questions WHERE ts < now() - interval '%s months'"
+                                % _STATS_RETENTION_MONTHS)
+                    if pv or ix or cur.rowcount:
+                        log.info("Stats : purge rétention — %d vues, %d interactions, "
+                                 "%d questions supprimées.", pv, ix, cur.rowcount)
             finally:
                 conn.close()
         except Exception as exc:
@@ -920,6 +926,32 @@ def _import_legacy_stats() -> None:
                             log.info("Stats : %d interaction(s) historiques reprises depuis clicks.jsonl.", n)
             finally:
                 conn.close()
+        # chat_questions.jsonl → chat_questions (une seule fois : le fichier
+        # est renommé .imported après reprise)
+        if os.path.exists(_QUESTIONS_FILE):
+            conn = _stats_connect()
+            try:
+                n = 0
+                with conn.cursor() as cur:
+                    with open(_QUESTIONS_FILE, encoding="utf-8") as f:
+                        for line in f:
+                            line = line.strip()
+                            if not line:
+                                continue
+                            try:
+                                e = json.loads(line)
+                                if e.get("q"):
+                                    cur.execute(
+                                        "INSERT INTO chat_questions (ts, question) "
+                                        "VALUES (to_timestamp(%s), %s)",
+                                        (e.get("ts", 0), str(e["q"])[:300]))
+                                    n += 1
+                            except Exception:
+                                pass
+            finally:
+                conn.close()
+            os.rename(_QUESTIONS_FILE, _QUESTIONS_FILE + ".imported")
+            log.info("Stats : %d question(s) chatbot reprises depuis le fichier local.", n)
     except Exception as exc:
         log.error("Stats : reprise de l'historique impossible : %s", exc)
 
@@ -1134,42 +1166,25 @@ def _record_visit(ip: str, referrer: str = "", path: str = "/", user_agent: str 
         log.error("Stats : file d'écriture pleine — visite perdue.")
 
 
-def _record_question(text: str) -> None:
-    """Enregistre une question du chatbot (append JSONL, thread-safe)."""
+def _record_question(text: str, model_tier: str = "") -> None:
+    """Enregistre une question du chatbot en base (via la file d'écriture).
+    Anonyme : texte + date + palier de modèle uniquement — jamais de hash ni d'IP."""
     try:
-        os.makedirs(_DATA_DIR, exist_ok=True)
-        entry = json.dumps({"ts": time.time(), "q": text[:300]}, ensure_ascii=False)
-        with _questions_lock:
-            with open(_QUESTIONS_FILE, "a", encoding="utf-8") as f:
-                f.write(entry + "\n")
-    except Exception as exc:
-        log.error("_record_question : %s", exc)
+        _stats_queue.put_nowait(("cq", text[:300], model_tier[:16]))
+    except queue.Full:
+        log.error("Stats : file d'écriture pleine — question chatbot perdue.")
 
 
 def _run_theme_analysis() -> None:
     """Demande à Claude d'analyser les thèmes des questions des 30 derniers jours."""
     if not _ANTHROPIC_API_KEY:
         return
-    cutoff = time.time() - 30 * 86400
-    questions = []
     try:
-        with _questions_lock:
-            try:
-                with open(_QUESTIONS_FILE, encoding="utf-8") as f:
-                    for line in f:
-                        line = line.strip()
-                        if not line:
-                            continue
-                        try:
-                            entry = json.loads(line)
-                            if entry.get("ts", 0) >= cutoff:
-                                questions.append(entry["q"])
-                        except Exception:
-                            pass
-            except FileNotFoundError:
-                pass
+        questions = [r[0] for r in _stats_query(
+            "SELECT question FROM chat_questions "
+            "WHERE ts >= now() - interval '30 days' ORDER BY ts")]
     except Exception as exc:
-        log.error("_run_theme_analysis (lecture) : %s", exc)
+        log.error("_run_theme_analysis (lecture base) : %s", exc)
         return
 
     if len(questions) < 3:
@@ -1288,48 +1303,27 @@ def _load_traffic_stats() -> dict:
 
 
 def _load_questions_stats() -> dict:
-    total = 0
-    last30 = 0
-    cutoff = time.time() - 30 * 86400
     try:
-        with _questions_lock:
-            with open(_QUESTIONS_FILE, encoding="utf-8") as f:
-                for line in f:
-                    line = line.strip()
-                    if not line:
-                        continue
-                    total += 1
-                    try:
-                        if json.loads(line).get("ts", 0) >= cutoff:
-                            last30 += 1
-                    except Exception:
-                        pass
-    except FileNotFoundError:
-        pass
-    return {"total": total, "last30": last30}
+        row = _stats_query(
+            "SELECT count(*), "
+            "count(*) FILTER (WHERE ts >= now() - interval '30 days') "
+            "FROM chat_questions")[0]
+        return {"total": row[0], "last30": row[1]}
+    except Exception as exc:
+        log.error("_load_questions_stats : %s", exc)
+        return {"total": 0, "last30": 0}
 
 
 def _load_recent_questions(limit: int = 100) -> list:
     """Retourne les dernières questions posées au chatbot : [(ts, texte)…],
     les plus récentes d'abord. Aucune donnée identifiante (ni hash, ni IP)."""
-    entries = []
     try:
-        with _questions_lock:
-            with open(_QUESTIONS_FILE, encoding="utf-8") as f:
-                for line in f:
-                    line = line.strip()
-                    if not line:
-                        continue
-                    try:
-                        e = json.loads(line)
-                        if e.get("q"):
-                            entries.append((float(e.get("ts", 0)), str(e["q"])))
-                    except Exception:
-                        pass
-    except FileNotFoundError:
-        pass
-    entries.sort(key=lambda x: x[0], reverse=True)
-    return entries[:limit]
+        return [(r[0].timestamp(), r[1]) for r in _stats_query(
+            "SELECT ts, question FROM chat_questions "
+            "ORDER BY ts DESC LIMIT %s", (int(limit),))]
+    except Exception as exc:
+        log.error("_load_recent_questions : %s", exc)
+        return []
 
 
 def _load_themes() -> dict:
@@ -3387,12 +3381,13 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             return
         if _is_events_q(user_msg):
             system = _SYS_EVENTS.format(events=_load_events())
-            model  = _get_model("FAST")
+            tier   = "FAST"
         else:
             system = _SYS_ADMIN
-            model  = _get_model("STRONG")
+            tier   = "STRONG"
+        model = _get_model(tier)
         # Enregistrement anonyme de la question pour les statistiques
-        threading.Thread(target=_record_question, args=(user_msg,), daemon=True).start()
+        _record_question(user_msg, tier)
         _record_click("chat_question", "", _visitor_hash(ip))
         reply = _claude(model, system, history + [{"role": "user", "content": user_msg}])
         self._json(200, {"reply": reply})
