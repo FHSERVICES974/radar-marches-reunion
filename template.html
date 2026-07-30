@@ -283,6 +283,41 @@ const ZONE_COLOR = {National:"var(--national)",Nord:"var(--nord)",Est:"var(--est
 // month: 1-12 pour tri (99 = permanent / variable)
 const EVENTS = __EVENTS__;
 
+// ---------- auto-clôture par deadline (fuseau Réunion UTC+4) ----------
+(function(){
+  const FR_MONTH={janvier:1,février:2,fevrier:2,mars:3,avril:4,mai:5,juin:6,
+    juillet:7,août:8,aout:8,septembre:9,octobre:10,novembre:11,décembre:12,decembre:12};
+  function parseDeadline(text){
+    if(!text)return null;
+    const t=text.toLowerCase();
+    // Format numérique JJ/MM/AAAA ou JJ.MM.AAAA
+    let m=t.match(/\b(\d{1,2})[\/.](\d{1,2})[\/.](\d{4})\b/);
+    if(m){const d=new Date(+m[3],+m[2]-1,+m[1]);return isNaN(d.getTime())?null:d;}
+    // Format littéral « 1er|N mois [AAAA] »
+    m=t.match(/\b(1er|\d{1,2})\s+([a-zéèêûôîàùc]+)\.?\s*(\d{4})?\b/);
+    if(m){
+      const day=m[1]==="1er"?1:+m[1];
+      const mon=FR_MONTH[m[2]];
+      if(!mon)return null;
+      const year=m[3]?+m[3]:new Date().getFullYear();
+      const d=new Date(year,mon-1,day);
+      return isNaN(d.getTime())?null:d;
+    }
+    return null;
+  }
+  // Aujourd'hui en heure Réunion (UTC+4) — date locale sans heure
+  const rNow=new Date(Date.now()+4*3600*1000);
+  const today=new Date(Date.UTC(rNow.getUTCFullYear(),rNow.getUTCMonth(),rNow.getUTCDate()));
+  EVENTS.forEach(function(e){
+    if(e.status==="perm")return;          // marchés permanents : inchangés
+    if(e.status==="closed")return;        // déjà clôturé : rien à faire
+    const dl=parseDeadline(e.deadline||"");
+    if(!dl)return;                         // pas de date parseable : on ne touche pas
+    const dlDate=new Date(Date.UTC(dl.getFullYear(),dl.getMonth(),dl.getDate()));
+    if(dlDate<today)e.status="closed";    // deadline strictement passée → clôturé
+  });
+})();
+
 // Répertoire organisateurs
 const ORGS = __ORGS__;
 
