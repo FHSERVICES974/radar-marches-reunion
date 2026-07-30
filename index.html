@@ -2110,9 +2110,9 @@ const EVENTS = [
   const rNow=new Date(Date.now()+4*3600*1000);
   const today=new Date(Date.UTC(rNow.getUTCFullYear(),rNow.getUTCMonth(),rNow.getUTCDate()));
   EVENTS.forEach(function(e){
-    if(e.status==="perm")return;          // marchés permanents : inchangés
-    if(e.status==="soon")return;          // à surveiller (éd. future) : inchangés
-    if(e.status==="closed")return;        // déjà clôturé : rien à faire
+    if(e.status!=="open")return;          // seules les fiches ouvertes peuvent se clôturer
+                                          // (soon/perm/closed : jamais touchées — une fiche
+                                          // « soon » citant une date d'édition passée resterait visible)
     const dl=parseDeadline(e.deadline||"");
     if(!dl)return;                         // pas de date parseable : on ne touche pas
     const dlDate=new Date(Date.UTC(dl.getFullYear(),dl.getMonth(),dl.getDate()));

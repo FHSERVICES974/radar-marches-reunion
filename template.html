@@ -290,28 +290,38 @@ const EVENTS = __EVENTS__;
   function parseDeadline(text){
     if(!text)return null;
     const t=text.toLowerCase();
+    // Collecte toutes les dates ; sur une plage (ex. « 2 juin–8 août »)
+    // on retourne la DERNIÈRE trouvée dans le texte (date de clôture).
+    const found=[];   // [{pos, date}]
     // Format numérique JJ/MM/AAAA ou JJ.MM.AAAA
-    let m=t.match(/\b(\d{1,2})[\/.](\d{1,2})[\/.](\d{4})\b/);
-    if(m){const d=new Date(+m[3],+m[2]-1,+m[1]);return isNaN(d.getTime())?null:d;}
+    const reNum=/\b(\d{1,2})[\/.](\d{1,2})[\/.](\d{4})\b/g;
+    let m;
+    while((m=reNum.exec(t))!==null){
+      const d=new Date(+m[3],+m[2]-1,+m[1]);
+      if(!isNaN(d.getTime()))found.push({pos:m.index,date:d});
+    }
     // Format littéral « 1er|N mois [AAAA] »
-    m=t.match(/\b(1er|\d{1,2})\s+([a-zéèêûôîàùc]+)\.?\s*(\d{4})?\b/);
-    if(m){
+    const reLit=/\b(1er|\d{1,2})\s+([a-zéèêûôîàùc]+)\.?\s*(\d{4})?\b/g;
+    while((m=reLit.exec(t))!==null){
       const day=m[1]==="1er"?1:+m[1];
       const mon=FR_MONTH[m[2]];
-      if(!mon)return null;
-      if(!m[3])return null;                // pas d'année explicite : ambigu, on ne clôture pas
+      if(!mon)continue;
+      if(!m[3])continue;                   // pas d'année explicite : ambigu, on ne clôture pas
       const d=new Date(+m[3],mon-1,day);
-      return isNaN(d.getTime())?null:d;
+      if(!isNaN(d.getTime()))found.push({pos:m.index,date:d});
     }
-    return null;
+    if(!found.length)return null;
+    // La dernière date dans le texte est la date de clôture (fin de plage)
+    found.sort(function(a,b){return a.pos-b.pos;});
+    return found[found.length-1].date;
   }
   // Aujourd'hui en heure Réunion (UTC+4) — date locale sans heure
   const rNow=new Date(Date.now()+4*3600*1000);
   const today=new Date(Date.UTC(rNow.getUTCFullYear(),rNow.getUTCMonth(),rNow.getUTCDate()));
   EVENTS.forEach(function(e){
-    if(e.status==="perm")return;          // marchés permanents : inchangés
-    if(e.status==="soon")return;          // à surveiller (éd. future) : inchangés
-    if(e.status==="closed")return;        // déjà clôturé : rien à faire
+    if(e.status!=="open")return;          // seules les fiches ouvertes peuvent se clôturer
+                                          // (soon/perm/closed : jamais touchées — une fiche
+                                          // « soon » citant une date d'édition passée resterait visible)
     const dl=parseDeadline(e.deadline||"");
     if(!dl)return;                         // pas de date parseable : on ne touche pas
     const dlDate=new Date(Date.UTC(dl.getFullYear(),dl.getMonth(),dl.getDate()));

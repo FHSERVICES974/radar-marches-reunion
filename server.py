@@ -1076,37 +1076,50 @@ _FR_MONTH_NUM = {"janvier": 1, "février": 2, "fevrier": 2, "mars": 3, "avril": 
 
 
 def _parse_deadline_date(text: str, ref: "datetime.date | None" = None):
-    """Extrait une date explicite (« 15/08/2026 » ou « 31 août [2026] ») du texte
-    libre de la limite de candidature. Retourne None si rien d'explicite :
-    on préfère aucune date à une date devinée."""
+    """Extrait la date limite d'un texte libre.
+
+    Sur une plage de dates (ex. « 2 juin–8 août 2026 ») retourne la DERNIÈRE
+    date trouvée dans le texte, qui est la date de clôture.  Retourne None si
+    aucune date explicite n'est détectable : on préfère aucune date à une date
+    devinée (ex. « appel attendu à l'automne 2026 »).
+    """
     if not text:
         return None
     t = text.lower()
-    m = re.search(r"\b(\d{1,2})[/.](\d{1,2})[/.](\d{4})\b", t)
-    if m:
+    ref_ = ref or datetime.date.today()
+    found: list[tuple[int, datetime.date]] = []   # (position, date)
+
+    # Format numérique JJ/MM/AAAA ou JJ.MM.AAAA
+    for m in re.finditer(r"\b(\d{1,2})[/.](\d{1,2})[/.](\d{4})\b", t):
         try:
-            return datetime.date(int(m.group(3)), int(m.group(2)), int(m.group(1)))
+            found.append((m.start(),
+                          datetime.date(int(m.group(3)), int(m.group(2)), int(m.group(1)))))
         except ValueError:
-            return None
-    m = re.search(r"\b(1er|\d{1,2})\s+([a-zéèêûôîc]+)\.?\s*(\d{4})?\b", t)
-    if m:
+            pass
+
+    # Format littéral « 1er|N mois [AAAA] »
+    for m in re.finditer(r"\b(1er|\d{1,2})\s+([a-zéèêûôîàùc]+)\.?\s*(\d{4})?\b", t):
         day = 1 if m.group(1) == "1er" else int(m.group(1))
         mon = _FR_MONTH_NUM.get(m.group(2))
         if not mon:
-            return None
-        ref = ref or datetime.date.today()
-        year = int(m.group(3)) if m.group(3) else ref.year
+            continue
+        year = int(m.group(3)) if m.group(3) else ref_.year
         try:
             d = datetime.date(year, mon, day)
         except ValueError:
-            return None
-        if not m.group(3) and d < ref - datetime.timedelta(days=90):
+            continue
+        if not m.group(3) and d < ref_ - datetime.timedelta(days=90):
             try:
                 d = datetime.date(year + 1, mon, day)
             except ValueError:
-                return None
-        return d
-    return None
+                continue
+        found.append((m.start(), d))
+
+    if not found:
+        return None
+    # La dernière date dans le texte est la date de clôture (fin de plage)
+    found.sort(key=lambda x: x[0])
+    return found[-1][1]
 
 
 def _upsert_event_meta(name: str, published_on, deadline_on) -> None:
