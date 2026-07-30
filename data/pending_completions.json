@@ -113,5 +113,28 @@
     },
     "report": "Fiche complète et vérifiée à partir de la page officielle ville-saintemarie.re fournie. L'événement concerne le bal populaire du 14 août 2026 de 15h à 22h à Beauséjour (AC 06/2026), et non l'AC 05/2026 mentionné dans la fiche initiale. Date de l'événement, lieu (place du marché forain de Beauséjour), deadline (1er août 2026), contact et modalités de candidature confirmés dans le document source. Signal La Réunion vérifié (domaine .re, commune Sainte-Marie 974).",
     "ts": 1785380573.5522583
+  },
+  "52b6bcacaa6e08cd": {
+    "status": "done",
+    "event": {
+      "name": "Braderie commerciale de Saint-Benoît 2026",
+      "zone": "Est",
+      "type": "Braderie commerciale",
+      "org": "Ville de Saint-Benoît",
+      "place": "Centre-ville de Saint-Benoît",
+      "when": "4-13 septembre 2026",
+      "badge": "SEPT",
+      "month": 9,
+      "dateStatus": "confirmée",
+      "status": "closed",
+      "deadline": "31 juillet 2026",
+      "contact": "[email protected] / 0692 96 51 36",
+      "social": "",
+      "url": "https://www.saint-benoit.re/actualites/articles/12031-appel-a-candidatures-braderie-commerciale-2026",
+      "apply": "Télécharger et transmettre le dossier de candidature complet avec pièces justificatives par email avant le 31 juillet",
+      "desc": "Braderie commerciale de 10 jours au centre-ville pour commerçants, artisans, producteurs et exposants. Événement incontournable pour faire découvrir ses produits et rencontrer un large public."
+    },
+    "report": "Fiche complète vérifiée à partir de la page officielle saint-benoit.re. Les dates (4-13 septembre 2026), la deadline (31 juillet), le contact email et téléphone sont confirmés dans le contenu fourni. Saint-Benoît est bien une commune de La Réunion (zone Est). L'organisateur est la Ville de Saint-Benoît. Aucun réseau social public identifié pour l'appel à candidatures. Toutes les informations proviennent de sources vérifiées.",
+    "ts": 1785381197.715174
   }
 }
