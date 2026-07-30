@@ -90,5 +90,28 @@
     },
     "report": "Fiche complète et vérifiée. Le formulaire Google fourni confirme toutes les informations : dates 7-8 novembre 2026, deadline 15 septembre, tarifs 500-800€ HT, modalités complètes de candidature. L'établissement Le Vieux Saltimbanque est confirmé à Saint-André (97440) La Réunion au 463 chemin du Centre via plusieurs sources officielles (annuaire entreprises, Kompass, Pappers). Page Facebook officielle identifiée avec 5 694 abonnés. Tous les 16 champs sont remplis avec des sources vérifiées.",
     "ts": 1785258013.4495993
+  },
+  "099a0882269a4915": {
+    "status": "done",
+    "event": {
+      "name": "Bal populaire « Bal la poussière » — Fête patronale 2026",
+      "zone": "Nord",
+      "type": "Marché/Foire artisanale (occupation domaine public)",
+      "org": "Ville de Sainte-Marie",
+      "place": "Place du marché forain de Beauséjour, Sainte-Marie",
+      "when": "Vendredi 14 août 2026, 15h00-22h00",
+      "badge": "AOÛT",
+      "month": 8,
+      "dateStatus": "confirmée",
+      "status": "open",
+      "deadline": "1er août 2026",
+      "contact": "serviceeconomique@ville-saintemarie.re · 0262.80.02.35",
+      "social": "",
+      "url": "https://www.ville-saintemarie.re/appel-a-candidatures-pour-lexploitation-demplacements-pour-le-bal-populaire-bal-la-poussiere-fete-patronale-2026/",
+      "apply": "Appel à candidatures AC 06/2026 pour emplacements restauration rapide et vente d'articles/accessoires de fête lors du bal populaire « Bal la poussière » à Beauséjour. Dossier complet à déposer avant le 1er août 2026 au Service économique.",
+      "desc": "Appel à candidatures pour emplacements de restauration rapide et vente d'accessoires lors du bal populaire « Bal la poussière » organisé à Beauséjour dans le cadre de la fête patronale 2026."
+    },
+    "report": "Fiche complète et vérifiée à partir de la page officielle ville-saintemarie.re fournie. L'événement concerne le bal populaire du 14 août 2026 de 15h à 22h à Beauséjour (AC 06/2026), et non l'AC 05/2026 mentionné dans la fiche initiale. Date de l'événement, lieu (place du marché forain de Beauséjour), deadline (1er août 2026), contact et modalités de candidature confirmés dans le document source. Signal La Réunion vérifié (domaine .re, commune Sainte-Marie 974).",
+    "ts": 1785380573.5522583
   }
 }
