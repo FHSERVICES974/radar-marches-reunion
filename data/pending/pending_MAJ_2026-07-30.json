@@ -1,0 +1,187 @@
+{
+  "generated": "2026-07-30",
+  "status_changes": [
+    {
+      "key": "braderie commerciale de sainte marie|nord",
+      "name": "Braderie commerciale de Sainte-Marie",
+      "zone": "Nord",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-07-29)"
+    },
+    {
+      "key": "fete des agrumes|sud",
+      "name": "Fête des Agrumes",
+      "zone": "Sud",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-07-29)"
+    }
+  ],
+  "new_events_candidates": [
+    {
+      "_source_title": "Fête patronale de Sainte-Marie — emplacements Centre-ville (AC 05/2026)",
+      "_source_url": "https://www.ville-saintemarie.re/",
+      "_confidence": "Vérifié",
+      "_note": "Deadline expire le 2026-07-31 16h — urgent",
+      "event": {
+        "name": "Fête patronale de Sainte-Marie — emplacements Centre-ville (AC 05/2026)",
+        "zone": "Nord",
+        "type": "Marché/Foire artisanale (occupation domaine public)",
+        "org": "Ville de Sainte-Marie",
+        "place": "Place du marché forain du Centre-ville, Sainte-Marie",
+        "when": "Fête patronale 2026 (dates de l'événement non précisées sur l'avis)",
+        "badge": "AOÛT",
+        "month": 8,
+        "dateStatus": "deadline confirmée, dates événement non précisées",
+        "status": "open",
+        "deadline": "31 juillet 2026, 16h00 (prorogée)",
+        "contact": "serviceeconomique@ville-saintemarie.re · 0262.80.02.35 / 0262.80.02.36",
+        "social": "",
+        "url": "https://www.ville-saintemarie.re/",
+        "apply": "Appel à candidatures AC 05/2026 pour l'exploitation d'emplacements Place du marché forain du Centre-ville de Sainte-Marie, dans le cadre de la fête patronale 2026. Dossier à déposer avant le 31/07/2026 16h.",
+        "desc": "Appel à candidatures pour l'exploitation d'emplacements en centre-ville de Sainte-Marie à l'occasion de la fête patronale 2026."
+      }
+    },
+    {
+      "_source_title": "Animal Show 2026 (Bras-Panon)",
+      "_source_url": "",
+      "_confidence": "Vérifié",
+      "_note": "Source = document déposé par l'humain (capture Facebook, data/inbox_docs/processed/). AUCUNE source officielle indépendante n'a corroboré cet événement (mairie Bras-Panon, presse et recherche externe négatives) — à vérifier par contact téléphonique avant publication.",
+      "event": {
+        "name": "Animal Show 2026",
+        "zone": "Est",
+        "type": "Salon animalier & monde agricole (avec artisanat)",
+        "org": "Animal Show",
+        "place": "Champ de Foire de Bras-Panon",
+        "when": "14–18 octobre 2026, 10h–20h",
+        "badge": "OCT",
+        "month": 10,
+        "dateStatus": "confirmée (source unique, non recoupée)",
+        "status": "open",
+        "deadline": "Non précisée (places limitées, contact rapide recommandé)",
+        "contact": "06 92 21 59 21 · animalshow974@gmail.com",
+        "social": "",
+        "url": "",
+        "apply": "Contacter Animal Show par téléphone ou email pour recevoir le dossier d'inscription. Éligibles : éleveurs et professionnels du monde animal, associations et clubs, commerces animaliers et généralistes, producteurs locaux et artisans, food-trucks, prestataires événementiels, structures de loisirs familiales.",
+        "desc": "Salon familial dédié aux animaux, à l'agriculture, aux loisirs et à l'artisanat, au Champ de Foire de Bras-Panon (14-18 octobre 2026, 5 jours). Appel à exposants en cours."
+      }
+    },
+    {
+      "_source_title": "Bal la Poussière — Fête patronale Sainte-Marie (AC 06/2026) — correction de deadline",
+      "_source_url": "https://www.ville-saintemarie.re/",
+      "_confidence": "Vérifié",
+      "_note": "URGENT : la base actuelle marque cet événement 'closed' avec deadline 17 juillet 2026. Nouvelle lecture officielle montre une deadline au 1er août 2026 (probable prorogation, à confirmer). Événement existant à mettre à jour (nom identique), pas un nouvel événement.",
+      "event": {
+        "name": "Bal la Poussière - Fête patronale Sainte-Marie",
+        "zone": "Nord",
+        "type": "Marché/Foire artisanale",
+        "org": "Ville de Sainte-Marie",
+        "place": "Place du marché forain de Beauséjour, Sainte-Marie (97438)",
+        "when": "Vendredi 14 août 2026, 15h-22h",
+        "badge": "AOÛT",
+        "month": 8,
+        "dateStatus": "confirmée",
+        "status": "open",
+        "deadline": "1er août 2026 (prorogée — était 17 juillet 2026)",
+        "contact": "infomairie@ville-saintemarie.re / 0262 53 41 15 ou serviceeconomique@ville-saintemarie.re",
+        "social": "",
+        "url": "https://www.ville-saintemarie.re/appel-a-candidatures-pour-lexploitation-demplacements-pour-le-bal-populaire-bal-la-poussiere-fete-patronale-2026/",
+        "apply": "Dossier de candidature via www.ville-saintemarie.re, procédure de sélection selon critères : qualité/diversité offre (40%), normes sanitaires/environnementales (30%), organisation/sécurité (30%)",
+        "desc": "Appel à candidatures pour l'exploitation d'emplacements de restauration rapide et vente d'articles/accessoires de fête lors du bal populaire organisé dans le cadre de la fête patronale de Sainte-Marie à Beauséjour."
+      }
+    },
+    {
+      "_source_title": "Florilèges 2026 (Le Tampon) — deadline précisée",
+      "_source_url": "https://letampon.fr/appels-candidatures/appel-a-candidatures-pour-des-emplacements-disponibles-sur-le-domaine-public-florileges-2026/",
+      "_confidence": "Vérifié",
+      "_note": "Mise à jour de l'événement existant 'Florilèges' — deadline désormais précisée, recoupée par imazpress.com.",
+      "event": {
+        "name": "Florilèges",
+        "zone": "Sud",
+        "type": "Foire / Horticole",
+        "org": "Ville du Tampon",
+        "place": "Parc Jean de Cambiaire, Le Tampon (emplacements domaine public : SIDR 400, place de la Libération)",
+        "when": "Octobre (annuel) · éd. 2026 : 9–18 oct.",
+        "badge": "OCT",
+        "month": 10,
+        "dateStatus": "confirmée",
+        "status": "open",
+        "deadline": "14 août 2026, 12h00",
+        "contact": "florileges.animation@mairie-tampon.fr · Direction Animation-Culture, 14 rue Antoine Fontaine, 97430 Le Tampon",
+        "social": "",
+        "url": "https://letampon.fr/appels-candidatures/appel-a-candidatures-pour-des-emplacements-disponibles-sur-le-domaine-public-florileges-2026/",
+        "apply": "Appel à candidatures pour emplacements domaine public (manèges, stands de jeux/attractions, métiers de bouche) sur le site SIDR 400. Formulaire de candidature + grille tarifaire à télécharger sur la page. À vérifier si un volet artisanat/créateurs distinct existe.",
+        "desc": "Grand rendez-vous floral et forain du Sud : fleurs, artisanat, forains, concerts."
+      }
+    },
+    {
+      "_source_title": "Salon International de l'Agriculture — Village Réunion éd. 2027 — deadline précisée",
+      "_source_url": "https://www.departement974.fr/actualite/appel-candidatures-salon-international-de-lagriculture-2027",
+      "_confidence": "Vérifié",
+      "_note": "Mise à jour de l'événement existant — deadline désormais précisée.",
+      "event": {
+        "name": "Salon International de l'Agriculture — Village Réunion",
+        "zone": "National",
+        "type": "Salon national",
+        "org": "Département / Région / Chambre d'Agriculture",
+        "place": "Paris Expo, Porte de Versailles",
+        "when": "Février–mars (annuel) · éd. 2027 : 27 fév.–7 mars",
+        "badge": "FÉV",
+        "month": 2,
+        "dateStatus": "confirmée",
+        "status": "open",
+        "deadline": "31 août 2026",
+        "contact": "sia@cg974.fr · 0262 90 30 30",
+        "social": "",
+        "url": "https://www.departement974.fr/actualite/appel-candidatures-salon-international-de-lagriculture-2027",
+        "apply": "Candidature par mail au Département (sia@cg974.fr).",
+        "desc": "Le « Village Réunion » regroupe les exposants réunionnais (produits & savoir-faire) au plus grand salon agricole de France."
+      }
+    },
+    {
+      "_source_title": "Appel à projet — Marché couvert de Saint-André (6 box commerciaux)",
+      "_source_url": "https://www.saint-andre.re/appel-a-projet-marche-couvert/",
+      "_confidence": "Probable",
+      "event": null
+    },
+    {
+      "_source_title": "Braderie commerciale de Saint-Benoît 2026 (dates 4-13 sept. non recoupées directement, possible confusion avec Festi-Plantes)",
+      "_source_url": "https://www.saint-benoit.re/",
+      "_confidence": "À confirmer",
+      "event": null
+    }
+  ],
+  "community": [
+    {
+      "name": "Marché de Noël — Village de l'Éperon (éd. 2026)",
+      "zone": "Ouest",
+      "note": "Pattern des années précédentes : candidatures artisans ouvertes du 1er au 15 septembre pour l'édition de mi-décembre. Rien de confirmé pour 2026 à ce jour — surveiller début septembre.",
+      "source": "asso.eperon@gmail.com / @asso.eperon974"
+    },
+    {
+      "name": "Marché de Noël de Saint-Leu « Casse-Noisette » (éd. 2026)",
+      "zone": "Ouest",
+      "note": "4ᵉ édition connue avec appel à candidatures (probablement 2025). 5ᵉ édition 2026 probable (~mi-décembre) mais non confirmée.",
+      "source": "ACCOI / Compagnie Tendance"
+    },
+    {
+      "name": "Marché Zartizan Péi (TCO, port de Saint-Gilles) — prochaine édition",
+      "zone": "Ouest",
+      "note": "Rythme quasi bimestriel. Appel pour l'édition d'août 2026 déjà clôturé (résultats communiqués sem. du 20 juillet). Nouvelle édition probable avant fin 2026 — revérifier sous 2-3 semaines.",
+      "source": "https://www.tco.re/plaisance/demande-demplacement/"
+    },
+    {
+      "name": "Salon Fait Main (Arts et Traditions 974) — 102ᵉ édition",
+      "zone": "Ouest",
+      "note": "101ᵉ édition tenue 5-7 déc. 2025. 102ᵉ édition probable ~déc. 2026, réservée aux membres de l'association (pas un appel public classique).",
+      "source": "artrad.re / @artsettraditions974"
+    },
+    {
+      "name": "La Guinguette à Pierrefonds (La Bande à Guinguette) — prochaine édition",
+      "zone": "Sud",
+      "note": "Édition passée 7-8 mars 2026. Aucun appel pour une prochaine édition (mars ou décembre 2026) trouvé et daté.",
+      "source": "labandeaguinguette@gmail.com / @la_bande_a_guinguette"
+    }
+  ]
+}
