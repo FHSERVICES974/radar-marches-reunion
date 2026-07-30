@@ -2111,6 +2111,7 @@ const EVENTS = [
   const today=new Date(Date.UTC(rNow.getUTCFullYear(),rNow.getUTCMonth(),rNow.getUTCDate()));
   EVENTS.forEach(function(e){
     if(e.status==="perm")return;          // marchés permanents : inchangés
+    if(e.status==="soon")return;          // à surveiller (éd. future) : inchangés
     if(e.status==="closed")return;        // déjà clôturé : rien à faire
     const dl=parseDeadline(e.deadline||"");
     if(!dl)return;                         // pas de date parseable : on ne touche pas
