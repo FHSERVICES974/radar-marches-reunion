@@ -2100,8 +2100,8 @@ const EVENTS = [
       const day=m[1]==="1er"?1:+m[1];
       const mon=FR_MONTH[m[2]];
       if(!mon)return null;
-      const year=m[3]?+m[3]:new Date().getFullYear();
-      const d=new Date(year,mon-1,day);
+      if(!m[3])return null;                // pas d'année explicite : ambigu, on ne clôture pas
+      const d=new Date(+m[3],mon-1,day);
       return isNaN(d.getTime())?null:d;
     }
     return null;
