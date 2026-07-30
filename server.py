@@ -570,6 +570,15 @@ _VERIFY_SYS = (
     "month (1-12, ou 99 si variable), dateStatus (confirmée/annuel/récurrent/"
     "probable…), status (open/soon/closed/perm), deadline, contact, social, "
     "url, apply (comment candidater), desc (description courte).\n\n"
+    "Règle pour status, à appliquer par rapport à la DATE DU JOUR fournie "
+    "dans le message :\n"
+    "- open : les candidatures sont ouvertes maintenant (deadline aujourd'hui "
+    "ou dans le futur, ou pas de deadline mais inscriptions en cours) ;\n"
+    "- soon : les candidatures ne sont pas encore ouvertes ;\n"
+    "- closed : la deadline est STRICTEMENT passée, ou la clôture est "
+    "explicitement annoncée par la source ;\n"
+    "- perm : inscriptions permanentes / au fil de l'eau.\n"
+    "Ne mets JAMAIS closed si la deadline est aujourd'hui ou dans le futur.\n\n"
     "Réponds UNIQUEMENT avec un objet JSON (aucun texte autour) :\n"
     '{"complete": true|false, "event": {…16 champs…} ou null, '
     '"report": "ce qui a été trouvé/vérifié, et ce qui manque ou reste non '
@@ -620,7 +629,10 @@ def _verify_candidate_with_ai(candidate: dict, info: str) -> tuple:
         except Exception as exc:
             pages.append(f"--- {url} : téléchargement impossible ({exc}) ---")
 
+    today_reu = datetime.datetime.now(
+        datetime.timezone(datetime.timedelta(hours=4))).strftime("%d/%m/%Y")
     user_msg = (
+        f"DATE DU JOUR (La Réunion) : {today_reu}\n\n"
         "Candidat actuel (JSON) :\n"
         + json.dumps(candidate, ensure_ascii=False, indent=1)
         + "\n\nInformations fournies par le propriétaire :\n" + (info or "(aucune)")
