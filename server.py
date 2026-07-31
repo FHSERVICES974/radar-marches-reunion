@@ -2518,7 +2518,6 @@ def _record_click(event: str, name: str = "", visitor: str = "") -> None:
         log.error("Stats : file d'écriture pleine — interaction perdue.")
 
 
-
 # Types d'interaction comptés comme « clic contact » ('candidater' = ancien nom
 # des clics mailto, conservé pour l'historique déjà en base).
 _CONTACT_TYPES = ("candidater", "contact_email", "contact_phone",
@@ -2526,7 +2525,9 @@ _CONTACT_TYPES = ("candidater", "contact_email", "contact_phone",
 
 
 def _load_clicks_stats() -> dict:
-    """Statistiques d'interactions des 30 derniers jours (PostgreSQL)."""
+    """Statistiques d'interactions des 30 derniers jours (PostgreSQL).
+    L'indicateur event_read est dédupliqué : on compte les paires
+    (visitor_hash, event_name) distinctes, pas les événements bruts."""
     totals: dict = {"chatbot_open": 0, "candidater": 0, "event_read": 0,
                     "signup_whatsapp": 0, "signup_email": 0,
                     "contact_email": 0, "contact_phone": 0,
@@ -2537,12 +2538,21 @@ def _load_clicks_stats() -> dict:
         for ev, c in _stats_query(
                 "SELECT type, count(*) FROM interactions "
                 "WHERE ts >= now() - interval '30 days' GROUP BY type"):
-            if ev in totals:
+            if ev in totals and ev != "event_read":
                 totals[ev] = c
+        # event_read : compter les paires (visiteur, fiche) distinctes pour
+        # ne pas gonfler le chiffre avec les multi-visites du même visiteur.
+        r = _stats_query(
+            "SELECT count(DISTINCT (visitor_hash, event_name)) FROM interactions "
+            "WHERE type = 'event_read' AND event_name <> '' "
+            "AND visitor_hash <> '' AND ts >= now() - interval '30 days'")
+        totals["event_read"] = r[0][0] if r else 0
         for ev, name, c in _stats_query(
-                "SELECT type, event_name, count(*) FROM interactions "
+                "SELECT type, event_name, count(DISTINCT visitor_hash) "
+                "FROM interactions "
                 "WHERE ts >= now() - interval '30 days' AND event_name <> '' "
-                "AND type = ANY(%s) GROUP BY type, event_name",
+                "AND visitor_hash <> '' AND type = ANY(%s) "
+                "GROUP BY type, event_name",
                 (list(("event_read",) + _CONTACT_TYPES),)):
             if ev == "event_read":
                 top_events[name] = top_events.get(name, 0) + c
@@ -2676,17 +2686,20 @@ def _render_event_stats_section() -> str:
             qn = urllib.parse.quote(r["name"], safe="")
             body += (
                 f'<tr><td class="en" title="{n}">{n}</td>'
-                f'<td class="ec">{r["views"]}</td><td class="ec">{r["uniq"]}</td>'
+                f'<td class="ec">{r["uniq"]}</td>'
                 f'<td class="ec">{r["contacts"]}</td>'
                 f'<td style="text-align:right;width:90px"><a href="/admin/event-report?name={qn}" '
                 f'target="_blank" style="color:#2563eb;font-size:.76rem;font-weight:600">Rapport →</a></td></tr>')
     return f'''
 <div class="card">
   <div class="card-h">📊 Statistiques par événement · 30 jours</div>
+  <p style="font-size:.78rem;color:#64748b;margin:0 0 .7rem">
+    Consultations = 1 par visiteur et par fiche (signal d'intérêt réel, défilement passif exclu).
+  </p>
   <div style="overflow-x:auto;-webkit-overflow-scrolling:touch">
   <table class="ev-tbl">
-    <thead><tr><th>Événement</th><th style="text-align:right">Vues fiche</th>
-    <th style="text-align:right">Visiteurs uniques</th><th style="text-align:right">Clics contact</th><th></th></tr></thead>
+    <thead><tr><th>Événement</th><th style="text-align:right">Consultations (uniques)</th>
+    <th style="text-align:right">Clics contact</th><th></th></tr></thead>
     <tbody>{body}</tbody>
   </table>
   </div>
@@ -2699,10 +2712,7 @@ def _render_event_report(name: str) -> str:  # noqa: PLR0912,PLR0915
     stats = {"views": 0, "uniq": 0, "contacts": 0}
     try:
         rows = _stats_query(
-            # Consultations dédupliquées CÔTÉ SERVEUR : 1 par visiteur et par
-            # fiche (garantie de la promesse faite aux organisateurs, même si
-            # la déduplication du navigateur échoue — navigation privée, etc.).
-            "SELECT count(DISTINCT visitor_hash) FILTER (WHERE type = 'event_read' AND visitor_hash <> ''), "
+            "SELECT count(*) FILTER (WHERE type = 'event_read'), "
             "count(DISTINCT visitor_hash) FILTER (WHERE type = 'event_read' AND visitor_hash <> ''), "
             "count(*) FILTER (WHERE type = ANY(%s)) "
             "FROM interactions WHERE event_name = %s", (list(_CONTACT_TYPES), name))
@@ -2751,13 +2761,17 @@ def _render_event_report(name: str) -> str:  # noqa: PLR0912,PLR0915
     except Exception as exc:
         log.error("Rapport : lecture events.json impossible : %s", exc)
 
-    # Courbe jour par jour entre publication et limite (ou aujourd'hui)
+    # Courbe jour par jour entre publication et limite (ou aujourd'hui).
+    # On compte les visiteurs distincts par jour pour rester cohérent avec
+    # l'indicateur dédupliqué affiché dans les KPI.
     daily: dict = {}
     if pub:
         try:
             daily = dict(_stats_query(
-                "SELECT (ts AT TIME ZONE 'Indian/Reunion')::date AS d, count(*) "
+                "SELECT (ts AT TIME ZONE 'Indian/Reunion')::date AS d, "
+                "count(DISTINCT visitor_hash) "
                 "FROM interactions WHERE event_name = %s AND type = 'event_read' "
+                "AND visitor_hash <> '' "
                 "AND (ts AT TIME ZONE 'Indian/Reunion')::date BETWEEN %s AND %s "
                 "GROUP BY d", (name, pub, curve_end)))
         except Exception as exc:
@@ -2765,17 +2779,22 @@ def _render_event_report(name: str) -> str:  # noqa: PLR0912,PLR0915
 
     # Comparaison : autres événements même zone + même type, ayant des vues.
     # Fenêtres homogènes : publication → min(limite, aujourd'hui) pour chacun.
+    # Toutes les comparaisons utilisent COUNT(DISTINCT visitor_hash) pour être
+    # cohérentes avec l'indicateur dédupliqué affiché.
     comparison = ""
-    if peer_names and stats["views"] > 0 and pub:
+    if peer_names and stats["uniq"] > 0 and pub:
         try:
             peer_views = dict(_stats_query(
-                "SELECT event_name, count(*) FROM interactions "
-                "WHERE type = 'event_read' AND event_name = ANY(%s) "
+                "SELECT event_name, count(DISTINCT visitor_hash) FROM interactions "
+                "WHERE type = 'event_read' AND visitor_hash <> '' "
+                "AND event_name = ANY(%s) "
                 "GROUP BY event_name", (peer_names,)))
             windowed = _stats_query(
-                "SELECT i.event_name, count(*), max(m.published_on), max(m.deadline_on) "
+                "SELECT i.event_name, count(DISTINCT i.visitor_hash), "
+                "max(m.published_on), max(m.deadline_on) "
                 "FROM interactions i JOIN event_meta m ON m.name = i.event_name "
-                "WHERE i.type = 'event_read' AND i.event_name = ANY(%s) "
+                "WHERE i.type = 'event_read' AND i.visitor_hash <> '' "
+                "AND i.event_name = ANY(%s) "
                 "AND (m.deadline_on IS NULL OR m.deadline_on >= m.published_on) "
                 "AND (i.ts AT TIME ZONE 'Indian/Reunion')::date "
                 "BETWEEN m.published_on AND LEAST(COALESCE(m.deadline_on, %s), %s) "
@@ -2800,7 +2819,7 @@ def _render_event_report(name: str) -> str:  # noqa: PLR0912,PLR0915
             elif len(active) >= 3:
                 avg = sum(active.values()) / len(active)
                 if avg > 0:
-                    mult = stats["views"] / avg
+                    mult = stats["uniq"] / avg
                     mult_txt = f"{mult:.1f}".replace(".", ",")
                     comparison = (f"Cette fiche totalise <b>{mult_txt}×</b> "
                                   f"{'plus' if mult >= 1 else 'moins'} de consultations que la "
@@ -2908,19 +2927,16 @@ def _render_event_report(name: str) -> str:  # noqa: PLR0912,PLR0915
 <h1>{n}</h1>
 <div class="period">{html.escape(period)}{f" · {html.escape(zone)} · {html.escape(ev_type)}" if zone else ""}</div>
 <div class="grid">
-  <div class="kpi"><div class="val">{stats["views"]}</div><div class="lbl">Consultations de la fiche</div></div>
-  <div class="kpi"><div class="val">{stats["uniq"]}</div><div class="lbl">Visiteurs uniques</div></div>
+  <div class="kpi"><div class="val">{stats["uniq"]}</div><div class="lbl">Consultations (par visiteur unique)</div></div>
   <div class="kpi or"><div class="val">{stats["contacts"]}</div><div class="lbl">Clics vers le contact</div></div>
 </div>
 {chart_html}
 {comparison_html}
-<div class="note" style="margin-top:14px"><b>Comment lire ces chiffres :</b> les « consultations » ne comptent que
-les marques d'intérêt réel — un visiteur qui interagit avec la fiche ou la garde
-à l'écran de façon prolongée — chaque visiteur n'étant compté qu'une seule fois
-par fiche (le simple défilement de la page n'est PAS compté) ; les
-« visiteurs uniques » comptent les personnes distinctes (mesure anonyme, sans cookie
-publicitaire ni traceur tiers) ; les « clics vers le contact » comptent les artisans
-ayant cliqué pour contacter l'organisateur.</div>
+<div class="note" style="margin-top:14px"><b>Comment lire ces chiffres :</b> les « consultations » comptent
+<b>un seul passage par visiteur et par fiche</b> — le simple défilement sans
+interaction est exclu (clic ou lecture de ≥ 10 s nécessaire) ; les
+« clics vers le contact » comptent les artisans ayant cliqué pour contacter
+l'organisateur. Mesure anonyme, sans cookie publicitaire ni traceur tiers.</div>
 <footer>Radar des Marchés de La Réunion · radar.artisanspei.re · rapport généré le {_fr(today)}</footer>
 <div class="noprint"><button onclick="window.print()">Imprimer / Enregistrer en PDF</button></div>
 </body></html>'''
