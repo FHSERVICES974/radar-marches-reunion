@@ -1024,7 +1024,7 @@ def _snapshot_one_day(day: "datetime.date") -> None:
                 "whatsapp_subscribers=COALESCE(EXCLUDED.whatsapp_subscribers, "
                 "daily_snapshot.whatsapp_subscribers)",
                 (day, v, u, new_v, max(0, u - new_v), published,
-                 counts.get("event_view", 0), contact_clicks,
+                 counts.get("event_read", 0), contact_clicks,
                  counts.get("chat_question", 0), counts.get("org_submission", 0), wa))
     finally:
         conn.close()
@@ -1059,8 +1059,24 @@ def _stats_snapshot_loop() -> None:
                     if cur.rowcount:
                         log.info("Stats : %d interaction(s) de test supprimée(s).",
                                  cur.rowcount)
+                    # Correction historique (idempotente) : les requêtes qui ne
+                    # sont pas de vraies pages (favicon, icônes, sondes) ne sont
+                    # plus des visites — on les retire aussi du passé, où elles
+                    # sont identifiables sans ambiguïté par leur chemin.
+                    cur.execute("DELETE FROM page_views "
+                                "WHERE page NOT IN ('/', '/index.html')")
+                    fixed = cur.rowcount
             finally:
                 conn.close()
+            if fixed:
+                log.info("Stats : %d requête(s) non-page retirées de l'historique "
+                         "des visites — recalcul des résumés quotidiens.", fixed)
+                today_local = _stats_query(
+                    "SELECT (now() AT TIME ZONE 'Indian/Reunion')::date")[0][0]
+                d = datetime.date(2026, 7, 26)   # début de l'historique en base
+                while d < today_local:
+                    _snapshot_one_day(d)
+                    d += datetime.timedelta(days=1)
         except Exception as exc:
             log.error("Stats : purge des interactions de test impossible : %s", exc)
         time.sleep(3600)
@@ -1175,7 +1191,8 @@ def _backfill_event_meta() -> None:
             try:
                 r = _stats_query(
                     "SELECT min((ts AT TIME ZONE 'Indian/Reunion')::date) "
-                    "FROM interactions WHERE event_name = %s AND type = 'event_view'",
+                    "FROM interactions WHERE event_name = %s "
+                    "AND type IN ('event_view', 'event_read')",
                     (name,))
                 pub = r[0][0] if r and r[0][0] else None
             except Exception:
@@ -1191,6 +1208,12 @@ def _backfill_event_meta() -> None:
             log.error("event_meta : upsert « %s » impossible : %s", name, exc)
     if done:
         log.info("event_meta : %d événement(s) complété(s).", done)
+
+
+_UA_BOT_RE = re.compile(
+    r"bot|crawl|spider|slurp|curl|wget|python-requests|httpx|scrapy|headless|"
+    r"phantom|lighthouse|pingdom|uptime|monitor|scan|probe|zgrab|masscan|nmap|"
+    r"go-http-client|libwww|java/|okhttp", re.IGNORECASE)
 
 
 def _record_visit(ip: str, referrer: str = "", path: str = "/", user_agent: str = "") -> None:
@@ -2489,7 +2512,7 @@ _CONTACT_TYPES = ("candidater", "contact_email", "contact_phone",
 
 def _load_clicks_stats() -> dict:
     """Statistiques d'interactions des 30 derniers jours (PostgreSQL)."""
-    totals: dict = {"chatbot_open": 0, "candidater": 0, "event_view": 0,
+    totals: dict = {"chatbot_open": 0, "candidater": 0, "event_read": 0,
                     "signup_whatsapp": 0, "signup_email": 0,
                     "contact_email": 0, "contact_phone": 0,
                     "contact_social": 0, "contact_url": 0}
@@ -2505,8 +2528,8 @@ def _load_clicks_stats() -> dict:
                 "SELECT type, event_name, count(*) FROM interactions "
                 "WHERE ts >= now() - interval '30 days' AND event_name <> '' "
                 "AND type = ANY(%s) GROUP BY type, event_name",
-                (list(("event_view",) + _CONTACT_TYPES),)):
-            if ev == "event_view":
+                (list(("event_read",) + _CONTACT_TYPES),)):
+            if ev == "event_read":
                 top_events[name] = top_events.get(name, 0) + c
             else:
                 top_cand[name] = top_cand.get(name, 0) + c
@@ -2526,8 +2549,8 @@ def _load_event_stats(days: int = 30) -> list:
         days = max(1, min(int(days), 730))
         rows = _stats_query(
             "SELECT event_name, "
-            "count(*) FILTER (WHERE type = 'event_view'), "
-            "count(DISTINCT visitor_hash) FILTER (WHERE type = 'event_view' AND visitor_hash <> ''), "
+            "count(*) FILTER (WHERE type = 'event_read'), "
+            "count(DISTINCT visitor_hash) FILTER (WHERE type = 'event_read' AND visitor_hash <> ''), "
             "count(*) FILTER (WHERE type = ANY(%s)) "
             "FROM interactions "
             "WHERE event_name <> '' AND ts >= now() - make_interval(days => %s) "
@@ -2661,8 +2684,8 @@ def _render_event_report(name: str) -> str:  # noqa: PLR0912,PLR0915
     stats = {"views": 0, "uniq": 0, "contacts": 0}
     try:
         rows = _stats_query(
-            "SELECT count(*) FILTER (WHERE type = 'event_view'), "
-            "count(DISTINCT visitor_hash) FILTER (WHERE type = 'event_view' AND visitor_hash <> ''), "
+            "SELECT count(*) FILTER (WHERE type = 'event_read'), "
+            "count(DISTINCT visitor_hash) FILTER (WHERE type = 'event_read' AND visitor_hash <> ''), "
             "count(*) FILTER (WHERE type = ANY(%s)) "
             "FROM interactions WHERE event_name = %s", (list(_CONTACT_TYPES), name))
         if rows:
@@ -2686,7 +2709,7 @@ def _render_event_report(name: str) -> str:  # noqa: PLR0912,PLR0915
         try:
             r = _stats_query(
                 "SELECT min((ts AT TIME ZONE 'Indian/Reunion')::date) FROM interactions "
-                "WHERE event_name = %s AND type = 'event_view'", (name,))
+                "WHERE event_name = %s AND type IN ('event_view', 'event_read')", (name,))
             pub = r[0][0] if r and r[0][0] else None
         except Exception:
             pub = None
@@ -2716,7 +2739,7 @@ def _render_event_report(name: str) -> str:  # noqa: PLR0912,PLR0915
         try:
             daily = dict(_stats_query(
                 "SELECT (ts AT TIME ZONE 'Indian/Reunion')::date AS d, count(*) "
-                "FROM interactions WHERE event_name = %s AND type = 'event_view' "
+                "FROM interactions WHERE event_name = %s AND type = 'event_read' "
                 "AND (ts AT TIME ZONE 'Indian/Reunion')::date BETWEEN %s AND %s "
                 "GROUP BY d", (name, pub, curve_end)))
         except Exception as exc:
@@ -2729,12 +2752,12 @@ def _render_event_report(name: str) -> str:  # noqa: PLR0912,PLR0915
         try:
             peer_views = dict(_stats_query(
                 "SELECT event_name, count(*) FROM interactions "
-                "WHERE type = 'event_view' AND event_name = ANY(%s) "
+                "WHERE type = 'event_read' AND event_name = ANY(%s) "
                 "GROUP BY event_name", (peer_names,)))
             windowed = _stats_query(
                 "SELECT i.event_name, count(*), max(m.published_on), max(m.deadline_on) "
                 "FROM interactions i JOIN event_meta m ON m.name = i.event_name "
-                "WHERE i.type = 'event_view' AND i.event_name = ANY(%s) "
+                "WHERE i.type = 'event_read' AND i.event_name = ANY(%s) "
                 "AND (m.deadline_on IS NULL OR m.deadline_on >= m.published_on) "
                 "AND (i.ts AT TIME ZONE 'Indian/Reunion')::date "
                 "BETWEEN m.published_on AND LEAST(COALESCE(m.deadline_on, %s), %s) "
@@ -2814,6 +2837,20 @@ def _render_event_report(name: str) -> str:  # noqa: PLR0912,PLR0915
                   f" (au {_fr(curve_end)})")
     else:
         period = f"Totaux mesurés à ce jour ({_fr(today)})"
+    # Honnêteté de la mesure : les consultations ne sont comptées que depuis
+    # le durcissement du tracking (intérêt réel : interaction ou lecture
+    # prolongée, dédupliqué par visiteur). L'ancien comptage « fiche affichée
+    # à l'écran » n'est PAS présenté dans ce rapport.
+    try:
+        r = _stats_query("SELECT min((ts AT TIME ZONE 'Indian/Reunion')::date) "
+                         "FROM interactions WHERE type = 'event_read'")
+        read_since = r[0][0] if r and r[0][0] else None
+    except Exception:
+        read_since = None
+    period += (" · consultations mesurées depuis le "
+               f"{_fr(read_since)} (signal d'intérêt réel, dédupliqué par visiteur)"
+               if read_since else
+               " · consultations : nouvelle mesure d'intérêt réel (aucune donnée encore)")
     comparison_html = (f'<div class="note" style="border-left:4px solid #0e6b52;'
                        f'margin-top:14px">📈 {comparison}</div>') if comparison else ""
     chart_html = (f'<div class="note" style="margin-top:14px"><b>Consultations '
@@ -2859,8 +2896,10 @@ def _render_event_report(name: str) -> str:  # noqa: PLR0912,PLR0915
 </div>
 {chart_html}
 {comparison_html}
-<div class="note" style="margin-top:14px"><b>Comment lire ces chiffres :</b> les « consultations » comptent chaque
-ouverture de la fiche de l'événement sur le Radar des marchés de La Réunion ; les
+<div class="note" style="margin-top:14px"><b>Comment lire ces chiffres :</b> les « consultations » ne comptent que
+les marques d'intérêt réel — un visiteur qui interagit avec la fiche ou la garde
+à l'écran de façon prolongée — chaque visiteur n'étant compté qu'une seule fois
+par fiche (le simple défilement de la page n'est PAS compté) ; les
 « visiteurs uniques » comptent les personnes distinctes (mesure anonyme, sans cookie
 publicitaire ni traceur tiers) ; les « clics vers le contact » comptent les artisans
 ayant cliqué pour contacter l'organisateur.</div>
@@ -3189,7 +3228,7 @@ footer{{text-align:center;font-size:.7rem;color:#94a3b8;padding:2rem 0 1.5rem}}
   <div class="card-h">🖱️ Interactions · 30 jours</div>
   <div class="int-row">
     <div class="int-kpi"><div class="int-val c-purple">{clicks["chatbot_open"]}</div><div class="int-lbl">Ouvertures chatbot</div></div>
-    <div class="int-kpi"><div class="int-val c-blue">{clicks["event_view"]}</div><div class="int-lbl">Fiches consultées</div></div>
+    <div class="int-kpi"><div class="int-val c-blue">{clicks["event_read"]}</div><div class="int-lbl">Fiches consultées (intérêt réel)</div></div>
     <div class="int-kpi"><div class="int-val c-green">{clicks["contacts"]}</div><div class="int-lbl">Clics contact</div></div>
     <div class="int-kpi"><div class="int-val c-green">{clicks["signup_whatsapp"]}</div><div class="int-lbl">Inscriptions WhatsApp</div></div>
     <div class="int-kpi"><div class="int-val c-blue">{clicks["signup_email"]}</div><div class="int-lbl">Inscriptions email</div></div>
@@ -3381,10 +3420,14 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self.end_headers()
         else:
             # Enregistre les visites du site public (GET classiques uniquement)
-            if not self.path.startswith(("/sync", "/chat", "/health", "/admin", "/track")):
+            # Visite comptée UNIQUEMENT pour une vraie page (le site n'en a
+            # qu'une : « / ») et hors robots — favicon, icônes, assets et
+            # sondes automatiques ne sont plus des « visites ».
+            page_path = urllib.parse.urlparse(self.path).path
+            ua        = self.headers.get("User-Agent", "")
+            if page_path in ("/", "/index.html") and not _UA_BOT_RE.search(ua):
                 ip       = (self.headers.get("X-Forwarded-For") or self.client_address[0]).split(",")[0].strip()
                 referrer = self.headers.get("Referer", "")
-                ua       = self.headers.get("User-Agent", "")
                 _record_visit(ip, referrer, self.path, ua)
             super().do_GET()
 
@@ -4151,7 +4194,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             entry  = json.loads(body)
             ev     = entry.get("e", "")[:32]
             name   = entry.get("n", "")[:80]
-            if ev in ("chatbot_open", "candidater", "event_view",
+            if ev in ("chatbot_open", "candidater", "event_read",
                       "signup_whatsapp", "signup_email",
                       "contact_email", "contact_phone", "contact_social", "contact_url"):
                 ip = (self.headers.get("X-Forwarded-For")

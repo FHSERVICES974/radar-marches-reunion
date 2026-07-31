@@ -614,21 +614,32 @@ window.chatSend=function(){
   }catch(e){}};
   var _orig=window.chatOpen;
   window.chatOpen=function(){_s({e:'chatbot_open'});if(_orig)_orig.apply(this,arguments);};
-  /* Vue de fiche : dédupliquée par nom d'événement (1 fois par chargement) */
+  /* Consultation de fiche = signal d'intérêt réel, pas simple défilement :
+     - interaction directe (clic/toucher dans la fiche), OU
+     - lecture prolongée : fiche visible à ≥75% pendant 10 s continues.
+     Dédupliquée par visiteur et par fiche (localStorage), en plus de la
+     déduplication serveur par visiteur. */
   var seen={};
-  var _ev=function(n){if(n&&!seen[n]){seen[n]=1;_s({e:'event_view',n:n});}};
+  try{(JSON.parse(localStorage.getItem('radar_lu')||'[]')).forEach(function(n){seen[n]=1;});}catch(e){}
+  var _persist=function(){try{localStorage.setItem('radar_lu',JSON.stringify(Object.keys(seen).slice(-300)));}catch(e){}};
+  var _ev=function(n){if(n&&!seen[n]){seen[n]=1;_persist();_s({e:'event_read',n:n});}};
   var _iname=function(el){var it=el.closest('.tl-item');var h=it&&it.querySelector('h3');return h?h.textContent:'';};
-  /* Fiche réellement vue : visible à ≥50% pendant 2 secondes */
   var timers={};
   var io=('IntersectionObserver' in window)?new IntersectionObserver(function(es){
     es.forEach(function(en){
       var h=en.target.querySelector('h3'),n=h?h.textContent:'';
       if(!n)return;
       if(en.isIntersecting){
-        if(!timers[n]&&!seen[n])timers[n]=setTimeout(function(){delete timers[n];_ev(n);},2000);
+        if(!timers[n]&&!seen[n])timers[n]=setTimeout(function(){delete timers[n];_ev(n);},10000);
       }else if(timers[n]){clearTimeout(timers[n]);delete timers[n];}
     });
-  },{threshold:[0.5]}):null;
+  },{threshold:[0.75]}):null;
+  /* Interaction directe avec une fiche = consultation immédiate */
+  document.addEventListener('click',function(ev){
+    if(!ev.target.closest)return;
+    var it=ev.target.closest('.tl-item');
+    if(it){var n=_iname(ev.target);if(n)_ev(n);}
+  },true);
   var _obs=function(){if(!io)return;
     document.querySelectorAll('.tl-item').forEach(function(el){
       if(!el.__rt){el.__rt=1;io.observe(el);}});};
