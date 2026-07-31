@@ -1059,24 +1059,39 @@ def _stats_snapshot_loop() -> None:
                     if cur.rowcount:
                         log.info("Stats : %d interaction(s) de test supprimée(s).",
                                  cur.rowcount)
-                    # Correction historique (idempotente) : les requêtes qui ne
-                    # sont pas de vraies pages (favicon, icônes, sondes) ne sont
-                    # plus des visites — on les retire aussi du passé, où elles
-                    # sont identifiables sans ambiguïté par leur chemin.
-                    cur.execute("DELETE FROM page_views "
-                                "WHERE page NOT IN ('/', '/index.html')")
-                    fixed = cur.rowcount
+                    # Correction historique : les requêtes qui ne sont pas de
+                    # vraies pages (favicon, icônes, sondes) ne sont plus des
+                    # visites — on les retire aussi du passé, où elles sont
+                    # identifiables sans ambiguïté par leur chemin. Sentinelle
+                    # '1970-01-03' posée seulement après le recalcul complet :
+                    # une coupure en plein milieu → tout est rejoué au passage
+                    # suivant (suppression et recalcul sont idempotents).
+                    cur.execute("SELECT 1 FROM traffic_daily_legacy WHERE day = '1970-01-03'")
+                    fix_needed = cur.fetchone() is None
+                    fixed = 0
+                    if fix_needed:
+                        cur.execute("DELETE FROM page_views "
+                                    "WHERE page NOT IN ('/', '/index.html')")
+                        fixed = cur.rowcount
             finally:
                 conn.close()
-            if fixed:
-                log.info("Stats : %d requête(s) non-page retirées de l'historique "
-                         "des visites — recalcul des résumés quotidiens.", fixed)
+            if fix_needed:
                 today_local = _stats_query(
                     "SELECT (now() AT TIME ZONE 'Indian/Reunion')::date")[0][0]
                 d = datetime.date(2026, 7, 26)   # début de l'historique en base
-                while d < today_local:
+                while d <= today_local:
                     _snapshot_one_day(d)
                     d += datetime.timedelta(days=1)
+                conn = _stats_connect()
+                try:
+                    with conn.cursor() as cur:
+                        cur.execute(
+                            "INSERT INTO traffic_daily_legacy (day, views, uniques, refs) "
+                            "VALUES ('1970-01-03', 0, 0, '{}') ON CONFLICT (day) DO NOTHING")
+                finally:
+                    conn.close()
+                log.info("Stats : correction historique des visites terminée "
+                         "(%d requête(s) non-page supprimée(s), résumés recalculés).", fixed)
         except Exception as exc:
             log.error("Stats : purge des interactions de test impossible : %s", exc)
         time.sleep(3600)
@@ -2684,7 +2699,10 @@ def _render_event_report(name: str) -> str:  # noqa: PLR0912,PLR0915
     stats = {"views": 0, "uniq": 0, "contacts": 0}
     try:
         rows = _stats_query(
-            "SELECT count(*) FILTER (WHERE type = 'event_read'), "
+            # Consultations dédupliquées CÔTÉ SERVEUR : 1 par visiteur et par
+            # fiche (garantie de la promesse faite aux organisateurs, même si
+            # la déduplication du navigateur échoue — navigation privée, etc.).
+            "SELECT count(DISTINCT visitor_hash) FILTER (WHERE type = 'event_read' AND visitor_hash <> ''), "
             "count(DISTINCT visitor_hash) FILTER (WHERE type = 'event_read' AND visitor_hash <> ''), "
             "count(*) FILTER (WHERE type = ANY(%s)) "
             "FROM interactions WHERE event_name = %s", (list(_CONTACT_TYPES), name))
