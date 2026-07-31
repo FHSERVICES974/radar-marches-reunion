@@ -1092,6 +1092,58 @@ def _stats_snapshot_loop() -> None:
                     d += datetime.timedelta(days=1)
         except Exception as exc:
             log.error("Stats : purge des interactions de test impossible : %s", exc)
+        try:
+            # Purge historique bot-UA étendue (sentinelle '1970-01-04').
+            # Supprime les visites de robots (ChatGPT-User, GPTBot, CCBot, etc.)
+            # qui n'étaient pas couverts par le premier nettoyage.
+            # La sentinelle est posée APRÈS le recalcul — crash-safe : si le
+            # serveur s'arrête avant, la prochaine exécution horaire recommence.
+            _BOT_UA_SQL = (
+                r"bot|crawl|spider|slurp|curl|wget|python-requests|"
+                r"httpx|scrapy|headless|phantom|lighthouse|pingdom|"
+                r"uptime|monitor|scan|probe|zgrab|masscan|nmap|"
+                r"go-http-client|libwww|java/|okhttp|"
+                r"chatgpt-user|gptbot|ccbot|anthropic-ai|claude-web|"
+                r"semrushbot|ahrefsbot|mj12bot|dotbot|petalbot|bytespider"
+            )
+            conn = _stats_connect()
+            try:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        "SELECT 1 FROM traffic_daily_legacy "
+                        "WHERE day = '1970-01-04'")
+                    already_done = cur.fetchone() is not None
+                if not already_done:
+                    with conn.cursor() as cur:
+                        cur.execute(
+                            "DELETE FROM page_views WHERE user_agent ~* %s",
+                            (_BOT_UA_SQL,))
+                        ua_purged = cur.rowcount
+                    if ua_purged:
+                        log.info(
+                            "Stats : %d visite(s) robot supprimées de "
+                            "l'historique — recalcul des résumés quotidiens.",
+                            ua_purged)
+                    today_local = _stats_query(
+                        "SELECT (now() AT TIME ZONE 'Indian/Reunion')::date"
+                    )[0][0]
+                    d = datetime.date(2026, 7, 26)
+                    while d < today_local:
+                        _snapshot_one_day(d)
+                        d += datetime.timedelta(days=1)
+                    # Sentinelle posée après recalcul complet
+                    with conn.cursor() as cur:
+                        cur.execute(
+                            "INSERT INTO traffic_daily_legacy "
+                            "(day, views, uniques, refs) "
+                            "VALUES ('1970-01-04', 0, 0, '{}') "
+                            "ON CONFLICT (day) DO NOTHING")
+                    log.info("Stats : sentinelle 1970-01-04 posée — "
+                             "purge bot-UA terminée.")
+            finally:
+                conn.close()
+        except Exception as exc:
+            log.error("Stats : purge bot-UA historique impossible : %s", exc)
         time.sleep(3600)
 
 
@@ -1226,7 +1278,10 @@ def _backfill_event_meta() -> None:
 _UA_BOT_RE = re.compile(
     r"bot|crawl|spider|slurp|curl|wget|python-requests|httpx|scrapy|headless|"
     r"phantom|lighthouse|pingdom|uptime|monitor|scan|probe|zgrab|masscan|nmap|"
-    r"go-http-client|libwww|java/|okhttp", re.IGNORECASE)
+    r"go-http-client|libwww|java/|okhttp|"
+    r"chatgpt-user|gptbot|ccbot|anthropic-ai|claude-web|"
+    r"semrushbot|ahrefsbot|mj12bot|dotbot|petalbot|bytespider",
+    re.IGNORECASE)
 
 
 def _record_visit(ip: str, referrer: str = "", path: str = "/", user_agent: str = "") -> None:
