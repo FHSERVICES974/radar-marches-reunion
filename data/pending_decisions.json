@@ -90,5 +90,9 @@
   "52b6bcacaa6e08cd": {
     "decision": "published",
     "ts": 1785381225.6037555
+  },
+  "5df05654487d30cb": {
+    "decision": "rejected",
+    "ts": 1785557015.223736
   }
 }
