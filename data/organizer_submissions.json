@@ -48,5 +48,30 @@
     "submitter_name": "Aurélie",
     "submitter_phone": "0262692551394",
     "reviewer_note": ""
+  },
+  {
+    "id": "361c7ff1f368",
+    "ts": "2026-08-01T13:45:43",
+    "status": "pending",
+    "fields": {
+      "name": "ROUGE RUELLE - Marché de créateurs 19 septembre - Saint Benoit",
+      "zone": "Est",
+      "type": "Marché / Brocante",
+      "org": "La Vitrine et la ville de Saint Benoit",
+      "place": "Esplanade du front de mer- Saint Benoit",
+      "when": "19 septembre",
+      "deadline": "15 aout",
+      "apply": "Dossier et documents à transmettre : Informations du candidat\r\nNom et prénom\r\nNom de la structure\r\nStatut\r\nAdresse\r\nTéléphone\r\nCourriel\r\nSite internet / Instagram\r\nPrésentation\r\nDécrivez votre activité, votre démarche et les créations proposées.\r\n(Grand champ sur la moitié de la page)\r\nDocuments à joindre\r\n☐ Photographies de vos créations\r\n☐ Portfolio\r\n☐ Pièce d'identité\r\n☐ Assurance RC\r\n☐ Extrait Kbis ou statuts\r\n☐ RIB",
+      "email": "culture@ville-saintbenoit.re",
+      "phone": "",
+      "social": "rouge ruelle",
+      "desc": "Le marché des créateurs et artisans du patrimoine se déroule 19 septembre dans le cadre de Rouge Ruelle- festival du patrimoine à Saint Benoit. Rouge Ruelle urbain ou se mêle expositions, visites guidées, ateliers, spectacles, music"
+    },
+    "links": [
+      "https://www.facebook.com/profile.php?id=61564326514151"
+    ],
+    "submitter_name": "Aure",
+    "submitter_phone": "0692612728",
+    "reviewer_note": ""
   }
 ]
