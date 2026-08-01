@@ -1,0 +1,43 @@
+{
+  "generated": "2026-08-01",
+  "status_changes": [
+    {
+      "key": "la plaine en fete ex fete de la pomme de terre et du cheval|sud",
+      "name": "La Plaine en Fête (ex-Fête de la Pomme de Terre et du Cheval)",
+      "zone": "Sud",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-07-31)"
+    },
+    {
+      "key": "braderie commerciale de saint benoit 2026|est",
+      "name": "Braderie commerciale de Saint-Benoît 2026",
+      "zone": "Est",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-07-31)"
+    }
+  ],
+  "new_events_candidates": [
+    {
+      "_source_title": "Fête de l'ail 2026 (Petite-Île) — appel à forains, dates contradictoires entre source et page officielle",
+      "_source_url": "https://www.petite-ile.re/actualites/news/appel-forains-0",
+      "_confidence": "Probable",
+      "event": null
+    }
+  ],
+  "community": [
+    {
+      "name": "Entre 2 Zarts (Village de l'Entre-Deux)",
+      "zone": "Sud",
+      "note": "Post Facebook repéré annonçant un appel à candidatures pour les artisans du village ; événement déjà suivi (dateStatus « à confirmer », sans deadline). Contenu du post illisible (mur de connexion Facebook) — dates non récupérées.",
+      "source": "https://www.facebook.com/entredeuxvillage/posts/appel-%C3%A0-candidatures-entre-2-zarts-vous-%C3%AAtes-artisans-du-village-et-vous-souhait/1232318494709580/"
+    },
+    {
+      "name": "Oté Z'Artizan — appel créateurs/artisans/agriculteurs du Sud",
+      "zone": "Sud",
+      "note": "Post Facebook repéré (« vous avez jusqu'au... ») mais deadline illisible (mur de connexion). Correspond probablement à « Talents Péi » ou « Espace commercial Leclerc (Oté Z'Artizan) », déjà suivis dans events.json.",
+      "source": "https://m.facebook.com/otezartisans/photos/-appel-a-candidatures-cr%C3%A9ateurs-artisans-et-agriculteurs-du-sud-vous-avez-jusqua/618011787645175/"
+    }
+  ]
+}
