@@ -3013,9 +3013,13 @@ def _render_stats_page(dev_mode: bool, user_name: str, flash: str = "") -> str: 
     wa_clicks_since = 0
     if wa_rows:
         try:
+            # Ancienne ligne sans horodatage (entered_at NULL) : repli sur le
+            # début du jour de confirmation, heure Réunion.
             r = _stats_query(
                 "SELECT count(*) FROM interactions "
-                "WHERE type = 'signup_whatsapp' AND ts > %s", (wa_rows[0][2],))
+                "WHERE type = 'signup_whatsapp' AND ts > COALESCE(%s, "
+                "%s::date::timestamp AT TIME ZONE 'Indian/Reunion')",
+                (wa_rows[0][2], wa_rows[0][0]))
             wa_clicks_since = r[0][0] if r else 0
         except Exception as exc:
             log.error("Stats : clics WhatsApp depuis confirmation impossibles : %s", exc)
