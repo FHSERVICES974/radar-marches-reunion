@@ -20,11 +20,12 @@ couverture large et approximative*.
 | Total `events.json` | 100 | — |
 | Marchés permanents (`perm`) | 30 | ❌ hors périmètre — pas de dossier de candidature, demande d'emplacement au fil de l'eau |
 | Appels actionnables (ouverts / à venir avec deadline) | 29 | ✅ cible |
-| **Sources effectivement ouvertes et lues** | **13** | ✅ dont **4 formulaires officiels** analysés en profondeur |
+| **Sources tentées** | **21** | dont 17 exploitables · **4 formulaires officiels** analysés en profondeur |
 
-**Corpus élargi le 2026-08-02** — communes couvertes : Le Tampon, Saint-Paul, Sainte-Marie,
-Saint-André, Bras-Panon, Sainte-Suzanne, plus le TCO, la CMA et un organisateur privé (Nordev).
-Échecs : Saint-Benoît (403), Plaine des Palmistes (appel introuvable).
+**Corpus élargi le 2026-08-02, en deux passes.** Communes et organismes couverts : Le Tampon
+(3 événements), Saint-Paul, Sainte-Marie, Saint-André (2), Bras-Panon, Sainte-Suzanne, Petite-Île,
+Saint-Philippe, plus le TCO, la CMA, le Département et deux organisateurs privés (Nordev, Zanimos).
+**Échecs** : Saint-Benoît (403), Saint-Joseph (403), Plaine des Palmistes (appel introuvable).
 
 ### Pièces et champs découverts lors de l'élargissement
 
@@ -46,7 +47,44 @@ Saint-André, Bras-Panon, Sainte-Suzanne, plus le TCO, la CMA et un organisateur
 | Type d'occupation : étalage / roulotte | Saint-André | Choix |
 | Électricité : **triphasé / monophasé** + puissance | Saint-André, Le Tampon | Choix + nombre |
 
-### Quatre modèles de procédure identifiés
+### Corpus complété le 2026-08-02 (2ᵉ passe) — 21 sources tentées
+
+Sources ajoutées : **Florilèges** et **Salon d'Été Maison & Jardin** (Le Tampon), **Salon
+International de l'Agriculture** (Département), **Salon Zanimos & Jardin** (privé), Petite-Île et
+Saint-Philippe (partiels). Échecs : Saint-Joseph (403), Saint-Benoît (403), Plaine des Palmistes.
+
+#### ⚠️ Florilèges contredit une hypothèse du brief
+
+Le brief indiquait à propos du RIB : *« ne le collecter que si un appel l'exige réellement. Le plus
+souvent, non — dans le doute, ne pas le demander à l'inscription. »*
+
+**Florilèges 2026 l'exige explicitement**, au même titre que la pièce d'identité. Le RIB doit donc
+figurer dans le coffre à documents, avec un traitement de sécurité renforcé (donnée bancaire).
+
+#### Pièces supplémentaires découvertes
+
+| Pièce | Source | Remarque |
+|---|---|---|
+| **RIB** | Florilèges | Contredit le brief — obligatoire ici |
+| **Attestation de conformité de l'installation électrique (PV)** | Florilèges | Distincte de la « conformité électrique véhicule » de Sainte-Marie |
+| **Attestation d'hébergement + pièce d'identité de l'hébergeur** | Florilèges | **Alternative au justificatif d'adresse** — nouveau groupe d'équivalence |
+| **Attestation d'origine des produits animaux** (Services Vétérinaires) | Florilèges | Conditionnelle : vente alimentaire d'origine animale |
+| **Régime complet « attractions foraines »** | Florilèges | Contrôle de conformité (3 ans cat. 1-2, 1 an cat. 3-4) · vignette · photos jour/nuit du manège · photos d'identité du personnel · attestation post-montage |
+
+#### Deux règles de fraîcheur différentes
+
+- « **moins de 3 mois** » — la règle courante (Tampon, Saint-Paul, Sainte-Marie, Saint-André, Bras-Panon)
+- « **délivré après le 20 juillet 2026, valide pendant l'événement** » — Florilèges
+
+Un coffre à documents qui ne gère qu'une ancienneté relative échouerait sur la seconde. Il faut
+pouvoir exprimer une **date plancher absolue**.
+
+#### Deadline à l'heure près, cachet faisant foi
+
+Florilèges et Salon d'Été : « le vendredi 14 août 2026 **à 12h00** », la date de réception faisant
+foi. Une deadline traitée comme une simple date ferait manquer l'échéance d'une demi-journée.
+
+### Cinq modèles de procédure identifiés
 
 1. **Appel municipal à exposants** — formulaire PDF + pièces. Majoritaire.
 2. **Appel à un organisateur unique** — Sainte-Suzanne (Fête de la Vanille) sélectionne le
@@ -56,6 +94,21 @@ Saint-André, Bras-Panon, Sainte-Suzanne, plus le TCO, la CMA et un organisateur
    s'obtient par téléphone ou email. Rien à automatiser en amont.
 4. **Demande d'emplacement au fil de l'eau** — TCO (Zartizan Péi) et marchés permanents : pas de
    campagne datée, procédure rarement publiée.
+5. **Formulaire web de prise de contact** — Salon Zanimos & Jardin : un simple formulaire
+   (raison sociale, nom, email, fonction, téléphone, activité, message) puis « un commercial prendra
+   contact ». Ce n'est pas une candidature, c'est une demande de rappel. Aucune pièce à fournir en
+   ligne.
+
+### Coordonnées de contact relevées (utile pour les appels sans procédure publiée)
+
+| Organisme | Contact |
+|---|---|
+| Florilèges (Le Tampon) | `florileges.animation@mairie-tampon.fr` · Direction Animation-Culture, 14 rue Antoine Fontaine |
+| Salon d'Été (Le Tampon) | `animation.dac@mairie-tampon.fr` · Pôle Grands Kiosques, 170 rue Alfred Lacroix |
+| Salon International de l'Agriculture | `sia@cg974.fr` — deadline 31 août 2026 pour l'édition 2027 |
+| Salon Régal (Nordev) | `lkiatovy@nordev.re` · 02 62 48 78 78 — dossier sur demande |
+| Zartizan Péi (TCO) | `rpp@tco.re` |
+| Fête du Vacoa (Saint-Philippe) | 0262 37 00 12 — aucun appel publié en ligne |
 
 ⚠️ **Ce document est donc un socle, pas un inventaire exhaustif.** Les conclusions d'architecture
 (§6) sont solides car elles reposent sur l'analyse fine de formulaires officiels réels ; les
