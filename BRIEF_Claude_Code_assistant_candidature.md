@@ -295,23 +295,56 @@ administratif engageant.
 
 ---
 
-## 8. Ordre d'implémentation recommandé
+## 8. Ordre d'implémentation — fondé sur les besoins déclarés
 
-| # | Chantier | Pourquoi ce rang |
+### 📊 Sondage auprès des artisans (1ᵉʳ août 2026, 45 réponses)
+
+> *« Quand vous candidatez à un appel, qu'est-ce qui vous prend le plus de temps ? »*
+
+| Réponse | Votes | Part |
 |---|---|---|
-| 1 | **Fiche artisan** (modèle de données + formulaire + stockage sécurisé des documents) | Rien ne fonctionne sans elle |
-| 2 | **Agent 1 — Analyste d'appel**, sur les événements existants d'`events.json` | Testable immédiatement sur du réel, sans utilisateur |
-| 3 | **Agent 2 — Vérificateur** + affichage des manques | Apporte déjà de la valeur seul : « voici ce qui vous manque » |
-| 4 | **Agent 3 — canal email uniquement** | Le cas majoritaire dans events.json — 1er dossier livré |
-| 5 | **Agent 4 — Contrôleur qualité** | Dès qu'on produit du contenu envoyé à des tiers |
-| 6 | Canal **PDF à remplir** | Plus complexe, cas par cas |
-| 7 | Canal **formulaire web** (récapitulatif copiable) + **dépôt physique** (PDF assemblé) | Compléter la couverture |
-| 8 | **Mandat + mode B** (envoi délégué) | Uniquement quand le mode A tourne de façon fiable |
-| 9 | Alertes de péremption des documents | Confort, mais très différenciant |
+| **Remplir le formulaire ou le dossier** | 19 | **42 %** |
+| **Rédiger la présentation de mon activité** | 12 | **27 %** |
+| Rien, ça va vite pour moi | 9 | 20 % |
+| Retrouver mes papiers à jour (Kbis, assurance…) | 4 | 9 % |
+| Comprendre ce qui est demandé exactement | 1 | 2 % |
 
-> **Étape 3 = premier jalon utile.** Même sans rien rédiger, un outil qui dit à l'artisan « pour cet
-> appel il vous faut ces 4 pièces, vous en avez 3, l'assurance a expiré » rend déjà un vrai service.
-> Livrer et tester ça avant d'aller plus loin.
+**Ce que ces chiffres imposent :**
+
+- **69 % du besoin porte sur la production du dossier** (remplissage + rédaction). C'est là qu'il
+  faut concentrer l'effort.
+- **Le coffre à documents n'est PAS le besoin prioritaire** (9 %). Les artisans savent où sont leurs
+  papiers. Cette brique, initialement prévue tôt, est repoussée en fin de parcours.
+- **Comprendre l'appel n'est pas un problème** (2 %) : l'Agent 1 reste indispensable comme socle
+  technique, mais ce n'est pas lui qui sera perçu comme la valeur par l'artisan.
+- **20 % n'ont pas ce besoin.** Le service doit rester optionnel, jamais imposé dans le parcours du
+  Radar.
+
+⚠️ **Ne pas réordonner ce plan sur la base d'une intuition technique.** Il traduit ce que les
+utilisateurs ont réellement déclaré. Toute modification de priorité doit être validée par François.
+
+### Ordre retenu
+
+| # | Chantier | Justification |
+|---|---|---|
+| 1 | **Fiche artisan** — version minimale (identité, SIRET, métier, zone, description d'activité) | Socle indispensable. Ne PAS commencer par la partie documents. |
+| 2 | **Générateur de présentation d'activité** | 27 % du besoin. Écrit **une seule fois**, réutilisé à chaque candidature : meilleur rapport valeur/effort de tout le projet. |
+| 3 | **Agent 1 — Analyste d'appel** sur `events.json` | Socle technique des étapes suivantes. Testable sans utilisateur. |
+| 4 | **Agent 3 — remplissage : canal email** + assemblage des pièces | Cœur des 42 %. Premier dossier réellement livré. |
+| 5 | **Agent 4 — Contrôleur qualité** | Obligatoire dès qu'on produit du contenu destiné à un tiers. |
+| 6 | **Remplissage de PDF à champs** | Suite des 42 %. Volume à confirmer par `INVENTAIRE_PROCEDURES.md`. |
+| 7 | **Agent 2 — Vérificateur de pièces** | Utile, mais seulement 9 % du besoin déclaré. |
+| 8 | Canal **formulaire web** (récapitulatif copiable) + **dépôt physique** (dossier assemblé) | Compléter la couverture. |
+| 9 | **Coffre à documents + alertes de péremption** | Confort. Rétrogradé : 9 % du besoin. |
+| 10 | **Mandat + mode B** (envoi délégué) | Uniquement quand le mode A tourne de façon fiable. |
+
+> **Étape 2 = premier jalon utile, et il arrive vite.**
+> Un artisan saisit son métier, ses matériaux, sa gamme de prix, quelques mots sur sa démarche —
+> l'outil produit trois versions de sa présentation : courte (3 lignes), moyenne (10 lignes), longue
+> (une demi-page). Il les enregistre et les réutilise partout.
+>
+> Pas d'analyse d'appel, pas de pièces jointes, pas d'envoi : une seule fonction, immédiatement utile,
+> sans aucun risque juridique. C'est ce qu'il faut livrer et faire tester en premier.
 
 ---
 
@@ -509,8 +542,9 @@ nombre d'appels réels couverts par chaque brique — c'est ce qui justifie l'or
 **8. Découpage en lots livrables**
 Reprendre l'ordre d'implémentation de la section 8, en lots testables indépendamment. Préciser pour
 chaque lot ce qui doit fonctionner pour qu'il soit considéré comme terminé. **Le lot 1 s'arrête à
-l'étape 3** (fiche artisan + analyse d'appel + affichage des manques) — ne pas demander à Replit de
-tout construire d'un coup.
+l'étape 2** (fiche artisan minimale + générateur de présentation d'activité) — ne pas demander à
+Replit de tout construire d'un coup. Ce lot est autonome, sans risque juridique, et répond déjà à
+27 % du besoin déclaré.
 
 **9. Ce qui est explicitement hors périmètre**
 Facturation, comptes publics, automatisation navigateur, envoi délégué (mode B), suivi des réponses
