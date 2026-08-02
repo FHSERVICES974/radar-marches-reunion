@@ -20,7 +20,42 @@ couverture large et approximative*.
 | Total `events.json` | 100 | — |
 | Marchés permanents (`perm`) | 30 | ❌ hors périmètre — pas de dossier de candidature, demande d'emplacement au fil de l'eau |
 | Appels actionnables (ouverts / à venir avec deadline) | 29 | ✅ cible |
-| **Sources effectivement ouvertes et lues** | **5** | ✅ dont 2 formulaires officiels analysés en profondeur |
+| **Sources effectivement ouvertes et lues** | **13** | ✅ dont **4 formulaires officiels** analysés en profondeur |
+
+**Corpus élargi le 2026-08-02** — communes couvertes : Le Tampon, Saint-Paul, Sainte-Marie,
+Saint-André, Bras-Panon, Sainte-Suzanne, plus le TCO, la CMA et un organisateur privé (Nordev).
+Échecs : Saint-Benoît (403), Plaine des Palmistes (appel introuvable).
+
+### Pièces et champs découverts lors de l'élargissement
+
+| Nouvelle pièce | Commune | Remarque |
+|---|---|---|
+| Carte **AMEXA** (affiliation agricole) | Sainte-Marie, Saint-André | **Alternative au K-bis** — élargit les groupes d'équivalence |
+| Attestation de **conformité électrique** | Sainte-Marie | Véhicules aménagés uniquement |
+| Attestation **HACCP** / formation hygiène | Sainte-Marie, Saint-André, Saint-Paul | Conditionnelle : vente alimentaire |
+| Vérification **extincteurs + trousse de secours** | Bras-Panon | Inattendu — sécurité incendie |
+| **Plan détaillé du métier** | Bras-Panon | Document à produire, pas à fournir |
+| **Liste des matériels électriques** | Bras-Panon | idem |
+| **Photo représentative** | Bras-Panon | |
+| **Description du projet économique** | Sainte-Marie | Structure : véhicule, étal, parasol |
+
+| Nouveau champ | Commune | Type |
+|---|---|---|
+| **Grille horaire** 7 jours × 3 créneaux (matin / après-midi / soirée) | Saint-André | Matrice — type de champ inédit |
+| Type de demande : 1ʳᵉ demande / renouvellement | Saint-André | Choix |
+| Type d'occupation : étalage / roulotte | Saint-André | Choix |
+| Électricité : **triphasé / monophasé** + puissance | Saint-André, Le Tampon | Choix + nombre |
+
+### Quatre modèles de procédure identifiés
+
+1. **Appel municipal à exposants** — formulaire PDF + pièces. Majoritaire.
+2. **Appel à un organisateur unique** — Sainte-Suzanne (Fête de la Vanille) sélectionne le
+   prestataire qui montera la fête foraine, **pas des exposants individuels**. Un artisan qui y
+   candidate perd son temps ; à détecter et signaler.
+3. **Salon privé, dossier sur demande** — Nordev (Salon Régal) : aucun formulaire public, le dossier
+   s'obtient par téléphone ou email. Rien à automatiser en amont.
+4. **Demande d'emplacement au fil de l'eau** — TCO (Zartizan Péi) et marchés permanents : pas de
+   campagne datée, procédure rarement publiée.
 
 ⚠️ **Ce document est donc un socle, pas un inventaire exhaustif.** Les conclusions d'architecture
 (§6) sont solides car elles reposent sur l'analyse fine de formulaires officiels réels ; les
@@ -36,6 +71,65 @@ corpus.
 | Braderie commerciale (Sainte-Marie) | page mairie | ⚠️ partiel — renvoie à un avis de publicité dont l'URL n'est pas publiée |
 | Rencontres de l'Artisanat (Plaine des Palmistes) | site mairie | ❌ appel introuvable sur le site |
 | Marché de Nuit St-Gilles, Saint-Paul Plage, Jour de sport santé | PDF repérés sur la page Saint-Paul | 🔗 URL collectées, non encore analysées |
+
+---
+
+## 0 bis. Comparaison entre communes — support d'un dialogue avec l'Association des Maires
+
+> Objectif distinct de la spécification technique : **montrer aux mairies que leurs exigences
+> convergent déjà**, et qu'une normalisation légère épargnerait un travail considérable aux artisans
+> sans rien leur retirer de leur pouvoir d'appréciation.
+
+### Le noyau commun est déjà là
+
+Sur les 5 communes dont la procédure a été lue intégralement, quatre pièces reviennent
+systématiquement — ce sont les mêmes justificatifs, demandés avec des mots différents :
+
+| Pièce | Communes l'exigeant | Statut |
+|---|---|---|
+| Justificatif d'adresse (< 3 mois) | 5/5 | ✅ universel |
+| Preuve d'immatriculation (< 3 mois) | 5/5 | ✅ universel |
+| Attestation d'assurance RC professionnelle | 5/5 | ✅ universel |
+| Pièce d'identité | 4/5 | quasi universel |
+
+**Mais chaque commune en demande 6 à 8 au total.** Le noyau commun est donc noyé dans des exigences
+locales additionnelles, toutes légitimes prises isolément, mais dont l'accumulation rend chaque
+dossier différent.
+
+### Ce qui diverge, commune par commune
+
+| Commune | Canal accepté | Support de réponse | Immatriculation : alternatives acceptées | Exigences propres |
+|---|---|---|---|---|
+| **Le Tampon** | Email **ou** dépôt physique contre récépissé | PDF non remplissable | K-bis uniquement | Preuve de paiement des redevances antérieures · 7 critères qualitatifs notés · attestation sur l'honneur |
+| **Saint-Paul** | Non précisé sur la page | Fiche scannée, signature manuscrite | K-bis **ou** récépissé auto-entrepreneur **ou** récépissé chambre des métiers | Pièces **exclusivement en PDF** · « aucune copie ne sera faite sur place » |
+| **Sainte-Marie** | Courrier **ou** email | Formulaire PDF + avis de publicité | K-bis/SIRET **ou** carte AMEXA (agriculteurs) | Description du projet économique (véhicule, étal, parasol) · HACCP et conformité électrique si restauration |
+| **Saint-André** | Non précisé | PDF non remplissable | Registre du commerce/métiers **ou** AMEXA | Grille horaire 7 jours × 3 créneaux · type d'occupation (étalage/roulotte) · électricité triphasé/monophasé |
+| **Bras-Panon** | Retrait en mairie **ou** téléchargement ; dépôt **ou** envoi postal | Formulaire type | K-bis / registre commerce / registre métiers | Attestation de vérification des extincteurs et trousse de secours · plan détaillé du métier · liste des matériels électriques · photo représentative |
+
+### Trois frictions concrètes à faire constater
+
+1. **Aucun formulaire n'est remplissable à l'écran.** Vérification technique sur les
+   **quatre** formulaires officiels analysés : `AcroForm` absent, **0 champ de saisie**. L'artisan
+   imprime, remplit à la main, signe, scanne — pour chaque commune, à chaque fois.
+2. **La même pièce est nommée différemment.** « Justificatif de domicile », « justificatif
+   d'adresse » ; « K-bis », « inscription au registre du commerce », « attestation d'affiliation
+   AMEXA ». Un artisan ne sait pas toujours qu'il détient déjà ce qu'on lui demande.
+3. **Les alternatives acceptées varient sans logique apparente.** Saint-Paul et Saint-André
+   acceptent le récépissé de chambre des métiers ou l'AMEXA ; Le Tampon exige le K-bis seul. Un
+   artisan éligible à Saint-André peut se croire exclu au Tampon.
+
+### Proposition de normalisation à soumettre
+
+- **Un socle commun de 4 pièces**, avec des libellés identiques partout et la liste explicite des
+  équivalences acceptées (K-bis / récépissé auto-entrepreneur / chambre des métiers / AMEXA).
+- **Les exigences locales en annexe**, clairement séparées du socle — chaque commune garde
+  entièrement sa liberté d'en ajouter.
+- **Un formulaire à champs remplissables**, même minimal. C'est le gain le plus immédiat et le moins
+  coûteux pour les services : moins d'écritures illisibles, moins de dossiers incomplets.
+
+> Argument à porter : la normalisation ne réduit en rien le pouvoir d'appréciation des communes.
+> Elle réduit le nombre de dossiers incomplets — donc le travail de relance des services municipaux
+> autant que le renoncement des artisans.
 
 ---
 
