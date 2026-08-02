@@ -3002,10 +3002,37 @@ def _render_stats_page(dev_mode: bool, user_name: str, flash: str = "") -> str: 
     clicks         = _load_clicks_stats()
     try:
         wa_rows = _stats_query(
-            "SELECT day, count FROM wa_subscribers ORDER BY day DESC LIMIT 8")
+            "SELECT day, count, entered_at FROM wa_subscribers ORDER BY day DESC LIMIT 8")
     except Exception as exc:
         log.error("Stats : lecture abonnés WhatsApp impossible : %s", exc)
         wa_rows = []
+    # Suggestion pré-remplie : dernier chiffre CONFIRMÉ + clics « inscription
+    # WhatsApp » depuis cette confirmation. Ce n'est qu'une aide à la saisie :
+    # seule la valeur confirmée par le propriétaire est enregistrée (tous les
+    # clics ne deviennent pas membres, certains cliquent deux fois).
+    wa_clicks_since = 0
+    if wa_rows:
+        try:
+            r = _stats_query(
+                "SELECT count(*) FROM interactions "
+                "WHERE type = 'signup_whatsapp' AND ts > %s", (wa_rows[0][2],))
+            wa_clicks_since = r[0][0] if r else 0
+        except Exception as exc:
+            log.error("Stats : clics WhatsApp depuis confirmation impossibles : %s", exc)
+    wa_suggest = (wa_rows[0][1] + wa_clicks_since) if wa_rows else ""
+    # Rappel discret si la dernière confirmation date de plus de 2 jours.
+    wa_reminder = ""
+    if wa_rows:
+        try:
+            today_re = _stats_query(
+                "SELECT (now() AT TIME ZONE 'Indian/Reunion')::date")[0][0]
+            wa_age = (today_re - wa_rows[0][0]).days
+            if wa_age > 2:
+                wa_reminder = (f'<div style="font-size:.8rem;color:#b45309;margin-top:6px">'
+                               f'⏰ Dernière confirmation il y a {wa_age} jours — '
+                               f'pensez à mettre le chiffre à jour.</div>')
+        except Exception:
+            pass
     proposals_html = _render_proposals_section(dev_mode)
     event_stats_html = _render_event_stats_section()
     org_subs_html  = _render_org_submissions_section()
@@ -3337,16 +3364,23 @@ footer{{text-align:center;font-size:.7rem;color:#94a3b8;padding:2rem 0 1.5rem}}
       <div class="int-val" style="color:#b45309">{wa_rows[0][1] if wa_rows else "—"}</div>
       <div class="int-lbl">{"au " + wa_rows[0][0].strftime("%d/%m/%Y") if wa_rows else "Aucune valeur saisie"}</div>
     </div>
-    <form method="POST" action="/admin/wa-subscribers" style="display:flex;gap:8px;align-items:center">
-      <input type="number" name="count" min="0" max="1000000" required
-        placeholder="Nombre d'abonnés" style="width:160px;padding:.45rem .6rem;border:1px solid #fcd34d;
-        border-radius:8px;font-size:.9rem" value="{wa_rows[0][1] if wa_rows else ""}">
-      <button type="submit" style="background:#b45309;color:#fff;border:none;padding:.5rem 1rem;
-        border-radius:8px;font-size:.85rem;cursor:pointer">Enregistrer (aujourd'hui)</button>
-    </form>
+    <div>
+      <form method="POST" action="/admin/wa-subscribers" style="display:flex;gap:8px;align-items:center">
+        <input type="number" name="count" min="0" max="1000000" required
+          placeholder="Nombre d'abonnés" style="width:160px;padding:.45rem .6rem;border:1px solid #fcd34d;
+          border-radius:8px;font-size:.9rem" value="{wa_suggest}">
+        <button type="submit" style="background:#b45309;color:#fff;border:none;padding:.5rem 1rem;
+          border-radius:8px;font-size:.85rem;cursor:pointer">Confirmer (aujourd'hui)</button>
+      </form>
+      <div style="font-size:.78rem;color:#92400e;margin-top:6px">
+        {f"💡 Suggestion à confirmer : {wa_rows[0][1]} (dernier chiffre confirmé) + {wa_clicks_since} clic{'s' if wa_clicks_since > 1 else ''} d'inscription depuis — vérifiez le nombre réel dans WhatsApp avant de confirmer (tous les clics ne deviennent pas membres)." if wa_rows else "Saisissez le nombre réel de membres du groupe."}
+      </div>
+      {wa_reminder}
+    </div>
     <div style="font-size:.8rem;color:#92400e;line-height:1.5">
-      Historique : {" · ".join(f"{d.strftime('%d/%m')} : {c}" for d, c in wa_rows) if wa_rows else "—"}<br>
-      À mettre à jour ~1×/semaine depuis le nombre réel de membres du groupe.
+      Historique : {" · ".join(f"{d.strftime('%d/%m')} : {c}" for d, c, *_ in wa_rows) if wa_rows else "—"}<br>
+      À confirmer chaque jour depuis le nombre réel de membres du groupe — seule
+      la valeur confirmée est enregistrée, jamais la suggestion seule.
     </div>
   </div>
 </div>
