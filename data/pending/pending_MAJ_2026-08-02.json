@@ -1,0 +1,39 @@
+{
+  "generated": "2026-08-02",
+  "status_changes": [
+    {
+      "key": "fete du choca|sud",
+      "name": "Fête du Choca",
+      "zone": "Sud",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "bal populaire bal la poussiere fete patronale 2026|nord",
+      "name": "Bal populaire « Bal la poussière » — Fête patronale 2026",
+      "zone": "Nord",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-01)"
+    },
+    {
+      "key": "la plaine en fete ex fete de la pomme de terre et du cheval|sud",
+      "name": "La Plaine en Fête (ex-Fête de la Pomme de Terre et du Cheval)",
+      "zone": "Sud",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-07-31)"
+    },
+    {
+      "key": "braderie commerciale de saint benoit 2026|est",
+      "name": "Braderie commerciale de Saint-Benoît 2026",
+      "zone": "Est",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-07-31)"
+    }
+  ],
+  "new_events_candidates": [],
+  "community": []
+}
