@@ -264,7 +264,7 @@
 </div>
 
 <script>
-const META = { lastUpdate: "2026-08-01" };
+const META = { lastUpdate: "2026-08-03" };
 
 /* ⚙️ À PERSONNALISER — mets ton numéro WhatsApp et ton email ci-dessous.
    whatsapp : format international sans "+" ni espaces. Réunion = 262 + ton numéro sans le 0.
@@ -2099,6 +2099,24 @@ const EVENTS = [
     "url": "",
     "apply": "Candidature auprès de l'association Oté Z'Artizan.",
     "desc": "Mise en avant des artisans du Sud."
+  },
+  {
+    "name": "Ville de Saint-Denis — appel à forains (toutes manifestations)",
+    "zone": "Nord",
+    "type": "Appel à forains annuel (accès groupé)",
+    "org": "Ville de Saint-Denis — Régie des Marchés et Droits de Place",
+    "place": "Saint-Denis",
+    "when": "Janvier (annuel) · éd. 2026 : appel publié le 10 janvier, clos le 2 février",
+    "badge": "JANV",
+    "month": 1,
+    "dateStatus": "annuel",
+    "status": "soon",
+    "deadline": "Éd. 2026 close (2 février 2026, 15h00) — éd. 2027 attendue vers janvier",
+    "contact": "regie@saintdenis.re · 0262 40 04 52 · Régie des Marchés et Droits de Place, 26 rue Lislet Geoffroy, Saint-Denis",
+    "social": "",
+    "url": "https://www.saintdenis.re/appel-a-forains-manifestations-2026",
+    "apply": "⚠️ Appel UNIQUE et groupé : un seul dossier déposé en janvier ouvre l'accès à toutes les manifestations de la Ville pour l'année (Marché de Nuit, Marché Bancoul, Dimanche au Barachois, Marché de Noël du Barachois, braderie de l'Océan, journées commerciales, fêtes calendaires). Rater cette fenêtre fait perdre l'année entière. Dossier auprès de la Régie des Marchés ; mention officielle 2026 : « Aucun dossier ne sera pris en compte après cette date ». Surveiller la publication vers le 10 janvier.",
+    "desc": "La Ville de Saint-Denis ne lance pas d'appel par événement : elle publie chaque janvier un appel à forains unique couvrant l'ensemble de ses manifestations de l'année. C'est le point d'entrée obligatoire pour exposer sur les marchés et fêtes dionysiens."
   }
 ];
 
@@ -4631,6 +4649,27 @@ window.chatSend=function(){
         "@type": "Organization",
         "name": "Association Oté Z'Artizan"
       }
+    },
+    {
+      "@type": "Event",
+      "name": "Ville de Saint-Denis — appel à forains (toutes manifestations)",
+      "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "description": "La Ville de Saint-Denis ne lance pas d'appel par événement : elle publie chaque janvier un appel à forains unique couvrant l'ensemble de ses manifestations de l'année. C'est le point d'entrée obligatoire pour exposer sur les marchés et fêtes dionysiens.",
+      "location": {
+        "@type": "Place",
+        "name": "Saint-Denis",
+        "address": {
+          "@type": "PostalAddress",
+          "addressRegion": "La Réunion",
+          "addressCountry": "RE"
+        }
+      },
+      "organizer": {
+        "@type": "Organization",
+        "name": "Ville de Saint-Denis — Régie des Marchés et Droits de Place"
+      },
+      "url": "https://www.saintdenis.re/appel-a-forains-manifestations-2026"
     }
   ]
 }
