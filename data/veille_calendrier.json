@@ -1,0 +1,43 @@
+{
+  "_doc": "Calendrier de surveillance saisonnière. Beaucoup d'appels à candidature n'existent en ligne que quelques semaines par an : hors de leur fenêtre, la page est absente, périmée ou renvoie l'édition précédente. Ce fichier dit à l'agent QUAND redoubler d'attention sur QUELLE source. Il ne remplace pas le balayage normal de sources.json — il ajoute une vigilance ciblée. Chaque entrée est un pense-bête, jamais une autorisation d'inventer une date.",
+  "_mode_emploi_agent": [
+    "À chaque run, compare le mois courant aux 'mois_de_veille' de chaque entrée.",
+    "Si le mois courant est dans la fenêtre : ouvrir la source en priorité, et le signaler dans la section 6 du rapport, même si rien n'est trouvé ('fenêtre ouverte, page consultée, rien de publié à ce jour').",
+    "Si l'appel est trouvé : traitement normal (vérification, confiance, proposition).",
+    "Si la source est inaccessible (blocage anti-bot, login, 403) : le dire explicitement et proposer une vérification manuelle à l'humain, avec le contact de repli.",
+    "Hors fenêtre : ne rien signaler, ne pas encombrer le rapport."
+  ],
+  "surveillances": [
+    {
+      "nom": "Ville de Saint-Denis — appel à forains (toutes manifestations de l'année)",
+      "zone": "Nord",
+      "url": "https://www.saintdenis.re/appel-a-forains-manifestations-2026",
+      "url_modele": "https://www.saintdenis.re/appel-a-forains-manifestations-{annee}",
+      "mois_de_veille": [
+        12,
+        1,
+        2
+      ],
+      "priorite": "haute",
+      "pourquoi": "Un seul appel annuel couvre TOUTES les manifestations de la ville : Marché de Nuit (1er samedi du mois, mars à décembre), Marché artisanal de Bancoul (3-4 fois/an), Journées commerciales, Braderie de l'Océan, Dimanche ô Barachois, Fête de la musique, Fête Nationale, Fête du 20 décembre. Rater cette fenêtre, c'est faire rater une année entière d'opportunités aux artisans du Nord.",
+      "historique_connu": {
+        "edition_2026": {
+          "publication": "vers le 10 janvier 2026",
+          "deadline": "2 février 2026, 15h00",
+          "mention": "« Aucun dossier ne sera pris en compte après cette date »"
+        }
+      },
+      "a_verifier_dans_l_appel": [
+        "date limite exacte (heure comprise)",
+        "liste des manifestations proposées et lesquelles sont ouvertes à l'artisanat (certaines sont réservées à l'alimentaire)",
+        "grille tarifaire de l'année",
+        "pièces exigées"
+      ],
+      "contact_repli": "regie@saintdenis.re — Régie des Marchés et Droits de Place, 26 rue Lislet Geoffroy, Saint-Denis",
+      "angle_mort_connu": "Le site saintdenis.re bloque fréquemment l'accès automatisé (message « Attack detected »). En cas de blocage : ne pas insister, le signaler dans la section 6 et recommander une vérification manuelle. Repli possible par la presse locale (imazpress relaie l'appel chaque année).",
+      "note": "Point à trancher avec la mairie : le formulaire indique qu'« une commission se tiendra mensuellement avant chaque édition des manifestations ». Reste à savoir si des dossiers déposés hors délai sont examinés au fil de l'eau, ou si cette commission ne fait que répartir les candidats retenus en février.",
+      "derniere_verification": "2026-08-03",
+      "statut_edition_courante": "clos (deadline du 2 février 2026 dépassée)"
+    }
+  ]
+}

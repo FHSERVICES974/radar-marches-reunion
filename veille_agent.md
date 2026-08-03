@@ -37,6 +37,12 @@ sans conséquence, filtré à la déduplication) et documente l'incertitude dans
 - `data/events.json` — les ~80 événements DÉJÀ connus (pour dédupliquer).
 - `data/sources.json` — le registre des sources à balayer (4 niveaux/tiers).
 - `data/community_inbox.json` — remontées manuelles d'artisans à intégrer.
+- `data/veille_calendrier.json` — surveillances **saisonnières** : sources dont
+  l'appel n'est en ligne que quelques semaines par an. Compare le mois courant aux
+  `mois_de_veille` de chaque entrée ; si la fenêtre est ouverte, traite la source en
+  priorité et **signale-la en section 6 même si tu ne trouves rien** (« fenêtre
+  ouverte, page consultée, rien de publié à ce jour »). Hors fenêtre : n'en parle
+  pas. Le mode d'emploi complet est dans le champ `_mode_emploi_agent` du fichier.
 
 Déduplication : un événement est un doublon si son **nom + zone normalisés**
 correspondent à un existant. Dans le doute, traite comme MISE À JOUR, pas NOUVEAU.
