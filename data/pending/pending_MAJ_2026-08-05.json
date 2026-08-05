@@ -1,0 +1,86 @@
+{
+  "generated": "2026-08-05",
+  "status_changes": [
+    {
+      "key": "fete du choca|sud",
+      "name": "Fête du Choca",
+      "zone": "Sud",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "bal populaire bal la poussiere fete patronale 2026|nord",
+      "name": "Bal populaire « Bal la poussière » — Fête patronale 2026",
+      "zone": "Nord",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-01)"
+    },
+    {
+      "key": "la plaine en fete ex fete de la pomme de terre et du cheval|sud",
+      "name": "La Plaine en Fête (ex-Fête de la Pomme de Terre et du Cheval)",
+      "zone": "Sud",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-07-31)"
+    },
+    {
+      "key": "braderie commerciale de saint benoit 2026|est",
+      "name": "Braderie commerciale de Saint-Benoît 2026",
+      "zone": "Est",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-07-31)"
+    }
+  ],
+  "new_events_candidates": [
+    {
+      "_source_title": "Appel à candidature – Jour de Sport Santé 2026 – Espace Food Court (Saint-Paul)",
+      "_source_url": "https://www.mairie-saintpaul.re/wp-content/uploads/2026/07/DOSSIER-DE-CANDIDATURE-OMSEP.pdf",
+      "_confidence": "Vérifié",
+      "event": {
+        "name": "Jour de Sport Santé 2026 — Espace Food Court",
+        "zone": "Ouest",
+        "type": "Restauration ambulante (food court événementiel)",
+        "org": "Ville de Saint-Paul / OMSEP",
+        "place": "Front de mer de Saint-Paul (entre le Boulodrome et l'OMSEP)",
+        "when": "Dimanche 30 août 2026, 9h00–16h30",
+        "badge": "AOÛT",
+        "month": 8,
+        "dateStatus": "confirmée",
+        "status": "open",
+        "deadline": "13 août 2026, 15h00",
+        "contact": "maire@mairie-saintpaul.fr · 0262 45 43 45",
+        "social": "",
+        "url": "https://www.mairie-saintpaul.re/wp-content/uploads/2026/07/DOSSIER-DE-CANDIDATURE-OMSEP.pdf",
+        "apply": "Formulaire d'inscription joint + pièces justificatives (pièce d'identité, justificatif de domicile <3 mois, Kbis/auto-entrepreneur/récépissé CMA, attestation d'hygiène alimentaire si produits transformés, assurance RC professionnelle, carte de marchand ambulant, photos des produits) à envoyer à maire@mairie-saintpaul.fr ou déposer au service courrier de la Mairie de Saint-Paul. Redevance : 10€/mètre linéaire. Réservé aux professionnels de la restauration ambulante (offre variée, produits frais, boissons non alcoolisées ; emplacements dédiés jus/smoothies).",
+        "desc": "Espace de restauration ambulante (food court) lors du Jour de Sport Santé 2026, événement gratuit organisé par l'OMSEP et la Ville de Saint-Paul sur le front de mer (+ de 60 activités sportives)."
+      }
+    },
+    {
+      "_source_title": "Marché de Noël — Univers Piscine et Jardin (Pierrefonds, Saint-Pierre)",
+      "_source_url": "https://forms.gle/3PCHLS1ijUU9hfJJ7",
+      "_confidence": "Vérifié",
+      "event": {
+        "name": "Marché de Noël — Univers Piscine et Jardin",
+        "zone": "Sud",
+        "type": "Marché de créateurs / Marché de Noël",
+        "org": "Univers Piscine et Jardin",
+        "place": "ZIC Pépinière, Pierrefonds, 97410 Saint-Pierre (devant le magasin)",
+        "when": "Samedi 5 décembre 2026, 8h00–17h00",
+        "badge": "DÉC",
+        "month": 12,
+        "dateStatus": "confirmée",
+        "status": "open",
+        "deadline": "",
+        "contact": "0262 26 92 77 (magasin) · piscineetjardin.re",
+        "social": "@universpiscineetjardin",
+        "url": "https://forms.gle/3PCHLS1ijUU9hfJJ7",
+        "apply": "Inscription via formulaire Google en ligne (https://forms.gle/3PCHLS1ijUU9hfJJ7). Emplacement gratuit pour les exposants. Ouvert aux artisans, créateurs, producteurs locaux et restaurateurs.",
+        "desc": "Marché artisanal de Noël organisé devant le magasin Univers Piscine et Jardin à Pierrefonds (Saint-Pierre) : artisanat local, créations, savoir-faire péi, à l'occasion des fêtes de fin d'année."
+      }
+    }
+  ],
+  "community": []
+}
