@@ -900,6 +900,24 @@
     "desc": "Marché de Noël du secteur de Pierrefonds."
   },
   {
+    "name": "Marché de Noël — Univers Piscine et Jardin",
+    "zone": "Sud",
+    "type": "Marché de créateurs / Marché de Noël",
+    "org": "Univers Piscine et Jardin",
+    "place": "ZIC Pépinière, Pierrefonds, 97410 Saint-Pierre (devant le magasin)",
+    "when": "Samedi 5 décembre 2026, 8h00–17h00",
+    "badge": "DÉC",
+    "month": 12,
+    "dateStatus": "confirmée",
+    "status": "open",
+    "deadline": "",
+    "contact": "0262 26 92 77 (magasin) · piscineetjardin.re",
+    "social": "@universpiscineetjardin",
+    "url": "https://forms.gle/3PCHLS1ijUU9hfJJ7",
+    "apply": "Inscription via formulaire Google en ligne (https://forms.gle/3PCHLS1ijUU9hfJJ7). Emplacement gratuit pour les exposants. Ouvert aux artisans, créateurs, producteurs locaux et restaurateurs.",
+    "desc": "Marché artisanal de Noël organisé devant le magasin Univers Piscine et Jardin à Pierrefonds (Saint-Pierre) : artisanat local, créations, savoir-faire péi, à l'occasion des fêtes de fin d'année."
+  },
+  {
     "name": "Marché de Noël — Village de l'Éperon",
     "zone": "Ouest",
     "type": "Marché de Noël",
