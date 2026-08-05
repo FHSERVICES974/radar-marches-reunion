@@ -18,6 +18,24 @@
     "desc": "12 jours de fête autour du terroir : producteurs, artisans, ateliers, concerts. 42ᵉ édition."
   },
   {
+    "name": "Ville de Saint-Denis — appel à forains (toutes manifestations)",
+    "zone": "Nord",
+    "type": "Appel à forains annuel (accès groupé)",
+    "org": "Ville de Saint-Denis — Régie des Marchés et Droits de Place",
+    "place": "Saint-Denis",
+    "when": "Janvier (annuel) · éd. 2026 : appel publié le 10 janvier, clos le 2 février",
+    "badge": "JANV",
+    "month": 1,
+    "dateStatus": "annuel",
+    "status": "soon",
+    "deadline": "Éd. 2026 close (2 février 2026, 15h00) — éd. 2027 attendue vers janvier",
+    "contact": "regie@saintdenis.re · 0262 40 04 52 · Régie des Marchés et Droits de Place, 26 rue Lislet Geoffroy, Saint-Denis",
+    "social": "",
+    "url": "https://www.saintdenis.re/appel-a-forains-manifestations-2026",
+    "apply": "⚠️ Appel UNIQUE et groupé : un seul dossier déposé en janvier ouvre l'accès à toutes les manifestations de la Ville pour l'année (Marché de Nuit, Marché Bancoul, Dimanche au Barachois, Marché de Noël du Barachois, braderie de l'Océan, journées commerciales, fêtes calendaires). Rater cette fenêtre fait perdre l'année entière. Dossier auprès de la Régie des Marchés ; mention officielle 2026 : « Aucun dossier ne sera pris en compte après cette date ». Surveiller la publication vers le 10 janvier.",
+    "desc": "La Ville de Saint-Denis ne lance pas d'appel par événement : elle publie chaque janvier un appel à forains unique couvrant l'ensemble de ses manifestations de l'année. C'est le point d'entrée obligatoire pour exposer sur les marchés et fêtes dionysiens."
+  },
+  {
     "name": "Salon International de l'Agriculture — Village Réunion",
     "zone": "National",
     "type": "Salon national",
@@ -448,6 +466,24 @@
     "url": "",
     "apply": "Contacter @inspira_faith en message privé Instagram pour candidater. Participation : 30€ par emplacement. Places limitées à 15 exposants.",
     "desc": "Inauguration d'un nouveau logement insolite à Bellemène (Saint-Paul) — recherche 15 exposants créateurs pour une journée découverte, communication et organisation assurées par l'hôte."
+  },
+  {
+    "name": "Jour de Sport Santé 2026 — Espace Food Court",
+    "zone": "Ouest",
+    "type": "Restauration ambulante (food court événementiel)",
+    "org": "Ville de Saint-Paul / OMSEP",
+    "place": "Front de mer de Saint-Paul (entre le Boulodrome et l'OMSEP)",
+    "when": "Dimanche 30 août 2026, 9h00–16h30",
+    "badge": "AOÛT",
+    "month": 8,
+    "dateStatus": "confirmée",
+    "status": "open",
+    "deadline": "13 août 2026, 15h00",
+    "contact": "maire@mairie-saintpaul.fr · 0262 45 43 45",
+    "social": "",
+    "url": "https://www.mairie-saintpaul.re/wp-content/uploads/2026/07/DOSSIER-DE-CANDIDATURE-OMSEP.pdf",
+    "apply": "Formulaire d'inscription joint + pièces justificatives (pièce d'identité, justificatif de domicile <3 mois, Kbis/auto-entrepreneur/récépissé CMA, attestation d'hygiène alimentaire si produits transformés, assurance RC professionnelle, carte de marchand ambulant, photos des produits) à envoyer à maire@mairie-saintpaul.fr ou déposer au service courrier de la Mairie de Saint-Paul. Redevance : 10€/mètre linéaire. Réservé aux professionnels de la restauration ambulante (offre variée, produits frais, boissons non alcoolisées ; emplacements dédiés jus/smoothies).",
+    "desc": "Espace de restauration ambulante (food court) lors du Jour de Sport Santé 2026, événement gratuit organisé par l'OMSEP et la Ville de Saint-Paul sur le front de mer (+ de 60 activités sportives)."
   },
   {
     "name": "La Plaine en Fête (ex-Fête de la Pomme de Terre et du Cheval)",
@@ -1816,23 +1852,5 @@
     "url": "",
     "apply": "Candidature auprès de l'association Oté Z'Artizan.",
     "desc": "Mise en avant des artisans du Sud."
-  },
-  {
-    "name": "Ville de Saint-Denis — appel à forains (toutes manifestations)",
-    "zone": "Nord",
-    "type": "Appel à forains annuel (accès groupé)",
-    "org": "Ville de Saint-Denis — Régie des Marchés et Droits de Place",
-    "place": "Saint-Denis",
-    "when": "Janvier (annuel) · éd. 2026 : appel publié le 10 janvier, clos le 2 février",
-    "badge": "JANV",
-    "month": 1,
-    "dateStatus": "annuel",
-    "status": "soon",
-    "deadline": "Éd. 2026 close (2 février 2026, 15h00) — éd. 2027 attendue vers janvier",
-    "contact": "regie@saintdenis.re · 0262 40 04 52 · Régie des Marchés et Droits de Place, 26 rue Lislet Geoffroy, Saint-Denis",
-    "social": "",
-    "url": "https://www.saintdenis.re/appel-a-forains-manifestations-2026",
-    "apply": "⚠️ Appel UNIQUE et groupé : un seul dossier déposé en janvier ouvre l'accès à toutes les manifestations de la Ville pour l'année (Marché de Nuit, Marché Bancoul, Dimanche au Barachois, Marché de Noël du Barachois, braderie de l'Océan, journées commerciales, fêtes calendaires). Rater cette fenêtre fait perdre l'année entière. Dossier auprès de la Régie des Marchés ; mention officielle 2026 : « Aucun dossier ne sera pris en compte après cette date ». Surveiller la publication vers le 10 janvier.",
-    "desc": "La Ville de Saint-Denis ne lance pas d'appel par événement : elle publie chaque janvier un appel à forains unique couvrant l'ensemble de ses manifestations de l'année. C'est le point d'entrée obligatoire pour exposer sur les marchés et fêtes dionysiens."
   }
 ]
