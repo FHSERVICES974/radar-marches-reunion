@@ -1,0 +1,63 @@
+{
+  "generated": "2026-08-07",
+  "status_changes": [
+    {
+      "key": "fete du choca|sud",
+      "name": "Fête du Choca",
+      "zone": "Sud",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "bal populaire bal la poussiere fete patronale 2026|nord",
+      "name": "Bal populaire « Bal la poussière » — Fête patronale 2026",
+      "zone": "Nord",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (prorogée au 2026-08-05 16h00, elle-même désormais dépassée)"
+    },
+    {
+      "key": "la plaine en fete ex fete de la pomme de terre et du cheval|sud",
+      "name": "La Plaine en Fête (ex-Fête de la Pomme de Terre et du Cheval)",
+      "zone": "Sud",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-07-31)"
+    },
+    {
+      "key": "braderie commerciale de saint benoit 2026|est",
+      "name": "Braderie commerciale de Saint-Benoît 2026",
+      "zone": "Est",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-07-31)"
+    }
+  ],
+  "new_events_candidates": [
+    {
+      "_source_title": "Ville de Saint-Paul — Avis de publicité et de mise en concurrence en vue de l'attribution des autorisations d'occupation temporaire du domaine public / bassin de vie n°2 (Saint-Gilles-les-Bains), août 2026 (réf. PVNTE/DVET/SGDP&R)",
+      "_source_url": "https://www.mairie-saintpaul.re/wp-content/uploads/2026/08/AVIS-DE-PUBLICITEBassin-2-1.pdf",
+      "_confidence": "Vérifié",
+      "event": {
+        "name": "Emplacements AOT domaine public — Saint-Gilles-les-Bains (bassin de vie n°2)",
+        "zone": "Ouest",
+        "type": "Autorisation d'occupation temporaire (AOT) — emplacement fixe sur domaine public",
+        "org": "Ville de Saint-Paul — Direction de la Valorisation Économique et Touristique, Service Gestion du Domaine Public et Réglementation",
+        "place": "Saint-Gilles-les-Bains (commune de Saint-Paul)",
+        "when": "Prise d'effet à la signature de l'AOT · fin le 31 décembre 2026 (emplacements B2.2 et B2.3) ou le 30 juin 2027 (emplacement B2.1)",
+        "badge": "AOÛT",
+        "month": 8,
+        "dateStatus": "confirmée",
+        "status": "open",
+        "deadline": "19 août 2026, 14h00 (aucun dossier accepté après cette date)",
+        "contact": "mohammad.patel@mairie-saintpaul.fr · regis.aure@mairie-saintpaul.fr · 0262 45 90 69",
+        "social": "",
+        "url": "https://www.mairie-saintpaul.re/avis-de-publicite/",
+        "apply": "Retirer le dossier de consultation auprès de M. Mohammad PATEL ou M. Régis AURÉ (0262 45 90 69), ou le télécharger sur mairie-saintpaul.re rubrique « Avis de publicité ». Dossier complet à remettre avant le 19 août 2026 à 14h00 à : Commune de Saint-Paul, DVET — Service Gestion du Domaine Public et Réglementation, Place du Général de Gaulle, CS 51015, 97864 Saint-Paul Cedex. Critères de jugement : valeur technique (prestations, adéquation produits/activité, expérience ou formation) 40 % · qualité du projet (esthétique, intégration au site, qualité du matériel) 40 % · proposition financière 20 %.",
+        "desc": "Mise en concurrence pour 3 autorisations d'occupation temporaire du domaine public sur le bassin de vie n°2 (Saint-Gilles-les-Bains) : 1 AOT « vente de produits artisanaux locaux » et 2 AOT « vente de vêtements, de maillots de bain et d'accessoires de mode ». Emplacement fixe attribué sur dossier, au titre de l'ordonnance n°2017-562 du 19 avril 2017."
+      }
+    }
+  ],
+  "community": []
+}
