@@ -1,0 +1,24 @@
+{
+  "_mode_emploi_agent": "Fichier CUMULATIF de pistes d'organisateurs, alimenté par la veille (playbook veille_agent.md, étape 3 ter). Ce ne sont PAS des appels à candidature et elles n'entrent JAMAIS dans events.json : c'est de la matière de démarchage et d'anticipation. Lire ce fichier AVANT d'écrire, puis le réécrire enrichi — ne jamais l'écraser, la mémoire des éditions observées est ce qui permet d'estimer une récurrence. Clé d'unicité : nom_evenement + commune. recurrence_estimee exige au moins deux entrées dans editions_observees. Champs vides plutôt qu'inventés.",
+  "generated": "2026-08-07",
+  "pistes": [
+    {
+      "nom_evenement": "Marché des créateurs — Carré Cathédrale",
+      "organisateur": "Association Karre Kathedrale",
+      "lieu": "Carré Cathédrale",
+      "commune": "Saint-Denis",
+      "zone": "Nord",
+      "editions_observees": ["2026-08-09"],
+      "date_edition_observee": "2026-08-09",
+      "source_url": "https://guide-reunion.fr/evenements/eve/marche-des-createurs-a-saint-denis/",
+      "date_detection": "2026-08-07",
+      "recurrence_estimee": "",
+      "nb_exposants_annonce": 100,
+      "deja_dans_events_json": true,
+      "organisateur_deja_dans_orgs_json": true,
+      "contact_connu": "marion.carrecathedrale@gmail.com",
+      "action_suggeree": "FAIT le 07/08/2026 : fiche events.json complétée avec l'édition observée du 09/08/2026, et mention « 1 fois / trimestre » retirée faute de deux éditions sourcées (règle de l'étape 3 ter). François a écrit à Marion. RESTE À FAIRE : si elle répond avec la date d'ouverture des candidatures de l'édition suivante, sa réponse remplace l'estimation — et une deuxième édition observée permettra alors de renseigner recurrence_estimee.",
+      "_note": "Première piste du fichier, saisie manuellement le 07/08/2026 d'après le brief BRIEF_Claude_Code_pistes_organisateurs.md. Édition observée le dimanche 09/08/2026, 10h-18h, accès libre, plus de 100 exposants (bijoux, poterie, décoration, sacs, vêtements). Le même organisateur porte aussi « Marché de Noël du Carré Cat » (décembre) dans events.json."
+    }
+  ]
+}

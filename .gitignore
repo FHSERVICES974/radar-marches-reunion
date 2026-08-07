@@ -42,3 +42,11 @@ data/inbox_mobile_archive/
 
 # Logo source haute résolution — seul assets/logo_radar_marches.png (optimisé) est committé
 assets/logoradar_source.png
+
+# Documents de travail internes — dépôt PUBLIC, ne jamais committer.
+# JOURNAL.md nomme des utilisateurs réels (données personnelles) ; les briefs et
+# l'inventaire contiennent la stratégie et des contacts. Ils vivent en local,
+# partagés entre François, Claude Code et Cowork sur la machine.
+JOURNAL.md
+briefs/
+INVENTAIRE_SOURCES.html

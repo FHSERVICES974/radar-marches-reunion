@@ -2118,8 +2118,14 @@ def _load_latest_proposal() -> tuple:
     Retourne (filename, candidates) ou (None, []).
     """
     try:
+        # Filtrer sur le préfixe est indispensable : le dossier contient aussi des
+        # status_AAAA-MM-JJ.json, et « status_ » trie APRÈS « pending_MAJ_ ». Sans ce
+        # filtre, le tri décroissant renvoyait toujours un fichier de statuts, qui n'a
+        # pas de clé de candidats — /admin affichait donc « rien à valider » alors que
+        # des propositions Vérifiées attendaient. (Constaté le 07/08/2026.)
         files = sorted(
-            [fn for fn in os.listdir(_PENDING_DIR) if fn.endswith(".json")],
+            [fn for fn in os.listdir(_PENDING_DIR)
+             if fn.startswith("pending_MAJ_") and fn.endswith(".json")],
             reverse=True,
         )
         if not files:

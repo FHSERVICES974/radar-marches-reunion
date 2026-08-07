@@ -89,8 +89,11 @@ echo "----- fin veille (rc=$RC) $(date '+%H:%M:%S') -----" >> veille.log
 # commit + push de data/pending/ uniquement. Ce n'est PAS une publication —
 # events.json et index.html ne sont pas touchés, le site public ne change pas.
 # C'est simplement le canal Mac -> GitHub -> webhook /sync -> Replit.
-if [ -n "$(git status --porcelain data/pending/ 2>/dev/null)" ]; then
-  git add data/pending/ >> veille.log 2>&1
+# data/pistes_organisateurs.json suit le même canal : c'est de la matière de
+# démarchage, pas une publication. Il est cumulatif et n'entre jamais dans
+# events.json — il voyage ici uniquement pour être sauvegardé et partagé.
+if [ -n "$(git status --porcelain data/pending/ data/pistes_organisateurs.json 2>/dev/null)" ]; then
+  git add data/pending/ data/pistes_organisateurs.json >> veille.log 2>&1
   git commit -q -m "veille $(date +%F) : propositions à valider" >> veille.log 2>&1
   if git push origin main >> veille.log 2>&1; then
     echo "[git] propositions envoyées vers /admin" >> veille.log
