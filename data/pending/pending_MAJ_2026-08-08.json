@@ -1,0 +1,76 @@
+{
+  "generated": "2026-08-08",
+  "status_changes": [
+    {
+      "key": "fete de la vanille appel a un organisateur de fete foraine|nord",
+      "name": "Fête de la Vanille — appel à un organisateur de fête foraine",
+      "zone": "Nord",
+      "from": "soon",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-07)"
+    }
+  ],
+  "new_events_candidates": [
+    {
+      "_source_title": "Avis d'appel à candidatures n° AC/01/2026 — Mise à disposition de 13 emplacements sur les marchés forains de Beauséjour et du Centre-ville (Ville de Sainte-Marie)",
+      "_source_url": "https://www.ville-saintemarie.re/appel-a-candidatures-relatif-a-lexploitation-demplacements-pour-des-activites-economiques-diverses-sur-les-places-du-marche-forain-de-beausejour-et-du-centre-ville/",
+      "_confidence": "Vérifié",
+      "event": {
+        "name": "Emplacements marchés forains hors jours de marché — Sainte-Marie (AC/01/2026)",
+        "zone": "Nord",
+        "type": "Appel à candidatures — emplacement sur domaine public (hors jours de marché)",
+        "org": "Ville de Sainte-Marie — Direction du Développement Économique, de l'Emploi et de l'Insertion (DDEEI)",
+        "place": "Marché forain de Beauséjour (7 emplacements) et marché forain du Centre-ville (6 emplacements), Sainte-Marie",
+        "when": "Toute l'année 2026, en dehors des jours de marché habituels",
+        "badge": "ANNÉE",
+        "month": 99,
+        "dateStatus": "confirmée",
+        "status": "open",
+        "deadline": "31 décembre 2026, 16h00",
+        "contact": "nmadeleine@ville-saintemarie.re · 0262 80 02 35 — DDEEI, 31 rue du Centre, local 4, Beauséjour",
+        "social": "",
+        "url": "https://www.ville-saintemarie.re/appel-a-candidatures-relatif-a-lexploitation-demplacements-pour-des-activites-economiques-diverses-sur-les-places-du-marche-forain-de-beausejour-et-du-centre-ville/",
+        "apply": "Dossier à déposer ou envoyer à la DDEEI, 31 rue du Centre — local 4, Beauséjour, 97438 Sainte-Marie (ou par courriel à nmadeleine@ville-saintemarie.re), jusqu'au 31 décembre 2026 à 16h00. Pièces demandées : justificatif d'adresse, attestation d'assurance responsabilité civile, attestation HACCP (hygiène alimentaire), attestation de conformité électrique pour les véhicules, extrait d'immatriculation de l'entreprise. Critères de sélection : nature des produits proposés · présentation soignée du périmètre de vente · pertinence de l'offre.",
+        "desc": "Appel à candidatures AC/01/2026 : la Ville de Sainte-Marie met à disposition 13 emplacements sur les places des marchés forains de Beauséjour (parcelle AS 1039) et du Centre-ville (parcelle AD 431), pour des activités économiques diverses en dehors des jours de marché habituels. Dépôt au fil de l'eau jusqu'au 31 décembre 2026."
+      }
+    },
+    {
+      "_source_title": "Organiser les brocantes de La Possession, ça vous tente ? — Ville de La Possession",
+      "_source_url": "https://www.lapossession.re/actualites/956731",
+      "_confidence": "Vérifié",
+      "event": {
+        "name": "Brocantes de La Possession — appel à un porteur de projet organisateur",
+        "zone": "Ouest",
+        "type": "Appel à candidature ORGANISATEUR (association ou entité économique)",
+        "org": "Ville de La Possession — Service Commerces",
+        "place": "Place du Marché forain, La Possession",
+        "when": "Brocantes tous les 3ᵉ dimanches du mois, de 6h à 13h",
+        "badge": "AOÛT",
+        "month": 8,
+        "dateStatus": "confirmée",
+        "status": "open",
+        "deadline": "24 août 2026, avant 15h00",
+        "contact": "commerces@lapossession.re · 0262 22 20 02 — Hôtel de Ville, 3 rue Waldeck-Rochet, 97419 La Possession",
+        "social": "",
+        "url": "https://www.lapossession.re/actualites/956731",
+        "apply": "Télécharger le dossier de candidature sur lapossession.re, puis le déposer au Service Courrier de l'Hôtel de Ville (rue Waldeck-Rochet) ou l'envoyer par courriel à commerces@lapossession.re, avant le lundi 24 août 2026 à 15h00.",
+        "desc": "ATTENTION : dossier ORGANISATEUR, pas emplacement exposant. La Ville de La Possession recherche un porteur de projet — association ou entité économique — pour organiser et animer les brocantes mensuelles de la place du Marché forain (3ᵉ dimanche du mois, 6h–13h). Opportunité pour une structure qui souhaite créer un rendez-vous récurrent et recruter ses propres exposants."
+      }
+    },
+    {
+      "_source_title": "Appel à forains — Fête de l'ail à Petite-Île, les 23, 24 et 25 octobre 2026 (publié le 3 juin 2026)",
+      "_source_url": "https://www.petite-ile.re/",
+      "_confidence": "Probable",
+      "event": null,
+      "_note": "MISE À JOUR d'un événement existant (« Fête de l'ail », Sud, month 10), pas un nouvel événement. L'existence de l'appel à forains éd. 2026 et les dates 23–25 octobre 2026 sont confirmées par le carrousel de la page d'accueil petite-ile.re (publication du 03/06/2026). La période d'inscription « du 8 juin au 14 août 2026 inclus » provient du post officiel Facebook @villedepetiteile relayé en recherche, PAS d'une page du site lue directement : la fiche d'actualité détaillée du site renvoie encore l'édition 2025. À confirmer au 0262 56 79 79 (service épanouissement humain) avant publication de la date limite."
+    },
+    {
+      "_source_title": "Saint-Joseph : appel aux forains et artisans pour le grand Week-end Commercial de septembre (Free Dom)",
+      "_source_url": "https://freedom.fr/centre-ville-de-saint-joseph-en-fete-avec-le-week-end-commercial-en-septembre/",
+      "_confidence": "Probable",
+      "event": null,
+      "_note": "MISE À JOUR d'un événement existant (« Week-end Commercial Saint-Joseph », Sud, 4–6 septembre 2026, déjà en statut open). Apport : l'organisateur serait l'Association des Commerçants et Artisans de Saint-Joseph, et l'appel s'adresse explicitement aux artisans et forains de toute l'île, la section food-trucks étant annoncée complète. La page freedom.fr renvoie HTTP 403 à la lecture automatisée : information obtenue via l'extrait de recherche, non lue sur la source. À confirmer auprès de la mairie ou de l'association avant publication."
+    }
+  ],
+  "community": []
+}
