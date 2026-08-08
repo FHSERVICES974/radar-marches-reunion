@@ -396,6 +396,24 @@
     "desc": "Braderie commerciale du centre-ville de Sainte-Marie (12–14 août 2026) : vente de vêtements, accessoires, bijoux fantaisie, produits artisanaux, objets de décoration et toute activité compatible avec l'esprit d'une braderie. Appel à candidatures pour l'exploitation d'emplacements."
   },
   {
+    "name": "Brocantes de La Possession — appel à un porteur de projet organisateur",
+    "zone": "Ouest",
+    "type": "Appel à candidature ORGANISATEUR (association ou entité économique)",
+    "org": "Ville de La Possession — Service Commerces",
+    "place": "Place du Marché forain, La Possession",
+    "when": "Brocantes tous les 3ᵉ dimanches du mois, de 6h à 13h",
+    "badge": "AOÛT",
+    "month": 8,
+    "dateStatus": "confirmée",
+    "status": "open",
+    "deadline": "24 août 2026, avant 15h00",
+    "contact": "commerces@lapossession.re · 0262 22 20 02 — Hôtel de Ville, 3 rue Waldeck-Rochet, 97419 La Possession",
+    "social": "",
+    "url": "https://www.lapossession.re/actualites/956731",
+    "apply": "Télécharger le dossier de candidature sur lapossession.re, puis le déposer au Service Courrier de l'Hôtel de Ville (rue Waldeck-Rochet) ou l'envoyer par courriel à commerces@lapossession.re, avant le lundi 24 août 2026 à 15h00.",
+    "desc": "ATTENTION : dossier ORGANISATEUR, pas emplacement exposant. La Ville de La Possession recherche un porteur de projet — association ou entité économique — pour organiser et animer les brocantes mensuelles de la place du Marché forain (3ᵉ dimanche du mois, 6h–13h). Opportunité pour une structure qui souhaite créer un rendez-vous récurrent et recruter ses propres exposants."
+  },
+  {
     "name": "Concert DMM — appel à forains (Saint-André)",
     "zone": "Est",
     "type": "Concert / événement forain",
