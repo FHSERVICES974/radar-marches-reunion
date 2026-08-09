@@ -540,6 +540,24 @@
     "desc": "Nouvelle fête fusionnant la Fête de la Pomme de Terre et la Fête du Cheval, sur le site de Miel Vert (Plaine des Cafres)."
   },
   {
+    "name": "Salon d'Été, Maison & Jardin",
+    "zone": "Sud",
+    "type": "Salon / Foire",
+    "org": "Ville du Tampon",
+    "place": "Site des Grands Kiosques, Plaine des Cafres (Le Tampon)",
+    "when": "Août · éd. 2026 : samedi 29 & dimanche 30 août, 10h–18h",
+    "badge": "AOÛT",
+    "month": 8,
+    "dateStatus": "confirmée",
+    "status": "open",
+    "deadline": "Vendredi 14 août 2026 à 12h00",
+    "contact": "animation.dac@mairie-tampon.fr · Service Animation / Pôle Grands Kiosques, 170 rue Alfred Lacroix, 97430 Le Tampon",
+    "social": "",
+    "url": "https://letampon.fr/appels-candidatures/appel-a-candidatures-pour-des-emplacements-disponibles-sur-le-domaine-public-salon-dete-maison-jardin-2026-site-grands-kiosques/",
+    "apply": "Appel à candidatures pour AOT du domaine public. Emplacements proposés : 200 « vente non alimentaire et articles liés au thème », 10 « produits locaux transformés », 15 alimentaires, 4 petites attractions enfants. Tarifs par jour : artisans & horticulteurs 8 €/m² · commerçants divers 11 €/m² (extérieur) ou 14 €/m² (intérieur) · table individuelle 30 € (ext.) / 40 € (int.) · petite restauration 30 €/mètre linéaire · attraction enfants 60 €. Pièces : K/BIS de moins de 3 mois, carte de commerçant ambulant, attestation d'assurance, justificatif de domicile, photocopie de la pièce d'identité. Dépôt par mail à animation.dac@mairie-tampon.fr ou sur place contre récépissé (Service Animation / Pôle Grands Kiosques, 170 rue Alfred Lacroix, 97430 Le Tampon).",
+    "desc": "Salon d'été Maison & Jardin de la Ville du Tampon, sur le site des Grands Kiosques à la Plaine des Cafres. 200 emplacements non alimentaires ouverts aux artisans, créateurs et horticulteurs, au tarif préférentiel de 8 €/m² pour les artisans et horticulteurs."
+  },
+  {
     "name": "Braderie commerciale de Saint-Benoît 2026",
     "zone": "Est",
     "type": "Braderie commerciale",
