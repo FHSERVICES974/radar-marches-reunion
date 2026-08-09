@@ -1,0 +1,59 @@
+{
+  "generated": "2026-08-09",
+  "status_changes": [
+    {
+      "key": "franco dan sin zil marche de createurs francofolies|ouest",
+      "name": "Franco Dan Sin Zil — Marché de créateurs (Francofolies)",
+      "zone": "Ouest",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-08)"
+    },
+    {
+      "key": "fete de la vanille appel a un organisateur de fete foraine|nord",
+      "name": "Fête de la Vanille — appel à un organisateur de fête foraine",
+      "zone": "Nord",
+      "from": "soon",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-07)"
+    }
+  ],
+  "new_events_candidates": [
+    {
+      "_source_title": "Appel à candidatures pour des emplacements disponibles sur le domaine public — Salon d'Été, Maison & Jardin 2026 (site Grands Kiosques) — Ville du Tampon, publié le 27 juillet 2026",
+      "_source_url": "https://letampon.fr/appels-candidatures/appel-a-candidatures-pour-des-emplacements-disponibles-sur-le-domaine-public-salon-dete-maison-jardin-2026-site-grands-kiosques/",
+      "_confidence": "Vérifié",
+      "event": {
+        "name": "Salon d'Été, Maison & Jardin",
+        "zone": "Sud",
+        "type": "Salon / Foire",
+        "org": "Ville du Tampon",
+        "place": "Site des Grands Kiosques, Plaine des Cafres (Le Tampon)",
+        "when": "Août · éd. 2026 : samedi 29 & dimanche 30 août, 10h–18h",
+        "badge": "AOÛT",
+        "month": 8,
+        "dateStatus": "confirmée",
+        "status": "open",
+        "deadline": "Vendredi 14 août 2026 à 12h00",
+        "contact": "animation.dac@mairie-tampon.fr · Service Animation / Pôle Grands Kiosques, 170 rue Alfred Lacroix, 97430 Le Tampon",
+        "social": "",
+        "url": "https://letampon.fr/appels-candidatures/appel-a-candidatures-pour-des-emplacements-disponibles-sur-le-domaine-public-salon-dete-maison-jardin-2026-site-grands-kiosques/",
+        "apply": "Appel à candidatures pour AOT du domaine public. Emplacements proposés : 200 « vente non alimentaire et articles liés au thème », 10 « produits locaux transformés », 15 alimentaires, 4 petites attractions enfants. Tarifs par jour : artisans & horticulteurs 8 €/m² · commerçants divers 11 €/m² (extérieur) ou 14 €/m² (intérieur) · table individuelle 30 € (ext.) / 40 € (int.) · petite restauration 30 €/mètre linéaire · attraction enfants 60 €. Pièces : K/BIS de moins de 3 mois, carte de commerçant ambulant, attestation d'assurance, justificatif de domicile, photocopie de la pièce d'identité. Dépôt par mail à animation.dac@mairie-tampon.fr ou sur place contre récépissé (Service Animation / Pôle Grands Kiosques, 170 rue Alfred Lacroix, 97430 Le Tampon).",
+        "desc": "Salon d'été Maison & Jardin de la Ville du Tampon, sur le site des Grands Kiosques à la Plaine des Cafres. 200 emplacements non alimentaires ouverts aux artisans, créateurs et horticulteurs, au tarif préférentiel de 8 €/m² pour les artisans et horticulteurs."
+      }
+    },
+    {
+      "_source_title": "Marché paysan de Sainte-Anne (52ᵉ édition) — Square Jean Cariou, Sainte-Anne (Saint-Benoît). Marché mensuel le 2ᵉ dimanche, producteurs, transformateurs et artisans. La Ville de Saint-Benoît publie un « Appel à candidatures – Marché paysan de Sainte Anne » sur son site, mais saint-benoit.re renvoie HTTP 403 à toute lecture automatisée : la page officielle n'a PAS pu être lue. Un contact (economie.tourisme@ville-saintbenoit.re) et une sélection de 12 exposants apparaissent dans les résumés de résultats de recherche — NON vérifiés sur la page source, à confirmer manuellement avant publication.",
+      "_source_url": "https://guide-reunion.fr/evenements/eve/marche-paysan-ste-anne/",
+      "_confidence": "Probable",
+      "event": null
+    },
+    {
+      "_source_title": "Appel à projet – Marché couvert (Ville de Saint-André, publié le 18 juin 2026) : 6 modules commerciaux d'environ 336 m² au 108 avenue de Bourbon ; la Ville « valorisera les projets qui mettent en avant le savoir-faire et les produits locaux ». Aucune date limite de dépôt n'est indiquée sur la page — statut d'ouverture à confirmer auprès de la mairie avant publication.",
+      "_source_url": "https://www.saint-andre.re/appel-a-projet-marche-couvert/",
+      "_confidence": "Probable",
+      "event": null
+    }
+  ],
+  "community": []
+}
