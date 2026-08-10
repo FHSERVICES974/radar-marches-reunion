@@ -1,6 +1,6 @@
 {
   "_mode_emploi_agent": "Fichier CUMULATIF de pistes d'organisateurs, alimenté par la veille (playbook veille_agent.md, étape 3 ter). Ce ne sont PAS des appels à candidature et elles n'entrent JAMAIS dans events.json : c'est de la matière de démarchage et d'anticipation. Lire ce fichier AVANT d'écrire, puis le réécrire enrichi — ne jamais l'écraser, la mémoire des éditions observées est ce qui permet d'estimer une récurrence. Clé d'unicité : nom_evenement + commune. recurrence_estimee exige au moins deux entrées dans editions_observees. Champs vides plutôt qu'inventés.",
-  "generated": "2026-08-09",
+  "generated": "2026-08-10",
   "pistes": [
     {
       "nom_evenement": "Marché des créateurs — Carré Cathédrale",
@@ -18,7 +18,7 @@
       "organisateur_deja_dans_orgs_json": true,
       "contact_connu": "marion.carrecathedrale@gmail.com",
       "action_suggeree": "FAIT le 07/08/2026 : fiche events.json complétée avec l'édition observée du 09/08/2026, et mention « 1 fois / trimestre » retirée faute de deux éditions sourcées (règle de l'étape 3 ter). François a écrit à Marion. RESTE À FAIRE : si elle répond avec la date d'ouverture des candidatures de l'édition suivante, sa réponse remplace l'estimation — et une deuxième édition observée permettra alors de renseigner recurrence_estimee.",
-      "_note": "Première piste du fichier, saisie manuellement le 07/08/2026 d'après le brief BRIEF_Claude_Code_pistes_organisateurs.md. Édition observée le dimanche 09/08/2026, 10h-18h, accès libre, plus de 100 exposants (bijoux, poterie, décoration, sacs, vêtements). Le même organisateur porte aussi « Marché de Noël du Carré Cat » (décembre) dans events.json. Run du 09/08/2026 : l'édition du jour est confirmée par l'agenda guide-reunion.fr, aucune nouvelle date d'édition n'est annoncée — editions_observees reste à une seule entrée."
+      "_note": "Première piste du fichier, saisie manuellement le 07/08/2026 d'après le brief BRIEF_Claude_Code_pistes_organisateurs.md. Édition observée le dimanche 09/08/2026, 10h-18h, accès libre, plus de 100 exposants (bijoux, poterie, décoration, sacs, vêtements). Le même organisateur porte aussi « Marché de Noël du Carré Cat » (décembre) dans events.json. Run du 09/08/2026 : l'édition du jour est confirmée par l'agenda guide-reunion.fr, aucune nouvelle date d'édition n'est annoncée — editions_observees reste à une seule entrée. Run du 10/08/2026 : fiche agenda relue au lendemain de l'édition, toujours aucune date suivante annoncée et aucun appel à exposants publié."
     },
     {
       "nom_evenement": "Marché artisanal de nuit — Parc du Colosse",
@@ -36,7 +36,7 @@
       "organisateur_deja_dans_orgs_json": false,
       "contact_connu": "",
       "action_suggeree": "Identifier l'organisateur — la Ville de Saint-André est le candidat le plus probable (parc communal), mais rien ne le dit sur les sources lues : ne pas le présumer. Contact d'entrée possible : event@saint-andre.re (déjà dans orgs.json pour la Ville de Saint-André). Demander qui porte le marché artisanal de nuit du Colosse et quand s'ouvre l'appel à exposants de la prochaine édition.",
-      "_note": "Repéré le 08/08/2026 dans l'agenda guide-reunion.fr : « Marché artisanal de nuit au Colosse », Saint-André, samedi 8 août 2026 — après-midi et soirée dédiées à l'artisanat et aux produits locaux. Presse locale (freedom.fr) parle d'un « grand retour », ce qui suggère une édition antérieure non datée : une seule édition sourcée à ce jour, donc recurrence_estimee laissée vide. Article freedom.fr non lisible (HTTP 403). Run du 09/08/2026 : le site officiel saint-andre.re a été relu, aucun appel à candidature ni mention de ce marché n'y figure — l'organisateur reste non identifié."
+      "_note": "Repéré le 08/08/2026 dans l'agenda guide-reunion.fr : « Marché artisanal de nuit au Colosse », Saint-André, samedi 8 août 2026 — après-midi et soirée dédiées à l'artisanat et aux produits locaux. Presse locale (freedom.fr) parle d'un « grand retour », ce qui suggère une édition antérieure non datée : une seule édition sourcée à ce jour, donc recurrence_estimee laissée vide. Article freedom.fr non lisible (HTTP 403). Run du 09/08/2026 : le site officiel saint-andre.re a été relu, aucun appel à candidature ni mention de ce marché n'y figure — l'organisateur reste non identifié. Run du 10/08/2026 : saint-andre.re relu à nouveau, la liste des appels à candidature s'arrête au « Appel à candidature forains – Concert DMM 2026 » (16/07) ; toujours rien sur le marché artisanal de nuit. L'organisateur reste inconnu au bout de trois runs — passer au contact direct plutôt qu'à un quatrième balayage."
     },
     {
       "nom_evenement": "La Guinguette Saint-Gilloise",
@@ -54,7 +54,25 @@
       "organisateur_deja_dans_orgs_json": false,
       "contact_connu": "",
       "action_suggeree": "Contacter l'Office de Tourisme de l'Ouest (organisateur principal) pour connaître le calendrier des prochaines éditions et la date d'ouverture de l'appel à candidatures. La Ville de Saint-Paul relaie l'appel sur sa rubrique « Avis de publicité » — à resurveiller au printemps.",
-      "_note": "Repéré le 08/08/2026. L'événement comporte explicitement un marché artisanal et la Ville de Saint-Paul a lancé un appel à candidatures ouvert aux « commerçants, artisans ou porteurs de projet » pour l'édition du 23 mai 2026 (candidatures closes le 2 mai 2026) — preuve qu'un appel s'ouvre et se referme chaque année sans qu'on le voie. Une édition « de retour le samedi 31 mai » est également mentionnée sur mairie-saintpaul.re, sans année identifiable de façon certaine : non comptée comme deuxième édition, donc recurrence_estimee laissée vide. Run du 09/08/2026 : la rubrique « Avis de publicité » de mairie-saintpaul.re a été relue, la Guinguette n'y figure plus — appel refermé, confirmation qu'il faut surveiller au printemps."
+      "_note": "Repéré le 08/08/2026. L'événement comporte explicitement un marché artisanal et la Ville de Saint-Paul a lancé un appel à candidatures ouvert aux « commerçants, artisans ou porteurs de projet » pour l'édition du 23 mai 2026 (candidatures closes le 2 mai 2026) — preuve qu'un appel s'ouvre et se referme chaque année sans qu'on le voie. Une édition « de retour le samedi 31 mai » est également mentionnée sur mairie-saintpaul.re, sans année identifiable de façon certaine : non comptée comme deuxième édition, donc recurrence_estimee laissée vide. Run du 09/08/2026 : la rubrique « Avis de publicité » de mairie-saintpaul.re a été relue, la Guinguette n'y figure plus — appel refermé, confirmation qu'il faut surveiller au printemps. Run du 10/08/2026 : rubrique relue une nouvelle fois, la Guinguette est toujours absente ; les seuls avis actifs concernent des AOT, les marchés de nuit de Saint-Gilles et le marché forain."
+    },
+    {
+      "nom_evenement": "Marché des Créateurs — Village Artisanal de l'Éperon",
+      "organisateur": "Association Village Artisanal de l'Éperon",
+      "lieu": "Village Artisanal de l'Éperon",
+      "commune": "Saint-Paul",
+      "zone": "Ouest",
+      "editions_observees": ["2026-05-30"],
+      "date_edition_observee": "2026-05-30",
+      "source_url": "https://guide-reunion.fr/evenements/eve/marche-artisanal-eperon/",
+      "date_detection": "2026-08-10",
+      "recurrence_estimee": "",
+      "nb_exposants_annonce": 50,
+      "deja_dans_events_json": true,
+      "organisateur_deja_dans_orgs_json": true,
+      "contact_connu": "asso.eperon@gmail.com",
+      "action_suggeree": "Compléter la fiche existante « Marchés de créateurs — Village de l'Éperon » (aujourd'hui « Selon programmation », sans aucune date) avec cette édition datée du 30/05/2026. Puis écrire à asso.eperon@gmail.com pour obtenir le calendrier 2026-2027 et la date d'ouverture des candidatures. Un seul contact couvre deux événements : ce marché de créateurs ET le Marché de Noël de l'Éperon (~2e week-end de décembre, 100 à 200 artisans selon les éditions).",
+      "_note": "Repéré le 10/08/2026 sur guide-reunion.fr : « Marché des Créateurs », Village artisanal de L'Éperon, samedi 30 mai 2026, 10h-18h, entrée libre, une cinquantaine de créateurs, ambiance fête des mères, espace restauration. La fiche agenda qualifie l'événement d'annuel, mais une seule édition est sourcée à ce jour : recurrence_estimee laissée vide conformément à la règle des deux éditions (étape 3 ter). L'événement figure déjà dans events.json sans aucune date confirmée, ce qui en fait une piste valide au sens du critère « présent mais sans date confirmée pour l'édition observée ». Note de vigilance : la fiche FRT du Marché de Noël de l'Éperon donne un contact différent et probablement obsolète (asso.eperon@hotmail.fr) — c'est asso.eperon@gmail.com qui figure dans orgs.json et dans sources.json, à privilégier."
     }
   ]
 }
