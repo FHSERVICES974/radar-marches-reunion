@@ -1,0 +1,62 @@
+{
+  "generated": "2026-08-11",
+  "status_changes": [
+    {
+      "key": "franco dan sin zil marche de createurs francofolies|ouest",
+      "name": "Franco Dan Sin Zil — Marché de créateurs (Francofolies)",
+      "zone": "Ouest",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-08)"
+    },
+    {
+      "key": "fete de la vanille appel a un organisateur de fete foraine|nord",
+      "name": "Fête de la Vanille — appel à un organisateur de fête foraine",
+      "zone": "Nord",
+      "from": "soon",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-07)"
+    }
+  ],
+  "new_events_candidates": [
+    {
+      "_source_title": "Salon de l'Artisanat & des Créateurs Locaux — Halle des Manifestations du Port (publication Facebook officielle du 10/08/2026, capture déposée dans inbox_docs)",
+      "_source_url": "https://www.facebook.com/Halle.des.manifestations/",
+      "_confidence": "Vérifié",
+      "_reserve": "Source unique = publication Facebook de l'organisateur (capturée et relue sur la page officielle). Le site synergie-pei.fr ne mentionne pas l'événement et aucun média local ne l'a repris. Date, lieu et contacts sont explicites ; les modalités d'inscription exposant ne sont PAS documentées.",
+      "event": {
+        "name": "Salon de l'Artisanat & des Créateurs Locaux — Le Port",
+        "zone": "Ouest",
+        "type": "Salon artisanat & créateurs",
+        "org": "Synergie Péi / La Halle des manifestations du Port",
+        "place": "Halle des Manifestations, Le Port",
+        "when": "Samedi 5 septembre 2026 · 1ʳᵉ édition « Spécial Maison »",
+        "badge": "SEPT",
+        "month": 9,
+        "dateStatus": "confirmée",
+        "status": "soon",
+        "deadline": "",
+        "contact": "communication@synergie-pei.fr · 0262 55 15 07",
+        "social": "@halle.event",
+        "url": "https://www.facebook.com/Halle.des.manifestations/",
+        "apply": "Aucun appel à candidature formel publié à ce jour. Contacter l'organisateur (communication@synergie-pei.fr · 0262 55 15 07) pour un emplacement exposant ; suivre @halle.event pour les annonces.",
+        "desc": "1ʳᵉ édition « Spécial Maison » : artisans, créateurs et producteurs locaux — décoration, mobilier, produits locaux et savoir-faire réunionnais. Entrée gratuite."
+      }
+    },
+    {
+      "_source_title": "Marché du Terroir et de Noël — Saint-Benoît, éd. 2026 : remontée communautaire WhatsApp (capture déposée dans inbox_docs le 10/08/2026) annonçant 18–20 décembre 2026 et des inscriptions en septembre ; récurrence de l'événement confirmée par la Ville de Saint-Benoît sur les éditions précédentes (12–14 décembre, ~50 exposants dont stands artisanaux)",
+      "_source_url": "https://www.saint-benoit.re/actualites/articles/10846-le-marche-du-terroir-et-de-noel-revient-a-saint-benoit-du-12-au-14-decembre",
+      "_confidence": "Probable",
+      "_reserve": "Dates 2026 et fenêtre d'inscription de seconde main (« j'ai eu l'info via le service »), non publiées par la mairie. Le site saint-benoit.re renvoie HTTP 403 : impossible de confirmer à la source ce run. Vérification manuelle recommandée avant publication.",
+      "event": null
+    }
+  ],
+  "community": [
+    {
+      "name": "Marché du Terroir et de Noël — Saint-Benoît (éd. 2026)",
+      "zone": "Est",
+      "note": "Remontée WhatsApp d'un artisan (Mathieu Baret, +262 692 25 70 76) : « Le marché de Noël / terroir de Saint-Benoît se tiendra du 18 au 20 décembre. Les inscriptions se feront dans le mois de septembre, j'ai eu l'info aujourd'hui via le service. » Information de seconde main, non recoupée sur une source officielle. À recouper directement auprès du service événementiel de la Ville de Saint-Benoît.",
+      "source": "data/inbox_docs/processed/Capture d’écran 2026-08-10 à 19.10.36.png"
+    }
+  ]
+}

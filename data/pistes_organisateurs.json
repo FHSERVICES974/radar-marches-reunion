@@ -1,6 +1,6 @@
 {
   "_mode_emploi_agent": "Fichier CUMULATIF de pistes d'organisateurs, alimenté par la veille (playbook veille_agent.md, étape 3 ter). Ce ne sont PAS des appels à candidature et elles n'entrent JAMAIS dans events.json : c'est de la matière de démarchage et d'anticipation. Lire ce fichier AVANT d'écrire, puis le réécrire enrichi — ne jamais l'écraser, la mémoire des éditions observées est ce qui permet d'estimer une récurrence. Clé d'unicité : nom_evenement + commune. recurrence_estimee exige au moins deux entrées dans editions_observees. Champs vides plutôt qu'inventés.",
-  "generated": "2026-08-10",
+  "generated": "2026-08-11",
   "pistes": [
     {
       "nom_evenement": "Marché des créateurs — Carré Cathédrale",
@@ -72,7 +72,25 @@
       "organisateur_deja_dans_orgs_json": true,
       "contact_connu": "asso.eperon@gmail.com",
       "action_suggeree": "Compléter la fiche existante « Marchés de créateurs — Village de l'Éperon » (aujourd'hui « Selon programmation », sans aucune date) avec cette édition datée du 30/05/2026. Puis écrire à asso.eperon@gmail.com pour obtenir le calendrier 2026-2027 et la date d'ouverture des candidatures. Un seul contact couvre deux événements : ce marché de créateurs ET le Marché de Noël de l'Éperon (~2e week-end de décembre, 100 à 200 artisans selon les éditions).",
-      "_note": "Repéré le 10/08/2026 sur guide-reunion.fr : « Marché des Créateurs », Village artisanal de L'Éperon, samedi 30 mai 2026, 10h-18h, entrée libre, une cinquantaine de créateurs, ambiance fête des mères, espace restauration. La fiche agenda qualifie l'événement d'annuel, mais une seule édition est sourcée à ce jour : recurrence_estimee laissée vide conformément à la règle des deux éditions (étape 3 ter). L'événement figure déjà dans events.json sans aucune date confirmée, ce qui en fait une piste valide au sens du critère « présent mais sans date confirmée pour l'édition observée ». Note de vigilance : la fiche FRT du Marché de Noël de l'Éperon donne un contact différent et probablement obsolète (asso.eperon@hotmail.fr) — c'est asso.eperon@gmail.com qui figure dans orgs.json et dans sources.json, à privilégier."
+      "_note": "Repéré le 10/08/2026 sur guide-reunion.fr : « Marché des Créateurs », Village artisanal de L'Éperon, samedi 30 mai 2026, 10h-18h, entrée libre, une cinquantaine de créateurs, ambiance fête des mères, espace restauration. La fiche agenda qualifie l'événement d'annuel, mais une seule édition est sourcée à ce jour : recurrence_estimee laissée vide conformément à la règle des deux éditions (étape 3 ter). L'événement figure déjà dans events.json sans aucune date confirmée, ce qui en fait une piste valide au sens du critère « présent mais sans date confirmée pour l'édition observée ». Note de vigilance : la fiche FRT du Marché de Noël de l'Éperon donne un contact différent et probablement obsolète (asso.eperon@hotmail.fr) — c'est asso.eperon@gmail.com qui figure dans orgs.json et dans sources.json, à privilégier. Run du 11/08/2026 : aucune nouvelle édition annoncée, la piste reste en l'état."
+    },
+    {
+      "nom_evenement": "Marché de l'Eid",
+      "organisateur": "Ville de Saint-André",
+      "lieu": "Parvis de la mairie",
+      "commune": "Saint-André",
+      "zone": "Est",
+      "editions_observees": ["2026-03-07"],
+      "date_edition_observee": "2026-03-07",
+      "source_url": "https://www.saint-andre.re/marche-de-leid-2/",
+      "date_detection": "2026-08-11",
+      "recurrence_estimee": "",
+      "nb_exposants_annonce": null,
+      "deja_dans_events_json": false,
+      "organisateur_deja_dans_orgs_json": true,
+      "contact_connu": "event@saint-andre.re",
+      "action_suggeree": "Contacter la Ville de Saint-André (contact déjà en main) pour savoir quand s'ouvre l'appel à exposants de l'édition suivante — probablement janvier-février, l'Eid étant mobile dans le calendrier. Même interlocuteur que pour le « Marché artisanal de nuit — Parc du Colosse » resté sans organisateur identifié depuis trois runs : une seule prise de contact peut débloquer les deux pistes.",
+      "_note": "Repéré le 11/08/2026 sur le site officiel de la Ville de Saint-André. Édition du samedi 7 mars 2026, 10h-17h30, entrée libre, parvis de la mairie : « mode, gastronomie orientale, décoration, beauté, bijoux de créateurs » — marché de créateurs au sens du filtre de l'étape 3 ter. La page ne publie AUCUNE information exposant (pas d'appel, pas de date limite, pas de contact dédié) : c'est exactement le cas d'un appel qui s'ouvre et se referme sans être vu. Absent d'events.json — à ne pas confondre avec « Les Trésors de l'Eid » (Domaine de la Piscine, Saint-Denis, autre organisateur) déjà présent. Une seule édition sourcée : recurrence_estimee laissée vide. Attention pour l'anticipation : la date de l'Eid se déplace chaque année dans le calendrier grégorien, une fenêtre de veille calendaire fixe serait trompeuse."
     }
   ]
 }
