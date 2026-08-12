@@ -1,0 +1,33 @@
+{
+  "generated": "2026-08-12",
+  "status_changes": [
+    {
+      "key": "franco dan sin zil marche de createurs francofolies|ouest",
+      "name": "Franco Dan Sin Zil — Marché de créateurs (Francofolies)",
+      "zone": "Ouest",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-08)"
+    },
+    {
+      "key": "fete de la vanille appel a un organisateur de fete foraine|nord",
+      "name": "Fête de la Vanille — appel à un organisateur de fête foraine",
+      "zone": "Nord",
+      "from": "soon",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-07)"
+    }
+  ],
+  "new_events_candidates": [],
+  "community": [],
+  "_notes_pour_humain": [
+    "Aucun NOUVEL appel à candidature trouvé ce run : new_events_candidates est volontairement vide.",
+    "URGENT — MISE À JOUR À FAIRE À LA MAIN dans data/events.json (publier.py ne sait pas appliquer les mises à jour, seulement les statuts et les ajouts) : « Fête de l'ail » (zone Sud) — l'appel à forains 2026 est OUVERT et se clôt le 14 août 2026 inclus. Passer status « soon » -> « open », deadline -> « 14 août 2026 inclus », url -> https://www.petite-ile.re/actualites/news/appel-forains-1, et compléter apply avec les pièces exigées. Objet events complet prêt à copier en section 4.1 de proposition_MAJ_2026-08-12.md. Source officielle lue le 12/08/2026.",
+    "Le « Salon de l'Artisanat & des Créateurs Locaux » du Port (5 septembre 2026), proposé le 11/08 sur la base d'une seule publication Facebook, est confirmé par une source indépendante : https://guide-reunion.fr/evenements/eve/salon-artisanat-et-createurs-le-port/ (samedi 5 septembre 2026, Halle des manifestations du Port, 9h-16h). Il n'est PAS re-proposé ici pour éviter un doublon dans la file : il attend toujours validation dans pending_MAJ_2026-08-11.json.",
+    "Écarté volontairement : AOT Saint-Paul bassins de vie n°1 et n°3 (deadline 18/08/2026 14h00). L'avis officiel lu ne porte que sur de la restauration ambulante (food-truck) et de la vente de poulets grillés/grillades — aucun lot artisanat. Hors périmètre de l'agenda.",
+    "Piège d'homonymie écarté : « marché de Noël Saint-Denis 2026, candidatures avant le 31 juillet » = Saint-Denis (93), Seine-Saint-Denis. Pas La Réunion.",
+    "À creuser manuellement : appel à projet « Marché couvert » de Saint-André (6 box, 336 m², savoir-faire et produits locaux valorisés) — aucune date limite publiée sur la page, modalités dans les PDF annexes. Tél. 02.62.58.88.88.",
+    "Angles morts du run : saint-benoit.re et saintlouis.re en HTTP 403 ; 974.agendaculturel.fr en HTTP 403 ; letampon.fr/appel-a-candidatures-manifestations/ ne rend pas son contenu ; artisanat974.re/actualites non rendu (JS) ; mp.artisanat974.re derrière login.",
+    "Proposition (fichier NON modifié) : ajouter à data/veille_calendrier.json une surveillance du Marché de Noël du Village Artisanal de l'Éperon, mois_de_veille [9, 10] — récurrence établie sur deux éditions vérifiées (9-11 déc. 2022, 8-10 déc. 2023), appel historiquement ouvert du 1er au 15 septembre."
+  ]
+}

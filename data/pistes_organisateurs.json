@@ -1,6 +1,6 @@
 {
   "_mode_emploi_agent": "Fichier CUMULATIF de pistes d'organisateurs, alimenté par la veille (playbook veille_agent.md, étape 3 ter). Ce ne sont PAS des appels à candidature et elles n'entrent JAMAIS dans events.json : c'est de la matière de démarchage et d'anticipation. Lire ce fichier AVANT d'écrire, puis le réécrire enrichi — ne jamais l'écraser, la mémoire des éditions observées est ce qui permet d'estimer une récurrence. Clé d'unicité : nom_evenement + commune. recurrence_estimee exige au moins deux entrées dans editions_observees. Champs vides plutôt qu'inventés.",
-  "generated": "2026-08-11",
+  "generated": "2026-08-12",
   "pistes": [
     {
       "nom_evenement": "Marché des créateurs — Carré Cathédrale",
@@ -8,7 +8,9 @@
       "lieu": "Carré Cathédrale",
       "commune": "Saint-Denis",
       "zone": "Nord",
-      "editions_observees": ["2026-08-09"],
+      "editions_observees": [
+        "2026-08-09"
+      ],
       "date_edition_observee": "2026-08-09",
       "source_url": "https://guide-reunion.fr/evenements/eve/marche-des-createurs-a-saint-denis/",
       "date_detection": "2026-08-07",
@@ -26,7 +28,9 @@
       "lieu": "Parc du Colosse",
       "commune": "Saint-André",
       "zone": "Est",
-      "editions_observees": ["2026-08-08"],
+      "editions_observees": [
+        "2026-08-08"
+      ],
       "date_edition_observee": "2026-08-08",
       "source_url": "https://guide-reunion.fr/evenements/",
       "date_detection": "2026-08-08",
@@ -44,7 +48,9 @@
       "lieu": "Rues de Saint-Gilles-les-Bains et port de plaisance",
       "commune": "Saint-Paul",
       "zone": "Ouest",
-      "editions_observees": ["2026-05-23"],
+      "editions_observees": [
+        "2026-05-23"
+      ],
       "date_edition_observee": "2026-05-23",
       "source_url": "https://www.ouest-lareunion.com/agenda/les-evenements-incontournables/la-guinguette-saint-gilloise",
       "date_detection": "2026-08-08",
@@ -62,7 +68,9 @@
       "lieu": "Village Artisanal de l'Éperon",
       "commune": "Saint-Paul",
       "zone": "Ouest",
-      "editions_observees": ["2026-05-30"],
+      "editions_observees": [
+        "2026-05-30"
+      ],
       "date_edition_observee": "2026-05-30",
       "source_url": "https://guide-reunion.fr/evenements/eve/marche-artisanal-eperon/",
       "date_detection": "2026-08-10",
@@ -80,7 +88,9 @@
       "lieu": "Parvis de la mairie",
       "commune": "Saint-André",
       "zone": "Est",
-      "editions_observees": ["2026-03-07"],
+      "editions_observees": [
+        "2026-03-07"
+      ],
       "date_edition_observee": "2026-03-07",
       "source_url": "https://www.saint-andre.re/marche-de-leid-2/",
       "date_detection": "2026-08-11",
@@ -91,6 +101,45 @@
       "contact_connu": "event@saint-andre.re",
       "action_suggeree": "Contacter la Ville de Saint-André (contact déjà en main) pour savoir quand s'ouvre l'appel à exposants de l'édition suivante — probablement janvier-février, l'Eid étant mobile dans le calendrier. Même interlocuteur que pour le « Marché artisanal de nuit — Parc du Colosse » resté sans organisateur identifié depuis trois runs : une seule prise de contact peut débloquer les deux pistes.",
       "_note": "Repéré le 11/08/2026 sur le site officiel de la Ville de Saint-André. Édition du samedi 7 mars 2026, 10h-17h30, entrée libre, parvis de la mairie : « mode, gastronomie orientale, décoration, beauté, bijoux de créateurs » — marché de créateurs au sens du filtre de l'étape 3 ter. La page ne publie AUCUNE information exposant (pas d'appel, pas de date limite, pas de contact dédié) : c'est exactement le cas d'un appel qui s'ouvre et se referme sans être vu. Absent d'events.json — à ne pas confondre avec « Les Trésors de l'Eid » (Domaine de la Piscine, Saint-Denis, autre organisateur) déjà présent. Une seule édition sourcée : recurrence_estimee laissée vide. Attention pour l'anticipation : la date de l'Eid se déplace chaque année dans le calendrier grégorien, une fenêtre de veille calendaire fixe serait trompeuse."
+    },
+    {
+      "nom_evenement": "Marché de Noël — Village Artisanal de l'Éperon",
+      "organisateur": "Association Village Artisanal de l'Éperon",
+      "lieu": "Village Artisanal de l'Éperon",
+      "commune": "Saint-Paul",
+      "zone": "Ouest",
+      "editions_observees": [
+        "2022-12-09",
+        "2023-12-08"
+      ],
+      "date_edition_observee": "2023-12-08",
+      "source_url": "https://frt.re/evenement/marche-de-noel-de-leperon/",
+      "date_detection": "2026-08-12",
+      "recurrence_estimee": "Annuel — 2e week-end de décembre, sur 3 jours",
+      "nb_exposants_annonce": 100,
+      "deja_dans_events_json": true,
+      "organisateur_deja_dans_orgs_json": true,
+      "contact_connu": "asso.eperon@gmail.com",
+      "action_suggeree": "Compléter la fiche events.json (qui n'indique que « Décembre · ~3 jours ») avec la récurrence 2e week-end de décembre ; proposer une entrée veille_calendrier mois 9-10, l'appel étant historiquement ouvert du 1er au 15 septembre. Éd. 2022 annoncée à 180 exposants, éd. 2023 à une centaine."
+    },
+    {
+      "nom_evenement": "Magik Noël (Salon de Noël et du Cadeau)",
+      "organisateur": "Ville de Bras-Panon",
+      "lieu": "Champ de foire",
+      "commune": "Bras-Panon",
+      "zone": "Est",
+      "editions_observees": [
+        "2025-12-05"
+      ],
+      "date_edition_observee": "2025-12-05",
+      "source_url": "https://guide-reunion.fr/evenements/eve/noel-bras-panon/",
+      "date_detection": "2026-08-12",
+      "recurrence_estimee": "",
+      "nb_exposants_annonce": null,
+      "deja_dans_events_json": true,
+      "organisateur_deja_dans_orgs_json": true,
+      "contact_connu": "",
+      "action_suggeree": "Compléter la fiche events.json (aucune date) avec le créneau réel « début décembre, Champ de foire » ; surveiller l'appel vers septembre-octobre. Attention : une source non lue directement attribue l'organisation à une société « Magik Noël » en partenariat avec la Ville — interlocuteur à trancher avant démarchage. Aucun email en base pour la Ville de Bras-Panon (réseau : @villedebraspanon)."
     }
   ]
 }
