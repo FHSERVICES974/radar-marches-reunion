@@ -1,0 +1,64 @@
+{
+  "generated": "2026-08-13",
+  "status_changes": [
+    {
+      "key": "franco dan sin zil marche de createurs francofolies|ouest",
+      "name": "Franco Dan Sin Zil — Marché de créateurs (Francofolies)",
+      "zone": "Ouest",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-08)"
+    },
+    {
+      "key": "fete de la vanille appel a un organisateur de fete foraine|nord",
+      "name": "Fête de la Vanille — appel à un organisateur de fête foraine",
+      "zone": "Nord",
+      "from": "soon",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-07)"
+    }
+  ],
+  "new_events_candidates": [
+    {
+      "_source_title": "APPEL À CANDIDATURES — MARCHÉ « JOUR DE FEU » / Marché Volcanique, Sainte-Rose, dimanche 6 septembre 2026. Affiche officielle des Brocanteurs des Laves « en collaboration avec la Ville de Ste Rose », publiée dans le groupe Facebook « Marchés forains 974 — Braderies, brocantes, foires » et relayée le 12/08/2026 à 08h45 dans le groupe WhatsApp professionnel « Radar des Marchés » par Dupuy Géraldine (GEAOI-BIJOUX-ONGLES.FR, +262 693 33 24 11). Quatre captures déposées dans data/inbox_docs/ le 12/08/2026, traitées et archivées dans processed/.",
+      "_source_url": "https://www.facebook.com/groups/marchesforains974",
+      "_confidence": "Vérifié",
+      "_reserves": [
+        "Aucune page web publique officielle : la Ville de Sainte-Rose ne publie pas cet appel sur sainterose.re, et aucun agrégateur ne le relaie à ce jour. La vérification repose sur deux documents de première main indépendants et concordants (affiche de l'organisateur + relais WhatsApp par une artisane).",
+        "Recoupement de contexte effectué : sainterose.re décrit les « Jours de Feu » comme incluant un « marché » ; l'édition 2025 s'est tenue les 5-7 septembre (guide-reunion.fr/jours-de-feu/) ; « Les Brocanteurs des Laves » sont attestés comme organisateurs de marchés/brocantes à Sainte-Rose (guide-reunion.fr/evenements/eve/brocante-sainte-rose/) ; le 6 septembre 2026 est bien un dimanche, jour habituel de leurs éditions.",
+        "L'affiche porte la mention « ÉDITION LES 3 JOURS DE FEU » alors qu'une seule date de marché est annoncée. La fiche ne retient que le dimanche 6 septembre — ne pas extrapoler à trois jours sans confirmation.",
+        "Lieu précis non indiqué sur l'affiche (« LIEU : STE ROSE »). La brocante habituelle du même organisateur se tient Place des Laves à Piton Sainte-Rose, mais ce n'est PAS écrit pour ce marché : le champ place reste au niveau de la commune.",
+        "Aucune date limite de candidature n'est annoncée : deadline laissée vide, l'appel indique seulement « les inscriptions sont ouvertes »."
+      ],
+      "event": {
+        "name": "Marché Volcanique « Jour de Feu »",
+        "zone": "Est",
+        "type": "Marché de créateurs",
+        "org": "Les Brocanteurs des Laves (en collaboration avec la Ville de Sainte-Rose)",
+        "place": "Sainte-Rose",
+        "when": "Dimanche 6 septembre 2026, 6h00–17h00",
+        "badge": "SEPT",
+        "month": 9,
+        "dateStatus": "confirmée",
+        "status": "open",
+        "deadline": "",
+        "contact": "0692 93 13 14",
+        "social": "Facebook « Les Brocanteurs des Laves »",
+        "url": "",
+        "apply": "Inscriptions ouvertes : contacter Les Brocanteurs des Laves au 0692 93 13 14 ou via leur page Facebook. Tarif exposant : 10 €. Ouvert aux artisans et créateurs ; l'appel met en avant les créations à base de roches volcaniques, sans en faire une condition exclusive.",
+        "desc": "Marché artisanal organisé par Les Brocanteurs des Laves en collaboration avec la Ville de Sainte-Rose, dans l'esprit des Jours de Feu au pays des laves. Artisans et créateurs attendus pour faire découvrir leur savoir-faire dans un cadre « 100 % volcanique »."
+      }
+    }
+  ],
+  "community": [],
+  "_notes_pour_humain": [
+    "URGENT — DERNIER JOUR, mise à jour à faire À LA MAIN dans data/events.json (publier.py n'applique que les statuts et les ajouts) : « Fête de l'ail » (zone Sud). L'appel à forains de l'édition des 23-25 octobre 2026 se clôt le 14 août 2026 INCLUS, soit demain. Déjà signalé le 12/08 et non appliqué : la fiche affiche encore status « soon » et deadline « Appel à forains 2026 à surveiller ». À passer en status « open », deadline « 14 août 2026 inclus », when « Octobre (annuel) · éd. 2026 : 23–25 oct. ». Dépôt : 192 rue Mahé de Labourdonnais, 97429 Petite-Île — service épanouissement humain, 02 62 56 79 79. Source : https://www.petite-ile.re/taxonomy/term/659 (appel publié le 03/06/2026).",
+    "MISE À JOUR recommandée (manuelle) : « Florilèges » (zone Sud). L'appel à candidatures AOT domaine public de Florilèges 2026 (9-18 octobre, SIDR 400 / Place de la Libération) est ouvert et se clôt le vendredi 14 août 2026 à 12h00 — MAIS il ne vise que les manèges, les stands de jeux/attractions et les métiers de bouche. Aucun lot artisanat. Le champ deadline actuel (« Appel à candidature été/automne — dossiers à déposer en mairie ») peut induire un artisan en erreur ; le remplacer par « Appel AOT domaine public 2026 clos le 14/08/2026 12h — réservé aux manèges, jeux et métiers de bouche. Volet artisanat/exposants : aucun appel publié à ce jour. » Source lue : https://letampon.fr/appels-candidatures/appel-a-candidatures-pour-des-emplacements-disponibles-sur-le-domaine-public-florileges-2026/",
+    "Toujours en attente de validation dans pending_MAJ_2026-08-11.json : le « Salon de l'Artisanat & des Créateurs Locaux » du Port (5 septembre 2026). Vérification complémentaire faite ce jour : ville-port.re ne publie AUCUNE page officielle sur cet événement — la confirmation reste la publication Facebook + la fiche guide-reunion.fr. Contact mairie du Port : 0262 42 87 00.",
+    "Écarté (analyse confirmée) : avis AOT Saint-Paul bassins de vie n°1 et n°3, août 2026. PDF source lu intégralement — 1 AOT restauration ambulante food-truck (Saint-Paul centre) et 1 AOT vente de poulets grillés/grillades (Plateau Caillou), AOT courant jusqu'au 30/06/2027. Aucun lot artisanat, hors périmètre de l'agenda.",
+    "Piège d'homonymie écarté à nouveau : « marché de Noël 2026 appel aux exposants » remonte stpaul.fr = Saint-Paul-lez-Durance (13115), plus une dizaine de communes métropolitaines. Aucun appel marché de Noël 974 publié à ce jour.",
+    "Première couverture de Sainte-Rose par la veille (la commune figurait encore en angle mort le 12/08). Deux pistes organisateurs y sont ouvertes dans data/pistes_organisateurs.json : Les Brocanteurs des Laves (nouveau, contact en main) et la Ville de Sainte-Rose (Jours de Feu).",
+    "Angles morts du run : reunionest.fr en HTTP 403 ; letampon.fr/appel-a-candidatures-manifestations/ ne rend toujours pas son contenu (contourné par la page appels-candidatures) ; mp.artisanat974.re derrière login.",
+    "Proposition (fichier NON modifié) : ajouter à data/veille_calendrier.json (a) le Marché de Noël du Village Artisanal de l'Éperon, mois_de_veille [9, 10] — déjà proposé le 12/08, non appliqué ; (b) la Fête de l'ail de Petite-Île, mois_de_veille [6, 7, 8] — deux cycles d'appel désormais sourcés (éd. 2025 : 2 juin-8 août ; éd. 2026 : publié le 3 juin, clos le 14 août)."
+  ]
+}

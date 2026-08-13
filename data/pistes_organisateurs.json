@@ -1,6 +1,6 @@
 {
   "_mode_emploi_agent": "Fichier CUMULATIF de pistes d'organisateurs, alimenté par la veille (playbook veille_agent.md, étape 3 ter). Ce ne sont PAS des appels à candidature et elles n'entrent JAMAIS dans events.json : c'est de la matière de démarchage et d'anticipation. Lire ce fichier AVANT d'écrire, puis le réécrire enrichi — ne jamais l'écraser, la mémoire des éditions observées est ce qui permet d'estimer une récurrence. Clé d'unicité : nom_evenement + commune. recurrence_estimee exige au moins deux entrées dans editions_observees. Champs vides plutôt qu'inventés.",
-  "generated": "2026-08-12",
+  "generated": "2026-08-13",
   "pistes": [
     {
       "nom_evenement": "Marché des créateurs — Carré Cathédrale",
@@ -40,7 +40,7 @@
       "organisateur_deja_dans_orgs_json": false,
       "contact_connu": "",
       "action_suggeree": "Identifier l'organisateur — la Ville de Saint-André est le candidat le plus probable (parc communal), mais rien ne le dit sur les sources lues : ne pas le présumer. Contact d'entrée possible : event@saint-andre.re (déjà dans orgs.json pour la Ville de Saint-André). Demander qui porte le marché artisanal de nuit du Colosse et quand s'ouvre l'appel à exposants de la prochaine édition.",
-      "_note": "Repéré le 08/08/2026 dans l'agenda guide-reunion.fr : « Marché artisanal de nuit au Colosse », Saint-André, samedi 8 août 2026 — après-midi et soirée dédiées à l'artisanat et aux produits locaux. Presse locale (freedom.fr) parle d'un « grand retour », ce qui suggère une édition antérieure non datée : une seule édition sourcée à ce jour, donc recurrence_estimee laissée vide. Article freedom.fr non lisible (HTTP 403). Run du 09/08/2026 : le site officiel saint-andre.re a été relu, aucun appel à candidature ni mention de ce marché n'y figure — l'organisateur reste non identifié. Run du 10/08/2026 : saint-andre.re relu à nouveau, la liste des appels à candidature s'arrête au « Appel à candidature forains – Concert DMM 2026 » (16/07) ; toujours rien sur le marché artisanal de nuit. L'organisateur reste inconnu au bout de trois runs — passer au contact direct plutôt qu'à un quatrième balayage."
+      "_note": "Repéré le 08/08/2026 dans l'agenda guide-reunion.fr : « Marché artisanal de nuit au Colosse », Saint-André, samedi 8 août 2026 — après-midi et soirée dédiées à l'artisanat et aux produits locaux. Presse locale (freedom.fr) parle d'un « grand retour », ce qui suggère une édition antérieure non datée : une seule édition sourcée à ce jour, donc recurrence_estimee laissée vide. Article freedom.fr non lisible (HTTP 403). Run du 09/08/2026 : le site officiel saint-andre.re a été relu, aucun appel à candidature ni mention de ce marché n'y figure — l'organisateur reste non identifié. Run du 10/08/2026 : saint-andre.re relu à nouveau, la liste des appels à candidature s'arrête au « Appel à candidature forains – Concert DMM 2026 » (16/07) ; toujours rien sur le marché artisanal de nuit. L'organisateur reste inconnu au bout de trois runs — passer au contact direct plutôt qu'à un quatrième balayage. Run du 13/08/2026 : saint-andre.re relu une quatrième fois, toujours aucune mention du marché artisanal de nuit ni d'appel à exposants — la liste des appels s'arrête au « Concert DMM 2026 » du 16/07. Le balayage web est épuisé : seul le contact direct (event@saint-andre.re / 02.62.58.88.88) peut encore identifier l'organisateur."
     },
     {
       "nom_evenement": "La Guinguette Saint-Gilloise",
@@ -140,6 +140,46 @@
       "organisateur_deja_dans_orgs_json": true,
       "contact_connu": "",
       "action_suggeree": "Compléter la fiche events.json (aucune date) avec le créneau réel « début décembre, Champ de foire » ; surveiller l'appel vers septembre-octobre. Attention : une source non lue directement attribue l'organisation à une société « Magik Noël » en partenariat avec la Ville — interlocuteur à trancher avant démarchage. Aucun email en base pour la Ville de Bras-Panon (réseau : @villedebraspanon)."
+    },
+    {
+      "nom_evenement": "Brocante des Laves (Place des Laves)",
+      "organisateur": "Les Brocanteurs des Laves",
+      "lieu": "Place des Laves, Piton Sainte-Rose",
+      "commune": "Sainte-Rose",
+      "zone": "Est",
+      "editions_observees": [
+        "2026-08-09"
+      ],
+      "date_edition_observee": "2026-08-09",
+      "source_url": "https://guide-reunion.fr/evenements/eve/brocante-sainte-rose/",
+      "date_detection": "2026-08-13",
+      "recurrence_estimee": "",
+      "nb_exposants_annonce": null,
+      "deja_dans_events_json": false,
+      "organisateur_deja_dans_orgs_json": false,
+      "contact_connu": "0692 93 13 14",
+      "action_suggeree": "Contacter Les Brocanteurs des Laves au 0692 93 13 14 pour obtenir le calendrier des brocantes et marchés de Sainte-Rose et les conditions d'accueil des créateurs. C'est le PREMIER organisateur identifié sur la façade Est-volcan, jusqu'ici angle mort total de la veille, et il porte déjà au moins deux formats différents (brocante mensuelle + Marché Volcanique « Jour de Feu » du 06/09/2026). Un seul appel peut ouvrir une série d'éditions récurrentes.",
+      "_note": "Repéré le 13/08/2026 sur guide-reunion.fr : brocante du dimanche 9 août 2026, 5h30-17h, Place des Laves à Piton Sainte-Rose, tarif exposant 10 €, mêlant brocanteurs, producteurs locaux et artisanat — brocante ouverte aux professionnels au sens du filtre de l'étape 3 ter. Édition organisée en partenariat avec l'association Passion Auto Sonore (premier marché de pièces auto de l'île). Les sources décrivent une brocante « mensuelle le dimanche » mais une seule édition est datée à ce jour : recurrence_estimee laissée vide. Le contact 0692 93 13 14 n'est pas deviné : il est porté par l'affiche officielle du même organisateur (Marché Volcanique « Jour de Feu »), déposée dans data/inbox_docs/ le 12/08/2026 et archivée dans processed/. Organisateur absent d'orgs.json — à y ajouter après premier contact."
+    },
+    {
+      "nom_evenement": "Les Jours de Feu",
+      "organisateur": "Ville de Sainte-Rose",
+      "lieu": "Sainte-Rose (pays des laves)",
+      "commune": "Sainte-Rose",
+      "zone": "Est",
+      "editions_observees": [
+        "2025-09-05"
+      ],
+      "date_edition_observee": "2025-09-05",
+      "source_url": "https://guide-reunion.fr/jours-de-feu/",
+      "date_detection": "2026-08-13",
+      "recurrence_estimee": "",
+      "nb_exposants_annonce": null,
+      "deja_dans_events_json": false,
+      "organisateur_deja_dans_orgs_json": false,
+      "contact_connu": "",
+      "action_suggeree": "Surveiller sainterose.re fin août pour les dates de l'édition 2026, puis contacter la mairie pour savoir QUI gère le volet marché. La Ville laisse visiblement un organisateur privé (Les Brocanteurs des Laves) porter l'appel à exposants, ce qui explique qu'aucun appel communal ne soit jamais visible en ligne : c'est le cas typique d'un appel qui s'ouvre et se referme sans qu'on le voie.",
+      "_note": "Repéré le 13/08/2026. Manifestation communale dédiée au volcan : « conférences, projections, spectacles, randonnée, VTT, marché et maloya » (sainterose.re) — la présence d'un marché est explicite. Édition 2025 tenue les 5, 6 et 7 septembre (guide-reunion.fr) ; aucune date 2026 publiée à ce jour, alors que le Marché Volcanique « Jour de Feu » du dimanche 6 septembre 2026 s'y rattache par son affiche (« ÉDITION LES 3 JOURS DE FEU », « en collaboration avec la Ville de Ste Rose »). Une seule édition datée : recurrence_estimee laissée vide, malgré la mention de reports d'éditions antérieures dans la presse (imazpress) — non datée, donc non comptée. Aucun email en base pour la Ville de Sainte-Rose : contact_connu laissé vide plutôt que deviné."
     }
   ]
 }
