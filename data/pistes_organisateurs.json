@@ -1,185 +1,206 @@
 {
-  "_mode_emploi_agent": "Fichier CUMULATIF de pistes d'organisateurs, alimenté par la veille (playbook veille_agent.md, étape 3 ter). Ce ne sont PAS des appels à candidature et elles n'entrent JAMAIS dans events.json : c'est de la matière de démarchage et d'anticipation. Lire ce fichier AVANT d'écrire, puis le réécrire enrichi — ne jamais l'écraser, la mémoire des éditions observées est ce qui permet d'estimer une récurrence. Clé d'unicité : nom_evenement + commune. recurrence_estimee exige au moins deux entrées dans editions_observees. Champs vides plutôt qu'inventés.",
-  "generated": "2026-08-13",
-  "pistes": [
-    {
-      "nom_evenement": "Marché des créateurs — Carré Cathédrale",
-      "organisateur": "Association Karre Kathedrale",
-      "lieu": "Carré Cathédrale",
-      "commune": "Saint-Denis",
-      "zone": "Nord",
-      "editions_observees": [
-        "2026-08-09"
-      ],
-      "date_edition_observee": "2026-08-09",
-      "source_url": "https://guide-reunion.fr/evenements/eve/marche-des-createurs-a-saint-denis/",
-      "date_detection": "2026-08-07",
-      "recurrence_estimee": "",
-      "nb_exposants_annonce": 100,
-      "deja_dans_events_json": true,
-      "organisateur_deja_dans_orgs_json": true,
-      "contact_connu": "marion.carrecathedrale@gmail.com",
-      "action_suggeree": "FAIT le 07/08/2026 : fiche events.json complétée avec l'édition observée du 09/08/2026, et mention « 1 fois / trimestre » retirée faute de deux éditions sourcées (règle de l'étape 3 ter). François a écrit à Marion. RESTE À FAIRE : si elle répond avec la date d'ouverture des candidatures de l'édition suivante, sa réponse remplace l'estimation — et une deuxième édition observée permettra alors de renseigner recurrence_estimee.",
-      "_note": "Première piste du fichier, saisie manuellement le 07/08/2026 d'après le brief BRIEF_Claude_Code_pistes_organisateurs.md. Édition observée le dimanche 09/08/2026, 10h-18h, accès libre, plus de 100 exposants (bijoux, poterie, décoration, sacs, vêtements). Le même organisateur porte aussi « Marché de Noël du Carré Cat » (décembre) dans events.json. Run du 09/08/2026 : l'édition du jour est confirmée par l'agenda guide-reunion.fr, aucune nouvelle date d'édition n'est annoncée — editions_observees reste à une seule entrée. Run du 10/08/2026 : fiche agenda relue au lendemain de l'édition, toujours aucune date suivante annoncée et aucun appel à exposants publié."
-    },
-    {
-      "nom_evenement": "Marché artisanal de nuit — Parc du Colosse",
-      "organisateur": "",
-      "lieu": "Parc du Colosse",
-      "commune": "Saint-André",
-      "zone": "Est",
-      "editions_observees": [
-        "2026-08-08"
-      ],
-      "date_edition_observee": "2026-08-08",
-      "source_url": "https://guide-reunion.fr/evenements/",
-      "date_detection": "2026-08-08",
-      "recurrence_estimee": "",
-      "nb_exposants_annonce": null,
-      "deja_dans_events_json": false,
-      "organisateur_deja_dans_orgs_json": false,
-      "contact_connu": "",
-      "action_suggeree": "Identifier l'organisateur — la Ville de Saint-André est le candidat le plus probable (parc communal), mais rien ne le dit sur les sources lues : ne pas le présumer. Contact d'entrée possible : event@saint-andre.re (déjà dans orgs.json pour la Ville de Saint-André). Demander qui porte le marché artisanal de nuit du Colosse et quand s'ouvre l'appel à exposants de la prochaine édition.",
-      "_note": "Repéré le 08/08/2026 dans l'agenda guide-reunion.fr : « Marché artisanal de nuit au Colosse », Saint-André, samedi 8 août 2026 — après-midi et soirée dédiées à l'artisanat et aux produits locaux. Presse locale (freedom.fr) parle d'un « grand retour », ce qui suggère une édition antérieure non datée : une seule édition sourcée à ce jour, donc recurrence_estimee laissée vide. Article freedom.fr non lisible (HTTP 403). Run du 09/08/2026 : le site officiel saint-andre.re a été relu, aucun appel à candidature ni mention de ce marché n'y figure — l'organisateur reste non identifié. Run du 10/08/2026 : saint-andre.re relu à nouveau, la liste des appels à candidature s'arrête au « Appel à candidature forains – Concert DMM 2026 » (16/07) ; toujours rien sur le marché artisanal de nuit. L'organisateur reste inconnu au bout de trois runs — passer au contact direct plutôt qu'à un quatrième balayage. Run du 13/08/2026 : saint-andre.re relu une quatrième fois, toujours aucune mention du marché artisanal de nuit ni d'appel à exposants — la liste des appels s'arrête au « Concert DMM 2026 » du 16/07. Le balayage web est épuisé : seul le contact direct (event@saint-andre.re / 02.62.58.88.88) peut encore identifier l'organisateur."
-    },
-    {
-      "nom_evenement": "La Guinguette Saint-Gilloise",
-      "organisateur": "Office de Tourisme de l'Ouest, en partenariat avec l'Union des Commerçants de Saint-Gilles et la Ville de Saint-Paul",
-      "lieu": "Rues de Saint-Gilles-les-Bains et port de plaisance",
-      "commune": "Saint-Paul",
-      "zone": "Ouest",
-      "editions_observees": [
-        "2026-05-23"
-      ],
-      "date_edition_observee": "2026-05-23",
-      "source_url": "https://www.ouest-lareunion.com/agenda/les-evenements-incontournables/la-guinguette-saint-gilloise",
-      "date_detection": "2026-08-08",
-      "recurrence_estimee": "",
-      "nb_exposants_annonce": null,
-      "deja_dans_events_json": false,
-      "organisateur_deja_dans_orgs_json": false,
-      "contact_connu": "",
-      "action_suggeree": "Contacter l'Office de Tourisme de l'Ouest (organisateur principal) pour connaître le calendrier des prochaines éditions et la date d'ouverture de l'appel à candidatures. La Ville de Saint-Paul relaie l'appel sur sa rubrique « Avis de publicité » — à resurveiller au printemps.",
-      "_note": "Repéré le 08/08/2026. L'événement comporte explicitement un marché artisanal et la Ville de Saint-Paul a lancé un appel à candidatures ouvert aux « commerçants, artisans ou porteurs de projet » pour l'édition du 23 mai 2026 (candidatures closes le 2 mai 2026) — preuve qu'un appel s'ouvre et se referme chaque année sans qu'on le voie. Une édition « de retour le samedi 31 mai » est également mentionnée sur mairie-saintpaul.re, sans année identifiable de façon certaine : non comptée comme deuxième édition, donc recurrence_estimee laissée vide. Run du 09/08/2026 : la rubrique « Avis de publicité » de mairie-saintpaul.re a été relue, la Guinguette n'y figure plus — appel refermé, confirmation qu'il faut surveiller au printemps. Run du 10/08/2026 : rubrique relue une nouvelle fois, la Guinguette est toujours absente ; les seuls avis actifs concernent des AOT, les marchés de nuit de Saint-Gilles et le marché forain."
-    },
-    {
-      "nom_evenement": "Marché des Créateurs — Village Artisanal de l'Éperon",
-      "organisateur": "Association Village Artisanal de l'Éperon",
-      "lieu": "Village Artisanal de l'Éperon",
-      "commune": "Saint-Paul",
-      "zone": "Ouest",
-      "editions_observees": [
-        "2026-05-30"
-      ],
-      "date_edition_observee": "2026-05-30",
-      "source_url": "https://guide-reunion.fr/evenements/eve/marche-artisanal-eperon/",
-      "date_detection": "2026-08-10",
-      "recurrence_estimee": "",
-      "nb_exposants_annonce": 50,
-      "deja_dans_events_json": true,
-      "organisateur_deja_dans_orgs_json": true,
-      "contact_connu": "asso.eperon@gmail.com",
-      "action_suggeree": "Compléter la fiche existante « Marchés de créateurs — Village de l'Éperon » (aujourd'hui « Selon programmation », sans aucune date) avec cette édition datée du 30/05/2026. Puis écrire à asso.eperon@gmail.com pour obtenir le calendrier 2026-2027 et la date d'ouverture des candidatures. Un seul contact couvre deux événements : ce marché de créateurs ET le Marché de Noël de l'Éperon (~2e week-end de décembre, 100 à 200 artisans selon les éditions).",
-      "_note": "Repéré le 10/08/2026 sur guide-reunion.fr : « Marché des Créateurs », Village artisanal de L'Éperon, samedi 30 mai 2026, 10h-18h, entrée libre, une cinquantaine de créateurs, ambiance fête des mères, espace restauration. La fiche agenda qualifie l'événement d'annuel, mais une seule édition est sourcée à ce jour : recurrence_estimee laissée vide conformément à la règle des deux éditions (étape 3 ter). L'événement figure déjà dans events.json sans aucune date confirmée, ce qui en fait une piste valide au sens du critère « présent mais sans date confirmée pour l'édition observée ». Note de vigilance : la fiche FRT du Marché de Noël de l'Éperon donne un contact différent et probablement obsolète (asso.eperon@hotmail.fr) — c'est asso.eperon@gmail.com qui figure dans orgs.json et dans sources.json, à privilégier. Run du 11/08/2026 : aucune nouvelle édition annoncée, la piste reste en l'état."
-    },
-    {
-      "nom_evenement": "Marché de l'Eid",
-      "organisateur": "Ville de Saint-André",
-      "lieu": "Parvis de la mairie",
-      "commune": "Saint-André",
-      "zone": "Est",
-      "editions_observees": [
-        "2026-03-07"
-      ],
-      "date_edition_observee": "2026-03-07",
-      "source_url": "https://www.saint-andre.re/marche-de-leid-2/",
-      "date_detection": "2026-08-11",
-      "recurrence_estimee": "",
-      "nb_exposants_annonce": null,
-      "deja_dans_events_json": false,
-      "organisateur_deja_dans_orgs_json": true,
-      "contact_connu": "event@saint-andre.re",
-      "action_suggeree": "Contacter la Ville de Saint-André (contact déjà en main) pour savoir quand s'ouvre l'appel à exposants de l'édition suivante — probablement janvier-février, l'Eid étant mobile dans le calendrier. Même interlocuteur que pour le « Marché artisanal de nuit — Parc du Colosse » resté sans organisateur identifié depuis trois runs : une seule prise de contact peut débloquer les deux pistes.",
-      "_note": "Repéré le 11/08/2026 sur le site officiel de la Ville de Saint-André. Édition du samedi 7 mars 2026, 10h-17h30, entrée libre, parvis de la mairie : « mode, gastronomie orientale, décoration, beauté, bijoux de créateurs » — marché de créateurs au sens du filtre de l'étape 3 ter. La page ne publie AUCUNE information exposant (pas d'appel, pas de date limite, pas de contact dédié) : c'est exactement le cas d'un appel qui s'ouvre et se referme sans être vu. Absent d'events.json — à ne pas confondre avec « Les Trésors de l'Eid » (Domaine de la Piscine, Saint-Denis, autre organisateur) déjà présent. Une seule édition sourcée : recurrence_estimee laissée vide. Attention pour l'anticipation : la date de l'Eid se déplace chaque année dans le calendrier grégorien, une fenêtre de veille calendaire fixe serait trompeuse."
-    },
-    {
-      "nom_evenement": "Marché de Noël — Village Artisanal de l'Éperon",
-      "organisateur": "Association Village Artisanal de l'Éperon",
-      "lieu": "Village Artisanal de l'Éperon",
-      "commune": "Saint-Paul",
-      "zone": "Ouest",
-      "editions_observees": [
-        "2022-12-09",
-        "2023-12-08"
-      ],
-      "date_edition_observee": "2023-12-08",
-      "source_url": "https://frt.re/evenement/marche-de-noel-de-leperon/",
-      "date_detection": "2026-08-12",
-      "recurrence_estimee": "Annuel — 2e week-end de décembre, sur 3 jours",
-      "nb_exposants_annonce": 100,
-      "deja_dans_events_json": true,
-      "organisateur_deja_dans_orgs_json": true,
-      "contact_connu": "asso.eperon@gmail.com",
-      "action_suggeree": "Compléter la fiche events.json (qui n'indique que « Décembre · ~3 jours ») avec la récurrence 2e week-end de décembre ; proposer une entrée veille_calendrier mois 9-10, l'appel étant historiquement ouvert du 1er au 15 septembre. Éd. 2022 annoncée à 180 exposants, éd. 2023 à une centaine."
-    },
-    {
-      "nom_evenement": "Magik Noël (Salon de Noël et du Cadeau)",
-      "organisateur": "Ville de Bras-Panon",
-      "lieu": "Champ de foire",
-      "commune": "Bras-Panon",
-      "zone": "Est",
-      "editions_observees": [
-        "2025-12-05"
-      ],
-      "date_edition_observee": "2025-12-05",
-      "source_url": "https://guide-reunion.fr/evenements/eve/noel-bras-panon/",
-      "date_detection": "2026-08-12",
-      "recurrence_estimee": "",
-      "nb_exposants_annonce": null,
-      "deja_dans_events_json": true,
-      "organisateur_deja_dans_orgs_json": true,
-      "contact_connu": "",
-      "action_suggeree": "Compléter la fiche events.json (aucune date) avec le créneau réel « début décembre, Champ de foire » ; surveiller l'appel vers septembre-octobre. Attention : une source non lue directement attribue l'organisation à une société « Magik Noël » en partenariat avec la Ville — interlocuteur à trancher avant démarchage. Aucun email en base pour la Ville de Bras-Panon (réseau : @villedebraspanon)."
-    },
-    {
-      "nom_evenement": "Brocante des Laves (Place des Laves)",
-      "organisateur": "Les Brocanteurs des Laves",
-      "lieu": "Place des Laves, Piton Sainte-Rose",
-      "commune": "Sainte-Rose",
-      "zone": "Est",
-      "editions_observees": [
-        "2026-08-09"
-      ],
-      "date_edition_observee": "2026-08-09",
-      "source_url": "https://guide-reunion.fr/evenements/eve/brocante-sainte-rose/",
-      "date_detection": "2026-08-13",
-      "recurrence_estimee": "",
-      "nb_exposants_annonce": null,
-      "deja_dans_events_json": false,
-      "organisateur_deja_dans_orgs_json": false,
-      "contact_connu": "0692 93 13 14",
-      "action_suggeree": "Contacter Les Brocanteurs des Laves au 0692 93 13 14 pour obtenir le calendrier des brocantes et marchés de Sainte-Rose et les conditions d'accueil des créateurs. C'est le PREMIER organisateur identifié sur la façade Est-volcan, jusqu'ici angle mort total de la veille, et il porte déjà au moins deux formats différents (brocante mensuelle + Marché Volcanique « Jour de Feu » du 06/09/2026). Un seul appel peut ouvrir une série d'éditions récurrentes.",
-      "_note": "Repéré le 13/08/2026 sur guide-reunion.fr : brocante du dimanche 9 août 2026, 5h30-17h, Place des Laves à Piton Sainte-Rose, tarif exposant 10 €, mêlant brocanteurs, producteurs locaux et artisanat — brocante ouverte aux professionnels au sens du filtre de l'étape 3 ter. Édition organisée en partenariat avec l'association Passion Auto Sonore (premier marché de pièces auto de l'île). Les sources décrivent une brocante « mensuelle le dimanche » mais une seule édition est datée à ce jour : recurrence_estimee laissée vide. Le contact 0692 93 13 14 n'est pas deviné : il est porté par l'affiche officielle du même organisateur (Marché Volcanique « Jour de Feu »), déposée dans data/inbox_docs/ le 12/08/2026 et archivée dans processed/. Organisateur absent d'orgs.json — à y ajouter après premier contact."
-    },
-    {
-      "nom_evenement": "Les Jours de Feu",
-      "organisateur": "Ville de Sainte-Rose",
-      "lieu": "Sainte-Rose (pays des laves)",
-      "commune": "Sainte-Rose",
-      "zone": "Est",
-      "editions_observees": [
-        "2025-09-05"
-      ],
-      "date_edition_observee": "2025-09-05",
-      "source_url": "https://guide-reunion.fr/jours-de-feu/",
-      "date_detection": "2026-08-13",
-      "recurrence_estimee": "",
-      "nb_exposants_annonce": null,
-      "deja_dans_events_json": false,
-      "organisateur_deja_dans_orgs_json": false,
-      "contact_connu": "",
-      "action_suggeree": "Surveiller sainterose.re fin août pour les dates de l'édition 2026, puis contacter la mairie pour savoir QUI gère le volet marché. La Ville laisse visiblement un organisateur privé (Les Brocanteurs des Laves) porter l'appel à exposants, ce qui explique qu'aucun appel communal ne soit jamais visible en ligne : c'est le cas typique d'un appel qui s'ouvre et se referme sans qu'on le voie.",
-      "_note": "Repéré le 13/08/2026. Manifestation communale dédiée au volcan : « conférences, projections, spectacles, randonnée, VTT, marché et maloya » (sainterose.re) — la présence d'un marché est explicite. Édition 2025 tenue les 5, 6 et 7 septembre (guide-reunion.fr) ; aucune date 2026 publiée à ce jour, alors que le Marché Volcanique « Jour de Feu » du dimanche 6 septembre 2026 s'y rattache par son affiche (« ÉDITION LES 3 JOURS DE FEU », « en collaboration avec la Ville de Ste Rose »). Une seule édition datée : recurrence_estimee laissée vide, malgré la mention de reports d'éditions antérieures dans la presse (imazpress) — non datée, donc non comptée. Aucun email en base pour la Ville de Sainte-Rose : contact_connu laissé vide plutôt que deviné."
-    }
-  ]
+ "_mode_emploi_agent": "Fichier CUMULATIF de pistes d'organisateurs, alimenté par la veille (playbook veille_agent.md, étape 3 ter). Ce ne sont PAS des appels à candidature et elles n'entrent JAMAIS dans events.json : c'est de la matière de démarchage et d'anticipation. Lire ce fichier AVANT d'écrire, puis le réécrire enrichi — ne jamais l'écraser, la mémoire des éditions observées est ce qui permet d'estimer une récurrence. Clé d'unicité : nom_evenement + commune. recurrence_estimee exige au moins deux entrées dans editions_observees. Champs vides plutôt qu'inventés.",
+ "generated": "2026-08-14",
+ "pistes": [
+  {
+   "nom_evenement": "Marché des créateurs — Carré Cathédrale",
+   "organisateur": "Association Karre Kathedrale",
+   "lieu": "Carré Cathédrale",
+   "commune": "Saint-Denis",
+   "zone": "Nord",
+   "editions_observees": [
+    "2026-08-09"
+   ],
+   "date_edition_observee": "2026-08-09",
+   "source_url": "https://guide-reunion.fr/evenements/eve/marche-des-createurs-a-saint-denis/",
+   "date_detection": "2026-08-07",
+   "recurrence_estimee": "",
+   "nb_exposants_annonce": 100,
+   "deja_dans_events_json": true,
+   "organisateur_deja_dans_orgs_json": true,
+   "contact_connu": "marion.carrecathedrale@gmail.com",
+   "action_suggeree": "FAIT le 07/08/2026 : fiche events.json complétée avec l'édition observée du 09/08/2026, et mention « 1 fois / trimestre » retirée faute de deux éditions sourcées (règle de l'étape 3 ter). François a écrit à Marion. RESTE À FAIRE : si elle répond avec la date d'ouverture des candidatures de l'édition suivante, sa réponse remplace l'estimation — et une deuxième édition observée permettra alors de renseigner recurrence_estimee.",
+   "_note": "Première piste du fichier, saisie manuellement le 07/08/2026 d'après le brief BRIEF_Claude_Code_pistes_organisateurs.md. Édition observée le dimanche 09/08/2026, 10h-18h, accès libre, plus de 100 exposants (bijoux, poterie, décoration, sacs, vêtements). Le même organisateur porte aussi « Marché de Noël du Carré Cat » (décembre) dans events.json. Run du 09/08/2026 : l'édition du jour est confirmée par l'agenda guide-reunion.fr, aucune nouvelle date d'édition n'est annoncée — editions_observees reste à une seule entrée. Run du 10/08/2026 : fiche agenda relue au lendemain de l'édition, toujours aucune date suivante annoncée et aucun appel à exposants publié."
+  },
+  {
+   "nom_evenement": "Marché artisanal de nuit — Parc du Colosse",
+   "organisateur": "",
+   "lieu": "Parc du Colosse",
+   "commune": "Saint-André",
+   "zone": "Est",
+   "editions_observees": [
+    "2026-08-08"
+   ],
+   "date_edition_observee": "2026-08-08",
+   "source_url": "https://guide-reunion.fr/evenements/",
+   "date_detection": "2026-08-08",
+   "recurrence_estimee": "",
+   "nb_exposants_annonce": null,
+   "deja_dans_events_json": false,
+   "organisateur_deja_dans_orgs_json": false,
+   "contact_connu": "",
+   "action_suggeree": "Identifier l'organisateur — la Ville de Saint-André est le candidat le plus probable (parc communal), mais rien ne le dit sur les sources lues : ne pas le présumer. Contact d'entrée possible : event@saint-andre.re (déjà dans orgs.json pour la Ville de Saint-André). Demander qui porte le marché artisanal de nuit du Colosse et quand s'ouvre l'appel à exposants de la prochaine édition.",
+   "_note": "Repéré le 08/08/2026 dans l'agenda guide-reunion.fr : « Marché artisanal de nuit au Colosse », Saint-André, samedi 8 août 2026 — après-midi et soirée dédiées à l'artisanat et aux produits locaux. Presse locale (freedom.fr) parle d'un « grand retour », ce qui suggère une édition antérieure non datée : une seule édition sourcée à ce jour, donc recurrence_estimee laissée vide. Article freedom.fr non lisible (HTTP 403). Run du 09/08/2026 : le site officiel saint-andre.re a été relu, aucun appel à candidature ni mention de ce marché n'y figure — l'organisateur reste non identifié. Run du 10/08/2026 : saint-andre.re relu à nouveau, la liste des appels à candidature s'arrête au « Appel à candidature forains – Concert DMM 2026 » (16/07) ; toujours rien sur le marché artisanal de nuit. L'organisateur reste inconnu au bout de trois runs — passer au contact direct plutôt qu'à un quatrième balayage. Run du 13/08/2026 : saint-andre.re relu une quatrième fois, toujours aucune mention du marché artisanal de nuit ni d'appel à exposants — la liste des appels s'arrête au « Concert DMM 2026 » du 16/07. Le balayage web est épuisé : seul le contact direct (event@saint-andre.re / 02.62.58.88.88) peut encore identifier l'organisateur."
+  },
+  {
+   "nom_evenement": "La Guinguette Saint-Gilloise",
+   "organisateur": "Office de Tourisme de l'Ouest, en partenariat avec l'Union des Commerçants de Saint-Gilles et la Ville de Saint-Paul",
+   "lieu": "Rues de Saint-Gilles-les-Bains et port de plaisance",
+   "commune": "Saint-Paul",
+   "zone": "Ouest",
+   "editions_observees": [
+    "2026-05-23"
+   ],
+   "date_edition_observee": "2026-05-23",
+   "source_url": "https://www.ouest-lareunion.com/agenda/les-evenements-incontournables/la-guinguette-saint-gilloise",
+   "date_detection": "2026-08-08",
+   "recurrence_estimee": "",
+   "nb_exposants_annonce": null,
+   "deja_dans_events_json": false,
+   "organisateur_deja_dans_orgs_json": false,
+   "contact_connu": "",
+   "action_suggeree": "Contacter l'Office de Tourisme de l'Ouest (organisateur principal) pour connaître le calendrier des prochaines éditions et la date d'ouverture de l'appel à candidatures. La Ville de Saint-Paul relaie l'appel sur sa rubrique « Avis de publicité » — à resurveiller au printemps.",
+   "_note": "Repéré le 08/08/2026. L'événement comporte explicitement un marché artisanal et la Ville de Saint-Paul a lancé un appel à candidatures ouvert aux « commerçants, artisans ou porteurs de projet » pour l'édition du 23 mai 2026 (candidatures closes le 2 mai 2026) — preuve qu'un appel s'ouvre et se referme chaque année sans qu'on le voie. Une édition « de retour le samedi 31 mai » est également mentionnée sur mairie-saintpaul.re, sans année identifiable de façon certaine : non comptée comme deuxième édition, donc recurrence_estimee laissée vide. Run du 09/08/2026 : la rubrique « Avis de publicité » de mairie-saintpaul.re a été relue, la Guinguette n'y figure plus — appel refermé, confirmation qu'il faut surveiller au printemps. Run du 10/08/2026 : rubrique relue une nouvelle fois, la Guinguette est toujours absente ; les seuls avis actifs concernent des AOT, les marchés de nuit de Saint-Gilles et le marché forain."
+  },
+  {
+   "nom_evenement": "Marché des Créateurs — Village Artisanal de l'Éperon",
+   "organisateur": "Association Village Artisanal de l'Éperon",
+   "lieu": "Village Artisanal de l'Éperon",
+   "commune": "Saint-Paul",
+   "zone": "Ouest",
+   "editions_observees": [
+    "2026-05-30"
+   ],
+   "date_edition_observee": "2026-05-30",
+   "source_url": "https://guide-reunion.fr/evenements/eve/marche-artisanal-eperon/",
+   "date_detection": "2026-08-10",
+   "recurrence_estimee": "",
+   "nb_exposants_annonce": 50,
+   "deja_dans_events_json": true,
+   "organisateur_deja_dans_orgs_json": true,
+   "contact_connu": "asso.eperon@gmail.com",
+   "action_suggeree": "Compléter la fiche existante « Marchés de créateurs — Village de l'Éperon » (aujourd'hui « Selon programmation », sans aucune date) avec cette édition datée du 30/05/2026. Puis écrire à asso.eperon@gmail.com pour obtenir le calendrier 2026-2027 et la date d'ouverture des candidatures. Un seul contact couvre deux événements : ce marché de créateurs ET le Marché de Noël de l'Éperon (~2e week-end de décembre, 100 à 200 artisans selon les éditions).",
+   "_note": "Repéré le 10/08/2026 sur guide-reunion.fr : « Marché des Créateurs », Village artisanal de L'Éperon, samedi 30 mai 2026, 10h-18h, entrée libre, une cinquantaine de créateurs, ambiance fête des mères, espace restauration. La fiche agenda qualifie l'événement d'annuel, mais une seule édition est sourcée à ce jour : recurrence_estimee laissée vide conformément à la règle des deux éditions (étape 3 ter). L'événement figure déjà dans events.json sans aucune date confirmée, ce qui en fait une piste valide au sens du critère « présent mais sans date confirmée pour l'édition observée ». Note de vigilance : la fiche FRT du Marché de Noël de l'Éperon donne un contact différent et probablement obsolète (asso.eperon@hotmail.fr) — c'est asso.eperon@gmail.com qui figure dans orgs.json et dans sources.json, à privilégier. Run du 11/08/2026 : aucune nouvelle édition annoncée, la piste reste en l'état. Run du 14/08/2026 : toujours aucune nouvelle édition datée annoncée, la piste reste en l'état."
+  },
+  {
+   "nom_evenement": "Marché de l'Eid",
+   "organisateur": "Ville de Saint-André",
+   "lieu": "Parvis de la mairie",
+   "commune": "Saint-André",
+   "zone": "Est",
+   "editions_observees": [
+    "2026-03-07"
+   ],
+   "date_edition_observee": "2026-03-07",
+   "source_url": "https://www.saint-andre.re/marche-de-leid-2/",
+   "date_detection": "2026-08-11",
+   "recurrence_estimee": "",
+   "nb_exposants_annonce": null,
+   "deja_dans_events_json": false,
+   "organisateur_deja_dans_orgs_json": true,
+   "contact_connu": "event@saint-andre.re",
+   "action_suggeree": "Contacter la Ville de Saint-André (contact déjà en main) pour savoir quand s'ouvre l'appel à exposants de l'édition suivante — probablement janvier-février, l'Eid étant mobile dans le calendrier. Même interlocuteur que pour le « Marché artisanal de nuit — Parc du Colosse » resté sans organisateur identifié depuis trois runs : une seule prise de contact peut débloquer les deux pistes.",
+   "_note": "Repéré le 11/08/2026 sur le site officiel de la Ville de Saint-André. Édition du samedi 7 mars 2026, 10h-17h30, entrée libre, parvis de la mairie : « mode, gastronomie orientale, décoration, beauté, bijoux de créateurs » — marché de créateurs au sens du filtre de l'étape 3 ter. La page ne publie AUCUNE information exposant (pas d'appel, pas de date limite, pas de contact dédié) : c'est exactement le cas d'un appel qui s'ouvre et se referme sans être vu. Absent d'events.json — à ne pas confondre avec « Les Trésors de l'Eid » (Domaine de la Piscine, Saint-Denis, autre organisateur) déjà présent. Une seule édition sourcée : recurrence_estimee laissée vide. Attention pour l'anticipation : la date de l'Eid se déplace chaque année dans le calendrier grégorien, une fenêtre de veille calendaire fixe serait trompeuse."
+  },
+  {
+   "nom_evenement": "Marché de Noël — Village Artisanal de l'Éperon",
+   "organisateur": "Association Village Artisanal de l'Éperon",
+   "lieu": "Village Artisanal de l'Éperon",
+   "commune": "Saint-Paul",
+   "zone": "Ouest",
+   "editions_observees": [
+    "2022-12-09",
+    "2023-12-08"
+   ],
+   "date_edition_observee": "2023-12-08",
+   "source_url": "https://frt.re/evenement/marche-de-noel-de-leperon/",
+   "date_detection": "2026-08-12",
+   "recurrence_estimee": "Annuel — 2e week-end de décembre, sur 3 jours",
+   "nb_exposants_annonce": 100,
+   "deja_dans_events_json": true,
+   "organisateur_deja_dans_orgs_json": true,
+   "contact_connu": "asso.eperon@gmail.com",
+   "action_suggeree": "Compléter la fiche events.json (qui n'indique que « Décembre · ~3 jours ») avec la récurrence 2e week-end de décembre ; proposer une entrée veille_calendrier mois 9-10, l'appel étant historiquement ouvert du 1er au 15 septembre. Éd. 2022 annoncée à 180 exposants, éd. 2023 à une centaine.",
+   "_note": " Run du 14/08/2026 : recherche ciblée « Village artisanal de l'Éperon marché de Noël 2026 appel exposants » — aucun appel 2026 publié à ce jour. La fenêtre de candidature historique (1er au 15 septembre) n'est pas encore ouverte ; l'annonce passe par la page Facebook asso.eperon974, non lisible automatiquement. Rien ne contredit la récurrence déjà établie sur deux éditions."
+  },
+  {
+   "nom_evenement": "Magik Noël (Salon de Noël et du Cadeau)",
+   "organisateur": "Ville de Bras-Panon",
+   "lieu": "Champ de foire",
+   "commune": "Bras-Panon",
+   "zone": "Est",
+   "editions_observees": [
+    "2025-12-05"
+   ],
+   "date_edition_observee": "2025-12-05",
+   "source_url": "https://guide-reunion.fr/evenements/eve/noel-bras-panon/",
+   "date_detection": "2026-08-12",
+   "recurrence_estimee": "",
+   "nb_exposants_annonce": null,
+   "deja_dans_events_json": true,
+   "organisateur_deja_dans_orgs_json": true,
+   "contact_connu": "",
+   "action_suggeree": "Compléter la fiche events.json (aucune date) avec le créneau réel « début décembre, Champ de foire » ; surveiller l'appel vers septembre-octobre. Attention : une source non lue directement attribue l'organisation à une société « Magik Noël » en partenariat avec la Ville — interlocuteur à trancher avant démarchage. Aucun email en base pour la Ville de Bras-Panon (réseau : @villedebraspanon)."
+  },
+  {
+   "nom_evenement": "Brocante des Laves (Place des Laves)",
+   "organisateur": "Les Brocanteurs des Laves",
+   "lieu": "Place des Laves, Piton Sainte-Rose",
+   "commune": "Sainte-Rose",
+   "zone": "Est",
+   "editions_observees": [
+    "2026-08-09"
+   ],
+   "date_edition_observee": "2026-08-09",
+   "source_url": "https://guide-reunion.fr/evenements/eve/brocante-sainte-rose/",
+   "date_detection": "2026-08-13",
+   "recurrence_estimee": "",
+   "nb_exposants_annonce": null,
+   "deja_dans_events_json": false,
+   "organisateur_deja_dans_orgs_json": false,
+   "contact_connu": "0692 93 13 14",
+   "action_suggeree": "Contacter Les Brocanteurs des Laves au 0692 93 13 14 pour obtenir le calendrier des brocantes et marchés de Sainte-Rose et les conditions d'accueil des créateurs. C'est le PREMIER organisateur identifié sur la façade Est-volcan, jusqu'ici angle mort total de la veille, et il porte déjà au moins deux formats différents (brocante mensuelle + Marché Volcanique « Jour de Feu » du 06/09/2026). Un seul appel peut ouvrir une série d'éditions récurrentes.",
+   "_note": "Repéré le 13/08/2026 sur guide-reunion.fr : brocante du dimanche 9 août 2026, 5h30-17h, Place des Laves à Piton Sainte-Rose, tarif exposant 10 €, mêlant brocanteurs, producteurs locaux et artisanat — brocante ouverte aux professionnels au sens du filtre de l'étape 3 ter. Édition organisée en partenariat avec l'association Passion Auto Sonore (premier marché de pièces auto de l'île). Les sources décrivent une brocante « mensuelle le dimanche » mais une seule édition est datée à ce jour : recurrence_estimee laissée vide. Le contact 0692 93 13 14 n'est pas deviné : il est porté par l'affiche officielle du même organisateur (Marché Volcanique « Jour de Feu »), déposée dans data/inbox_docs/ le 12/08/2026 et archivée dans processed/. Organisateur absent d'orgs.json — à y ajouter après premier contact."
+  },
+  {
+   "nom_evenement": "Les Jours de Feu",
+   "organisateur": "Ville de Sainte-Rose",
+   "lieu": "Sainte-Rose (pays des laves)",
+   "commune": "Sainte-Rose",
+   "zone": "Est",
+   "editions_observees": [
+    "2025-09-05"
+   ],
+   "date_edition_observee": "2025-09-05",
+   "source_url": "https://guide-reunion.fr/jours-de-feu/",
+   "date_detection": "2026-08-13",
+   "recurrence_estimee": "",
+   "nb_exposants_annonce": null,
+   "deja_dans_events_json": false,
+   "organisateur_deja_dans_orgs_json": false,
+   "contact_connu": "",
+   "action_suggeree": "Surveiller sainterose.re fin août pour les dates de l'édition 2026, puis contacter la mairie pour savoir QUI gère le volet marché. La Ville laisse visiblement un organisateur privé (Les Brocanteurs des Laves) porter l'appel à exposants, ce qui explique qu'aucun appel communal ne soit jamais visible en ligne : c'est le cas typique d'un appel qui s'ouvre et se referme sans qu'on le voie.",
+   "_note": "Repéré le 13/08/2026. Manifestation communale dédiée au volcan : « conférences, projections, spectacles, randonnée, VTT, marché et maloya » (sainterose.re) — la présence d'un marché est explicite. Édition 2025 tenue les 5, 6 et 7 septembre (guide-reunion.fr) ; aucune date 2026 publiée à ce jour, alors que le Marché Volcanique « Jour de Feu » du dimanche 6 septembre 2026 s'y rattache par son affiche (« ÉDITION LES 3 JOURS DE FEU », « en collaboration avec la Ville de Ste Rose »). Une seule édition datée : recurrence_estimee laissée vide, malgré la mention de reports d'éditions antérieures dans la presse (imazpress) — non datée, donc non comptée. Aucun email en base pour la Ville de Sainte-Rose : contact_connu laissé vide plutôt que deviné."
+  },
+  {
+   "nom_evenement": "Brocante vide-grenier de La Possession",
+   "organisateur": "Association Broc Vide Grenier Solid'R",
+   "lieu": "Place du Marché forain",
+   "commune": "La Possession",
+   "zone": "Ouest",
+   "editions_observees": [
+    "2026-08-16"
+   ],
+   "date_edition_observee": "2026-08-16",
+   "source_url": "https://guide-reunion.fr/evenements/eve/brocante-la-possession/",
+   "date_detection": "2026-08-14",
+   "recurrence_estimee": "",
+   "nb_exposants_annonce": null,
+   "deja_dans_events_json": false,
+   "organisateur_deja_dans_orgs_json": false,
+   "contact_connu": "0692 84 72 83 (numéro d'inscription publié sur la fiche agenda)",
+   "action_suggeree": "Appeler le 0692 84 72 83 pour deux questions distinctes : (1) l'association Broc Vide Grenier Solid'R est-elle le porteur en place des brocantes de La Possession, ou une candidate à l'appel municipal en cours ? (2) les professionnels et artisans sont-ils admis à exposer, ou l'événement est-il réservé aux particuliers ? La réponse à (2) détermine si l'événement a une valeur pour l'agenda ; la réponse à (1) éclaire l'appel « Brocantes de La Possession — appel à un porteur de projet organisateur » déjà présent dans events.json en statut open.",
+   "_note": "Repéré le 14/08/2026 sur guide-reunion.fr : « Brocante vide-grenier à La Possession », Place du Marché forain, dimanche 16 août 2026 de 5h à 12h, accès public gratuit, emplacements exposants à partir de 10 €. La fiche ne précise PAS si les professionnels sont acceptés — champ laissé en question ouverte plutôt que présumé. Point de recoupement important : la Ville de La Possession a un appel ouvert pour trouver un porteur de projet chargé des brocantes des 3es dimanches du mois ; or le 16 août 2026 EST un 3e dimanche. L'association est donc soit l'opérateur en place, soit un candidat — rien dans les sources lues ne permet de trancher, et ce n'est pas à déduire. Aucune récurrence enregistrée : une seule édition observée."
+  }
+ ]
 }

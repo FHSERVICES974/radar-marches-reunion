@@ -1,0 +1,31 @@
+{
+  "generated": "2026-08-14",
+  "status_changes": [
+    {
+      "key": "jour de sport sante 2026 espace food court|ouest",
+      "name": "Jour de Sport Santé 2026 — Espace Food Court",
+      "zone": "Ouest",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-13)"
+    },
+    {
+      "key": "franco dan sin zil marche de createurs francofolies|ouest",
+      "name": "Franco Dan Sin Zil — Marché de créateurs (Francofolies)",
+      "zone": "Ouest",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-08)"
+    },
+    {
+      "key": "fete de la vanille appel a un organisateur de fete foraine|nord",
+      "name": "Fête de la Vanille — appel à un organisateur de fête foraine",
+      "zone": "Nord",
+      "from": "soon",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-07)"
+    }
+  ],
+  "new_events_candidates": [],
+  "community": []
+}
