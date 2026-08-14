@@ -100,31 +100,6 @@
     "reviewer_note": ""
   },
   {
-    "id": "b207f5149b0d",
-    "ts": "2026-08-14T09:13:30",
-    "status": "pending",
-    "fields": {
-      "name": "Test",
-      "zone": "Est",
-      "type": "Marché / Brocante",
-      "org": "Test FH",
-      "place": "St gilles",
-      "when": "12-14 septembre",
-      "deadline": "30 septembre",
-      "apply": "Envoyer un test",
-      "email": "francois.hubert@me.com",
-      "phone": "",
-      "social": "@test",
-      "desc": "Ceci est un test"
-    },
-    "links": [
-      "https://www.lamaisonopale.com"
-    ],
-    "submitter_name": "Hubert",
-    "submitter_phone": "+262692678751",
-    "reviewer_note": ""
-  },
-  {
     "id": "de37cacdad84",
     "ts": "2026-08-14T10:00:06",
     "status": "pending",
