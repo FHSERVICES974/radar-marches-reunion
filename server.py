@@ -433,6 +433,7 @@ def _load_events() -> str:
                 "open":   "Candidature ouverte",
                 "soon":   "À surveiller / appel à venir",
                 "closed": "Clôturée",
+                "full":   "Complet",
                 "perm":   "Marché permanent",
             }
             lines = []
@@ -568,7 +569,7 @@ _VERIFY_SYS = (
     "name, zone (Nord/Est/Ouest/Sud/National), type, org (organisateur), "
     "place, when (période lisible), badge (court en majuscules ex. OCT), "
     "month (1-12, ou 99 si variable), dateStatus (confirmée/annuel/récurrent/"
-    "probable…), status (open/soon/closed/perm), deadline, contact, social, "
+    "probable…), status (open/soon/full/closed/perm), deadline, contact, social, "
     "url, apply (comment candidater), desc (description courte).\n\n"
     "Règle pour status, à appliquer par rapport à la DATE DU JOUR fournie "
     "dans le message :\n"
@@ -577,6 +578,11 @@ _VERIFY_SYS = (
     "- soon : les candidatures ne sont pas encore ouvertes ;\n"
     "- closed : la deadline est STRICTEMENT passée, ou la clôture est "
     "explicitement annoncée par la source ;\n"
+    "- full : l'organisateur annonce explicitement que l'événement est complet "
+    "ou que les places sont prises. À ne mettre QUE si la source le dit ; ne "
+    "jamais le déduire d'un silence ou d'une impression. Quand full et closed "
+    "pourraient tous deux s'appliquer, full PRIME : « complet » renseigne "
+    "l'artisan mieux que « la date est passée » ;\n"
     "- perm : inscriptions permanentes / au fil de l'eau.\n"
     "Ne mets JAMAIS closed si la deadline est aujourd'hui ou dans le futur.\n\n"
     "Réponds UNIQUEMENT avec un objet JSON (aucun texte autour) :\n"
@@ -2009,7 +2015,9 @@ def _render_published_events_section() -> str:
     # à partir du bloc JSON ci-dessous.
     status_badge = {"open":  '<span class="pub-st" style="background:#dcfce7;color:#15803d">ouvert</span>',
                     "soon":  '<span class="pub-st" style="background:#fef3c7;color:#b45309">bientôt</span>',
-                    "closed":'<span class="pub-st" style="background:#f1f5f9;color:#64748b">clos</span>'}
+                    "closed":'<span class="pub-st" style="background:#f1f5f9;color:#64748b">clos</span>',
+                    "full":  '<span class="pub-st" style="background:#eeebf6;color:#6b5b95">complet</span>',
+                    "perm":  '<span class="pub-st" style="background:#e9eef4;color:#3a5578">permanent</span>'}
     rows = []
     for i, ev in enumerate(events):
         name  = ev.get("name", "")
@@ -2068,7 +2076,7 @@ def _render_published_events_section() -> str:
   var FIELDS=[["name","Nom"],["zone","Zone"],["type","Type"],["org","Organisateur"],
     ["place","Lieu"],["when","Date / période"],["badge","Badge (ex. JANV)"],
     ["month","Mois (1–12, 99 si inconnu)"],["dateStatus","Statut de date (confirmé / annuel / à confirmer)"],
-    ["status","Statut (open / soon / closed)"],["deadline","Date limite"],["contact","Contact"],
+    ["status","Statut (open / soon / full / closed / perm)"],["deadline","Date limite"],["contact","Contact"],
     ["social","Réseaux"],["url","Lien"],["apply","Comment candidater"],["desc","Description"]];
   var ZONES=["Nord","Est","Ouest","Sud","National"];
   function refresh(){{

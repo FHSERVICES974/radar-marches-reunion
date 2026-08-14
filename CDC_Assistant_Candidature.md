@@ -21,17 +21,26 @@ L'**Assistant Candidature** vise à réduire le temps qu'un artisan passe à can
 en construit le socle : une fiche d'identité professionnelle que l'artisan remplit une fois, une aide
 à la rédaction de sa présentation, et une plaquette PDF qu'il peut envoyer partout.
 
-Le besoin est mesuré, pas supposé — sondage auprès de 45 artisans (août 2026) :
+Le besoin est mesuré, pas supposé — sondage WhatsApp, **46 votes** (relevé du 11 août 2026) :
 
-| Ce qui prend le plus de temps | Part |
-|---|---|
-| Remplir le formulaire ou le dossier | 42 % |
-| **Rédiger la présentation de son activité** | **27 %** |
-| Rien, ça va vite | 20 % |
-| Retrouver ses papiers à jour | 9 % |
-| Comprendre ce qui est demandé | 2 % |
+| Ce qui prend le plus de temps | Votes | Part |
+|---|---|---|
+| Remplir le formulaire ou le dossier | 20 | **43 %** |
+| **Rédiger la présentation de son activité** | **12** | **26 %** |
+| Rien, ça va vite | 9 | 20 % |
+| Retrouver ses papiers à jour | 4 | 9 % |
+| Comprendre ce qui est demandé | 1 | 2 % |
 
-Ce lot traite les 27 %, et prépare les données qui serviront aux 42 % dans un lot ultérieur.
+Ce lot traite les 26 %, et prépare les données qui serviront aux 43 % dans un lot ultérieur.
+
+**Trois conséquences de conception :**
+
+1. **70 % du besoin (32 votes sur 46) porte sur la production d'écrit**, pas sur l'administratif.
+   L'outil doit générer du texte, pas ranger des fichiers.
+2. **Le stockage de pièces justificatives n'intéresse que 4 personnes.** À ne pas confondre avec un
+   besoin : c'est le plus petit segment du sondage après « comprendre ce qui est demandé ».
+3. **Un seul répondant ne comprend pas ce qui est demandé.** Les fiches du radar remplissent déjà ce
+   rôle — l'Assistant n'a pas à réexpliquer les appels, seulement à aider à y répondre.
 
 ---
 
@@ -299,7 +308,7 @@ figure.
 À ne pas construire, même si cela paraît utile :
 
 - **Analyse des appels à candidature** (Agent 1) et remplissage de dossiers — lot suivant.
-- **Vérification des pièces justificatives** (Agent 2) — 9 % du besoin déclaré, repoussé.
+- **Vérification des pièces justificatives** (Agent 2) — 4 votes sur 46, repoussé.
 - **Coffre à documents et alertes de péremption** — dernier rang du besoin déclaré.
 - **Annuaire public** des artisans — la fiche prépare les données, mais rien n'est publié tant que la
   base n'atteint pas une taille crédible et que le consentement n'est pas explicite.

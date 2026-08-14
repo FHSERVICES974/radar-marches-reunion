@@ -120,7 +120,9 @@ def _jsonld_events(events: list) -> str:
 
     nodes = []
     for e in events:
-        if e.get("status") == "closed":
+        # « full » sort de l'index au même titre que « closed » : un événement
+        # complet ne doit plus être proposé à Google comme opportunité ouverte.
+        if e.get("status") in ("closed", "full"):
             continue
 
         node = {

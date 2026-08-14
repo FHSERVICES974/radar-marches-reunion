@@ -20,7 +20,11 @@ def recompute(events, today: date):
     props = []
     for e in events:
         cur = e.get("status")
-        if cur == "perm":
+        # « perm » et « full » ne se recalculent jamais tout seuls. Pour full c'est
+        # délibéré : « complet » reste vrai quand la deadline passe, et cette
+        # information est plus précise que « la date est dépassée ». Le statut ne
+        # se pose et ne se retire qu'à la main (principe « capté ≠ publié »).
+        if cur in ("perm", "full"):
             continue
         new = reason = None
 

@@ -21,6 +21,9 @@
     --nord:#3b6ea0; --est:#2f7d5c; --ouest:#a9812f; --sud:#7457a3; --national:#a5453b;
     --open:#0e6b52; --open-soft:#e7f2ed; --soon:#93650f; --soon-soft:#f8efdb;
     --closed:#93453a; --closed-soft:#f4e9e6; --perm:#3a5578; --perm-soft:#e9eef4;
+    /* « Complet » : violet sourd, délibérément distinct du rouge de --closed.
+       Une candidature clôturée dit « c'est raté » ; complet dit « c'est plein ». */
+    --full:#6b5b95; --full-soft:#eeebf6;
     --shadow:0 1px 2px rgba(30,26,15,.04),0 10px 28px rgba(30,26,15,.06);
     --serif:'Fraunces',Georgia,'Times New Roman',serif;
     --sans:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
@@ -105,6 +108,7 @@
   .pill{font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;white-space:nowrap;flex-shrink:0;letter-spacing:.1px}
   .pill-open{background:var(--open-soft);color:var(--open)} .pill-soon{background:var(--soon-soft);color:var(--soon)}
   .pill-closed{background:var(--closed-soft);color:var(--closed)} .pill-perm{background:var(--perm-soft);color:var(--perm)}
+  .pill-full{background:var(--full-soft);color:var(--full)}
   .tl-meta{font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:4px}
   .zone-tag{display:inline-flex;align-items:center;gap:5px;font-weight:600;color:var(--ink)}
   .zone-tag i{width:6px;height:6px;border-radius:50%;background:var(--zc,var(--muted));display:inline-block}
@@ -254,6 +258,7 @@
     <span><i style="background:var(--open)"></i>Candidature ouverte</span>
     <span><i style="background:var(--soon)"></i>À surveiller / appel à venir</span>
     <span><i style="background:var(--closed)"></i>Clôturée</span>
+    <span><i style="background:var(--full)"></i>Complet</span>
     <span><i style="background:var(--perm)"></i>Marché permanent</span>
   </div>
   <div><b>Note sur les dates :</b> « confirmée » = date officiellement annoncée ; « annuel / récurrent » = événement qui revient chaque année (la date 2026 indiquée peut être passée — surveillez l'édition suivante) ; « probable » = estimation basée sur la récurrence. Vérifiez toujours auprès de l'organisateur avant de candidater.</div>
@@ -279,7 +284,10 @@ const CONTACT = {
 const ZONE_ORDER = ["National","Nord","Est","Ouest","Sud"];
 const ZONE_COLOR = {National:"var(--national)",Nord:"var(--nord)",Est:"var(--est)",Ouest:"var(--ouest)",Sud:"var(--sud)"};
 
-// status: open | soon | closed | perm
+// status: open | soon | full | closed | perm
+//   full = l'organisateur annonce que l'événement est complet. Se range avec
+//   « closed » (jamais compté comme opportunité active) mais s'affiche « Complet »,
+//   et n'est JAMAIS posé ni réécrit automatiquement.
 // month: 1-12 pour tri (99 = permanent / variable)
 const EVENTS = [
   {
@@ -760,7 +768,7 @@ const EVENTS = [
     "badge": "AOÛT",
     "month": 8,
     "dateStatus": "confirmée",
-    "status": "closed",
+    "status": "full",
     "deadline": "",
     "contact": "DM Instagram @inspira_faith",
     "social": "@inspira_faith",
@@ -922,7 +930,7 @@ const EVENTS = [
     "badge": "SEPT",
     "month": 9,
     "dateStatus": "à confirmer",
-    "status": "closed",
+    "status": "full",
     "deadline": "15 aout",
     "contact": "culture@ville-saintbenoit.re",
     "social": "rouge ruelle",
@@ -2515,7 +2523,7 @@ const MONTHS=["","janvier","février","mars","avril","mai","juin","juillet","ao�
 
 // ---------- helpers ----------
 function pillFor(s){
-  const m={open:["pill-open","Candidature ouverte"],soon:["pill-soon","À surveiller"],closed:["pill-closed","Clôturée"],perm:["pill-perm","Permanent"]};
+  const m={open:["pill-open","Candidature ouverte"],soon:["pill-soon","À surveiller"],closed:["pill-closed","Clôturée"],full:["pill-full","Complet"],perm:["pill-perm","Permanent"]};
   const [c,t]=m[s]||m.perm; return `<span class="pill ${c}">${t}</span>`;
 }
 function monthDiff(m){
@@ -2553,7 +2561,7 @@ function groupEvents(list){
   const g={thisMonth:[],next3:[],laterThisYear:[],nextYear:[],variable:[],perm:[],closed:[]};
   const cur=currentMonth();
   list.forEach(e=>{
-    if(e.status==="closed"){g.closed.push(e);return;}
+    if(e.status==="closed"||e.status==="full"){g.closed.push(e);return;}  // « complet » s'archive comme « clôturé »
     if(e.status==="perm"){g.perm.push(e);return;}
     if(e.month===99){g.variable.push(e);return;}
     if(e.month===cur){g.thisMonth.push(e);return;}
@@ -2611,9 +2619,12 @@ function render(){
 
 function buildKpis(){
   const cur=new Date().getMonth()+1;
-  const thisMonthCount=EVENTS.filter(e=>e.month===cur&&e.status!=="closed").length;
+  // « full » compte comme archivé, au même titre que « closed » : une fiche complète
+  // n'est plus une opportunité. Oublier l'un des deux tests fausserait les compteurs.
+  const archived=e=>e.status==="closed"||e.status==="full";
+  const thisMonthCount=EVENTS.filter(e=>e.month===cur&&!archived(e)).length;
   const permCount=EVENTS.filter(e=>e.status==="perm").length;
-  const activeCount=EVENTS.filter(e=>e.status!=="closed").length;
+  const activeCount=EVENTS.filter(e=>!archived(e)).length;
   document.getElementById("kpis").innerHTML=`
     <div class="stat"><div class="n">${activeCount}</div><div class="l">Opportunités suivies</div></div>
     <div class="stat-divider"></div>
