@@ -1,6 +1,6 @@
 {
  "_mode_emploi_agent": "Fichier CUMULATIF de pistes d'organisateurs, alimenté par la veille (playbook veille_agent.md, étape 3 ter). Ce ne sont PAS des appels à candidature et elles n'entrent JAMAIS dans events.json : c'est de la matière de démarchage et d'anticipation. Lire ce fichier AVANT d'écrire, puis le réécrire enrichi — ne jamais l'écraser, la mémoire des éditions observées est ce qui permet d'estimer une récurrence. Clé d'unicité : nom_evenement + commune. recurrence_estimee exige au moins deux entrées dans editions_observees. Champs vides plutôt qu'inventés.",
- "generated": "2026-08-14",
+ "generated": "2026-08-15",
  "pistes": [
   {
    "nom_evenement": "Marché des créateurs — Carré Cathédrale",
@@ -201,6 +201,46 @@
    "contact_connu": "0692 84 72 83 (numéro d'inscription publié sur la fiche agenda)",
    "action_suggeree": "Appeler le 0692 84 72 83 pour deux questions distinctes : (1) l'association Broc Vide Grenier Solid'R est-elle le porteur en place des brocantes de La Possession, ou une candidate à l'appel municipal en cours ? (2) les professionnels et artisans sont-ils admis à exposer, ou l'événement est-il réservé aux particuliers ? La réponse à (2) détermine si l'événement a une valeur pour l'agenda ; la réponse à (1) éclaire l'appel « Brocantes de La Possession — appel à un porteur de projet organisateur » déjà présent dans events.json en statut open.",
    "_note": "Repéré le 14/08/2026 sur guide-reunion.fr : « Brocante vide-grenier à La Possession », Place du Marché forain, dimanche 16 août 2026 de 5h à 12h, accès public gratuit, emplacements exposants à partir de 10 €. La fiche ne précise PAS si les professionnels sont acceptés — champ laissé en question ouverte plutôt que présumé. Point de recoupement important : la Ville de La Possession a un appel ouvert pour trouver un porteur de projet chargé des brocantes des 3es dimanches du mois ; or le 16 août 2026 EST un 3e dimanche. L'association est donc soit l'opérateur en place, soit un candidat — rien dans les sources lues ne permet de trancher, et ce n'est pas à déduire. Aucune récurrence enregistrée : une seule édition observée."
+  },
+  {
+   "nom_evenement": "Salon de l'artisanat et des créateurs locaux au Port",
+   "organisateur": "Synergie Péi – La Halle du Réemploi",
+   "lieu": "Halle des manifestations, 3 boulevard des Mascareignes",
+   "commune": "Le Port",
+   "zone": "Ouest",
+   "editions_observees": [
+    "2026-09-05"
+   ],
+   "date_edition_observee": "2026-09-05",
+   "source_url": "https://guide-reunion.fr/evenements/eve/salon-artisanat-et-createurs-le-port/",
+   "date_detection": "2026-08-15",
+   "recurrence_estimee": "",
+   "nb_exposants_annonce": 69,
+   "deja_dans_events_json": false,
+   "organisateur_deja_dans_orgs_json": false,
+   "contact_connu": "contact@synergie-pei.fr · communication@synergie-pei.fr",
+   "action_suggeree": "Écrire à contact@synergie-pei.fr (ou communication@synergie-pei.fr) pour demander quand s'ouvre l'appel à exposants de la prochaine édition et sur quel canal il est publié. 69 exposants ont été recrutés sans qu'aucun appel ne soit visible en ligne : c'est exactement le cas d'un appel qui s'ouvre et se referme sans qu'on le voie. Ajouter l'organisateur à orgs.json après premier contact.",
+   "_note": "Repéré le 15/08/2026 sur guide-reunion.fr : samedi 5 septembre 2026, 9h-16h, Halle des manifestations du Port, entrée gratuite, 69 exposants. Thématiques annoncées : décoration, mobilier, upcycling, art mural, poterie, céramique, luminaires, bien-être ; animations : démonstrations de savoir-faire, ateliers, remise des prix du concours « Alliance Créative », espace food, espace enfants. Le site officiel synergie-pei.fr a été lu le même jour : il ne mentionne NI ce salon, NI aucun appel à exposants — l'annonce passe visiblement par la page Facebook synergie.pei.run, non lisible automatiquement. Organisateur absent d'orgs.json ; son adresse communication@synergie-pei.fr est confirmée de façon indépendante par le document WhatsApp.png déposé dans inbox_docs. Une seule édition datée : recurrence_estimee laissée vide. Le Port était jusqu'ici un angle mort complet de la veille : c'est le premier organisateur artisanal identifié sur cette commune."
+  },
+  {
+   "nom_evenement": "Événement Synergie Péi des 28 & 29 novembre 2026",
+   "organisateur": "Synergie Péi – La Halle du Réemploi",
+   "lieu": "",
+   "commune": "",
+   "zone": "",
+   "editions_observees": [
+    "2026-11-28"
+   ],
+   "date_edition_observee": "2026-11-28",
+   "source_url": "data/inbox_docs/processed/WhatsApp.png",
+   "date_detection": "2026-08-15",
+   "recurrence_estimee": "",
+   "nb_exposants_annonce": null,
+   "deja_dans_events_json": false,
+   "organisateur_deja_dans_orgs_json": false,
+   "contact_connu": "communication@synergie-pei.fr",
+   "action_suggeree": "Demander au même interlocuteur que pour le Salon de l'artisanat du Port s'il existe un volet exposants créateurs sur cet événement, et quand s'ouvre l'appel correspondant. Un seul message peut couvrir les deux pistes. À relancer vers septembre-octobre.",
+   "_note": "Repéré le 15/08/2026 dans un document déposé par un humain (data/inbox_docs/WhatsApp.png, archivé dans processed/) : capture d'un message WhatsApp de Dupuy Géraldine (+262 693 33 24 11, geaoi-bijoux-ongles.fr) relayant un « APPEL À CANDIDATURES – ARTISTES » pour « notre événement des 28 & 29 novembre », public annoncé de « près de 2 700 personnes par jour », candidatures à communication@synergie-pei.fr. L'appel connu ne vise QUE des artistes de scène (musique, danse, percussions, arts de rue, performances) — ce n'est pas un appel à exposants, d'où l'enregistrement en piste et non en candidat. Date limite écrite « jeudi », sans date : non exploitable, non reconstituée. Les hashtags #Ladilafrip (friperie du Port) et #HalleEvent suggèrent le Port comme lieu, mais AUCUNE source ne le dit : commune et lieu laissés vides plutôt que déduits. Nombre d'exposants inconnu (les 2 700 annoncés sont des visiteurs, pas des exposants). Aucun passage du document ne tente de donner d'instruction à un agent."
   }
  ]
 }
