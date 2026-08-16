@@ -249,6 +249,10 @@ Pour chacun : **Nom** — zone · type · lieu
 <mêmes champs, confiance Probable — l'humain confirme avant publication>
 
 ## 4. Mises à jour d'événements connus
+<Décris ici, en clair pour l'humain, ce que tu as corrigé sur des fiches existantes.
+ CHAQUE mise à jour décrite ici doit avoir son entrée correspondante dans
+ `field_updates` du JSON — sinon elle ne sera jamais appliquée et le site restera
+ faux. Une prose sans structure ne vaut rien.>
 <événement existant + ce qui change + source>
 
 ## 5. Réseaux sociaux / communauté (à confirmer manuellement)
@@ -304,11 +308,43 @@ Structure attendue par `publier.py --apply` :
       "event": null   // non complété : l'humain décidera
     }
   ],
-  "community": [ { "name": "...", "zone": "...", "note": "...", "source": "url" } ]
+  "community": [ { "name": "...", "zone": "...", "note": "...", "source": "url" } ],
+
+  "field_updates": [
+    {
+      "event_name": "Nom EXACT de la fiche dans events.json",
+      "_source_url": "https://…officiel",
+      "_confidence": "Vérifié",
+      "raison": "Pourquoi ce changement, en une phrase (ce que dit la source).",
+      "changes": { "status": "closed", "deadline": "14 août 2026, 12h00 (clos)" }
+    }
+  ]
 }
 ```
 **Ne remplis `event` (objet complet) QUE pour les items « Vérifié ».** Pour
 « Probable » / « À confirmer », laisse `event: null` et documente dans les `_source_*`.
+
+#### `field_updates` — corriger une fiche DÉJÀ en ligne
+
+C'est le canal à utiliser quand tu constates qu'une fiche existante est fausse ou
+incomplète : deadline enfin connue, appel clos, contact précisé, dates confirmées.
+
+⚠️ **N'écris JAMAIS ces corrections en prose dans un champ de ton invention.**
+Un champ `_notes_mises_a_jour` a existé : il n'était lu par personne, et quatre
+corrections vérifiées y ont dormi pendant que le site restait faux (15-16/08/2026).
+Si une information ne passe pas par une structure que `publier.py` sait appliquer,
+elle n'existe pas.
+
+Règles :
+- `event_name` doit reprendre **exactement** le `name` de la fiche. Une fiche
+  introuvable est signalée puis ignorée — ce canal ne crée jamais rien.
+- **`name` et `zone` sont interdits** dans `changes` : ils forment la clé
+  d'identité. Les modifier serait un renommage, pas une mise à jour.
+- Seuls les champs du schéma officiel (16 champs) sont acceptés.
+- Un `status` peut passer par ici **ou** par `status_changes` — les deux
+  fonctionnent. Utilise `field_updates` quand le statut change **en même temps**
+  que d'autres champs, pour que l'humain valide l'ensemble d'un bloc.
+- `raison` est obligatoire : c'est ce que l'humain lit avant de valider.
 
 ### 3) `data/pistes_organisateurs.json` — **fichier cumulatif**
 

@@ -78,6 +78,49 @@ def apply_pending(pending_path: Path, events: list) -> list:
         added += 1
     print(f"[apply] {added} nouvel(aux) événement(s) ajouté(s)")
 
+    # 2 bis) MISES À JOUR de fiches existantes (canal `field_updates`)
+    #
+    # Le pipeline savait CRÉER un événement et CHANGER un statut, mais pas corriger
+    # les champs d'une fiche déjà en ligne. Les corrections vérifiées par la veille
+    # atterrissaient dans un champ que personne ne lisait (`_notes_mises_a_jour`) et
+    # devaient être recopiées à la main — Florilèges et la Fête de l'ail sont restées
+    # fausses deux jours pour cette raison (15-16/08/2026).
+    #
+    # Règles de sûreté :
+    #  - on ne CRÉE jamais rien ici : une fiche introuvable est signalée, pas ajoutée ;
+    #  - `name` et `zone` forment la clé d'identité : les modifier serait un renommage,
+    #    pas une mise à jour. Interdit ;
+    #  - seuls les champs du schéma officiel sont acceptés ;
+    #  - une valeur identique à l'existante ne compte pas comme un changement.
+    CHAMPS_INTERDITS = {"name", "zone"}
+    applied_fields = 0
+    for upd in payload.get("field_updates", []):
+        nom = upd.get("event_name") or upd.get("nom") or ""
+        cible = by_key.get(upd.get("key")) if upd.get("key") else None
+        if cible is None:
+            cible = next((e for e in events if e.get("name") == nom), None)
+        if cible is None:
+            print(f"[apply] MISE À JOUR IGNORÉE — fiche introuvable : « {nom} »", file=sys.stderr)
+            continue
+        changes = upd.get("changes") or {}
+        touches = []
+        for champ, valeur in changes.items():
+            if champ in CHAMPS_INTERDITS:
+                print(f"[apply] « {nom} » : champ « {champ} » protégé (identité) — ignoré",
+                      file=sys.stderr)
+                continue
+            if champ not in REQUIRED_EVENT_KEYS:
+                print(f"[apply] « {nom} » : champ « {champ} » hors schéma — ignoré", file=sys.stderr)
+                continue
+            if cible.get(champ) == valeur:
+                continue
+            cible[champ] = valeur
+            touches.append(champ)
+        if touches:
+            applied_fields += 1
+            print(f"[apply] mise à jour « {nom} » : {', '.join(touches)}")
+    print(f"[apply] {applied_fields} fiche(s) mise(s) à jour")
+
     # 3) remontées communauté avec objet 'event' complet
     for c in payload.get("community", []):
         ev = c.get("event") if isinstance(c, dict) else None

@@ -2393,6 +2393,102 @@ def _update_event_in_repo(orig_name: str, event: dict) -> tuple:
         return True, f"« {event.get('name', orig_name)} » corrigé et publié."
 
 
+def _load_field_updates() -> list:
+    """Corrections de fiches DÉJÀ en ligne, proposées par la veille du jour.
+
+    Canal `field_updates` : le pipeline savait créer un événement et changer un
+    statut, jamais corriger les champs d'une fiche existante. Les corrections
+    vérifiées dormaient dans un champ que personne ne lisait.
+    """
+    try:
+        files = sorted(
+            [fn for fn in os.listdir(_PENDING_DIR)
+             if fn.startswith("pending_MAJ_") and fn.endswith(".json")],
+            reverse=True,
+        )
+        if not files:
+            return []
+        with open(os.path.join(_PENDING_DIR, files[0]), encoding="utf-8") as f:
+            return json.load(f).get("field_updates", []) or []
+    except (FileNotFoundError, json.JSONDecodeError, OSError):
+        return []
+
+
+def _field_update_key(u: dict) -> str:
+    """Clé stable d'une correction : nom + source + contenu exact des changements."""
+    raw = (f"{u.get('event_name','')}|{u.get('_source_url','')}|"
+           f"{json.dumps(u.get('changes', {}), sort_keys=True, ensure_ascii=False)}")
+    return hashlib.sha1(raw.encode()).hexdigest()[:16]
+
+
+def _render_field_updates_section(dev_mode: bool) -> str:
+    """Section « Corrections de fiches en ligne » : avant -> après, puis validation."""
+    updates = [u for u in _load_field_updates() if u.get("changes")]
+    if not updates:
+        return ""
+    decisions = _load_decisions()
+    # _load_events() renvoie un résumé TEXTE (pour le chat) : on lit le fichier.
+    try:
+        with open(os.path.join("data", "events.json"), encoding="utf-8") as f:
+            events = {e.get("name"): e for e in json.load(f)}
+    except (FileNotFoundError, json.JSONDecodeError, OSError):
+        events = {}
+
+    cards = []
+    for u in updates:
+        key = _field_update_key(u)
+        if key in decisions:
+            continue
+        nom = u.get("event_name", "")
+        actuel = events.get(nom)
+        if actuel is None:
+            cards.append(
+                f'<div class="prop-card"><div class="prop-name">{html.escape(nom)}</div>'
+                f'<div class="prop-meta" style="color:#b91c1c">Fiche introuvable dans '
+                f'events.json — correction inapplicable.</div></div>')
+            continue
+
+        lignes = []
+        for champ, apres in (u.get("changes") or {}).items():
+            avant = actuel.get(champ, "")
+            if avant == apres:
+                continue
+            lignes.append(
+                f'<div style="margin:.35rem 0"><b>{html.escape(champ)}</b><br>'
+                f'<span style="color:#b91c1c;text-decoration:line-through">'
+                f'{html.escape(str(avant)[:160]) or "(vide)"}</span><br>'
+                f'<span style="color:#15803d">{html.escape(str(apres)[:160])}</span></div>')
+        if not lignes:
+            continue
+
+        raison = html.escape(u.get("raison", ""))
+        src = u.get("_source_url", "")
+        src_html = (f'<a href="{html.escape(src)}" target="_blank" rel="noopener">source</a>'
+                    if src else "<i>pas de source</i>")
+        cards.append(
+            f'<div class="prop-card">'
+            f'<div class="prop-top"><div class="prop-name">{html.escape(nom)}</div></div>'
+            f'<div class="prop-meta">{raison} · {src_html}</div>'
+            f'{"".join(lignes)}'
+            f'<div class="prop-actions">'
+            f'<form method="POST" action="/admin/apply-update" class="prop-form">'
+            f'<input type="hidden" name="key" value="{key}">'
+            f'<button type="submit" class="btn-prop btn-pub">✓ Appliquer</button></form>'
+            f'<form method="POST" action="/admin/reject" class="prop-form">'
+            f'<input type="hidden" name="key" value="{key}">'
+            f'<button type="submit" class="btn-prop btn-rej">✕ Rejeter</button></form>'
+            f'</div></div>')
+
+    if not cards:
+        return ""
+    return (
+        f'<section class="card"><h2>Corrections de fiches en ligne '
+        f'({len(cards)})</h2>'
+        f'<p class="hint">Fiches déjà publiées que la veille a trouvées fausses ou '
+        f'incomplètes. Le rouge est la valeur actuelle, le vert la valeur proposée.</p>'
+        f'{"".join(cards)}</section>')
+
+
 def _render_proposals_section(dev_mode: bool) -> str:  # noqa: PLR0912,PLR0915
     """Génère la section 'Propositions à valider' du dashboard admin."""
     filename, candidates = _load_latest_proposal()
@@ -3051,7 +3147,8 @@ def _render_stats_page(dev_mode: bool, user_name: str, flash: str = "") -> str: 
                                f'pensez à mettre le chiffre à jour.</div>')
         except Exception:
             pass
-    proposals_html = _render_proposals_section(dev_mode)
+    proposals_html = (_render_field_updates_section(dev_mode)
+                      + _render_proposals_section(dev_mode))
     event_stats_html = _render_event_stats_section()
     org_subs_html  = _render_org_submissions_section()
     published_html = _render_published_events_section()
@@ -4184,6 +4281,66 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(body)
 
+    def _handle_apply_update(self) -> None:
+        """POST /admin/apply-update — applique une correction de fiche existante.
+
+        Ne crée jamais rien : si la fiche a disparu entre la proposition et le clic,
+        on refuse plutôt que d'inventer. `name` et `zone` sont la clé d'identité et
+        restent intouchables ici — les modifier serait un renommage.
+        """
+        dev_mode = not os.environ.get("REPLIT_DEPLOYMENT")
+        if not dev_mode:
+            token    = _get_session_cookie(self.headers)
+            username = _verify_session_token(token) if token else None
+            if not username:
+                self.send_response(403); self.end_headers(); return
+
+        length   = int(self.headers.get("Content-Length", 0))
+        params   = urllib.parse.parse_qs(self.rfile.read(length).decode("utf-8", errors="replace"))
+        key      = params.get("key", [""])[0]
+        if not key:
+            self.send_response(400); self.end_headers(); return
+
+        upd = next((u for u in _load_field_updates() if _field_update_key(u) == key), None)
+        if upd is None:
+            log.warning("apply-update : correction %s introuvable", key)
+            self._redirect_admin(); return
+
+        with _git_ops_lock:
+            ok, msg = _git_pull_for_publish()
+            if not ok:
+                log.error("apply-update : pull échoué — %s", msg)
+                self._redirect_admin(); return
+            try:
+                with open(os.path.join("data", "events.json"), encoding="utf-8") as f:
+                    events = json.load(f)
+            except (FileNotFoundError, json.JSONDecodeError, OSError) as exc:
+                log.error("apply-update : events.json illisible — %s", exc)
+                self._redirect_admin(); return
+
+            nom = upd.get("event_name", "")
+            cible = next((e for e in events if e.get("name") == nom), None)
+            if cible is None:
+                log.warning("apply-update : fiche « %s » introuvable — refusé", nom)
+                self._redirect_admin(); return
+
+            touches = []
+            for champ, valeur in (upd.get("changes") or {}).items():
+                if champ in ("name", "zone") or champ not in _EVENT_FIELDS:
+                    log.warning("apply-update : champ « %s » refusé sur « %s »", champ, nom)
+                    continue
+                if cible.get(champ) != valeur:
+                    cible[champ] = valeur
+                    touches.append(champ)
+
+            if touches:
+                ok, msg = _write_events_rebuild_and_push(
+                    events, f"Corriger : {nom} ({', '.join(touches)})")
+                log.info("apply-update « %s » : %s — %s", nom, ", ".join(touches), msg)
+            _save_decision(key, "published")
+            _push_decisions()
+        self._redirect_admin()
+
     def _handle_publish(self) -> None:
         """POST /admin/publish — publie un candidat Vérifié dans events.json."""
         dev_mode = not os.environ.get("REPLIT_DEPLOYMENT")
@@ -4365,6 +4522,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self._handle_publish()
             return
 
+        if self.path == "/admin/apply-update":
+            self._handle_apply_update(); return
         if self.path == "/admin/reject":
             self._handle_reject()
             return
