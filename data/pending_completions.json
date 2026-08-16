@@ -136,5 +136,28 @@
     },
     "report": "Fiche complète vérifiée à partir de la page officielle saint-benoit.re. Les dates (4-13 septembre 2026), la deadline (31 juillet), le contact email et téléphone sont confirmés dans le contenu fourni. Saint-Benoît est bien une commune de La Réunion (zone Est). L'organisateur est la Ville de Saint-Benoît. Aucun réseau social public identifié pour l'appel à candidatures. Toutes les informations proviennent de sources vérifiées.",
     "ts": 1785381197.715174
+  },
+  "4a54d7e7a96118b8": {
+    "status": "done",
+    "event": {
+      "name": "Mascarin Jardin Botanique — appel à projet (boutique & salles de séminaire)",
+      "zone": "Ouest",
+      "type": "Appel à projet / exploitation d'espace",
+      "org": "Département de La Réunion",
+      "place": "Mascarin — Jardin Botanique de La Réunion, Saint-Leu",
+      "when": "Candidatures du 15 juillet au 31 août 2026 à 12h00",
+      "badge": "AOÛT",
+      "month": 8,
+      "dateStatus": "confirmée",
+      "status": "open",
+      "deadline": "31 août 2026 à 12h00",
+      "contact": "mascarin.jardinbotanique@cg974.fr · Tel : 02 62 24 92 27",
+      "social": "",
+      "url": "https://www.departement974.fr/actualite/appel-projets-exploitation-de-boutique-des-salles-de-seminaires-de-mascarin-2026",
+      "apply": "Télécharger le dossier complet d'appel à projets (cahier des charges, caractéristiques des espaces, critères de sélection et modalités de candidature) sur la page du Département, puis déposer sa candidature avant le 31 août 2026 à 12h00.",
+      "desc": "Le Département recherche un opérateur pour exploiter et développer la boutique située dans la villa principale et deux salles de séminaires et réunions de Mascarin, jardin botanique de 8 hectares à Saint-Leu qui accueille plus de 60 000 visiteurs par an. Le projet doit proposer une offre cohérente avec l'identité du site : promotion des productions, créations et savoir-faire réunionnais, et offre qualitative pour visiteurs, groupes et professionnels."
+    },
+    "report": "Fiche complétée et vérifiée à partir de la source officielle fournie (page du Département de La Réunion). Toutes les informations clés sont confirmées : dates (candidatures du 15 juillet au 31 août 2026 à 12h), lieu (Mascarin, Saint-Leu), contact (mascarin.jardinbotanique@cg974.fr et 02 62 24 92 27), modalités de candidature et description de l'appel à projet. Le statut est 'open' car la deadline (31 août 2026 à 12h00) est postérieure à la date du jour (16 août 2026). L'URL source est bien réelle et consultée. La zone Ouest est confirmée par la localisation à Saint-Leu.",
+    "ts": 1786853635.6174169
   }
 }
