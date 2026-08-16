@@ -12,6 +12,7 @@ N'écrit rien, ne publie rien : simple lecture + envoi de mail.
 from __future__ import annotations
 
 import os
+import re
 import smtplib
 from datetime import date
 from email.message import EmailMessage
@@ -33,9 +34,106 @@ URGENCE_JOURS = 10  # deadline à moins de N jours -> alerte + inclus dans le me
 
 
 def _first_deadline(deadline_text: str):
+    """Date de clôture réelle d'un texte de deadline.
+
+    ⚠️ Ne jamais reprendre `dates[0]` ici. `parse_dates_from_text` reconnaît aussi
+    le motif « mois année » et fabrique donc une date parasite au 1er du mois :
+
+        "19 août 2026, 14h00"  ->  [2026-08-01, 2026-08-19]
+
+    Prendre la première renvoyait le 1er août — soit une deadline systématiquement
+    dans le passé, et donc aucune alerte ne partait jamais (bug silencieux corrigé
+    le 15 août 2026, découvert sur l'AOT de Saint-Gilles calculée à J-14 au lieu
+    de J+4). La date parasite étant toujours le 1er du mois, elle est toujours la
+    plus petite : `max()` retient la vraie échéance.
+    """
     from common import parse_dates_from_text
     dates = parse_dates_from_text(deadline_text or "")
-    return dates[0] if dates else None
+    return max(dates) if dates else None
+
+
+# Statuts d'events.json qui correspondent à une candidature réellement ouverte.
+STATUTS_OUVERTS = {"open", "soon"}
+
+# Garde-fou sur le champ `deadline`, qui est affiché tel quel dans le rapport :
+# au-delà de cette longueur ET avec un marqueur de procédure, c'est que le mode
+# d'emploi a débordé dans un champ prévu pour une date.
+DEADLINE_MAX_CAR = 40
+
+# Horizon de la liste « sans date exploitable » : au-delà, ce n'est pas encore
+# actionnable et ça encombrerait le rapport.
+MOIS_SANS_DATE = 3
+_DEADLINE_PROCEDURE = re.compile(
+    r"€|formulaire|paiement|pré-?inscription|inscription via|lien en bio|à régler", re.I)
+
+
+def _urgent_published(today_d) -> list[tuple[int, dict]]:
+    """Événements DÉJÀ PUBLIÉS dont la deadline tombe dans les N prochains jours.
+
+    Le rapport ne regardait que les captures de la nuit. Un appel publié il y a
+    trois jours et qui ferme demain n'apparaissait donc nulle part — c'est
+    justement le cas le plus urgent pour la communauté.
+    """
+    urgents = []
+    for ev in load_json(ROOT / "data" / "events.json", default=[]):
+        if ev.get("status") not in STATUTS_OUVERTS:
+            continue
+        d = _first_deadline(ev.get("deadline", ""))
+        if not d:
+            continue
+        days = (d - today_d).days
+        if 0 <= days <= URGENCE_JOURS:
+            urgents.append((days, ev))
+    urgents.sort(key=lambda x: x[0])
+    return urgents
+
+
+def _noms_sous_surveillance(mois: int) -> set:
+    """Noms d'événements dont une fenêtre de veille saisonnière est ouverte ce mois-ci.
+
+    Fait le lien avec data/veille_calendrier.json : une fiche sans date dont l'appel
+    est réputé s'ouvrir MAINTENANT est actionnable, même si l'événement est loin.
+    """
+    cal = load_json(ROOT / "data" / "veille_calendrier.json", default={})
+    return {s.get("nom", "") for s in cal.get("surveillances", [])
+            if mois in (s.get("mois_de_veille") or [])}
+
+
+def _sans_date_exploitable(today_d) -> list[dict]:
+    """Fiches ouvertes dont la clôture n'est PAS analysable, événement proche.
+
+    Le trou de fond du rapport : toutes les listes d'urgence reposent sur
+    `_first_deadline()`. Une fiche dont le `deadline` est vide ou non daté
+    (« Appel à candidature été/automne », « Appel à forains 2026 à surveiller »)
+    n'apparaît donc dans AUCUNE liste — ni en retard, ni du tout. Son silence est
+    indiscernable d'un « rien à signaler ».
+
+    C'est exactement ce qu'étaient Florilèges et la Fête de l'ail, ratés le 14/08/2026,
+    et les neuf marchés de Noël sans deadline connue.
+
+    Volontairement HORS du message WhatsApp : c'est une liste de travail pour
+    François, pas une alerte pour les artisans.
+    """
+    manquantes = []
+    for ev in load_json(ROOT / "data" / "events.json", default=[]):
+        if ev.get("status") not in STATUTS_OUVERTS:
+            continue
+        if _first_deadline(ev.get("deadline", "")):
+            continue                      # une date exploitable : déjà couverte ailleurs
+        m = ev.get("month")
+        if not isinstance(m, int) or not 1 <= m <= 12:
+            continue                      # 99 = variable/permanent : pas d'échéance à rater
+        dans = (m - today_d.month) % 12   # nombre de mois avant l'événement
+        # Deux raisons d'être dans la liste. La distance à l'événement ne suffit
+        # pas : un marché de Noël est à 4 mois en août, donc hors fenêtre — alors
+        # que son APPEL s'ouvre précisément en août. On retient donc aussi les
+        # fiches dont une surveillance saisonnière est ouverte ce mois-ci.
+        if dans <= MOIS_SANS_DATE or ev.get("name", "") in _noms_sous_surveillance(today_d.month):
+            manquantes.append({"nom": ev.get("name", ""), "mois": dans,
+                               "url": ev.get("url", ""), "contact": ev.get("contact", ""),
+                               "deadline_brut": (ev.get("deadline") or "").strip()})
+    manquantes.sort(key=lambda x: (x["mois"], x["nom"]))
+    return manquantes
 
 
 def _collect_alerts(verifies: list[dict]) -> list[str]:
@@ -68,6 +166,29 @@ def _collect_alerts(verifies: list[dict]) -> list[str]:
             if 0 <= days <= URGENCE_JOURS:
                 alerts.append(f"« {ev.get('name')} » clôture dans {days} jour(s) ({ev.get('deadline')}) — à publier vite si pertinent.")
 
+    # 3. deadlines très proches parmi les événements DÉJÀ EN LIGNE
+    for days, ev in _urgent_published(today_d):
+        quand = "aujourd'hui" if days == 0 else ("demain" if days == 1 else f"dans {days} jours")
+        alerts.append(f"EN LIGNE — « {ev.get('name')} » clôture {quand} ({ev.get('deadline')}).")
+
+    # 4. qualité du champ `deadline` : il est AFFICHÉ TEL QUEL dans ce rapport.
+    # Cas réel (Maison Banian, 16/08/2026) : toute la procédure avait été écrite
+    # dans `deadline`, d'où un mail annonçant « clôture le Pré-inscription via
+    # formulaire, sélection puis paiement (210€ TTC…) ».
+    #
+    # On ne teste PAS « longue et sans date extractible » : ça signalerait onze
+    # fiches parfaitement légitimes (« Éd. 2026 clôturée — surveiller 2027 »,
+    # « Non précisée sur la page »), et le bruit ferait cesser de lire les alertes.
+    # Le signal fiable, c'est la présence d'un marqueur de PROCÉDURE : un prix, un
+    # formulaire, un paiement. Ces mots-là n'ont rien à faire dans une date.
+    for ev in load_json(ROOT / "data" / "events.json", default=[]):
+        dl = (ev.get("deadline") or "").strip()
+        if len(dl) > DEADLINE_MAX_CAR and _DEADLINE_PROCEDURE.search(dl):
+            alerts.append(
+                f"DONNÉE — « {ev.get('name')} » : le champ `deadline` décrit une procédure "
+                f"({len(dl)} caractères) au lieu de porter une date. Il s'affiche tel quel "
+                f"dans ce rapport. Garder la date seule dans `deadline`, le reste dans `apply`.")
+
     return alerts
 
 
@@ -82,19 +203,35 @@ def _whatsapp_message(verifies: list[dict]) -> str:
             urgent.append((days, ev))
     urgent.sort(key=lambda x: x[0])
 
-    if not urgent:
-        return "(Aucune deadline urgente aujourd'hui — pas de message à envoyer.)"
+    # Les appels déjà publiés qui ferment bientôt comptent autant que les
+    # nouveautés : ce sont eux que la communauté risque de laisser passer.
+    # (`verifies` est déjà dédoublonné contre events.json dans build_report.)
+    deja_en_ligne = _urgent_published(today_d)
 
-    lines = ["📍 *Agenda des Exposants — mise à jour*", "",
-             "Nouvelles opportunités avec délais serrés :", ""]
+    if not urgent and not deja_en_ligne:
+        return ("(Aucune deadline dans les 10 jours, ni parmi les nouveautés de la nuit, "
+                "ni parmi les appels déjà en ligne — pas de message à envoyer.)")
+
+    lines = ["📍 *Agenda des Exposants — mise à jour*", ""]
     emojis = ["🍊", "🥔", "🎪", "🛍️", "📣"]
-    for i, (days, ev) in enumerate(urgent):
-        e = emojis[i % len(emojis)]
-        lines.append(f"{e} *{ev.get('name')}* — {ev.get('place','?')}")
-        lines.append(f"Candidature avant le *{ev.get('deadline')}* (dans {days} jour(s))")
-        if ev.get("desc"):
-            lines.append(ev["desc"])
+
+    def bloc(items, titre, decalage=0):
+        if not items:
+            return
+        lines.append(titre)
         lines.append("")
+        for i, (days, ev) in enumerate(items):
+            e = emojis[(i + decalage) % len(emojis)]
+            quand = "aujourd'hui" if days == 0 else ("demain" if days == 1 else f"dans {days} jours")
+            lines.append(f"{e} *{ev.get('name')}* — {ev.get('place','?')}")
+            lines.append(f"Candidature avant le *{ev.get('deadline')}* ({quand})")
+            if ev.get("desc"):
+                lines.append(ev["desc"])
+            lines.append("")
+
+    bloc(urgent, "Nouvelles opportunités avec délais serrés :")
+    bloc(deja_en_ligne, "⏰ Ça ferme bientôt, déjà sur le radar :", decalage=len(urgent))
+
     lines.append("Toutes les infos et liens de candidature : 👉 radar.artisanspei.re")
     lines.append("")
     lines.append("Le site est mis à jour chaque jour — et « Le ti artisan futé » 💬 répond à vos questions en bas de page !")
@@ -122,6 +259,7 @@ def build_report():
     probables = [c for c in candidates if c.get("_confidence") != "Vérifié" or not c.get("event")]
 
     alerts = _collect_alerts(verifies)
+    sans_date = _sans_date_exploitable(date.today())
     whatsapp_msg = _whatsapp_message(verifies)
 
     return {
@@ -131,6 +269,7 @@ def build_report():
         "probables": probables,
         "community": community,
         "alerts": alerts,
+        "sans_date": sans_date,   # liste de travail, JAMAIS dans le WhatsApp
         "whatsapp_msg": whatsapp_msg,
     }
 
@@ -152,6 +291,30 @@ def render_html(r: dict) -> str:
             f'⚠️ Anomalies &amp; alertes</div>'
             f'<ul style="margin:0;padding-left:18px;color:{C_INK};font-size:14px;line-height:1.6;">{items}</ul>',
             top_border=C_ALERT,
+        )
+
+    # Bloc SÉPARÉ des alertes : ce n'est pas une urgence datée, c'est un angle mort.
+    # Ces fiches n'apparaissent dans aucune autre liste, faute de date analysable.
+    sans_date_html = ""
+    if r.get("sans_date"):
+        items = "".join(
+            f'<li style="margin-bottom:6px;">{_esc(x["nom"])}'
+            + (f' — <span style="color:{C_MUTED};">événement '
+               + ("ce mois-ci" if x["mois"] == 0 else f'dans {x["mois"]} mois') + '</span>')
+            + (f' · <a href="{_esc(x["url"])}" style="color:{C_ACCENT};">source officielle</a>'
+               if x["url"] else
+               (f' · <span style="color:{C_MUTED};">{_esc(x["contact"])}</span>' if x["contact"] else ''))
+            + '</li>'
+            for x in r["sans_date"])
+        sans_date_html = card(
+            f'<div style="font-weight:700;color:{C_GOLD};margin-bottom:4px;">'
+            f'🕳️ Sans date de clôture exploitable ({len(r["sans_date"])})</div>'
+            f'<div style="color:{C_MUTED};font-size:13px;margin-bottom:10px;">'
+            f'Événement sous {MOIS_SANS_DATE} mois, mais aucune date de clôture analysable : '
+            f'ces fiches n\'apparaissent dans <b>aucune</b> liste d\'urgence. '
+            f'Leur silence n\'est pas un « rien à signaler ». À vérifier à la source.</div>'
+            f'<ul style="margin:0;padding-left:18px;color:{C_INK};font-size:14px;line-height:1.6;">{items}</ul>',
+            top_border=C_GOLD,
         )
 
     def event_row(ev, extra=""):
@@ -202,7 +365,7 @@ def render_html(r: dict) -> str:
         f'{len(r["community"])} remontée(s) communautaire(s)</div>'
     )
 
-    body = etat_html + alerts_html + verifies_html + probables_html + whatsapp_html + (
+    body = etat_html + alerts_html + sans_date_html + verifies_html + probables_html + whatsapp_html + (
         f'<div style="text-align:center;color:{C_MUTED};font-size:11.5px;margin-top:4px;">'
         f'Rapport généré automatiquement après la veille quotidienne (4h).</div>'
     )

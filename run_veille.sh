@@ -62,11 +62,24 @@ fi
 # claude en mode -p (print / non interactif). On autorise uniquement les outils
 # nécessaires : recherche, lecture de pages, lecture/écriture de fichiers, et
 # python3 pour status_check.py. Tout le reste est refusé automatiquement.
+# À partir d'ici, plus AUCUNE erreur ne doit tuer le script : tout ce qui suit
+# (remontée des propositions, rapport quotidien) sert précisément à signaler les
+# pannes. Un `set -e` qui interrompt ici supprimerait le seul mécanisme d'alerte
+# — c'est ce qui s'est produit le 16/08/2026 : verrou git orphelin, script mort
+# avant l'envoi du mail, panne invisible pendant toute la matinée.
+set +e
+
 "$CLAUDE_BIN" -p "$(cat veille_agent.md)" \
   --allowedTools WebSearch WebFetch Read Write Edit Glob Grep "Bash(python3:*)" \
   --permission-mode acceptEdits \
   --add-dir "$PROJECT_DIR" \
   >> veille.log 2>&1
+RC=$?    # code de sortie de l'AGENT, capturé immédiatement. Avant, RC=$? était
+         # lu après le bloc « vider la note » et renvoyait le statut de ce bloc :
+         # le « rc=0 » du journal ne disait donc rien de la veille elle-même.
+if [ "$RC" -ne 0 ]; then
+  echo "[veille] ATTENTION : l'agent de veille a échoué (code $RC)" >> veille.log
+fi
 
 # Une fois la veille passée, on vide la note pour repartir propre la semaine
 # suivante — le contenu brut reste archivé dans data/inbox_mobile_archive/.
@@ -82,8 +95,22 @@ if [ -n "$NOTE_BODY" ]; then
   echo "[note] Radar Inbox vidée après traitement" >> veille.log
 fi
 
-RC=$?
 echo "----- fin veille (rc=$RC) $(date '+%H:%M:%S') -----" >> veille.log
+
+# Verrou git orphelin : piège déjà rencontré deux fois. Un `index.lock` laissé par
+# une commande interrompue bloque toute écriture git jusqu'à suppression manuelle.
+# On ne le retire QUE s'il est vieux (>30 min) ET qu'aucun git n'écrit réellement —
+# `gitstatusd`, le daemon d'affichage du prompt, est en lecture seule et exclu.
+if [ -f .git/index.lock ]; then
+  if pgrep -x git >/dev/null 2>&1; then
+    echo "[git] ATTENTION : index.lock présent ET un git tourne — verrou laissé en place" >> veille.log
+  elif [ -z "$(find .git/index.lock -mmin +30 2>/dev/null)" ]; then
+    echo "[git] ATTENTION : index.lock récent (<30 min), verrou laissé en place par prudence" >> veille.log
+  else
+    rm -f .git/index.lock
+    echo "[git] ATTENTION : verrou orphelin index.lock supprimé (aucun git actif)" >> veille.log
+  fi
+fi
 
 # Fait remonter les propositions vers la page de validation /admin (Replit) :
 # commit + push de data/pending/ uniquement. Ce n'est PAS une publication —
@@ -92,10 +119,14 @@ echo "----- fin veille (rc=$RC) $(date '+%H:%M:%S') -----" >> veille.log
 # data/pistes_organisateurs.json suit le même canal : c'est de la matière de
 # démarchage, pas une publication. Il est cumulatif et n'entre jamais dans
 # events.json — il voyage ici uniquement pour être sauvegardé et partagé.
+# Chaque étape est testée séparément : `git add` et `git commit` échouaient en
+# silence sous set -e et emportaient tout le reste du script avec eux.
 if [ -n "$(git status --porcelain data/pending/ data/pistes_organisateurs.json 2>/dev/null)" ]; then
-  git add data/pending/ data/pistes_organisateurs.json >> veille.log 2>&1
-  git commit -q -m "veille $(date +%F) : propositions à valider" >> veille.log 2>&1
-  if git push origin main >> veille.log 2>&1; then
+  if ! git add data/pending/ data/pistes_organisateurs.json >> veille.log 2>&1; then
+    echo "[git] ATTENTION : git add a échoué — propositions restées locales" >> veille.log
+  elif ! git commit -q -m "veille $(date +%F) : propositions à valider" >> veille.log 2>&1; then
+    echo "[git] ATTENTION : git commit a échoué — propositions restées locales" >> veille.log
+  elif git push origin main >> veille.log 2>&1; then
     echo "[git] propositions envoyées vers /admin" >> veille.log
   else
     echo "[git] ATTENTION : push échoué, propositions restées locales" >> veille.log

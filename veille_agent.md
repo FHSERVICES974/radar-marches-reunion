@@ -68,6 +68,11 @@ sans conséquence, filtré à la déduplication) et documente l'incertitude dans
   priorité et **signale-la en section 6 même si tu ne trouves rien** (« fenêtre
   ouverte, page consultée, rien de publié à ce jour »). Hors fenêtre : n'en parle
   pas. Le mode d'emploi complet est dans le champ `_mode_emploi_agent` du fichier.
+  **Quand tu trouves un appel couvert par une entrée — même trop tard, même déjà
+  clos — renseigne son `historique` (`annee`, `ouverture`, `cloture`) et, si la
+  fenêtre réelle diffère de `mois_de_veille`, corrige les mois et passe
+  `fenetre_estimee` à `false`.** Un appel manqué reste une donnée utile : deux
+  éditions concordantes suffisent à prédire la troisième.
 
 Déduplication : un événement est un doublon si son **nom + zone normalisés**
 correspondent à un existant. Dans le doute, traite comme MISE À JOUR, pas NOUVEAU.
@@ -250,6 +255,15 @@ Pour chacun : **Nom** — zone · type · lieu
 <captures social + lien du post + contact>
 
 ## 6. Sources balayées, angles morts & à resurveiller
+
+### 6 bis. Angles morts ACTIFS — événements proches sans appel connu
+<Tout événement en statut `soon` dont la DATE approche à moins de 2 mois et pour
+ lequel AUCUN appel n'a jamais été trouvé. Un par ligne, avec son contact officiel.
+ Forme : « Fête de la Vanille (Sainte-Suzanne) — événement le 9 septembre, aucun
+ appel exposants trouvé à ce jour · contact : 0262 XX XX XX ».
+ C'est le signalement le plus utile du rapport : quand le web ne tranche pas, un
+ appel téléphonique tranche. Le dire explicitement plutôt que de laisser l'humain
+ découvrir le silence trop tard. Si la liste est vide, écris « Aucun ».>
 <liste des sources lues, celles en échec/login, ce qui n'a pas pu être vérifié>
 <PUIS : les événements écartés par le filtre d'actionnabilité (étape 3 bis) —
  éditions passées, dossiers clos — avec le mois habituel de l'appel, sous la forme :
