@@ -237,6 +237,7 @@
   </div>
   <div class="controls-row">
     <div class="zone-tabs" id="zoneTabs"></div>
+    <div class="zone-tabs" id="statusTabs"></div>
     <select id="typeSelect"></select>
   </div>
 </div>
@@ -244,7 +245,7 @@
 <div id="list"></div>
 
 <details class="archive">
-  <summary>Candidatures clôturées récemment <span class="count" id="archiveCount">0</span></summary>
+  <summary>Candidatures clôturées ou complètes <span class="count" id="archiveCount">0</span></summary>
   <div id="archiveList"></div>
 </details>
 
@@ -341,7 +342,7 @@ const EVENTS = __EVENTS__;
 const ORGS = __ORGS__;
 
 // ---------- état ----------
-let fZone="all", fType="all", q="";
+let fZone="all", fType="all", fStatus="all", q="";
 const MONTHS=["","janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
 
 // ---------- helpers ----------
@@ -396,8 +397,13 @@ function groupEvents(list){
     // e.month < cur → l'édition de cette année est déjà passée, la prochaine sera l'an prochain
     g.nextYear.push(e);
   });
-  const byMonth=(a,b)=>(a.month-b.month)||a.name.localeCompare(b.name,"fr");
-  const byName=(a,b)=>a.name.localeCompare(b.name,"fr");
+  const RANG={open:0,soon:1,perm:2,full:3,closed:4};
+  const rang=e=>RANG[e.status]??5;
+  const byMonth=(a,b)=>(rang(a)-rang(b))||(a.month-b.month)||a.name.localeCompare(b.name,"fr");
+  // L'artisan cherche d'abord ce à quoi il peut candidater MAINTENANT. Le rang
+  // de statut passe donc avant la date et avant l'ordre alphabétique, dans tous
+  // les groupes. « full » avant « closed » : complet est plus informatif que clos.
+  const byName=(a,b)=>(rang(a)-rang(b))||a.name.localeCompare(b.name,"fr");
   g.thisMonth.sort(byMonth); g.next3.sort(byMonth); g.laterThisYear.sort(byMonth); g.nextYear.sort(byMonth);
   g.variable.sort(byName); g.perm.sort(byName); g.closed.sort(byName);
   return g;
@@ -407,6 +413,8 @@ function render(){
   const list=EVENTS.filter(e=>{
     if(fZone!=="all"&&e.zone!==fZone)return false;
     if(fType!=="all"&&e.type!==fType)return false;
+    if(fStatus==="archive"){if(e.status!=="closed"&&e.status!=="full")return false;}
+    else if(fStatus!=="all"&&e.status!==fStatus)return false;
     if(q){const s=(e.name+e.place+e.org+e.type+e.desc+e.contact+(e.social||"")).toLowerCase();if(!s.includes(q))return false;}
     return true;
   });
@@ -421,11 +429,15 @@ function render(){
   // il peut candidater maintenant, sans scroller les ~90 événements du reste.
   // MAIS dès qu'une recherche ou un filtre est actif, on déplie tout : sinon un
   // résultat correspondant resterait invisible dans une section fermée.
-  const filtering = !!q || fZone!=="all" || fType!=="all";
+  const filtering = !!q || fZone!=="all" || fType!=="all" || fStatus!=="all";
   const fold=(items,label)=>!items.length?"":`<details class="agenda-group"${filtering?" open":""}>
     <summary class="agenda-group-head">${head(items,label)}</summary>
     ${items.map(tlItem).join("")}</details>`;
   let html="";
+  if(fStatus==="archive"){
+    html+=`<div class="empty" style="padding:18px 0">Les candidatures clôturées et complètes
+      sont regroupées ci-dessous, dans « Candidatures clôturées ou complètes ».</div>`;
+  }
   html+=section(g.thisMonth,`Ce mois-ci — ${MONTHS[cur]}`);
   html+=section(g.next3,"À venir (3 prochains mois)");
   html+=fold(g.laterThisYear,"Plus tard cette année");
@@ -438,6 +450,10 @@ function render(){
   const archCount=document.getElementById("archiveCount");
   if(archList){archList.innerHTML=g.closed.length?g.closed.map(tlItem).join(""):`<div class="empty" style="margin:16px 22px">Aucune candidature clôturée pour ces filtres.</div>`;}
   if(archCount)archCount.textContent=g.closed.length;
+  // Filtrer sur « Archivées » vide la liste principale : sans ça, l'artisan
+  // tomberait sur une page apparemment vide, l'archive étant repliée par défaut.
+  const archBloc=document.querySelector("details.archive");
+  if(archBloc&&fStatus==="archive")archBloc.open=true;
 }
 
 function buildKpis(){
@@ -459,6 +475,14 @@ function buildControls(){
   const zones=[["all","Toutes les zones"],...ZONE_ORDER.map(z=>[z,z])];
   document.getElementById("zoneTabs").innerHTML=zones.map(([v,l])=>
     `<button class="zone-tab ${v==="all"?"active":""}" data-zone="${v}" style="--zc:${v==="all"?"var(--ink)":(ZONE_COLOR[v]||"var(--ink)")}">${l}</button>`).join("");
+  // Pas de puce « Complet » séparée : cas trop marginal pour encombrer la barre.
+  // Elle est regroupée avec les clôturées sous « Archivées ».
+  const statuts=[["all","Tous les statuts","var(--ink)"],["open","Candidature ouverte","var(--open)"],
+                 ["soon","À surveiller","var(--soon)"],["perm","Marchés permanents","var(--perm)"],
+                 ["archive","Archivées","var(--closed)"]];
+  document.getElementById("statusTabs").innerHTML=statuts.map(([v,l,c])=>
+    `<button class="zone-tab ${v==="all"?"active":""}" data-status="${v}" style="--zc:${c}">${l}</button>`).join("");
+
   const types=["all",...[...new Set(EVENTS.map(e=>e.type))].sort((a,b)=>a.localeCompare(b,"fr"))];
   document.getElementById("typeSelect").innerHTML=types.map(t=>
     `<option value="${t}">${t==="all"?"Tous les types":t}</option>`).join("");
@@ -466,6 +490,12 @@ function buildControls(){
   document.querySelectorAll(".zone-tab").forEach(btn=>btn.onclick=()=>{
     fZone=btn.dataset.zone;
     document.querySelectorAll(".zone-tab").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    render();
+  });
+  document.querySelectorAll("[data-status]").forEach(btn=>btn.onclick=()=>{
+    fStatus=btn.dataset.status;
+    document.querySelectorAll("[data-status]").forEach(b=>b.classList.remove("active"));
     btn.classList.add("active");
     render();
   });
