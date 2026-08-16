@@ -1,0 +1,95 @@
+{
+  "generated": "2026-08-16",
+  "status_changes": [
+    {
+      "key": "jour de sport sante 2026 espace food court|ouest",
+      "name": "Jour de Sport Santé 2026 — Espace Food Court",
+      "zone": "Ouest",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-13)"
+    },
+    {
+      "key": "salon d ete maison jardin|sud",
+      "name": "Salon d'Été, Maison & Jardin",
+      "zone": "Sud",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-14)"
+    },
+    {
+      "key": "franco dan sin zil marche de createurs francofolies|ouest",
+      "name": "Franco Dan Sin Zil — Marché de créateurs (Francofolies)",
+      "zone": "Ouest",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-08)"
+    },
+    {
+      "key": "fete de la vanille appel a un organisateur de fete foraine|nord",
+      "name": "Fête de la Vanille — appel à un organisateur de fête foraine",
+      "zone": "Nord",
+      "from": "soon",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-07)"
+    }
+  ],
+  "new_events_candidates": [
+    {
+      "_source_title": "APPEL À EXPOSANTS – Les Pop-Up de Thélane Events (affiche officielle + message WhatsApp de l'organisateur)",
+      "_source_url": "",
+      "_source_note": "Documents de première main déposés dans data/inbox_docs/ le 15/08/2026, archivés dans data/inbox_docs/processed/ : 'WhatsApp Image 2026-08-15 at 23.10.54.jpeg' (affiche) et 'Cursor_et_WhatsApp.png' (message relayé par Dupuy Géraldine, GEAOI-BIJOUX-ONGLES.FR, +262 693 33 24 11). Aucune URL publique : Thélane Events n'a pas de site indexé.",
+      "_confidence": "Vérifié",
+      "event": {
+        "name": "Les Pop-Up de Thélane Events",
+        "zone": "Nord",
+        "type": "Pop-up store / showroom créateurs",
+        "org": "Thélane Events",
+        "place": "Showroom Thélane Events, 20 rue du Marché, Beauséjour, 97438 Sainte-Marie",
+        "when": "Du 7 au 12 septembre 2026 · du lundi au samedi 9h–17h (l'exposant choisit son jour)",
+        "badge": "SEP",
+        "month": 9,
+        "dateStatus": "confirmée",
+        "status": "open",
+        "deadline": "Aucune date limite annoncée — places limitées à 4 exposants par jour",
+        "contact": "Julie — 0692 55 39 08",
+        "social": "",
+        "url": "",
+        "apply": "Contacter Julie au 0692 55 39 08 pour réserver sa journée d'exposition. Places limitées à 4 exposants par jour, sélectionnées avec soin.",
+        "desc": "Le showroom Thélane Events ouvre ses portes aux créateurs, artisans, marques et entrepreneurs locaux : mode, bijoux, accessoires, beauté, bien-être, déco, créations fait-main, prêt-à-porter. Un tirage au sort en fin de semaine offre 3 mois d'exposition au showroom à l'un des exposants présents."
+      }
+    },
+    {
+      "_source_title": "Département de La Réunion — Appel à projet : exploitation et développement de la boutique et de deux salles de séminaire de Mascarin, Jardin Botanique de La Réunion",
+      "_source_url": "https://www.departement974.fr/avis-appels-projets-enquetes-publiques",
+      "_source_note": "Avis officiel lu sur la page des avis et appels à projets du Département. Dossier complet (cahier des charges, caractéristiques des espaces, critères de sélection) téléchargeable depuis https://www.departement974.fr/mascarin-jardin-botanique",
+      "_confidence": "Vérifié",
+      "event": {
+        "name": "Mascarin Jardin Botanique — appel à projet (boutique & salles de séminaire)",
+        "zone": "Ouest",
+        "type": "Appel à projet / exploitation d'espace",
+        "org": "Département de La Réunion",
+        "place": "Mascarin — Jardin Botanique de La Réunion, Saint-Leu",
+        "when": "Candidatures jusqu'au 31 août 2026 à 12h00 · exploitation ensuite",
+        "badge": "AOÛT",
+        "month": 8,
+        "dateStatus": "confirmée",
+        "status": "open",
+        "deadline": "31 août 2026 à 12h00",
+        "contact": "mascarin.jardinbotanique@cg974.fr",
+        "social": "",
+        "url": "https://www.departement974.fr/mascarin-jardin-botanique",
+        "apply": "Télécharger le dossier d'appel à projet (cahier des charges, caractéristiques des espaces, critères de sélection et modalités de candidature) sur la page Mascarin du Département, puis déposer sa candidature avant le 31 août 2026 à 12h00.",
+        "desc": "Le Département recherche un exploitant pour la boutique située dans la villa principale et pour deux salles de séminaire et de réunion, avec une offre cohérente avec l'identité du site : valorisation des productions, créations et savoir-faire réunionnais, et offre de qualité pour visiteurs, groupes et professionnels."
+      }
+    },
+    {
+      "_source_title": "Ville de Saint-André — APPEL À PROJET : exploitation des box commerciaux du hall du marché couvert",
+      "_source_url": "https://www.saint-andre.re/appel-a-projet-marche-couvert/",
+      "_source_note": "Appel publié le 18 juin 2026 pour l'exploitation des 6 modules commerciaux du hall du marché couvert (336 m², 108 avenue de Bourbon), objectif municipal : favoriser les commerces de proximité mettant en avant le savoir-faire et les produits locaux. DATE LIMITE INTROUVABLE sur la page HTML — elle se trouve probablement dans le PDF du cahier des charges, qui n'a pas pu être lu. Impossible de dire si l'appel est encore ouvert. À trancher auprès de marches.publics@saint-andre.re / 0262 58 88 87 ou sur https://villesaintandre.e-marchespublics.com/",
+      "_confidence": "Probable",
+      "event": null
+    }
+  ],
+  "community": []
+}

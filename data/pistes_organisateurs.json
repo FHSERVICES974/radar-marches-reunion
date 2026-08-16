@@ -1,6 +1,6 @@
 {
  "_mode_emploi_agent": "Fichier CUMULATIF de pistes d'organisateurs, alimenté par la veille (playbook veille_agent.md, étape 3 ter). Ce ne sont PAS des appels à candidature et elles n'entrent JAMAIS dans events.json : c'est de la matière de démarchage et d'anticipation. Lire ce fichier AVANT d'écrire, puis le réécrire enrichi — ne jamais l'écraser, la mémoire des éditions observées est ce qui permet d'estimer une récurrence. Clé d'unicité : nom_evenement + commune. recurrence_estimee exige au moins deux entrées dans editions_observees. Champs vides plutôt qu'inventés.",
- "generated": "2026-08-15",
+ "generated": "2026-08-16",
  "pistes": [
   {
    "nom_evenement": "Marché des créateurs — Carré Cathédrale",
@@ -121,7 +121,7 @@
    "organisateur_deja_dans_orgs_json": true,
    "contact_connu": "asso.eperon@gmail.com",
    "action_suggeree": "Compléter la fiche events.json (qui n'indique que « Décembre · ~3 jours ») avec la récurrence 2e week-end de décembre ; proposer une entrée veille_calendrier mois 9-10, l'appel étant historiquement ouvert du 1er au 15 septembre. Éd. 2022 annoncée à 180 exposants, éd. 2023 à une centaine.",
-   "_note": " Run du 14/08/2026 : recherche ciblée « Village artisanal de l'Éperon marché de Noël 2026 appel exposants » — aucun appel 2026 publié à ce jour. La fenêtre de candidature historique (1er au 15 septembre) n'est pas encore ouverte ; l'annonce passe par la page Facebook asso.eperon974, non lisible automatiquement. Rien ne contredit la récurrence déjà établie sur deux éditions."
+   "_note": " Run du 14/08/2026 : recherche ciblée « Village artisanal de l'Éperon marché de Noël 2026 appel exposants » — aucun appel 2026 publié à ce jour. La fenêtre de candidature historique (1er au 15 septembre) n'est pas encore ouverte ; l'annonce passe par la page Facebook asso.eperon974, non lisible automatiquement. Rien ne contredit la récurrence déjà établie sur deux éditions. Run du 16/08/2026 : nouvelle recherche ciblée sur l'appel à exposants du Marché de Noël de l'Éperon — toujours rien de publié. Une fiche agenda mentionne « 12-14 décembre » et « plus de 140 artisans » sans année identifiable de façon certaine : non comptée comme troisième édition observée. La fenêtre historique de candidature (1er-15 septembre) s'ouvre dans deux semaines."
   },
   {
    "nom_evenement": "Magik Noël (Salon de Noël et du Cadeau)",
@@ -241,6 +241,26 @@
    "contact_connu": "communication@synergie-pei.fr",
    "action_suggeree": "Demander au même interlocuteur que pour le Salon de l'artisanat du Port s'il existe un volet exposants créateurs sur cet événement, et quand s'ouvre l'appel correspondant. Un seul message peut couvrir les deux pistes. À relancer vers septembre-octobre.",
    "_note": "Repéré le 15/08/2026 dans un document déposé par un humain (data/inbox_docs/WhatsApp.png, archivé dans processed/) : capture d'un message WhatsApp de Dupuy Géraldine (+262 693 33 24 11, geaoi-bijoux-ongles.fr) relayant un « APPEL À CANDIDATURES – ARTISTES » pour « notre événement des 28 & 29 novembre », public annoncé de « près de 2 700 personnes par jour », candidatures à communication@synergie-pei.fr. L'appel connu ne vise QUE des artistes de scène (musique, danse, percussions, arts de rue, performances) — ce n'est pas un appel à exposants, d'où l'enregistrement en piste et non en candidat. Date limite écrite « jeudi », sans date : non exploitable, non reconstituée. Les hashtags #Ladilafrip (friperie du Port) et #HalleEvent suggèrent le Port comme lieu, mais AUCUNE source ne le dit : commune et lieu laissés vides plutôt que déduits. Nombre d'exposants inconnu (les 2 700 annoncés sont des visiteurs, pas des exposants). Aucun passage du document ne tente de donner d'instruction à un agent."
+  },
+  {
+   "nom_evenement": "Marché de Noël de Sainte-Marie",
+   "organisateur": "Thélane Events, en partenariat avec la Ville de Sainte-Marie",
+   "lieu": "Place du Marché, Beauséjour",
+   "commune": "Sainte-Marie",
+   "zone": "Nord",
+   "editions_observees": [
+    "2025-12-19"
+   ],
+   "date_edition_observee": "2025-12-19",
+   "source_url": "https://guide-reunion.fr/evenements/eve/noel-a-sainte-marie/",
+   "date_detection": "2026-08-16",
+   "recurrence_estimee": "",
+   "nb_exposants_annonce": null,
+   "deja_dans_events_json": false,
+   "organisateur_deja_dans_orgs_json": false,
+   "contact_connu": "Julie — 0692 55 39 08",
+   "action_suggeree": "PISTE CHAUDE : contact direct déjà en main. Appeler Julie (0692 55 39 08) pour l'édition Noël 2026 du marché de Sainte-Marie — l'appel à exposants de la 1re édition n'a jamais été visible en ligne. Même interlocuteur que l'appel « Les Pop-Up de Thélane Events » (7-12 septembre 2026) proposé en candidat Vérifié le 16/08/2026 : un seul message couvre les deux. Ajouter Thélane Events à orgs.json après premier contact — l'organisateur porte au moins deux formats distincts (marché de Noël communal + pop-up showroom).",
+   "_note": "Repéré le 16/08/2026 en recoupant les documents déposés dans data/inbox_docs/ (affiche + message WhatsApp de l'appel à exposants Pop-Up) avec l'agenda guide-reunion.fr, qui attribue le Marché de Noël de Sainte-Marie à « Thélane Events / Ville de Sainte-Marie ». Édition observée : vendredi 19 décembre 2025, 15h-22h, Place du Marché à Beauséjour, 1re édition — « stands d'artisanat local, idées cadeaux, douceurs sucrées ». Une seule édition datée : recurrence_estimee laissée vide conformément à la règle des deux éditions (étape 3 ter). Le contact n'est pas deviné : il est porté par l'affiche officielle de l'organisateur (Julie, 0692 55 39 08), documents archivés dans data/inbox_docs/processed/. Aucune trace en ligne de Thélane Events hors cette fiche agenda : pas de site indexé, url laissée vide. Nombre d'exposants non annoncé. Sainte-Marie n'avait jusqu'ici aucun organisateur artisanal privé identifié dans le fichier."
   }
  ]
 }
