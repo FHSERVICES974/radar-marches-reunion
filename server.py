@@ -4301,28 +4301,34 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         if not key:
             self.send_response(400); self.end_headers(); return
 
+        err = lambda m: "err=" + urllib.parse.quote(m, safe="")
+
         upd = next((u for u in _load_field_updates() if _field_update_key(u) == key), None)
         if upd is None:
             log.warning("apply-update : correction %s introuvable", key)
-            self._redirect_admin(); return
+            self._redirect_admin(err(
+                "Correction introuvable — le fichier de veille a changé depuis "
+                "l'affichage de la page. Rechargez /admin.")); return
 
         with _git_ops_lock:
             ok, msg = _git_pull_for_publish()
             if not ok:
                 log.error("apply-update : pull échoué — %s", msg)
-                self._redirect_admin(); return
+                self._redirect_admin(err(f"Synchronisation git impossible : {msg}")); return
             try:
                 with open(os.path.join("data", "events.json"), encoding="utf-8") as f:
                     events = json.load(f)
             except (FileNotFoundError, json.JSONDecodeError, OSError) as exc:
                 log.error("apply-update : events.json illisible — %s", exc)
-                self._redirect_admin(); return
+                self._redirect_admin(err(f"events.json illisible : {exc}")); return
 
             nom = upd.get("event_name", "")
             cible = next((e for e in events if e.get("name") == nom), None)
             if cible is None:
                 log.warning("apply-update : fiche « %s » introuvable — refusé", nom)
-                self._redirect_admin(); return
+                self._redirect_admin(err(
+                    f"Fiche « {nom} » introuvable dans events.json — "
+                    f"ce canal ne crée jamais de fiche.")); return
 
             touches = []
             for champ, valeur in (upd.get("changes") or {}).items():
@@ -4333,13 +4339,20 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                     cible[champ] = valeur
                     touches.append(champ)
 
-            if touches:
-                ok, msg = _write_events_rebuild_and_push(
-                    events, f"Corriger : {nom} ({', '.join(touches)})")
-                log.info("apply-update « %s » : %s — %s", nom, ", ".join(touches), msg)
+            if not touches:
+                _save_decision(key, "published"); _push_decisions()
+                self._redirect_admin(err(
+                    f"« {nom} » était déjà à jour : aucun champ à modifier. "
+                    f"La correction a été retirée de la liste.")); return
+
+            ok, msg = _write_events_rebuild_and_push(
+                events, f"Corriger : {nom} ({', '.join(touches)})")
+            log.info("apply-update « %s » : %s — %s", nom, ", ".join(touches), msg)
+            if not ok:
+                self._redirect_admin(err(f"Écriture impossible : {msg}")); return
             _save_decision(key, "published")
             _push_decisions()
-        self._redirect_admin()
+        self._redirect_admin("pub=ok")
 
     def _handle_publish(self) -> None:
         """POST /admin/publish — publie un candidat Vérifié dans events.json."""
