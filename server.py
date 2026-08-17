@@ -4310,49 +4310,61 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 "Correction introuvable — le fichier de veille a changé depuis "
                 "l'affichage de la page. Rechargez /admin.")); return
 
+        # ⚠️ _git_ops_lock est un threading.Lock() NON réentrant, et
+        # _push_decisions() le reprend en interne. L'appeler depuis l'intérieur du
+        # bloc verrouillé bloquait le fil pour toujours : la correction partait
+        # bien sur GitHub, puis la requête ne revenait jamais — d'où un « rien ne
+        # se passe » alors que la donnée avait changé. Tout ce qui touche à git
+        # reste ici ; les décisions se règlent APRÈS libération, comme le fait
+        # _handle_publish.
+        resultat = {"etat": None, "msg": "", "nom": upd.get("event_name", ""), "touches": []}
         with _git_ops_lock:
             ok, msg = _git_pull_for_publish()
             if not ok:
-                log.error("apply-update : pull échoué — %s", msg)
-                self._redirect_admin(err(f"Synchronisation git impossible : {msg}")); return
-            try:
-                with open(os.path.join("data", "events.json"), encoding="utf-8") as f:
-                    events = json.load(f)
-            except (FileNotFoundError, json.JSONDecodeError, OSError) as exc:
-                log.error("apply-update : events.json illisible — %s", exc)
-                self._redirect_admin(err(f"events.json illisible : {exc}")); return
+                resultat.update(etat="err", msg=f"Synchronisation git impossible : {msg}")
+            else:
+                try:
+                    with open(os.path.join("data", "events.json"), encoding="utf-8") as f:
+                        events = json.load(f)
+                except (FileNotFoundError, json.JSONDecodeError, OSError) as exc:
+                    resultat.update(etat="err", msg=f"events.json illisible : {exc}")
+                    events = None
+                if events is not None:
+                    nom = resultat["nom"]
+                    cible = next((e for e in events if e.get("name") == nom), None)
+                    if cible is None:
+                        resultat.update(etat="err", msg=(
+                            f"Fiche « {nom} » introuvable dans events.json — "
+                            f"ce canal ne crée jamais de fiche."))
+                    else:
+                        for champ, valeur in (upd.get("changes") or {}).items():
+                            if champ in ("name", "zone") or champ not in _EVENT_FIELDS:
+                                log.warning("apply-update : champ « %s » refusé sur « %s »",
+                                            champ, nom)
+                                continue
+                            if cible.get(champ) != valeur:
+                                cible[champ] = valeur
+                                resultat["touches"].append(champ)
+                        if not resultat["touches"]:
+                            resultat.update(etat="deja", msg=(
+                                f"« {nom} » était déjà à jour : aucun champ à modifier. "
+                                f"La correction est retirée de la liste."))
+                        else:
+                            ok, msg = _write_events_rebuild_and_push(
+                                events, f"Corriger : {nom} ({', '.join(resultat['touches'])})")
+                            log.info("apply-update « %s » : %s — %s",
+                                     nom, ", ".join(resultat["touches"]), msg)
+                            resultat.update(etat="ok" if ok else "err",
+                                            msg=msg if ok else f"Écriture impossible : {msg}")
 
-            nom = upd.get("event_name", "")
-            cible = next((e for e in events if e.get("name") == nom), None)
-            if cible is None:
-                log.warning("apply-update : fiche « %s » introuvable — refusé", nom)
-                self._redirect_admin(err(
-                    f"Fiche « {nom} » introuvable dans events.json — "
-                    f"ce canal ne crée jamais de fiche.")); return
-
-            touches = []
-            for champ, valeur in (upd.get("changes") or {}).items():
-                if champ in ("name", "zone") or champ not in _EVENT_FIELDS:
-                    log.warning("apply-update : champ « %s » refusé sur « %s »", champ, nom)
-                    continue
-                if cible.get(champ) != valeur:
-                    cible[champ] = valeur
-                    touches.append(champ)
-
-            if not touches:
-                _save_decision(key, "published"); _push_decisions()
-                self._redirect_admin(err(
-                    f"« {nom} » était déjà à jour : aucun champ à modifier. "
-                    f"La correction a été retirée de la liste.")); return
-
-            ok, msg = _write_events_rebuild_and_push(
-                events, f"Corriger : {nom} ({', '.join(touches)})")
-            log.info("apply-update « %s » : %s — %s", nom, ", ".join(touches), msg)
-            if not ok:
-                self._redirect_admin(err(f"Écriture impossible : {msg}")); return
+        # ---- hors verrou : enregistrement de la décision et réponse ----
+        if resultat["etat"] in ("ok", "deja"):
             _save_decision(key, "published")
             _push_decisions()
-        self._redirect_admin("pub=ok")
+        if resultat["etat"] == "ok":
+            self._redirect_admin("pub=ok")
+        else:
+            self._redirect_admin(err(resultat["msg"] or "Échec inconnu."))
 
     def _handle_publish(self) -> None:
         """POST /admin/publish — publie un candidat Vérifié dans events.json."""
