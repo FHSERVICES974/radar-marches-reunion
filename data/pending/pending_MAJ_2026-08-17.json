@@ -1,0 +1,103 @@
+{
+  "generated": "2026-08-17",
+  "status_changes": [
+    {
+      "key": "jour de sport sante 2026 espace food court|ouest",
+      "name": "Jour de Sport Santé 2026 — Espace Food Court",
+      "zone": "Ouest",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-13)"
+    },
+    {
+      "key": "salon d ete maison jardin|sud",
+      "name": "Salon d'Été, Maison & Jardin",
+      "zone": "Sud",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-14)"
+    },
+    {
+      "key": "franco dan sin zil marche de createurs francofolies|ouest",
+      "name": "Franco Dan Sin Zil — Marché de créateurs (Francofolies)",
+      "zone": "Ouest",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-08)"
+    },
+    {
+      "key": "fete de la vanille appel a un organisateur de fete foraine|nord",
+      "name": "Fête de la Vanille — appel à un organisateur de fête foraine",
+      "zone": "Nord",
+      "from": "soon",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-07)"
+    }
+  ],
+  "new_events_candidates": [],
+  "community": [],
+  "field_updates": [
+    {
+      "event_name": "Marché nocturne de Saint-Gilles",
+      "_source_url": "https://www.mairie-saintpaul.re/wp-content/uploads/2025/09/Formulaire-dinscription-marches-de-Nuit-Saint-Gilles-2026-1.pdf",
+      "_confidence": "Vérifié",
+      "raison": "La Ville de Saint-Paul publie sur sa page « Avis de publicité » une fiche d'inscription annuelle « Marché de nuit — Place Paul Julius Bénard de Saint-Gilles-les-Bains — année 2026 » où le candidat coche les dates souhaitées parmi les 12 samedis de l'année ; quatre sont encore à venir (12 sept., 10 oct., 14 nov., 12 déc. 2026). La fiche du site ne donnait ni dates, ni procédure, ni pièces exigées : un artisan ne pouvait pas savoir qu'il peut candidater aujourd'hui. Aucune date limite n'étant écrite sur le formulaire, le champ deadline le dit explicitement au lieu d'en inventer une.",
+      "changes": {
+        "when": "2ᵉ samedi du mois · 16h–22h · dates 2026 restantes : 12 sept., 10 oct., 14 nov., 12 déc.",
+        "dateStatus": "confirmée",
+        "status": "open",
+        "deadline": "Aucune date limite indiquée sur le formulaire — dossier complet à déposer avant la date de marché choisie",
+        "contact": "Direction Valorisation Économique et Tourisme — Service Évènementiels Économiques et Marchés · 0262 45 90 69 · maire@mairie-saintpaul.fr",
+        "url": "https://www.mairie-saintpaul.re/avis-de-publicite/",
+        "apply": "Fiche d'inscription annuelle 2026 à télécharger depuis la page « Avis de publicité » de mairie-saintpaul.re : cocher les dates de marché souhaitées, détailler l'ensemble des produits, signer, et déposer à la Mairie de Saint-Paul, Place du Général de Gaulle, CS 51015 — 97864 Saint-Paul Cedex. Pièces justificatives OBLIGATOIRES : copie d'une pièce d'identité en cours de validité · justificatif d'adresse de moins de 3 mois · inscription au Registre du Commerce OU récépissé de déclaration d'auto-entrepreneur OU récépissé de déclaration de la chambre des métiers · attestation de formation à l'hygiène alimentaire (pour la vente de produits alimentaires transformés) · attestation d'assurance en responsabilité civile professionnelle · carte de marchand ambulant ou attestation · plusieurs photos des produits. NB de la mairie : dossier complet exigé, aucune copie ne sera faite sur place, les pièces jointes sont à transmettre exclusivement en PDF. Renseignements : 0262 45 90 69.",
+        "desc": "Marché nocturne mensuel place Paul Julius Bénard, à Saint-Gilles-les-Bains (commune de Saint-Paul), le 2ᵉ samedi du mois de 16h à 22h. Une fiche d'inscription unique couvre toute l'année : l'exposant coche les éditions auxquelles il souhaite participer."
+      }
+    },
+    {
+      "event_name": "Marché des artisans et brocanteurs jour de feu",
+      "_source_url": "https://www.sainterose.re/fr/nw/1771421/2927576/les-jours-de-feu",
+      "_confidence": "Vérifié",
+      "raison": "Le site officiel de la commune de Sainte-Rose confirme « Les Jours de Feu » du 4 au 6 septembre 2026 et annonce explicitement un « Marché des producteurs et artisans » le dimanche 6 septembre à la Place des Laves, avec Les Brocanteurs des Laves. La date, jusqu'ici marquée « à confirmer » sur la seule foi d'une affiche Facebook, est désormais adossée à une source officielle. Aucune date limite n'y figure : le champ deadline reste inchangé.",
+      "changes": {
+        "when": "Dimanche 6 septembre 2026 · Place des Laves, dans le cadre des Jours de Feu (4–6 sept. 2026)",
+        "dateStatus": "confirmée",
+        "url": "https://www.sainterose.re/fr/nw/1771421/2927576/les-jours-de-feu",
+        "desc": "Marché des producteurs et artisans sur le thème du volcan 🌋, le dimanche des « Jours de Feu » de Sainte-Rose (4–6 septembre 2026), Place des Laves — porté par l'association Les Brocanteurs des Laves en lien avec la Ville."
+      }
+    },
+    {
+      "event_name": "Marché de Noël Décalé — Vavang'art",
+      "_source_url": "https://guide-reunion.fr/breves/detail/marche-artisanal-decale-noel/",
+      "_confidence": "Vérifié",
+      "raison": "La fiche ne donnait qu'un vague « Sud de l'île · ~Novembre ». Le site officiel de Vavang'Art donne l'adresse exacte (4C rue Hubert Delisle, 97414 Entre-Deux) et son téléphone ; l'annonce de l'édition 2025 date le marché des 22–23 novembre avec candidatures à envoyer avant le 31 octobre. La clôture du 31 octobre n'est PAS reportée dans deadline : c'est la fenêtre de 2025, l'inscrire afficherait une échéance fausse pour 2026. Elle est notée dans apply comme repère historique.",
+      "changes": {
+        "place": "Vavang'Art, 4C rue Hubert Delisle, 97414 Entre-Deux",
+        "when": "Novembre (annuel, ~1 mois avant Noël) · éd. 2025 : 22–23 nov. · éd. 2026 à annoncer",
+        "contact": "programmation@vavangart.com · contact@vavangart.com · 0692 60 99 28",
+        "url": "https://vavangart.com/",
+        "apply": "Candidature par mail à programmation@vavangart.com. Repère de calendrier (édition 2025, non contractuel pour 2026) : les candidatures étaient à envoyer avant le 31 octobre pour un marché tenu les 22–23 novembre.",
+        "desc": "Marché de Noël anticipé d'un mois, au centre d'art, d'artisanat et restaurant Vavang'Art à l'Entre-Deux : artisans, créateurs et producteurs locaux (bijoux, déco, mode, art, bien-être, gourmandises), avec expositions, ateliers, démonstrations et concerts."
+      }
+    },
+    {
+      "event_name": "Marché de Noël de Saint-Leu (Compagnie Tendance)",
+      "_source_url": "https://www.facebook.com/100087548391794/posts/-appel-%C3%A0-candidature-aux-exposants-march%C3%A9-de-no%C3%ABl-%C3%A0-st-leu-4%C3%A8me-%C3%A9ditioncasse-noi/771233595804913/",
+      "_confidence": "Vérifié",
+      "raison": "L'appel à candidature publié par l'organisateur lui-même donne un second canal de contact absent de la fiche : SMS au 0692 79 38 62 (Amandine Hoblaingre), en précisant d'indiquer son adresse mail. Il confirme aussi que l'édition de décembre 2025 était la 4ᵉ. Aucun appel 2026 n'est publié à ce jour : ni les dates, ni la deadline ne sont touchées.",
+      "changes": {
+        "contact": "compagnietendance.marchedenoel@gmail.com · SMS 0692 79 38 62 (Amandine Hoblaingre)",
+        "apply": "Candidature auprès de l'association : mail à compagnietendance.marchedenoel@gmail.com, ou SMS au 0692 79 38 62 en indiquant votre adresse mail pour recevoir le dossier d'inscription. Appel à candidatures relayé sur Facebook et Instagram (@marchedenoelstleu).",
+        "desc": "Marché de Noël de Saint-Leu au Parc du 20 Décembre (130+ exposants, créations fait main), organisé par la Compagnie Tendance avec l'ACCOI et la Ville. 4ᵉ édition en décembre 2025."
+      }
+    },
+    {
+      "event_name": "Bal populaire « Bal la poussière » — Fête patronale 2026",
+      "_source_url": "https://www.ville-saintemarie.re/prorogation-avis-ac-06-2026/",
+      "_confidence": "Vérifié",
+      "raison": "La Ville de Sainte-Marie a prorogé l'avis AC 06/2026 : la date limite de dépôt est passée du 1er août au 5 août 2026 à 16h00. La fiche en ligne affiche encore l'ancienne date. L'événement (14 août) étant passé, le statut reste closed — la correction rend seulement la fiche exacte.",
+      "changes": {
+        "deadline": "5 août 2026, 16h00 (avis AC 06/2026 prorogé — initialement 1er août)"
+      }
+    }
+  ]
+}
