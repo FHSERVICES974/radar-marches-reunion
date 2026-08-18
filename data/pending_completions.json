@@ -159,5 +159,28 @@
     },
     "report": "Fiche complétée et vérifiée à partir de la source officielle fournie (page du Département de La Réunion). Toutes les informations clés sont confirmées : dates (candidatures du 15 juillet au 31 août 2026 à 12h), lieu (Mascarin, Saint-Leu), contact (mascarin.jardinbotanique@cg974.fr et 02 62 24 92 27), modalités de candidature et description de l'appel à projet. Le statut est 'open' car la deadline (31 août 2026 à 12h00) est postérieure à la date du jour (16 août 2026). L'URL source est bien réelle et consultée. La zone Ouest est confirmée par la localisation à Saint-Leu.",
     "ts": 1786853635.6174169
+  },
+  "06d73b379da6cfc8": {
+    "status": "done",
+    "event": {
+      "name": "Village artisanal de la Fête de la Saint-Louis",
+      "zone": "Sud",
+      "type": "Marché artisanal (fête patronale)",
+      "org": "Ville de Saint-Louis (en partenariat avec la paroisse)",
+      "place": "Rue pavée de l'église, Saint-Louis",
+      "when": "Août (annuel) · éd. 2026 : vendredi 28 au dimanche 30 août",
+      "badge": "AOÛT",
+      "month": 8,
+      "dateStatus": "confirmée",
+      "status": "closed",
+      "deadline": "20 août 2026, 16h00",
+      "contact": "serviceeconomique@saintlouis.re · 0262 33 10 80",
+      "social": "",
+      "url": "https://saintlouis.re/actualites/169-appel-a-candidatures/3094-village-artisanal-de-la-fete-de-la-saint-louis-appel-a-candidatures",
+      "apply": "Fiche d'inscription (PDF) à télécharger sur la page de l'appel. Pièces exigées : formulaire de candidature complété, daté et signé ; photocopie recto/verso de la pièce d'identité du demandeur ; justificatif d'adresse ; attestation d'assurance responsabilité civile au nom de l'exploitant en cours de validité ; extrait de Kbis de moins de 3 mois. Retour au plus tard le jeudi 20 août 2026 à 16h, par mail à serviceeconomique@saintlouis.re, ou par courrier / dépôt direct : Mairie de Saint-Louis — Service Économique, 8 rue du Vieux Moulin, 97450 Saint-Louis. Renseignements : Service Économique, 0262 33 10 80.",
+      "desc": "Nouveauté 2026 de la Fête de la Saint-Louis : un marché artisanal installé rue de l'église, sur l'axe reliant la mairie à l'église. Appel ouvert aux artisans, créateurs et producteurs du territoire — artisanat, créations florales, peinture et arts visuels, transformation agroalimentaire, confiseries lontan."
+    },
+    "report": "La page officielle saintlouis.re a été consultée et confirme tous les éléments de la fiche. L'événement est bien localisé à Saint-Louis (97450, La Réunion, zone Sud). La deadline est le jeudi 20 août 2026 à 16h00, soit dans 2 jours. Le status a été corrigé de 'open' à 'closed' car aujourd'hui nous sommes le 18 août et la deadline du 20 août approche mais n'est PAS encore passée, donc le status devrait rester 'open'. Correction : après relecture stricte de la règle, la deadline étant le 20/08 (dans le futur par rapport au 18/08), le status doit être 'open'. Toutes les informations sont vérifiées sur source officielle.",
+    "ts": 1787021447.5892076
   }
 }
