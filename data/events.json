@@ -792,6 +792,24 @@
     "desc": "Fête du terroir autour de l'ail de Petite-Île : producteurs, artisans et animations dans les Hauts du Sud."
   },
   {
+    "name": "Fête de la Fraise",
+    "zone": "Sud",
+    "type": "Fête / Terroir",
+    "org": "Ville de Saint-Pierre & Office des Sports et du Temps Libre (OSTL)",
+    "place": "Domaine Vidot, Mont Vert les Hauts, Saint-Pierre",
+    "when": "Octobre (annuel) · éd. 2026 : 2–4 octobre",
+    "badge": "OCT",
+    "month": 10,
+    "dateStatus": "confirmée",
+    "status": "open",
+    "deadline": "2 septembre 2026",
+    "contact": "0262 35 78 00 — Mairie de Saint-Pierre",
+    "social": "",
+    "url": "https://www.saintpierre.re/tous/appel-candidatures-fete-de-la-fraise-2026",
+    "apply": "Dossier de candidature (règlement, tarifs et pièces exigées détaillés dans le PDF joint à l'annonce) à adresser par courrier à Monsieur le Maire, Hôtel de Ville, BP 342, 97448 Saint-Pierre Cedex, avant le 2 septembre 2026. Installation des stands le 28 septembre 2026 à partir de 8h ; démontage jusqu'au 7 octobre 2026 à 18h. Renseignements au 0262 35 78 00.",
+    "desc": "Fête de la Fraise 2026 au Domaine Vidot (Mont Vert les Hauts), organisée par la Ville de Saint-Pierre avec l'OSTL. Appel ouvert aux professionnels souhaitant occuper un emplacement pendant la manifestation. À noter : l'avis ne détaille pas les catégories admises — les artisans sont invités à confirmer leur éligibilité auprès de la mairie avant de constituer le dossier."
+  },
+  {
     "name": "Salon Régal",
     "zone": "Nord",
     "type": "Salon gastronomique",

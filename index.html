@@ -270,7 +270,7 @@
 </div>
 
 <script>
-const META = { lastUpdate: "2026-08-17" };
+const META = { lastUpdate: "2026-08-18" };
 
 /* ⚙️ À PERSONNALISER — mets ton numéro WhatsApp et ton email ci-dessous.
    whatsapp : format international sans "+" ni espaces. Réunion = 262 + ton numéro sans le 0.
@@ -1082,6 +1082,24 @@ const EVENTS = [
     "url": "https://www.petite-ile.re/actualites/news/appel-forains-1",
     "apply": "Appel à forains ouvert du 8 juin au 14 août 2026 inclus. Pièces exigées (utile pour 2027) : courrier au Maire précisant activité, superficie en m², besoins électriques et coordonnées ; formulaire de demande d'emplacement ; KBIS ou attestation AMEXA ; carte foraine ; attestation d'assurance ; contrôle technique annuel pour les manèges ; demande de débit de boissons le cas échéant. Dépôt : Mairie, 192 rue Mahé de Labourdonnais, 97429 Petite-Île · Service épanouissement humain · 02 62 56 79 79.",
     "desc": "Fête du terroir autour de l'ail de Petite-Île : producteurs, artisans et animations dans les Hauts du Sud."
+  },
+  {
+    "name": "Fête de la Fraise",
+    "zone": "Sud",
+    "type": "Fête / Terroir",
+    "org": "Ville de Saint-Pierre & Office des Sports et du Temps Libre (OSTL)",
+    "place": "Domaine Vidot, Mont Vert les Hauts, Saint-Pierre",
+    "when": "Octobre (annuel) · éd. 2026 : 2–4 octobre",
+    "badge": "OCT",
+    "month": 10,
+    "dateStatus": "confirmée",
+    "status": "open",
+    "deadline": "2 septembre 2026",
+    "contact": "0262 35 78 00 — Mairie de Saint-Pierre",
+    "social": "",
+    "url": "https://www.saintpierre.re/tous/appel-candidatures-fete-de-la-fraise-2026",
+    "apply": "Dossier de candidature (règlement, tarifs et pièces exigées détaillés dans le PDF joint à l'annonce) à adresser par courrier à Monsieur le Maire, Hôtel de Ville, BP 342, 97448 Saint-Pierre Cedex, avant le 2 septembre 2026. Installation des stands le 28 septembre 2026 à partir de 8h ; démontage jusqu'au 7 octobre 2026 à 18h. Renseignements au 0262 35 78 00.",
+    "desc": "Fête de la Fraise 2026 au Domaine Vidot (Mont Vert les Hauts), organisée par la Ville de Saint-Pierre avec l'OSTL. Appel ouvert aux professionnels souhaitant occuper un emplacement pendant la manifestation. À noter : l'avis ne détaille pas les catégories admises — les artisans sont invités à confirmer leur éligibilité auprès de la mairie avant de constituer le dossier."
   },
   {
     "name": "Salon Régal",
@@ -3633,6 +3651,27 @@ window.chatSend=function(){
         "@type": "Organization",
         "name": "J&J Pro Organisation"
       }
+    },
+    {
+      "@type": "Event",
+      "name": "Fête de la Fraise",
+      "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "description": "Fête de la Fraise 2026 au Domaine Vidot (Mont Vert les Hauts), organisée par la Ville de Saint-Pierre avec l'OSTL. Appel ouvert aux professionnels souhaitant occuper un emplacement pendant la manifestation. À noter : l'avis ne détaille pas les catégories admises — les artisans sont invités à confirmer leur éligibilité auprès de la mairie avant de constituer le dossier.",
+      "location": {
+        "@type": "Place",
+        "name": "Domaine Vidot, Mont Vert les Hauts, Saint-Pierre",
+        "address": {
+          "@type": "PostalAddress",
+          "addressRegion": "La Réunion",
+          "addressCountry": "RE"
+        }
+      },
+      "organizer": {
+        "@type": "Organization",
+        "name": "Ville de Saint-Pierre & Office des Sports et du Temps Libre (OSTL)"
+      },
+      "url": "https://www.saintpierre.re/tous/appel-candidatures-fete-de-la-fraise-2026"
     },
     {
       "@type": "Event",
