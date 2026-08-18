@@ -1,6 +1,6 @@
 {
   "_mode_emploi_agent": "Fichier CUMULATIF de pistes d'organisateurs, alimenté par la veille (playbook veille_agent.md, étape 3 ter). Ce ne sont PAS des appels à candidature et elles n'entrent JAMAIS dans events.json : c'est de la matière de démarchage et d'anticipation. Lire ce fichier AVANT d'écrire, puis le réécrire enrichi — ne jamais l'écraser, la mémoire des éditions observées est ce qui permet d'estimer une récurrence. Clé d'unicité : nom_evenement + commune. recurrence_estimee exige au moins deux entrées dans editions_observees. Champs vides plutôt qu'inventés.",
-  "generated": "2026-08-17",
+  "generated": "2026-08-18",
   "pistes": [
     {
       "nom_evenement": "Marché des créateurs — Carré Cathédrale",
@@ -214,14 +214,14 @@
       ],
       "date_edition_observee": "2026-09-05",
       "source_url": "https://guide-reunion.fr/evenements/eve/salon-artisanat-et-createurs-le-port/",
-      "date_detection": "2026-08-15",
+      "date_detection": "2026-08-18",
       "recurrence_estimee": "",
       "nb_exposants_annonce": 69,
       "deja_dans_events_json": false,
       "organisateur_deja_dans_orgs_json": false,
       "contact_connu": "contact@synergie-pei.fr · communication@synergie-pei.fr",
       "action_suggeree": "Écrire à contact@synergie-pei.fr (ou communication@synergie-pei.fr) pour demander quand s'ouvre l'appel à exposants de la prochaine édition et sur quel canal il est publié. 69 exposants ont été recrutés sans qu'aucun appel ne soit visible en ligne : c'est exactement le cas d'un appel qui s'ouvre et se referme sans qu'on le voie. Ajouter l'organisateur à orgs.json après premier contact.",
-      "_note": "Repéré le 15/08/2026 sur guide-reunion.fr : samedi 5 septembre 2026, 9h-16h, Halle des manifestations du Port, entrée gratuite, 69 exposants. Thématiques annoncées : décoration, mobilier, upcycling, art mural, poterie, céramique, luminaires, bien-être ; animations : démonstrations de savoir-faire, ateliers, remise des prix du concours « Alliance Créative », espace food, espace enfants. Le site officiel synergie-pei.fr a été lu le même jour : il ne mentionne NI ce salon, NI aucun appel à exposants — l'annonce passe visiblement par la page Facebook synergie.pei.run, non lisible automatiquement. Organisateur absent d'orgs.json ; son adresse communication@synergie-pei.fr est confirmée de façon indépendante par le document WhatsApp.png déposé dans inbox_docs. Une seule édition datée : recurrence_estimee laissée vide. Le Port était jusqu'ici un angle mort complet de la veille : c'est le premier organisateur artisanal identifié sur cette commune."
+      "_note": "Repéré le 15/08/2026 sur guide-reunion.fr : samedi 5 septembre 2026, 9h-16h, Halle des manifestations du Port, entrée gratuite, 69 exposants. Thématiques annoncées : décoration, mobilier, upcycling, art mural, poterie, céramique, luminaires, bien-être ; animations : démonstrations de savoir-faire, ateliers, remise des prix du concours « Alliance Créative », espace food, espace enfants. Le site officiel synergie-pei.fr a été lu le même jour : il ne mentionne NI ce salon, NI aucun appel à exposants — l'annonce passe visiblement par la page Facebook synergie.pei.run, non lisible automatiquement. Organisateur absent d'orgs.json ; son adresse communication@synergie-pei.fr est confirmée de façon indépendante par le document WhatsApp.png déposé dans inbox_docs. Une seule édition datée : recurrence_estimee laissée vide. Le Port était jusqu'ici un angle mort complet de la veille : c'est le premier organisateur artisanal identifié sur cette commune. Re-vérifié le 18/08/2026 : le salon est toujours annoncé pour le 5 septembre sur guide-reunion.fr, mais ville-port.re n'affiche AUCUN événement à venir et aucun appel à exposants n'est visible en ligne. À J-18 de l'événement, l'appel est donc soit clos, soit passé exclusivement par Facebook. Le contact direct reste la seule voie."
     },
     {
       "nom_evenement": "Événement Synergie Péi des 28 & 29 novembre 2026",
@@ -262,6 +262,66 @@
       "contact_connu": "Julie — 0692 55 39 08",
       "action_suggeree": "PISTE CHAUDE : contact direct déjà en main. Appeler Julie (0692 55 39 08) pour l'édition Noël 2026 du marché de Sainte-Marie — l'appel à exposants de la 1re édition n'a jamais été visible en ligne. Même interlocuteur que l'appel « Les Pop-Up de Thélane Events » (7-12 septembre 2026) proposé en candidat Vérifié le 16/08/2026 : un seul message couvre les deux. Ajouter Thélane Events à orgs.json après premier contact — l'organisateur porte au moins deux formats distincts (marché de Noël communal + pop-up showroom).",
       "_note": "Repéré le 16/08/2026 en recoupant les documents déposés dans data/inbox_docs/ (affiche + message WhatsApp de l'appel à exposants Pop-Up) avec l'agenda guide-reunion.fr, qui attribue le Marché de Noël de Sainte-Marie à « Thélane Events / Ville de Sainte-Marie ». Édition observée : vendredi 19 décembre 2025, 15h-22h, Place du Marché à Beauséjour, 1re édition — « stands d'artisanat local, idées cadeaux, douceurs sucrées ». Une seule édition datée : recurrence_estimee laissée vide conformément à la règle des deux éditions (étape 3 ter). Le contact n'est pas deviné : il est porté par l'affiche officielle de l'organisateur (Julie, 0692 55 39 08), documents archivés dans data/inbox_docs/processed/. Aucune trace en ligne de Thélane Events hors cette fiche agenda : pas de site indexé, url laissée vide. Nombre d'exposants non annoncé. Sainte-Marie n'avait jusqu'ici aucun organisateur artisanal privé identifié dans le fichier."
+    },
+    {
+      "nom_evenement": "Marché de Noël du Tampon — Parc Jean de Cambiaire",
+      "organisateur": "Ville du Tampon",
+      "lieu": "Parc Jean de Cambiaire, centre-ville",
+      "commune": "Le Tampon",
+      "zone": "Sud",
+      "editions_observees": [
+        "2025-12-12"
+      ],
+      "date_edition_observee": "2025-12-12",
+      "source_url": "https://guide-reunion.fr/evenements/eve/marche-noel-le-tampon/",
+      "date_detection": "2026-08-18",
+      "recurrence_estimee": "",
+      "nb_exposants_annonce": null,
+      "deja_dans_events_json": false,
+      "organisateur_deja_dans_orgs_json": true,
+      "contact_connu": "animation.dac@mairie-tampon.fr",
+      "action_suggeree": "Demander à la Direction Animation-Culture du Tampon quand s'ouvre l'appel du marché de Noël 2026, et surveiller letampon.fr/appels-candidatures/ à partir de septembre.",
+      "_note": "Repéré le 18/08/2026. Marché de Noël municipal accueillant explicitement « artisans, créateurs et producteurs locaux » (12-14 décembre 2025, 9h-21h les 12 et 13, 9h-18h le 14, accès gratuit) — absent d'events.json alors que la Ville du Tampon y figure déjà pour Florilèges, Miel Vert et l'Exposition Artisanale. Un appel « MARCHE DE NOEL AU PARC JEAN DE CAMBIAIRE » est indexé par les moteurs sur letampon.fr/appels-candidatures/ mais la page renvoie aujourd'hui un 404 : l'avis a existé et a été retiré. Le Tampon publie tous ses appels sur cette page unique, avec un badge « ouvert / clôturé » qui n'est PAS fiable — Florilèges et le Salon d'Été y sont encore affichés « ouverts » alors que leur date limite du 14 août est passée. Il faut ouvrir chaque avis pour lire la vraie date limite."
+    },
+    {
+      "nom_evenement": "La Guinguette à Pierrefonds",
+      "organisateur": "La Bande à Guinguette",
+      "lieu": "Pierrefonds",
+      "commune": "Saint-Pierre",
+      "zone": "Sud",
+      "editions_observees": [
+        "2026-03-07"
+      ],
+      "date_edition_observee": "2026-03-07",
+      "source_url": "https://guide-reunion.fr/evenements/eve/guinguette-a-pierrefonds/",
+      "date_detection": "2026-08-18",
+      "recurrence_estimee": "",
+      "nb_exposants_annonce": null,
+      "deja_dans_events_json": false,
+      "organisateur_deja_dans_orgs_json": true,
+      "contact_connu": "labandeaguinguette@gmail.com",
+      "action_suggeree": "Contacter La Bande à Guinguette — organisateur déjà en main — pour recenser TOUS ses rendez-vous annuels d'un coup, plutôt que de les découvrir un par un.",
+      "_note": "Repéré le 18/08/2026. Week-end festif autour d'un marché de créateurs, artisans et producteurs locaux les 7 et 8 mars 2026 (édition passée). Événement DISTINCT du « Marché de Noël — Pierrefonds » déjà suivi et de « La Guinguette Saint-Gilloise » (Saint-Paul) déjà en piste : c'est le troisième rendez-vous repéré du même organisateur, ce qui suggère un calendrier annuel structuré dont on ne voit que des fragments. Aucun appel à candidature trouvé en ligne pour aucun des trois."
+    },
+    {
+      "nom_evenement": "Dipavali de Saint-Pierre",
+      "organisateur": "Ville de Saint-Pierre — service culturel",
+      "lieu": "Saint-Pierre",
+      "commune": "Saint-Pierre",
+      "zone": "Sud",
+      "editions_observees": [
+        "2026-11-14"
+      ],
+      "date_edition_observee": "2026-11-14",
+      "source_url": "https://www.saintpierre.re/tous/dipavali-appel-participation",
+      "date_detection": "2026-08-18",
+      "recurrence_estimee": "",
+      "nb_exposants_annonce": null,
+      "deja_dans_events_json": false,
+      "organisateur_deja_dans_orgs_json": false,
+      "contact_connu": "evenementiel@saintpierre.re",
+      "action_suggeree": "Surveiller saintpierre.re dès juin 2027 : l'appel 2026 s'est refermé le 30 juillet pour un événement de mi-novembre, soit trois mois et demi d'avance.",
+      "_note": "Repéré le 18/08/2026, appel DÉJÀ CLOS (30 juillet 2026, 12h00) pour un événement des 14-15 novembre 2026 — d'où sa place ici et non dans les candidats. Formulaire à télécharger sur la page de l'événement, retour par mail à evenementiel@saintpierre.re ou par courrier (Mairie de Saint-Pierre, service culturel - Dipavali, 1 rue de La République, 97410 Saint-Pierre). Filtre explicite de l'avis : « toute demande incomplète, hors délai, transmise à une autre adresse, ou n'ayant aucun lien avec la culture hindoue ne sera pas prise en compte » — la candidature doit donc être argumentée sur ce lien. events.json ne connaissait que le Dipavali de Saint-André : celui de Saint-Pierre était un angle mort complet."
     }
   ]
 }

@@ -1,0 +1,98 @@
+{
+  "generated": "2026-08-18",
+  "status_changes": [
+    {
+      "key": "jour de sport sante 2026 espace food court|ouest",
+      "name": "Jour de Sport Santé 2026 — Espace Food Court",
+      "zone": "Ouest",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-13)"
+    },
+    {
+      "key": "salon d ete maison jardin|sud",
+      "name": "Salon d'Été, Maison & Jardin",
+      "zone": "Sud",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-14)"
+    },
+    {
+      "key": "franco dan sin zil marche de createurs francofolies|ouest",
+      "name": "Franco Dan Sin Zil — Marché de créateurs (Francofolies)",
+      "zone": "Ouest",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-08)"
+    },
+    {
+      "key": "fete de la vanille appel a un organisateur de fete foraine|nord",
+      "name": "Fête de la Vanille — appel à un organisateur de fête foraine",
+      "zone": "Nord",
+      "from": "soon",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-07)"
+    }
+  ],
+  "new_events_candidates": [
+    {
+      "_source_title": "Village artisanal de la Fête de la Saint-Louis : appel à candidatures — Ville de Saint-Louis (publié le 14 août 2026)",
+      "_source_url": "https://saintlouis.re/actualites/169-appel-a-candidatures",
+      "_confidence": "Vérifié",
+      "_preuve": "Capture d'écran complète de la page officielle saintlouis.re déposée dans data/inbox_docs/ et lue visuellement le 18/08/2026. La page individuelle n'a pas pu être rouverte par WebFetch (saintlouis.re répond 403 à l'accès automatisé) : l'URL fournie est celle de la rubrique « Appel à candidatures » du site, où l'article est publié.",
+      "event": {
+        "name": "Village artisanal de la Fête de la Saint-Louis",
+        "zone": "Sud",
+        "type": "Marché artisanal (fête patronale)",
+        "org": "Ville de Saint-Louis (en partenariat avec la paroisse)",
+        "place": "Rue pavée de l'église, Saint-Louis",
+        "when": "Août (annuel) · éd. 2026 : vendredi 28 au dimanche 30 août",
+        "badge": "AOÛT",
+        "month": 8,
+        "dateStatus": "confirmée",
+        "status": "open",
+        "deadline": "20 août 2026, 16h00",
+        "contact": "serviceeconomique@saintlouis.re · 0262 33 10 80",
+        "social": "",
+        "url": "https://saintlouis.re/actualites/169-appel-a-candidatures",
+        "apply": "Fiche d'inscription (PDF) à télécharger sur la page de l'appel. Pièces exigées : formulaire de candidature complété, daté et signé ; photocopie recto/verso de la pièce d'identité du demandeur ; justificatif d'adresse ; attestation d'assurance responsabilité civile au nom de l'exploitant en cours de validité ; extrait de Kbis de moins de 3 mois. Retour au plus tard le jeudi 20 août 2026 à 16h, par mail à serviceeconomique@saintlouis.re, ou par courrier / dépôt direct : Mairie de Saint-Louis — Service Économique, 8 rue du Vieux Moulin, 97450 Saint-Louis. Renseignements : Service Économique, 0262 33 10 80.",
+        "desc": "Nouveauté 2026 de la Fête de la Saint-Louis : un marché artisanal installé rue de l'église, sur l'axe reliant la mairie à l'église. Appel ouvert aux artisans, créateurs et producteurs du territoire — artisanat, créations florales, peinture et arts visuels, transformation agroalimentaire, confiseries lontan."
+      }
+    },
+    {
+      "_source_title": "Appel à candidatures – Fête de la Fraise 2026 — Mairie de Saint-Pierre (publié le 17 août 2026)",
+      "_source_url": "https://www.saintpierre.re/tous/appel-candidatures-fete-de-la-fraise-2026",
+      "_confidence": "Vérifié",
+      "event": {
+        "name": "Fête de la Fraise",
+        "zone": "Sud",
+        "type": "Fête / Terroir",
+        "org": "Ville de Saint-Pierre & Office des Sports et du Temps Libre (OSTL)",
+        "place": "Domaine Vidot, Mont Vert les Hauts, Saint-Pierre",
+        "when": "Octobre (annuel) · éd. 2026 : 2–4 octobre",
+        "badge": "OCT",
+        "month": 10,
+        "dateStatus": "confirmée",
+        "status": "open",
+        "deadline": "2 septembre 2026",
+        "contact": "0262 35 78 00 — Mairie de Saint-Pierre",
+        "social": "",
+        "url": "https://www.saintpierre.re/tous/appel-candidatures-fete-de-la-fraise-2026",
+        "apply": "Dossier de candidature (règlement, tarifs et pièces exigées détaillés dans le PDF joint à l'annonce) à adresser par courrier à Monsieur le Maire, Hôtel de Ville, BP 342, 97448 Saint-Pierre Cedex, avant le 2 septembre 2026. Installation des stands le 28 septembre 2026 à partir de 8h ; démontage jusqu'au 7 octobre 2026 à 18h. Renseignements au 0262 35 78 00.",
+        "desc": "Fête de la Fraise 2026 au Domaine Vidot (Mont Vert les Hauts), organisée par la Ville de Saint-Pierre avec l'OSTL. Appel ouvert aux professionnels souhaitant occuper un emplacement pendant la manifestation. À noter : l'avis ne détaille pas les catégories admises — les artisans sont invités à confirmer leur éligibilité auprès de la mairie avant de constituer le dossier."
+      }
+    }
+  ],
+  "community": [],
+  "field_updates": [
+    {
+      "event_name": "Ville de Saint-Denis — appel à forains (toutes manifestations)",
+      "_source_url": "https://www.saintdenis.re/appel-a-forains-manifestations-2026",
+      "_confidence": "Vérifié",
+      "raison": "La page officielle de l'appel, relue le 18/08/2026, donne un interlocuteur nommé et un second numéro direct qui ne figuraient pas sur la fiche : c.beucher@saintdenis.re et 0262 40 03 37. Utile dès maintenant, l'appel 2027 étant attendu vers janvier.",
+      "changes": {
+        "contact": "regie@saintdenis.re · c.beucher@saintdenis.re · 0262 40 04 52 ou 0262 40 03 37 · Régie des Marchés et Droits de Place, 26 rue Lislet Geoffroy (Espace de la Reine Sarlava), Saint-Denis"
+      }
+    }
+  ]
+}
