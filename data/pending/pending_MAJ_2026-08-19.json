@@ -1,0 +1,82 @@
+{
+  "generated": "2026-08-19",
+  "status_changes": [
+    {
+      "key": "jour de sport sante 2026 espace food court|ouest",
+      "name": "Jour de Sport Santé 2026 — Espace Food Court",
+      "zone": "Ouest",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-13)"
+    },
+    {
+      "key": "salon d ete maison jardin|sud",
+      "name": "Salon d'Été, Maison & Jardin",
+      "zone": "Sud",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-14)"
+    },
+    {
+      "key": "franco dan sin zil marche de createurs francofolies|ouest",
+      "name": "Franco Dan Sin Zil — Marché de créateurs (Francofolies)",
+      "zone": "Ouest",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-08)"
+    },
+    {
+      "key": "fete de la vanille appel a un organisateur de fete foraine|nord",
+      "name": "Fête de la Vanille — appel à un organisateur de fête foraine",
+      "zone": "Nord",
+      "from": "soon",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-07)"
+    }
+  ],
+  "new_events_candidates": [],
+  "community": [],
+  "field_updates": [
+    {
+      "event_name": "Village artisanal de la Fête de la Saint-Louis",
+      "_source_url": "https://saintlouis.re/actualites/169-appel-a-candidatures/3094-village-artisanal-de-la-fete-de-la-saint-louis-appel-a-candidatures",
+      "_confidence": "Vérifié",
+      "raison": "URGENT — la fiche est en statut « closed » alors que sa date limite est le 20 août 2026 à 16h00, soit DEMAIN : la candidature est encore ouverte aujourd'hui. Le statut a été saisi à tort à la publication du 18/08/2026 ; l'appel lu ce jour-là fixe bien le 20 août 16h comme date de retour. Laisser « closed » prive les artisans du Sud d'une opportunité à J-1.",
+      "changes": {
+        "status": "open"
+      }
+    },
+    {
+      "event_name": "Marché de Noël — Village de l'Éperon",
+      "_source_url": "https://www.ouest-lareunion.com/agenda/les-communes-bougent/marche-de-noel-de-l-eperon",
+      "_confidence": "Vérifié",
+      "raison": "La fiche agenda de l'Office de Tourisme de l'Ouest date enfin l'édition observée : « Du 12 DÉCEMBRE 2025 au 14 DÉCEMBRE 2025 », environ 120 artisans. C'est la troisième édition datée du même événement (2022-12-09, 2023-12-08, 2025-12-12) : les trois tombent sur le 2e week-end de décembre, ce qui confirme la récurrence. Aucune date 2026 n'est publiée — elle n'est pas inventée.",
+      "changes": {
+        "when": "Décembre (annuel) · 2ᵉ week-end, ~3 jours · éd. 2025 : 12–14 déc. · éd. 2026 à annoncer",
+        "desc": "~120 artisans (céramistes, bijoutiers, savonniers, chocolatiers…), plus les boutiques et restaurants du village. Récurrence établie sur trois éditions datées (2022, 2023, 2025) : 2ᵉ week-end de décembre. Candidatures historiquement ouvertes du 1ᵉʳ au 15 septembre — fenêtre de quinze jours seulement."
+      }
+    },
+    {
+      "event_name": "Marché de Noël — Pierrefonds",
+      "_source_url": "https://guide-reunion.fr/breves/detail/marche-de-noel-a-pierrefonds-saint-pierre/",
+      "_confidence": "Probable",
+      "raison": "L'agenda guide-reunion.fr date l'édition précédente — « Samedi 6 et dimanche 7 décembre 2025 », marché de Noël nocturne organisé par La Bande à Guinguette. La fiche n'indiquait jusqu'ici que « Décembre ». Source d'agrégateur (tier 3) et non source officielle — l'organisateur n'a pas de site : à valider par l'humain, la date 2026 reste inconnue et n'est pas déduite.",
+      "changes": {
+        "when": "Décembre · éd. 2025 : 6–7 déc. (nocturne) · éd. 2026 à annoncer",
+        "url": "https://guide-reunion.fr/breves/detail/marche-de-noel-a-pierrefonds-saint-pierre/",
+        "desc": "Marché de Noël nocturne du secteur de Pierrefonds, porté par l'association La Bande à Guinguette — même organisateur que La Guinguette à Pierrefonds (mars) et que La Guinguette Saint-Gilloise."
+      }
+    },
+    {
+      "event_name": "Marché de Noël du Carré Cat",
+      "_source_url": "https://guide-reunion.fr/breves/detail/marche-de-noel-au-carre-cathedrale/",
+      "_confidence": "Probable",
+      "raison": "L'agenda guide-reunion.fr date une édition passée — dimanche 22 décembre 2024, 10h-22h, « plus de 100 exposants », « en partenariat avec la ville de Saint-Denis ». La fiche n'indiquait que « Décembre ». Source d'agrégateur (tier 3), aucune date 2026 publiée : elle n'est pas déduite.",
+      "changes": {
+        "when": "Décembre · éd. 2024 observée : 22 déc., 10h–22h · éd. 2026 à annoncer",
+        "url": "https://guide-reunion.fr/breves/detail/marche-de-noel-au-carre-cathedrale/",
+        "desc": "Édition de Noël du marché de créateurs du Carré Cathédrale, en partenariat avec la Ville de Saint-Denis — plus de 100 exposants à l'édition observée."
+      }
+    }
+  ]
+}
