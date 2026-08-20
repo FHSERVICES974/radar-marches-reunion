@@ -666,6 +666,24 @@
     "desc": "Fête de la Vanille de Sainte-Suzanne, 9–13 septembre 2026 (Stade B du Bocage). La mairie recherche un organisateur pour la fête foraine, incluant un village des exposants dédié à la vanille et à l'artisanat local."
   },
   {
+    "name": "Marché de nuit « Sainte-Marie en lumières – Saveurs péi & créateurs »",
+    "zone": "Nord",
+    "type": "Marché de nuit / créateurs",
+    "org": "Ville de Sainte-Marie",
+    "place": "Place du marché forain de Beauséjour, avenue du Beau Pays, Sainte-Marie",
+    "when": "Samedi 12 septembre 2026, 17h00–22h00 (2ᵉ édition)",
+    "badge": "SEPT",
+    "month": 9,
+    "dateStatus": "confirmée",
+    "status": "open",
+    "deadline": "6 septembre 2026, 16h00",
+    "contact": "serviceeconomique@ville-saintemarie.re · 0262 80 02 35 / 0262 80 02 36",
+    "social": "",
+    "url": "https://www.ville-saintemarie.re/appel-a-candidatures-pour-lexploitation-demplacements-pour-le-marche-de-nuit-sainte-marie-en-lumieres-saveurs-pei-createurs/",
+    "apply": "Avis AC/07/2026, publié le 19 août 2026. Pièces exigées : formulaire dûment complété, SIRET/Kbis de moins de 3 mois ou attestation AMEXA, assurance responsabilité civile professionnelle, pièce d'identité valide, justificatif d'adresse de moins de 3 mois, descriptif du projet économique — plus attestation HACCP pour la restauration et certificat de conformité électrique pour les véhicules aménagés. Dépôt avant le 6 septembre 2026 à 16h00, par mail à serviceeconomique@ville-saintemarie.re ou à la Direction du développement économique, 31 rue du Centre – Local 4, 97438 Sainte-Marie.",
+    "desc": "2ᵉ édition du marché de nuit de Sainte-Marie, ouvert aux produits locaux, à l'artisanat, aux savoir-faire traditionnels, aux saveurs péi et à la restauration rapide. Redevance : 15 €/jour jusqu'à 9 m², puis 1,50 €/m²/jour au-delà ; 25,14 €/jour pour un véhicule aménagé."
+  },
+  {
     "name": "Marché des artisans et brocanteurs jour de feu",
     "zone": "Est",
     "type": "Appels d’offres  jours de feu  thème volcanique",
