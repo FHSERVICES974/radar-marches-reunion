@@ -1,0 +1,112 @@
+{
+  "generated": "2026-08-20",
+  "status_changes": [
+    {
+      "key": "emplacements aot domaine public saint gilles les bains bassin de vie n 2|ouest",
+      "name": "Emplacements AOT domaine public — Saint-Gilles-les-Bains (bassin de vie n°2)",
+      "zone": "Ouest",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-19)"
+    },
+    {
+      "key": "jour de sport sante 2026 espace food court|ouest",
+      "name": "Jour de Sport Santé 2026 — Espace Food Court",
+      "zone": "Ouest",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-13)"
+    },
+    {
+      "key": "salon d ete maison jardin|sud",
+      "name": "Salon d'Été, Maison & Jardin",
+      "zone": "Sud",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-14)"
+    },
+    {
+      "key": "franco dan sin zil marche de createurs francofolies|ouest",
+      "name": "Franco Dan Sin Zil — Marché de créateurs (Francofolies)",
+      "zone": "Ouest",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-08)"
+    },
+    {
+      "key": "fete de la vanille appel a un organisateur de fete foraine|nord",
+      "name": "Fête de la Vanille — appel à un organisateur de fête foraine",
+      "zone": "Nord",
+      "from": "soon",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-07)"
+    }
+  ],
+
+  "new_events_candidates": [
+    {
+      "_source_title": "Appel à candidatures pour l'exploitation d'emplacements pour le marché de nuit « Sainte-Marie en lumières – Saveurs péi & créateurs » (avis AC/07/2026)",
+      "_source_url": "https://www.ville-saintemarie.re/appel-a-candidatures-pour-lexploitation-demplacements-pour-le-marche-de-nuit-sainte-marie-en-lumieres-saveurs-pei-createurs/",
+      "_confidence": "Vérifié",
+      "event": {
+        "name": "Marché de nuit « Sainte-Marie en lumières – Saveurs péi & créateurs »",
+        "zone": "Nord",
+        "type": "Marché de nuit / créateurs",
+        "org": "Ville de Sainte-Marie",
+        "place": "Place du marché forain de Beauséjour, avenue du Beau Pays, Sainte-Marie",
+        "when": "Samedi 12 septembre 2026, 17h00–22h00 (2ᵉ édition)",
+        "badge": "SEPT",
+        "month": 9,
+        "dateStatus": "confirmée",
+        "status": "open",
+        "deadline": "6 septembre 2026, 16h00",
+        "contact": "serviceeconomique@ville-saintemarie.re · 0262 80 02 35 / 0262 80 02 36",
+        "social": "",
+        "url": "https://www.ville-saintemarie.re/appel-a-candidatures-pour-lexploitation-demplacements-pour-le-marche-de-nuit-sainte-marie-en-lumieres-saveurs-pei-createurs/",
+        "apply": "Avis AC/07/2026, publié le 19 août 2026. Pièces exigées : formulaire dûment complété, SIRET/Kbis de moins de 3 mois ou attestation AMEXA, assurance responsabilité civile professionnelle, pièce d'identité valide, justificatif d'adresse de moins de 3 mois, descriptif du projet économique — plus attestation HACCP pour la restauration et certificat de conformité électrique pour les véhicules aménagés. Dépôt avant le 6 septembre 2026 à 16h00, par mail à serviceeconomique@ville-saintemarie.re ou à la Direction du développement économique, 31 rue du Centre – Local 4, 97438 Sainte-Marie.",
+        "desc": "2ᵉ édition du marché de nuit de Sainte-Marie, ouvert aux produits locaux, à l'artisanat, aux savoir-faire traditionnels, aux saveurs péi et à la restauration rapide. Redevance : 15 €/jour jusqu'à 9 m², puis 1,50 €/m²/jour au-delà ; 25,14 €/jour pour un véhicule aménagé."
+      }
+    }
+  ],
+
+  "community": [
+    {
+      "name": "Fête Patronale de Saint-Joseph 2026 — appel à exposants",
+      "zone": "Sud (à confirmer)",
+      "note": "Publication Facebook « Fête Patronale de Saint-Joseph 2026 – Exposants, c'est votre moment » repérée par recherche, page @saintjosephville. DOUTE GÉOGRAPHIQUE NON LEVÉ : il existe un Saint-Joseph en Martinique (972) dont le site officiel est saintjoseph972.com et qui publie des appels à exposants très similaires, avec des numéros en 0596. Le post Facebook n'a pas pu être ouvert (mur de connexion) et rien sur saintjoseph.re (974) ne mentionne cette fête patronale. À ne PAS publier tant que la commune n'est pas confirmée — un appel téléphonique à la mairie de Saint-Joseph (974) tranche en une minute.",
+      "source": "https://www.facebook.com/saintjosephville/posts/-f%C3%AAte-patronale-de-saintjoseph-2026-exposants-cest-votre-moment-la-ville-de-sain/1578673594263593/"
+    }
+  ],
+
+  "field_updates": [
+    {
+      "event_name": "Magik Noël",
+      "_source_url": "https://imazpress.com/toute-l-actu/le-magik-noel-revient-a-bras-panon",
+      "_confidence": "Vérifié",
+      "raison": "La fiche ne disait que « Décembre » et « Bras-Panon ». Trois sources lues et concordantes (imazpress, guide-reunion.fr, titangfute.re) datent la 2ᵉ édition du 5 au 7 décembre 2025 au Champ de foire de Bras-Panon, entrée gratuite, sur 5 hectares — le créneau réel est donc le premier week-end de décembre, pas « décembre » en général.",
+      "changes": {
+        "place": "Champ de foire, Bras-Panon",
+        "when": "Décembre (annuel) · éd. 2025 : 5–7 déc. (2ᵉ édition) · éd. 2026 à annoncer",
+        "desc": "« Salon de Noël et du Cadeau » installé sur les 5 hectares du Champ de foire de Bras-Panon : stands de Noël, manèges, parade, feu d'artifice, food court. Entrée gratuite. 1ʳᵉ édition en décembre 2024, 2ᵉ édition du 5 au 7 décembre 2025."
+      }
+    },
+    {
+      "event_name": "Fête de la Vanille — appel à un organisateur de fête foraine",
+      "_source_url": "https://ville-saintesuzanne.re/ouverture-des-candidatures-12%E1%B5%89-edition-de-la-fete-de-la-vanille/",
+      "_confidence": "Vérifié",
+      "raison": "L'appel EXPOSANTS de la Fête de la Vanille — jusqu'ici jamais retrouvé — a enfin été identifié pour la 12ᵉ édition : la mairie publie bien un appel distinct ouvert aux « artisans, producteurs, créateurs, commerçants, associations et artistes », clos le 3 juin 2025 pour un événement des 8–10 août 2025. Le champ apply disait aux artisans d'attendre l'annonce du prestataire foraine : c'est faux, il existe une voie directe en mairie, mais elle se referme début juin.",
+      "changes": {
+        "apply": "DEUX APPELS DISTINCTS. (1) L'appel publié ici vise un organisateur/prestataire unique chargé de monter la fête foraine — ce n'est PAS une candidature exposant. (2) La mairie publie séparément un appel à candidatures EXPOSANTS ouvert aux « artisans, producteurs, créateurs, commerçants, associations et artistes », avec formulaire PDF à télécharger et dossier à déposer au service accueil de la Mairie de Sainte-Suzanne ou à envoyer au 3 rue du Général de Gaulle, 97441 Sainte-Suzanne (0262 52 30 02). Fenêtre observée sur la 12ᵉ édition : clôture le 3 juin 2025 pour un événement des 8–10 août 2025 — c'est donc en MAI-JUIN qu'il faut candidater, pas en août."
+      }
+    },
+    {
+      "event_name": "Marché de Noël — Village de l'Éperon",
+      "_source_url": "https://www.ouest-lareunion.com/agenda/les-communes-bougent/marche-de-noel-de-l-eperon",
+      "_confidence": "Probable",
+      "raison": "Le champ deadline était vide alors que la fenêtre de candidature est connue et documentée dans veille_calendrier.json depuis le 07/08/2026 (fenêtre observée, non estimée) : du 1ᵉʳ au 15 septembre. Quinze jours seulement, et elle s'ouvre dans douze jours — laisser le champ vide expose l'artisan à la manquer.",
+      "changes": {
+        "deadline": "Candidatures historiquement ouvertes du 1ᵉʳ au 15 septembre — fenêtre 2026 non encore confirmée par l'association"
+      }
+    }
+  ]
+}

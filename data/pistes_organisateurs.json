@@ -1,6 +1,6 @@
 {
   "_mode_emploi_agent": "Fichier CUMULATIF de pistes d'organisateurs, alimenté par la veille (playbook veille_agent.md, étape 3 ter). Ce ne sont PAS des appels à candidature et elles n'entrent JAMAIS dans events.json : c'est de la matière de démarchage et d'anticipation. Lire ce fichier AVANT d'écrire, puis le réécrire enrichi — ne jamais l'écraser, la mémoire des éditions observées est ce qui permet d'estimer une récurrence. Clé d'unicité : nom_evenement + commune. recurrence_estimee exige au moins deux entrées dans editions_observees. Champs vides plutôt qu'inventés.",
-  "generated": "2026-08-19",
+  "generated": "2026-08-20",
   "pistes": [
     {
       "nom_evenement": "Marché des créateurs — Carré Cathédrale",
@@ -115,14 +115,14 @@
       ],
       "date_edition_observee": "2025-12-12",
       "source_url": "https://frt.re/evenement/marche-de-noel-de-leperon/",
-      "date_detection": "2026-08-19",
+      "date_detection": "2026-08-20",
       "recurrence_estimee": "Annuel — 2e week-end de décembre, sur 3 jours (confirmé sur 3 éditions : 2022, 2023, 2025)",
       "nb_exposants_annonce": 120,
       "deja_dans_events_json": true,
       "organisateur_deja_dans_orgs_json": true,
       "contact_connu": "asso.eperon@gmail.com",
       "action_suggeree": "Compléter la fiche events.json (qui n'indique que « Décembre · ~3 jours ») avec la récurrence 2e week-end de décembre ; proposer une entrée veille_calendrier mois 9-10, l'appel étant historiquement ouvert du 1er au 15 septembre. Éd. 2022 annoncée à 180 exposants, éd. 2023 à une centaine.",
-      "_note": " Run du 14/08/2026 : recherche ciblée « Village artisanal de l'Éperon marché de Noël 2026 appel exposants » — aucun appel 2026 publié à ce jour. La fenêtre de candidature historique (1er au 15 septembre) n'est pas encore ouverte ; l'annonce passe par la page Facebook asso.eperon974, non lisible automatiquement. Rien ne contredit la récurrence déjà établie sur deux éditions. Run du 16/08/2026 : nouvelle recherche ciblée sur l'appel à exposants du Marché de Noël de l'Éperon — toujours rien de publié. Une fiche agenda mentionne « 12-14 décembre » et « plus de 140 artisans » sans année identifiable de façon certaine : non comptée comme troisième édition observée. La fenêtre historique de candidature (1er-15 septembre) s'ouvre dans deux semaines. Run du 19/08/2026 : la fiche agenda de l'Office de Tourisme de l'Ouest DATE enfin l'edition qui trainait sans annee depuis le 16/08 - « Du 12 DECEMBRE 2025 au 14 DECEMBRE 2025 », environ 120 artisans plus les boutiques et restaurants du village. C'est donc une TROISIEME edition datee (09/12/2022, 08/12/2023, 12/12/2025), toutes sur le 2e week-end de decembre : la recurrence est consolidee, plus seulement etablie. Toujours AUCUN appel a exposants publie pour 2026 - la fenetre historique de candidature (1er au 15 septembre) s'ouvre dans treize jours, et elle ne dure que quinze jours. Aucune date 2026 n'est annoncee : elle n'est pas deduite."
+      "_note": "Run du 14/08/2026 : recherche ciblée « Village artisanal de l'Éperon marché de Noël 2026 appel exposants » — aucun appel 2026 publié à ce jour. La fenêtre de candidature historique (1er au 15 septembre) n'est pas encore ouverte ; l'annonce passe par la page Facebook asso.eperon974, non lisible automatiquement. Rien ne contredit la récurrence déjà établie sur deux éditions. Run du 16/08/2026 : nouvelle recherche ciblée sur l'appel à exposants du Marché de Noël de l'Éperon — toujours rien de publié. Une fiche agenda mentionne « 12-14 décembre » et « plus de 140 artisans » sans année identifiable de façon certaine : non comptée comme troisième édition observée. La fenêtre historique de candidature (1er-15 septembre) s'ouvre dans deux semaines. Run du 19/08/2026 : la fiche agenda de l'Office de Tourisme de l'Ouest DATE enfin l'edition qui trainait sans annee depuis le 16/08 - « Du 12 DECEMBRE 2025 au 14 DECEMBRE 2025 », environ 120 artisans plus les boutiques et restaurants du village. C'est donc une TROISIEME edition datee (09/12/2022, 08/12/2023, 12/12/2025), toutes sur le 2e week-end de decembre : la recurrence est consolidee, plus seulement etablie. Toujours AUCUN appel a exposants publie pour 2026 - la fenetre historique de candidature (1er au 15 septembre) s'ouvre dans treize jours, et elle ne dure que quinze jours. Aucune date 2026 n'est annoncee : elle n'est pas deduite. Run du 20/08/2026 : la fenêtre de candidature du 1er au 15 septembre est corroborée par une source indépendante de notre propre calendrier, qui ajoute que l'appel est très concurrentiel (plusieurs centaines de dossiers pour une centaine de places) — ordre de grandeur non lu sur une page ouverte, donc mentionné ici et pas propagé dans events.json. L'édition 2025 est par ailleurs annoncée à « plus de 140 artisans » par certaines fiches, contre ~120 sur la fiche de l'Office de Tourisme retenue : l'écart n'est pas tranché, la valeur la plus prudente est conservée. Toujours AUCUN appel 2026 publié. La fenêtre s'ouvre dans DOUZE jours et ne dure que quinze : c'est le point le plus urgent du fichier."
     },
     {
       "nom_evenement": "Magik Noël (Salon de Noël et du Cadeau)",
@@ -131,17 +131,19 @@
       "commune": "Bras-Panon",
       "zone": "Est",
       "editions_observees": [
+        "2024-12-04",
         "2025-12-05"
       ],
       "date_edition_observee": "2025-12-05",
-      "source_url": "https://guide-reunion.fr/evenements/eve/noel-bras-panon/",
-      "date_detection": "2026-08-12",
-      "recurrence_estimee": "",
+      "source_url": "https://imazpress.com/toute-l-actu/le-magik-noel-revient-a-bras-panon",
+      "date_detection": "2026-08-20",
+      "recurrence_estimee": "annuel · premier week-end de décembre, Champ de foire (2 éditions datées : déc. 2024, déc. 2025)",
       "nb_exposants_annonce": null,
       "deja_dans_events_json": true,
       "organisateur_deja_dans_orgs_json": true,
-      "contact_connu": "",
-      "action_suggeree": "Compléter la fiche events.json (aucune date) avec le créneau réel « début décembre, Champ de foire » ; surveiller l'appel vers septembre-octobre. Attention : une source non lue directement attribue l'organisation à une société « Magik Noël » en partenariat avec la Ville — interlocuteur à trancher avant démarchage. Aucun email en base pour la Ville de Bras-Panon (réseau : @villedebraspanon)."
+      "contact_connu": "page Facebook Magik Noël (facebook.com/profile.php?id=61567672238550) · standard mairie 0262 51 50 50",
+      "action_suggeree": "Passer par la page Facebook de Magik Noël plutôt que par la mairie : c'est le canal de l'organisateur. Demander quand s'ouvre l'appel à exposants de l'édition 2026 et à quelle adresse candidater. Un couple mail/téléphone (magiknoel@gmail.com · 0693 03 72 50) remonte de façon constante dans les résultats de recherche mais n'a pu être lu sur AUCUNE page ouverte : à vérifier avant usage, ne pas le diffuser en l'état. Trancher aussi l'identité de l'interlocuteur : société « Magik Noël » ou Ville de Bras-Panon.",
+      "_note": "Run du 20/08/2026 : DEUXIÈME édition datée obtenue, la récurrence peut enfin être renseignée. Trois sources lues et concordantes (imazpress, guide-reunion.fr, titangfute.re) donnent la 2ᵉ édition du 5 au 7 décembre 2025 au Champ de foire, 10h-23h (minuit le samedi), entrée gratuite, 5 hectares décorés, parade, feu d'artifice et drone light show. La 1ʳᵉ édition est datée du 4 au 8 décembre 2024 par le titre d'un article Free Dom (« ...avec Magik Noël du 4 au 8 décembre 2024 »), corroboré par linfo.re qui annonce « 1ère édition du Magik Noël » un mercredi de décembre 2024 — le 4 décembre 2024 était bien un mercredi. Les deux éditions tombent sur le premier week-end de décembre. Le site braspanon.re a été relu le 20/08/2026 : AUCUNE mention de Magik Noël ni d'appel à exposants pour 2026. L'organisation est attribuée à une société « Magik Noël » en partenariat avec la Ville par un résumé de recherche, mais aucune page ouverte ne le confirme : le champ organisateur reste « Ville de Bras-Panon » plutôt que d'être réécrit sur une source non lue."
     },
     {
       "nom_evenement": "Brocante des Laves (Place des Laves)",
@@ -255,14 +257,14 @@
       ],
       "date_edition_observee": "2025-12-19",
       "source_url": "https://guide-reunion.fr/evenements/eve/noel-a-sainte-marie/",
-      "date_detection": "2026-08-16",
+      "date_detection": "2026-08-20",
       "recurrence_estimee": "",
       "nb_exposants_annonce": null,
       "deja_dans_events_json": false,
       "organisateur_deja_dans_orgs_json": false,
       "contact_connu": "Julie — 0692 55 39 08",
       "action_suggeree": "PISTE CHAUDE : contact direct déjà en main. Appeler Julie (0692 55 39 08) pour l'édition Noël 2026 du marché de Sainte-Marie — l'appel à exposants de la 1re édition n'a jamais été visible en ligne. Même interlocuteur que l'appel « Les Pop-Up de Thélane Events » (7-12 septembre 2026) proposé en candidat Vérifié le 16/08/2026 : un seul message couvre les deux. Ajouter Thélane Events à orgs.json après premier contact — l'organisateur porte au moins deux formats distincts (marché de Noël communal + pop-up showroom).",
-      "_note": "Repéré le 16/08/2026 en recoupant les documents déposés dans data/inbox_docs/ (affiche + message WhatsApp de l'appel à exposants Pop-Up) avec l'agenda guide-reunion.fr, qui attribue le Marché de Noël de Sainte-Marie à « Thélane Events / Ville de Sainte-Marie ». Édition observée : vendredi 19 décembre 2025, 15h-22h, Place du Marché à Beauséjour, 1re édition — « stands d'artisanat local, idées cadeaux, douceurs sucrées ». Une seule édition datée : recurrence_estimee laissée vide conformément à la règle des deux éditions (étape 3 ter). Le contact n'est pas deviné : il est porté par l'affiche officielle de l'organisateur (Julie, 0692 55 39 08), documents archivés dans data/inbox_docs/processed/. Aucune trace en ligne de Thélane Events hors cette fiche agenda : pas de site indexé, url laissée vide. Nombre d'exposants non annoncé. Sainte-Marie n'avait jusqu'ici aucun organisateur artisanal privé identifié dans le fichier."
+      "_note": "Repéré le 16/08/2026 en recoupant les documents déposés dans data/inbox_docs/ (affiche + message WhatsApp de l'appel à exposants Pop-Up) avec l'agenda guide-reunion.fr, qui attribue le Marché de Noël de Sainte-Marie à « Thélane Events / Ville de Sainte-Marie ». Édition observée : vendredi 19 décembre 2025, 15h-22h, Place du Marché à Beauséjour, 1re édition — « stands d'artisanat local, idées cadeaux, douceurs sucrées ». Une seule édition datée : recurrence_estimee laissée vide conformément à la règle des deux éditions (étape 3 ter). Le contact n'est pas deviné : il est porté par l'affiche officielle de l'organisateur (Julie, 0692 55 39 08), documents archivés dans data/inbox_docs/processed/. Aucune trace en ligne de Thélane Events hors cette fiche agenda : pas de site indexé, url laissée vide. Nombre d'exposants non annoncé. Sainte-Marie n'avait jusqu'ici aucun organisateur artisanal privé identifié dans le fichier. Run du 20/08/2026 : canal de publication identifié pour la commune. La Ville de Sainte-Marie publie bien ses appels à exposants sur ville-saintemarie.re, sous la forme d'avis numérotés (AC/01 à AC/07 pour 2026) — l'avis AC/07/2026 du 19 août ouvre par exemple les candidatures au marché de nuit « Sainte-Marie en lumières – Saveurs péi & créateurs » du 12 septembre. Cette page est donc à surveiller pour l'édition Noël 2026, en parallèle du contact direct avec Thélane Events. Aucun avis concernant le marché de Noël n'y figure à ce jour."
     },
     {
       "nom_evenement": "Marché de Noël du Tampon — Parc Jean de Cambiaire",
