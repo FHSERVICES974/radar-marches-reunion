@@ -182,5 +182,28 @@
     },
     "report": "La page officielle saintlouis.re a été consultée et confirme tous les éléments de la fiche. L'événement est bien localisé à Saint-Louis (97450, La Réunion, zone Sud). La deadline est le jeudi 20 août 2026 à 16h00, soit dans 2 jours. Le status a été corrigé de 'open' à 'closed' car aujourd'hui nous sommes le 18 août et la deadline du 20 août approche mais n'est PAS encore passée, donc le status devrait rester 'open'. Correction : après relecture stricte de la règle, la deadline étant le 20/08 (dans le futur par rapport au 18/08), le status doit être 'open'. Toutes les informations sont vérifiées sur source officielle.",
     "ts": 1787021447.5892076
+  },
+  "c0aa568ca3d9d284": {
+    "status": "done",
+    "event": {
+      "name": "Journées Européennes du Patrimoine — Centre Culturel Le Sud (espace restauration)",
+      "zone": "Sud",
+      "type": "Occupation temporaire — restauration",
+      "org": "Département de La Réunion — Centre Culturel Le Sud",
+      "place": "Centre Culturel Le Sud, 60 rue Victor Le Vigoureux, Saint-Pierre",
+      "when": "Samedi 19 et dimanche 20 septembre 2026, 9h00–17h00",
+      "badge": "SEPT",
+      "month": 9,
+      "dateStatus": "confirmée",
+      "status": "open",
+      "deadline": "28 août 2026, 12h00",
+      "contact": "lesud@cg974.fr",
+      "social": "",
+      "url": "https://www.departement974.fr/actualite/appel-projets-journees-europeennes-patrimoine-2026",
+      "apply": "Offre à déposer avant le 28 août 2026 à 12h00, par courriel à lesud@cg974.fr ou en main propre contre récépissé au Centre Culturel Le Sud, 60 rue Victor Le Vigoureux, BP 343, 97410 Saint-Pierre. Cahier des charges téléchargeable sur la page d'avis du Département.",
+      "desc": "ATTENTION : appel réservé à la RESTAURATION, pas à l'artisanat d'art. Trois espaces de 10 m² dans une salle de 30 m² pour des acteurs privés proposant une offre variée (salé, sucré, boissons), à base de produits frais et locaux dans la mesure du possible. Concerne les producteurs et transformateurs péi."
+    },
+    "report": "Fiche complète et vérifiée. La page fournie (departement974.fr/actualite/appel-projets-journees-europeennes-patrimoine-2026) confirme tous les éléments : événement le 19-20 septembre 2026 au Centre Culturel Le Sud à Saint-Pierre (974), deadline le 28 août 2026 à 12h, contact lesud@cg974.fr. Signal La Réunion clair (domaine .re, mention Département 974, adresse à Saint-Pierre). Les dates des JEP 2026 (19-20 septembre) sont confirmées par recherche web. Status open correct : aujourd'hui 21/08/2026, deadline 28/08/2026 pas encore passée. Il s'agit bien d'un appel restauration, pas artisanat.",
+    "ts": 1787283208.202682
   }
 }
