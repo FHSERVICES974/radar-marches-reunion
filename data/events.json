@@ -666,6 +666,24 @@
     "desc": "Fête de la Vanille de Sainte-Suzanne, 9–13 septembre 2026 (Stade B du Bocage). La mairie recherche un organisateur pour la fête foraine, incluant un village des exposants dédié à la vanille et à l'artisanat local."
   },
   {
+    "name": "Le Parcours des Fées",
+    "zone": "Sud",
+    "type": "Marché de créateurs & bien-être",
+    "org": "Lakour des Fées",
+    "place": "Jardin Secret, Impasse du Soleil, Ligne des Bambous, Saint-Pierre",
+    "when": "Dimanche 20 septembre 2026, 10h00–18h00",
+    "badge": "SEPT",
+    "month": 9,
+    "dateStatus": "confirmée",
+    "status": "open",
+    "deadline": "Aucune date limite annoncée — places limitées (40 créneaux encore ouverts au 20/08/2026)",
+    "contact": "Gigi — 0693 64 10 83",
+    "social": "@lakourdesfees974 · Facebook « Lakour des Fées »",
+    "url": "https://lakourdesfees.re/",
+    "apply": "Réservation directe auprès de l'organisatrice (Gigi, 0693 64 10 83), ou via la page d'inscription en ligne. Tarif 70 € la journée, repas et une boisson (café, thé ou eau) inclus. Prévoir son propre chapiteau et son matériel d'exposition.",
+    "desc": "Nouvelle formule de salon proposée par Lakour des Fées : 10 artisans locaux (bois, pierres, peintures, végétaux, alimentations naturelles — miels, plantes) et 20 thérapeutes bien-être, plus des ateliers créatifs pour enfants. Entrée gratuite."
+  },
+  {
     "name": "Marché de nuit « Sainte-Marie en lumières – Saveurs péi & créateurs »",
     "zone": "Nord",
     "type": "Marché de nuit / créateurs",
