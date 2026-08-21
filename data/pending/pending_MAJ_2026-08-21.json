@@ -1,0 +1,123 @@
+{
+  "generated": "2026-08-21",
+  "status_changes": [
+    {
+      "key": "emplacements aot domaine public saint gilles les bains bassin de vie n 2|ouest",
+      "name": "Emplacements AOT domaine public — Saint-Gilles-les-Bains (bassin de vie n°2)",
+      "zone": "Ouest",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-19)"
+    },
+    {
+      "key": "jour de sport sante 2026 espace food court|ouest",
+      "name": "Jour de Sport Santé 2026 — Espace Food Court",
+      "zone": "Ouest",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-13)"
+    },
+    {
+      "key": "salon d ete maison jardin|sud",
+      "name": "Salon d'Été, Maison & Jardin",
+      "zone": "Sud",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-14)"
+    },
+    {
+      "key": "village artisanal de la fete de la saint louis|sud",
+      "name": "Village artisanal de la Fête de la Saint-Louis",
+      "zone": "Sud",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-20)"
+    },
+    {
+      "key": "franco dan sin zil marche de createurs francofolies|ouest",
+      "name": "Franco Dan Sin Zil — Marché de créateurs (Francofolies)",
+      "zone": "Ouest",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-08)"
+    },
+    {
+      "key": "fete de la vanille appel a un organisateur de fete foraine|nord",
+      "name": "Fête de la Vanille — appel à un organisateur de fête foraine",
+      "zone": "Nord",
+      "from": "soon",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-07)"
+    },
+    {
+      "key": "marche de noel maison banian|sud",
+      "name": "Marché de Noël — Maison Banian",
+      "zone": "Sud",
+      "from": "open",
+      "to": "soon",
+      "reason": "date limite passée — surveiller l'édition suivante"
+    }
+  ],
+  "new_events_candidates": [
+    {
+      "_source_title": "Lakour des Fées — « Le Parcours des Fées », appel à exposantes et exposants (affiche + page d'inscription déposées dans data/inbox_docs/ le 20/08/2026)",
+      "_source_url": "https://lakourdesfees.re/",
+      "_confidence": "Vérifié",
+      "event": {
+        "name": "Le Parcours des Fées",
+        "zone": "Sud",
+        "type": "Marché de créateurs & bien-être",
+        "org": "Lakour des Fées",
+        "place": "Jardin Secret, Impasse du Soleil, Ligne des Bambous, Saint-Pierre",
+        "when": "Dimanche 20 septembre 2026, 10h00–18h00",
+        "badge": "SEPT",
+        "month": 9,
+        "dateStatus": "confirmée",
+        "status": "open",
+        "deadline": "Aucune date limite annoncée — places limitées (40 créneaux encore ouverts au 20/08/2026)",
+        "contact": "Gigi — 0693 64 10 83",
+        "social": "@lakourdesfees974 · Facebook « Lakour des Fées »",
+        "url": "https://lakourdesfees.re/",
+        "apply": "Réservation directe auprès de l'organisatrice (Gigi, 0693 64 10 83), ou via la page d'inscription en ligne. Tarif 70 € la journée, repas et une boisson (café, thé ou eau) inclus. Prévoir son propre chapiteau et son matériel d'exposition.",
+        "desc": "Nouvelle formule de salon proposée par Lakour des Fées : 10 artisans locaux (bois, pierres, peintures, végétaux, alimentations naturelles — miels, plantes) et 20 thérapeutes bien-être, plus des ateliers créatifs pour enfants. Entrée gratuite."
+      }
+    },
+    {
+      "_source_title": "Département de La Réunion — Avis d'appel à candidatures : offre de restauration pour les Journées Européennes du Patrimoine 2026 au Centre Culturel Le Sud",
+      "_source_url": "https://www.departement974.fr/avis-appels-projets-enquetes-publiques",
+      "_confidence": "Vérifié",
+      "event": {
+        "name": "Journées Européennes du Patrimoine — Centre Culturel Le Sud (espace restauration)",
+        "zone": "Sud",
+        "type": "Occupation temporaire — restauration",
+        "org": "Département de La Réunion — Centre Culturel Le Sud",
+        "place": "Centre Culturel Le Sud, 60 rue Victor Le Vigoureux, Saint-Pierre",
+        "when": "Samedi 19 et dimanche 20 septembre 2026, 9h00–17h00",
+        "badge": "SEPT",
+        "month": 9,
+        "dateStatus": "confirmée",
+        "status": "open",
+        "deadline": "28 août 2026, 12h00",
+        "contact": "lesud@cg974.fr",
+        "social": "",
+        "url": "https://www.departement974.fr/avis-appels-projets-enquetes-publiques",
+        "apply": "Offre à déposer avant le 28 août 2026 à 12h00, par courriel à lesud@cg974.fr ou en main propre contre récépissé au Centre Culturel Le Sud, 60 rue Victor Le Vigoureux, BP 343, 97410 Saint-Pierre. Cahier des charges téléchargeable sur la page d'avis du Département.",
+        "desc": "ATTENTION : appel réservé à la RESTAURATION, pas à l'artisanat d'art. Trois espaces de 10 m² dans une salle de 30 m² pour des acteurs privés proposant une offre variée (salé, sucré, boissons), à base de produits frais et locaux dans la mesure du possible. Concerne les producteurs et transformateurs péi."
+      }
+    }
+  ],
+  "community": [],
+  "field_updates": [
+    {
+      "event_name": "Rencontres de l'Artisanat (Plaine des Palmistes)",
+      "_source_url": "https://www.ville-plainedespalmistes.fr/agenda/rencontres-de-lartisanat-2026-appel-a-candidature/",
+      "_confidence": "Vérifié",
+      "raison": "La page dédiée de l'appel a été retrouvée (la fiche pointait vers la page d'accueil de la mairie) : elle donne le téléphone du service instructeur, absent de la fiche, et décrit une procédure en DEUX étapes (pré-inscription par courriel, puis dossier complet au format PDF uniquement) que la fiche ne mentionne pas — un candidat qui envoie directement son dossier risque d'être écarté.",
+      "changes": {
+        "url": "https://www.ville-plainedespalmistes.fr/agenda/rencontres-de-lartisanat-2026-appel-a-candidature/",
+        "contact": "veronique.plante@plaine-des-palmistes.fr · 02 62 51 49 08",
+        "apply": "Procédure en deux étapes. (1) Pré-inscription par courriel à veronique.plante@plaine-des-palmistes.fr en précisant l'activité proposée. (2) Après acceptation, dossier complet avec toutes les pièces justificatives, transmis au format PDF UNIQUEMENT (formulaire téléchargeable sur le site municipal), au plus tard le 10 septembre 2026 inclus — au service courrier de la mairie (230 rue de la République, 97431) ou par courriel (max 5 Mo). Emplacement 50 €. Ouvert à l'artisanat, l'agro-alimentaire, la restauration et aux associations."
+      }
+    }
+  ]
+}

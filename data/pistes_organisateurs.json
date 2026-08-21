@@ -1,6 +1,6 @@
 {
   "_mode_emploi_agent": "Fichier CUMULATIF de pistes d'organisateurs, alimenté par la veille (playbook veille_agent.md, étape 3 ter). Ce ne sont PAS des appels à candidature et elles n'entrent JAMAIS dans events.json : c'est de la matière de démarchage et d'anticipation. Lire ce fichier AVANT d'écrire, puis le réécrire enrichi — ne jamais l'écraser, la mémoire des éditions observées est ce qui permet d'estimer une récurrence. Clé d'unicité : nom_evenement + commune. recurrence_estimee exige au moins deux entrées dans editions_observees. Champs vides plutôt qu'inventés.",
-  "generated": "2026-08-20",
+  "generated": "2026-08-21",
   "pistes": [
     {
       "nom_evenement": "Marché des créateurs — Carré Cathédrale",
@@ -277,14 +277,14 @@
       ],
       "date_edition_observee": "2025-12-12",
       "source_url": "https://guide-reunion.fr/evenements/eve/marche-noel-le-tampon/",
-      "date_detection": "2026-08-18",
+      "date_detection": "2026-08-21",
       "recurrence_estimee": "",
       "nb_exposants_annonce": null,
       "deja_dans_events_json": false,
       "organisateur_deja_dans_orgs_json": true,
       "contact_connu": "animation.dac@mairie-tampon.fr",
-      "action_suggeree": "Demander à la Direction Animation-Culture du Tampon quand s'ouvre l'appel du marché de Noël 2026, et surveiller letampon.fr/appels-candidatures/ à partir de septembre.",
-      "_note": "Repéré le 18/08/2026. Marché de Noël municipal accueillant explicitement « artisans, créateurs et producteurs locaux » (12-14 décembre 2025, 9h-21h les 12 et 13, 9h-18h le 14, accès gratuit) — absent d'events.json alors que la Ville du Tampon y figure déjà pour Florilèges, Miel Vert et l'Exposition Artisanale. Un appel « MARCHE DE NOEL AU PARC JEAN DE CAMBIAIRE » est indexé par les moteurs sur letampon.fr/appels-candidatures/ mais la page renvoie aujourd'hui un 404 : l'avis a existé et a été retiré. Le Tampon publie tous ses appels sur cette page unique, avec un badge « ouvert / clôturé » qui n'est PAS fiable — Florilèges et le Salon d'Été y sont encore affichés « ouverts » alors que leur date limite du 14 août est passée. Il faut ouvrir chaque avis pour lire la vraie date limite."
+      "action_suggeree": "Surveiller letampon.fr/appels-candidatures/ à partir de la mi-octobre : l'appel Miel Vert 2026 s'était refermé six semaines avant l'événement, un marché de Noël de mi-décembre devrait donc voir son avis paraître en octobre-novembre. En parallèle, demander la date d'ouverture à la Direction Animation-Culture (animation.dac@mairie-tampon.fr).",
+      "_note": "Repéré le 18/08/2026. Marché de Noël municipal accueillant explicitement « artisans, créateurs et producteurs locaux » (12-14 décembre 2025, 9h-21h les 12 et 13, 9h-18h le 14, accès gratuit) — absent d'events.json alors que la Ville du Tampon y figure déjà pour Florilèges, Miel Vert et l'Exposition Artisanale. Un appel « MARCHE DE NOEL AU PARC JEAN DE CAMBIAIRE » est indexé par les moteurs sur letampon.fr/appels-candidatures/ mais la page renvoie aujourd'hui un 404 : l'avis a existé et a été retiré. Le Tampon publie tous ses appels sur cette page unique, avec un badge « ouvert / clôturé » qui n'est PAS fiable — Florilèges et le Salon d'Été y sont encore affichés « ouverts » alors que leur date limite du 14 août est passée. Il faut ouvrir chaque avis pour lire la vraie date limite. Run du 21/08/2026 : le mécanisme d'appel du Tampon est désormais documenté sur un exemple daté et complet. L'avis « MIEL VERT 2026 – zone commerciale » (letampon.fr/appels-candidatures/appel-a-candidature-pour-miel-vert-2026-zone-commerciale/) a été ouvert puis clôturé le 24 novembre 2025 pour une manifestation du 7 au 18 janvier 2026 : environ six semaines d'anticipation. La commune découpe chaque manifestation en PLUSIEURS avis distincts par zone (Miel Vert : gymnase, zone foraine, zone commerciale ; Florilèges : zone florale, zone commerciale, SIDR 400) — ne pas s'arrêter au premier avis trouvé. La grille de sélection est publiée : variété et accessibilité de l'offre (5 points), qualité et nature des produits (3), expérience professionnelle (1), gestion des déchets (1), départage par tirage au sort. Une deuxième page listant les mêmes avis existe : letampon.fr/candidature_category/manifestations/. Toujours aucun avis marché de Noël publié au 21/08/2026."
     },
     {
       "nom_evenement": "La Guinguette à Pierrefonds",
