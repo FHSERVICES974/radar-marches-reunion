@@ -1,0 +1,102 @@
+{
+  "generated": "2026-08-22",
+  "status_changes": [
+    {
+      "key": "emplacements aot domaine public saint gilles les bains bassin de vie n 2|ouest",
+      "name": "Emplacements AOT domaine public — Saint-Gilles-les-Bains (bassin de vie n°2)",
+      "zone": "Ouest",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-19)"
+    },
+    {
+      "key": "jour de sport sante 2026 espace food court|ouest",
+      "name": "Jour de Sport Santé 2026 — Espace Food Court",
+      "zone": "Ouest",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-13)"
+    },
+    {
+      "key": "salon d ete maison jardin|sud",
+      "name": "Salon d'Été, Maison & Jardin",
+      "zone": "Sud",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-14)"
+    },
+    {
+      "key": "village artisanal de la fete de la saint louis|sud",
+      "name": "Village artisanal de la Fête de la Saint-Louis",
+      "zone": "Sud",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-20)"
+    },
+    {
+      "key": "franco dan sin zil marche de createurs francofolies|ouest",
+      "name": "Franco Dan Sin Zil — Marché de créateurs (Francofolies)",
+      "zone": "Ouest",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-08)"
+    },
+    {
+      "key": "fete de la vanille appel a un organisateur de fete foraine|nord",
+      "name": "Fête de la Vanille — appel à un organisateur de fête foraine",
+      "zone": "Nord",
+      "from": "soon",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-07)"
+    },
+    {
+      "key": "le parcours des fees|sud",
+      "name": "Le Parcours des Fées",
+      "zone": "Sud",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-20)"
+    },
+    {
+      "key": "marche de noel maison banian|sud",
+      "name": "Marché de Noël — Maison Banian",
+      "zone": "Sud",
+      "from": "open",
+      "to": "soon",
+      "reason": "date limite passée — surveiller l'édition suivante"
+    }
+  ],
+  "new_events_candidates": [],
+  "community": [],
+  "field_updates": [
+    {
+      "event_name": "Marché Zartizan Péi",
+      "_source_url": "https://www.tco.re/plaisance/demande-demplacement/",
+      "_confidence": "Vérifié",
+      "raison": "La fiche annonce encore l'édition du 14-16 août 2026 comme « prochaine » alors qu'elle est passée. La page officielle de demande d'emplacement du TCO, lue le 22/08/2026, indique par ailleurs que les inscriptions de cette édition étaient closes le 19 avril 2026 à 23h59 (réponses fin avril) et que la sélection est faite indépendamment pour chaque journée demandée — deux informations utiles absentes de la fiche.",
+      "changes": {
+        "when": "Plusieurs éditions / an (vacances & temps forts) · éd. du 14–16 août 2026 passée · prochaine édition non annoncée",
+        "deadline": "Éd. août 2026 : inscriptions closes le 19 avril 2026 à 23h59 (réponses fin avril) — soit ~4 mois avant l'événement. Prochaine fenêtre non annoncée : surveiller tco.re et @tco.agglo.",
+        "apply": "Demande d'emplacement en ligne sur tco.re/plaisance/demande-demplacement/, appels relayés sur les réseaux sociaux (@tco.agglo). Le candidat postule pour 1, 2 ou 3 jours, mais la sélection est réalisée INDÉPENDAMMENT pour chaque journée : on peut n'être retenu que sur un seul jour. Pièces exigées : pièce d'identité, extrait Kbis de moins de 3 mois, assurance responsabilité civile professionnelle."
+      }
+    },
+    {
+      "event_name": "Inauguration lieu insolite — Bellemène (Inspira Faith)",
+      "_source_url": "",
+      "_confidence": "Vérifié",
+      "raison": "L'événement était daté du samedi 15 août 2026 : il est passé depuis une semaine. La fiche reste en statut « full », valeur hors du schéma officiel des 16 champs, que status_check.py ne recalcule jamais — elle resterait indéfiniment affichée comme une opportunité complète plutôt que clôturée.",
+      "changes": {
+        "status": "closed"
+      }
+    },
+    {
+      "event_name": "ROUGE RUELLE - Marché de créateurs 19 septembre - Saint Benoit",
+      "_source_url": "https://www.facebook.com/profile.php?id=61564326514151",
+      "_confidence": "Vérifié",
+      "raison": "La date limite de candidature (15 août 2026) est dépassée et l'organisateur avait déjà signalé le 14/08 ne plus prendre de candidatures. La fiche reste en statut « full », valeur hors schéma que status_check.py ne recalcule pas : elle n'aurait jamais basculé en clôturé toute seule.",
+      "changes": {
+        "status": "closed"
+      }
+    }
+  ]
+}
