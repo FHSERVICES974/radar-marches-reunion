@@ -900,6 +900,24 @@
     "desc": "Fête de la Fraise 2026 au Domaine Vidot (Mont Vert les Hauts), organisée par la Ville de Saint-Pierre avec l'OSTL. Appel ouvert aux professionnels souhaitant occuper un emplacement pendant la manifestation. À noter : l'avis ne détaille pas les catégories admises — les artisans sont invités à confirmer leur éligibilité auprès de la mairie avant de constituer le dossier."
   },
   {
+    "name": "Le Jardin Baz'Art — Domaine Bassin 18",
+    "zone": "Sud",
+    "type": "Marché de créateurs / terroir",
+    "org": "Le Jardin Baz'Art",
+    "place": "Domaine Bassin 18, 52 route Nationale 2, Terre Rouge, 97410 Saint-Pierre",
+    "when": "Dimanche 11 octobre 2026, 10h00–18h00 (2ᵉ édition)",
+    "badge": "OCT",
+    "month": 10,
+    "dateStatus": "confirmée",
+    "status": "open",
+    "deadline": "",
+    "contact": "@le_jardinbaz_art (Instagram)",
+    "social": "@le_jardinbaz_art",
+    "url": "",
+    "apply": "Appel à exposants ouvert, annoncé sur le compte Instagram @le_jardinbaz_art. Candidature à envoyer par mail à l'adresse indiquée sur l'affiche — celle-ci est partiellement masquée sur la capture reçue (« …lejardinbaz.art@gmail.com », préfixe incertain) : passer par un message direct au compte Instagram @le_jardinbaz_art pour obtenir l'adresse exacte. Aucune date limite de candidature n'est annoncée : candidater sans attendre.",
+    "desc": "2ᵉ édition du Jardin Baz'Art, « talents, saveurs & savoir-faire péi », dans le cadre du Domaine Bassin 18 face à la mer. Catégories recherchées : produits du terroir, agriculteurs producteurs, artisanat et créations, mode et accessoires, artistes, food trucks sucré/salé. Animations familiales sur toute la journée."
+  },
+  {
     "name": "Salon Régal",
     "zone": "Nord",
     "type": "Salon gastronomique",
