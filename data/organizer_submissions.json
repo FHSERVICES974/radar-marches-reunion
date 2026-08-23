@@ -173,5 +173,31 @@
     "submitter_name": "Cerveau Julie",
     "submitter_phone": "0692553908",
     "reviewer_note": ""
+  },
+  {
+    "id": "85edd475925a",
+    "ts": "2026-08-23T07:02:37",
+    "status": "pending",
+    "fields": {
+      "name": "LE JARDIN BAZ'ART",
+      "zone": "Sud",
+      "type": "Rdv autour du savoir-faire local, animation familiale",
+      "org": "Le Jardin Baz’Art",
+      "place": "Domaine du Bassin 18",
+      "when": "11 octobre 2026",
+      "deadline": "23 septembre 2026",
+      "apply": "Nous transmettre les éléments suivants : \r\n- Une présentation de votre concept \r\n- Attestation sirene/insee \r\n- Quelques photos du stand, créations ou produits afin de découvrir votre univers \r\n\r\nCandidature à envoyer à l'adresse suivante : \r\nContact.lejardinbaz.art@gmail.com \r\n\r\nClôture des inscriptions le 23 septembre 2026",
+      "email": "Contact.lejardinbaz.art@gmail.com",
+      "phone": "",
+      "social": "",
+      "desc": "Après une première édition riche en découvertes, le Jardin BAZ’ART s’installe au Domaine Bassin 18, dans un cadre idyllique face à la mer\r\n\r\nNous recherchons nos futurs exposants pour partager cette nouvelle aventure autour des talents, saveurs & savoir-faire péi \r\n\r\nVous êtes :\r\n✨ Artisan(e)\r\n🌱 Producteur / Agriculteur\r\n🍍 Créateur de produits du terroir\r\n🎨 Artiste\r\n👗 Créateur mode & accessoires\r\n🌿 Passionné(e) avec un concept unique\r\n🍴 Food Truck \r\n\r\n🎁 Des avantages seront réservés aux exposants inscrits pour cette 2ᵉ édition\r\n\r\n📅 Dimanche 11 octobre 2026\r\n🕙 De 10h à 18h\r\n📍 Domaine Bassin 18 "
+    },
+    "links": [
+      "https://www.facebook.com/share/1DKDthf2rZ/",
+      "https://www.instagram.com/le_jardinbaz_art?igsi=cjZsb2VqMDFxa3o="
+    ],
+    "submitter_name": "CHAUSSALET",
+    "submitter_phone": "Laurence",
+    "reviewer_note": ""
   }
 ]
