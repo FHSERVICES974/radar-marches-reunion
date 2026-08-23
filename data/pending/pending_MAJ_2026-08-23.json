@@ -1,0 +1,104 @@
+{
+  "generated": "2026-08-23",
+  "status_changes": [
+    {
+      "key": "emplacements aot domaine public saint gilles les bains bassin de vie n 2|ouest",
+      "name": "Emplacements AOT domaine public — Saint-Gilles-les-Bains (bassin de vie n°2)",
+      "zone": "Ouest",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-19)"
+    },
+    {
+      "key": "jour de sport sante 2026 espace food court|ouest",
+      "name": "Jour de Sport Santé 2026 — Espace Food Court",
+      "zone": "Ouest",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-13)"
+    },
+    {
+      "key": "salon d ete maison jardin|sud",
+      "name": "Salon d'Été, Maison & Jardin",
+      "zone": "Sud",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-14)"
+    },
+    {
+      "key": "village artisanal de la fete de la saint louis|sud",
+      "name": "Village artisanal de la Fête de la Saint-Louis",
+      "zone": "Sud",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-20)"
+    },
+    {
+      "key": "franco dan sin zil marche de createurs francofolies|ouest",
+      "name": "Franco Dan Sin Zil — Marché de créateurs (Francofolies)",
+      "zone": "Ouest",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-08)"
+    },
+    {
+      "key": "fete de la vanille appel a un organisateur de fete foraine|nord",
+      "name": "Fête de la Vanille — appel à un organisateur de fête foraine",
+      "zone": "Nord",
+      "from": "soon",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-07)"
+    },
+    {
+      "key": "le parcours des fees|sud",
+      "name": "Le Parcours des Fées",
+      "zone": "Sud",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-20)"
+    },
+    {
+      "key": "marche de noel maison banian|sud",
+      "name": "Marché de Noël — Maison Banian",
+      "zone": "Sud",
+      "from": "open",
+      "to": "soon",
+      "reason": "date limite passée — surveiller l'édition suivante"
+    }
+  ],
+  "new_events_candidates": [
+    {
+      "_source_title": "Le Jardin Baz'Art — 2ᵉ édition, Domaine Bassin 18 : APPEL À EXPOSANTS (affiche officielle de l'organisateur, compte Instagram @le_jardinbaz_art)",
+      "_source_url": "https://www.instagram.com/le_jardinbaz_art/",
+      "_confidence": "Vérifié",
+      "_note_verification": "Document de première main déposé dans data/inbox_docs/ le 22/08/2026 (capture d'une publication Instagram du compte organisateur @le_jardinbaz_art, partagée à 14h53). L'affiche porte explicitement la mention « APPEL À EXPOSANTS », la date « DIMANCHE 11 OCTOBRE 2026 », l'horaire 10h-18h et l'adresse complète. Le lieu est confirmé de façon INDÉPENDANTE par le site officiel du domaine (bassin18.com : « 52 Rn2, Saint-Pierre 97410, La Réunion ») — le filtre 974 est donc satisfait par une source distincte de l'affiche. En revanche l'événement lui-même n'a AUCUNE trace web indexée (recherches du 23/08/2026 infructueuses sur guide-reunion, agendas et presse) : il n'existe en ligne que sur Instagram. RÉSERVE SUR L'EMAIL : sur la capture, l'adresse de candidature est partiellement masquée par le bouton « Répondre » et se lit « Contact.lejardinbaz.art@gmail.co… ». Impossible de trancher si « contact. » fait partie de l'adresse ou si c'est le mot « Contact : » qui précède. L'email n'est donc PAS repris dans le champ contact — seul le compte Instagram, certain, y figure. À faire confirmer avant publication si l'humain veut afficher un email.",
+      "event": {
+        "name": "Le Jardin Baz'Art — Domaine Bassin 18",
+        "zone": "Sud",
+        "type": "Marché de créateurs / terroir",
+        "org": "Le Jardin Baz'Art",
+        "place": "Domaine Bassin 18, 52 route Nationale 2, Terre Rouge, 97410 Saint-Pierre",
+        "when": "Dimanche 11 octobre 2026, 10h00–18h00 (2ᵉ édition)",
+        "badge": "OCT",
+        "month": 10,
+        "dateStatus": "confirmée",
+        "status": "open",
+        "deadline": "",
+        "contact": "@le_jardinbaz_art (Instagram)",
+        "social": "@le_jardinbaz_art",
+        "url": "",
+        "apply": "Appel à exposants ouvert, annoncé sur le compte Instagram @le_jardinbaz_art. Candidature à envoyer par mail à l'adresse indiquée sur l'affiche — celle-ci est partiellement masquée sur la capture reçue (« …lejardinbaz.art@gmail.com », préfixe incertain) : passer par un message direct au compte Instagram @le_jardinbaz_art pour obtenir l'adresse exacte. Aucune date limite de candidature n'est annoncée : candidater sans attendre.",
+        "desc": "2ᵉ édition du Jardin Baz'Art, « talents, saveurs & savoir-faire péi », dans le cadre du Domaine Bassin 18 face à la mer. Catégories recherchées : produits du terroir, agriculteurs producteurs, artisanat et créations, mode et accessoires, artistes, food trucks sucré/salé. Animations familiales sur toute la journée."
+      }
+    }
+  ],
+  "community": [
+    {
+      "name": "Fête de la Vanille 2026 — fête foraine (appel à candidature)",
+      "zone": "Nord",
+      "note": "Affiche « FÊTE DE LA VANILLE — FÊTE FORAINE — DU 9 AU 13 SEPTEMBRE 2026 — Appel à candidature », reçue le 22/08/2026 par message privé depuis le +262 692 08 67 55 et déposée dans data/inbox_docs/. TROIS RÉSERVES. (1) Le périmètre annoncé est « attractions pour tous, stands gourmands, animations musicales, ambiance festive » : rien n'indique un volet ARTISANAT — c'est probablement l'organisateur retenu de la fête foraine qui recrute ses forains et métiers de bouche, pas un appel à exposants créateurs. (2) Aucune date limite, aucun email, aucune modalité de dépôt ne figurent sur l'affiche ; le numéro est celui de l'expéditeur du message, pas nécessairement celui de l'organisateur — il n'est donc pas présenté comme un contact officiel. (3) Aucune reprise en ligne : ni ville-saintesuzanne.re, ni guide-reunion, ni la presse ne relaient cet appel au 23/08/2026. INTÉRÊT MALGRÉ TOUT : l'affiche corrobore de façon indépendante les dates « 9 au 13 septembre 2026 » déjà portées par la fiche events.json, alors que le site municipal reste muet sur l'édition 2026. Un appel au 0262 52 30 02 (service accueil de la mairie) tranchera à la fois l'existence d'un volet exposants artisans et la date limite.",
+      "source": "data/inbox_docs/processed/Capture d’écran 2026-08-22 à 15.52.12.png"
+    }
+  ],
+  "field_updates": []
+}
