@@ -177,7 +177,7 @@
   {
     "id": "85edd475925a",
     "ts": "2026-08-23T07:02:37",
-    "status": "pending",
+    "status": "approved",
     "fields": {
       "name": "LE JARDIN BAZ'ART",
       "zone": "Sud",
@@ -198,6 +198,6 @@
     ],
     "submitter_name": "CHAUSSALET",
     "submitter_phone": "Laurence",
-    "reviewer_note": ""
+    "reviewer_note": "Contenu intégré le 24/08/2026 à la fiche existante « Le Jardin Baz'Art — Domaine Bassin 18 » : date limite du 23 septembre et adresse e-mail directe. Pas de seconde fiche créée pour éviter un doublon."
   }
 ]
