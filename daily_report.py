@@ -139,6 +139,41 @@ def _sans_date_exploitable(today_d) -> list[dict]:
 
 
 
+_DERNIER_ENVOI = ROOT / "data" / "last_report_ok.json"
+
+
+def _marquer_envoi_reussi() -> None:
+    """Trace du dernier rapport RÉELLEMENT parti (fichier local, non versionné)."""
+    try:
+        _DERNIER_ENVOI.write_text(
+            json.dumps({"date": today_iso()}, ensure_ascii=False), encoding="utf-8")
+    except OSError as exc:
+        print(f"[daily_report] trace du dernier envoi non écrite : {exc}")
+
+
+def _silence_precedent() -> str | None:
+    """Un rapport a-t-il manqué depuis la dernière fois ?
+
+    Dernier maillon sans filet : quand l'envoi échoue (mot de passe d'application
+    révoqué le 07/08/2026, veille interrompue le 16/08), personne n'est prévenu —
+    la panne supprime justement le canal qui l'annoncerait. On ne peut pas alerter
+    le jour même par ce canal, mais **le rapport suivant peut dire qu'il en manque**.
+    """
+    try:
+        d = json.loads(_DERNIER_ENVOI.read_text(encoding="utf-8")).get("date", "")
+        dernier = date.fromisoformat(d)
+    except (OSError, ValueError, json.JSONDecodeError):
+        return None                      # première exécution : rien à signaler
+    manques = (date.today() - dernier).days - 1
+    if manques <= 0:
+        return None
+    jour = "jour" if manques == 1 else "jours"
+    return (f"RAPPORT MANQUANT — aucun rapport n'est parti pendant {manques} {jour} "
+            f"(dernier envoi réussi le {dernier.strftime('%d/%m/%Y')}). "
+            f"Vérifier `veille.log` : soit la veille ne s'est pas lancée, soit l'envoi "
+            f"a échoué (mot de passe d'application Gmail révoqué ?).")
+
+
 SITE_URL = "https://radar.artisanspei.re/"
 SITE_TIMEOUT = 15
 
@@ -201,6 +236,11 @@ def _collect_alerts(verifies: list[dict]) -> list[str]:
     div = _divergence_prod()
     if div:
         alerts.append(div)
+
+    # 0 bis. un rapport a-t-il manqué depuis la dernière fois ?
+    silence = _silence_precedent()
+    if silence:
+        alerts.append(silence)
 
     # 1. échecs signalés dans le journal — UNIQUEMENT le dernier passage (celui qui
     # vient de tourner), pas tout l'historique : sinon un incident déjà résolu il y
@@ -496,6 +536,7 @@ if __name__ == "__main__":
         print("[daily_report] aucune proposition du jour — rien à envoyer.")
     else:
         send_mail(report)
+        _marquer_envoi_reussi()
         print(f"[daily_report] envoyé à {DEST_EMAIL} : "
               f"{len(report['verifies'])} vérifié(s), {len(report['probables'])} à revoir, "
               f"{len(report['alerts'])} alerte(s)")

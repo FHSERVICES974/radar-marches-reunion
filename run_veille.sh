@@ -136,12 +136,26 @@ else
 fi
 
 # Rapport quotidien par mail (résumé + liens, ne publie rien).
-./venv/bin/python daily_report.py >> veille.log 2>&1 \
-  && echo "[mail] rapport quotidien envoyé" >> veille.log \
-  || echo "[mail] ATTENTION : échec envoi rapport quotidien" >> veille.log
+if ./venv/bin/python daily_report.py >> veille.log 2>&1; then
+  echo "[mail] rapport quotidien envoyé" >> veille.log
+  MAIL_OK=1
+else
+  echo "[mail] ATTENTION : échec envoi rapport quotidien" >> veille.log
+  MAIL_OK=0
+fi
 
-# Notification macOS de fin.
+# Notification macOS. C'est le SEUL canal indépendant du mail : quand l'envoi
+# échoue, c'est la seule chose qui puisse encore prévenir le jour même. Elle doit
+# donc dire l'échec, pas annoncer une réussite (le rapport suivant, lui, signalera
+# rétrospectivement les jours manquants).
 LATEST=$(ls -t proposition_MAJ_*.md 2>/dev/null | head -1)
-osascript -e "display notification \"Proposition prête : ${LATEST:-aucune}\" with title \"Radar Marchés — veille\"" 2>/dev/null || true
+if [ "$MAIL_OK" = "1" ]; then
+  NOTIF_TITRE="Radar Marchés — veille"
+  NOTIF_TEXTE="Proposition prête : ${LATEST:-aucune}"
+else
+  NOTIF_TITRE="⚠️ Radar Marchés — RAPPORT NON ENVOYÉ"
+  NOTIF_TEXTE="La veille a tourné mais le mail n'est pas parti. Voir veille.log."
+fi
+osascript -e "display notification \"$NOTIF_TEXTE\" with title \"$NOTIF_TITRE\"" 2>/dev/null || true
 
 exit $RC
