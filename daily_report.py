@@ -11,9 +11,11 @@ N'écrit rien, ne publie rien : simple lecture + envoi de mail.
 """
 from __future__ import annotations
 
+import json
 import os
 import re
 import smtplib
+import urllib.request
 from datetime import date
 from email.message import EmailMessage
 from pathlib import Path
@@ -136,8 +138,69 @@ def _sans_date_exploitable(today_d) -> list[dict]:
     return manquantes
 
 
+
+SITE_URL = "https://radar.artisanspei.re/"
+SITE_TIMEOUT = 15
+
+
+def _divergence_prod() -> str | None:
+    """Le site en ligne dit-il la même chose que le dépôt ?
+
+    Le 24/08/2026, la production a servi pendant ~30 h des données absentes du
+    dépôt : le jeton GitHub avait expiré, les écritures réussissaient sur le
+    disque de la VM mais aucun push ne partait. Rien ne le signalait. Un
+    redéploiement aurait effacé ces données sans prévenir.
+
+    On compare ce qui est lisible par un humain — date de mise à jour et nombre
+    de fiches — plutôt que des empreintes opaques : le message doit dire quoi
+    faire, pas seulement qu'il y a un écart.
+
+    Retourne None si tout concorde, sinon la phrase d'alerte.
+    """
+    try:
+        req = urllib.request.Request(SITE_URL, headers={"Cache-Control": "no-cache"})
+        with urllib.request.urlopen(req, timeout=SITE_TIMEOUT) as r:
+            page = r.read().decode("utf-8", errors="replace")
+    except Exception as exc:
+        # Site injoignable : c'est en soi une alerte, et une plus grave.
+        return (f"SITE INJOIGNABLE — {SITE_URL} n'a pas répondu ({type(exc).__name__}). "
+                f"Vérifier que le déploiement Replit tourne.")
+
+    m_meta = re.search(r'META\s*=\s*\{[^}]*lastUpdate:\s*"([^"]+)"', page)
+    m_ev   = re.search(r"EVENTS\s*=\s*(\[.*?\])\s*;", page, re.S)
+    if not m_meta or not m_ev:
+        return ("PAGE ILLISIBLE — la page en ligne ne contient plus ni META ni EVENTS "
+                "exploitables. Le build a peut-être produit une page cassée.")
+    try:
+        en_ligne_n = len(json.loads(m_ev.group(1)))
+    except json.JSONDecodeError:
+        return "PAGE ILLISIBLE — le tableau EVENTS de la page en ligne n'est pas du JSON valide."
+    en_ligne_maj = m_meta.group(1)
+
+    depot_maj = (load_json(ROOT / "data" / "meta.json", default={}) or {}).get("lastUpdate", "")
+    depot_n   = len(load_json(ROOT / "data" / "events.json", default=[]))
+
+    if en_ligne_maj == depot_maj and en_ligne_n == depot_n:
+        return None
+
+    ecarts = []
+    if en_ligne_maj != depot_maj:
+        ecarts.append(f"mise à jour {en_ligne_maj} en ligne contre {depot_maj} dans le dépôt")
+    if en_ligne_n != depot_n:
+        ecarts.append(f"{en_ligne_n} fiches en ligne contre {depot_n} dans le dépôt")
+    return ("DIVERGENCE — le site en ligne ne correspond pas au dépôt : " + " ; " .join(ecarts)
+            + ". Soit une publication n'est pas partie (jeton GitHub ?), soit le déploiement "
+              "Replit n'a pas été relancé. ⚠️ Ne pas redéployer avant d'avoir vérifié : "
+              "un redéploiement écrase le disque de production depuis GitHub.")
+
+
 def _collect_alerts(verifies: list[dict]) -> list[str]:
     alerts = []
+
+    # 0. cohérence site en ligne / dépôt — d'abord, car elle conditionne le reste
+    div = _divergence_prod()
+    if div:
+        alerts.append(div)
 
     # 1. échecs signalés dans le journal — UNIQUEMENT le dernier passage (celui qui
     # vient de tourner), pas tout l'historique : sinon un incident déjà résolu il y
