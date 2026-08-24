@@ -40,7 +40,7 @@
       "contact_repli": "regie@saintdenis.re — Régie des Marchés et Droits de Place, 26 rue Lislet Geoffroy, Saint-Denis",
       "angle_mort_connu": "Le site saintdenis.re bloque fréquemment l'accès automatisé (message « Attack detected »). En cas de blocage : ne pas insister, le signaler dans la section 6 et recommander une vérification manuelle. Repli possible par la presse locale (imazpress relaie l'appel chaque année).",
       "note": "Point à trancher avec la mairie : le formulaire indique qu'« une commission se tiendra mensuellement avant chaque édition des manifestations ». Reste à savoir si des dossiers déposés hors délai sont examinés au fil de l'eau, ou si cette commission ne fait que répartir les candidats retenus en février.",
-      "derniere_verification": "2026-08-03",
+      "derniere_verification": "2026-08-24",
       "statut_edition_courante": "clos (deadline du 2 février 2026 dépassée)",
       "couvre_aussi_ces_fiches": [
         "Marché de Noël du Barachois",
@@ -66,7 +66,7 @@
       "contact_repli": "via braspanon.re · @villedebraspanon",
       "fenetre_estimee": true,
       "historique": [],
-      "derniere_verification": null
+      "derniere_verification": "2026-08-24"
     },
     {
       "nom": "Marché de Noël de Saint-Leu (Compagnie Tendance)",
@@ -78,11 +78,19 @@
         10
       ],
       "priorite": "haute",
-      "pourquoi": "Vague de Noël : les appels s'ouvrent en août-septembre pour un événement de décembre. Segment le plus important de l'année pour les créateurs. Aucune de ces fiches n'avait de deadline connue au 16/08/2026 — c'est le scénario Florilèges qui menaçait de se rejouer neuf fois. Appel publié sur Facebook/Instagram plutôt que sur le site municipal.",
+      "pourquoi": "Vague de Noël : les appels s'ouvrent en août-septembre pour un événement de décembre. Segment le plus important de l'année pour les créateurs. Aucune de ces fiches n'avait de deadline connue au 16/08/2026 — c'est le scénario Florilèges qui menaçait de se rejouer neuf fois. Appel publié sur Facebook/Instagram plutôt que sur le site municipal. Fenêtre difficile à cerner : l'appel 2025 n'avait pas de date limite (attribution au fil de l'eau), seule la date de parution compte.",
       "contact_repli": "compagnietendance.marchedenoel@gmail.com · @marchedenoelstleu",
       "fenetre_estimee": true,
-      "historique": [],
-      "derniere_verification": null
+      "historique": [
+        {
+          "annee": 2025,
+          "ouverture": null,
+          "cloture": null,
+          "source": "https://www.facebook.com/100087548391794/posts/… (appel à candidature exposants, page Marché de Noël de Saint-Leu — veille du 19/08/2026)",
+          "note": "4e édition, 13-14 décembre 2025 au Parc du 20 Décembre. L'appel à exposants a bien été publié — sur Facebook uniquement — mais il ne comporte AUCUNE date limite : le post dit « Contactez-nous au plus vite » et signale un afflux de demandes. Les places semblent donc attribuées au fil de l'eau, pas à une date de clôture. Conséquence pour la veille : ne pas attendre une deadline qui n'existera pas ; c'est la DATE DE PARUTION du post qu'il faut attraper. Ouverture et clôture laissées à null plutôt que reconstituées — le post n'est pas daté."
+        }
+      ],
+      "derniere_verification": "2026-08-24"
     },
     {
       "nom": "Marché de Noël de Saint-Paul",
@@ -91,14 +99,23 @@
       "mois_de_veille": [
         8,
         9,
-        10
+        10,
+        11
       ],
       "priorite": "haute",
       "pourquoi": "Vague de Noël : les appels s'ouvrent en août-septembre pour un événement de décembre. Segment le plus important de l'année pour les créateurs. Aucune de ces fiches n'avait de deadline connue au 16/08/2026 — c'est le scénario Florilèges qui menaçait de se rejouer neuf fois. Passe par la page « avis de publicité » de la mairie, partagée avec plusieurs autres appels.",
       "contact_repli": "maire@mairie-saintpaul.fr · 0262 45 90 69",
       "fenetre_estimee": true,
-      "historique": [],
-      "derniere_verification": null
+      "historique": [
+        {
+          "annee": 2021,
+          "ouverture": "2021-11-25",
+          "cloture": "2021-12-03",
+          "source": "https://www.mairie-saintpaul.re/appel-a-candidatures-pour-le-marche-de-noel/ (veille du 18/08/2026)",
+          "note": "Seule édition dont l'appel ait pu être retrouvé. Publié le 25 novembre pour un marché du 18 au 23 décembre : une fenêtre de NOVEMBRE, très en décalage avec l'estimation août-septembre. Dépôt par mail à natacha.perianayagom@mairie-saintpaul.fr et daniel.odon@mairie-saintpaul.fr, ou par courrier au 1 rue Évariste-de-Parny, 97861 Saint-Paul Cedex. Une seule observation, et vieille de cinq ans : novembre a été AJOUTÉ aux mois de veille par prudence, sans retirer août-septembre-octobre."
+        }
+      ],
+      "derniere_verification": "2026-08-24"
     },
     {
       "nom": "Village de Noël de Saint-Paul",
@@ -114,7 +131,7 @@
       "contact_repli": "maire@mairie-saintpaul.fr · 0262 45 90 69",
       "fenetre_estimee": true,
       "historique": [],
-      "derniere_verification": null
+      "derniere_verification": "2026-08-24"
     },
     {
       "nom": "Marché de Noël du Carré Cat",
@@ -126,11 +143,11 @@
         10
       ],
       "priorite": "haute",
-      "pourquoi": "Vague de Noël : les appels s'ouvrent en août-septembre pour un événement de décembre. Segment le plus important de l'année pour les créateurs. Aucune de ces fiches n'avait de deadline connue au 16/08/2026 — c'est le scénario Florilèges qui menaçait de se rejouer neuf fois. Aucune URL : l'appel ne passe que par Instagram. Organisatrice déjà en contact (voir pistes_organisateurs.json).",
+      "pourquoi": "Vague de Noël : les appels s'ouvrent en août-septembre pour un événement de décembre. Segment le plus important de l'année pour les créateurs. Aucune de ces fiches n'avait de deadline connue au 16/08/2026 — c'est le scénario Florilèges qui menaçait de se rejouer neuf fois. Aucune URL : l'appel ne passe que par Instagram. Organisatrice déjà en contact (voir pistes_organisateurs.json). Édition 2024 datée le 19/08/2026 : dimanche 22 décembre 2024, 10h-22h, plus de 100 exposants, en partenariat avec la Ville de Saint-Denis (guide-reunion.fr). L'appel, lui, reste invisible en ligne.",
       "contact_repli": "marion.carrecathedrale@gmail.com · @galerie_artefact",
       "fenetre_estimee": true,
       "historique": [],
-      "derniere_verification": null
+      "derniere_verification": "2026-08-24"
     },
     {
       "nom": "Marché de Noël — Pierrefonds",
@@ -142,11 +159,11 @@
         10
       ],
       "priorite": "haute",
-      "pourquoi": "Vague de Noël : les appels s'ouvrent en août-septembre pour un événement de décembre. Segment le plus important de l'année pour les créateurs. Aucune de ces fiches n'avait de deadline connue au 16/08/2026 — c'est le scénario Florilèges qui menaçait de se rejouer neuf fois. Aucune URL : appel par courriel / Instagram uniquement.",
+      "pourquoi": "Vague de Noël : les appels s'ouvrent en août-septembre pour un événement de décembre. Segment le plus important de l'année pour les créateurs. Aucune de ces fiches n'avait de deadline connue au 16/08/2026 — c'est le scénario Florilèges qui menaçait de se rejouer neuf fois. Aucune URL : appel par courriel / Instagram uniquement. Édition 2025 datée le 19/08/2026 : marché de Noël NOCTURNE des 6 et 7 décembre 2025 (guide-reunion.fr). Aucun appel n'a jamais été vu en ligne pour aucune édition.",
       "contact_repli": "labandeaguinguette@gmail.com · @la_bande_a_guinguette",
       "fenetre_estimee": true,
       "historique": [],
-      "derniere_verification": null
+      "derniere_verification": "2026-08-23"
     },
     {
       "nom": "Marché de Noël — Village de l'Éperon",
@@ -165,10 +182,10 @@
           "annee": 2025,
           "ouverture": "2025-09-01",
           "cloture": "2025-09-15",
-          "source": "veille du 07/08/2026 (piste organisateur)"
+          "source": "veille du 07/08/2026 (piste organisateur) ; fenêtre corroborée le 20/08/2026 par une source indépendante décrivant des candidatures ouvertes du 1er au 15 septembre et un appel très concurrentiel (plusieurs centaines de dossiers pour une centaine de places) ; re-corroborée le 21/08/2026 par une troisième source publique (« les candidatures étaient ouvertes du 1er au 15 septembre »). La fenêtre s'ouvre dans onze jours et ne dure que quinze."
         }
       ],
-      "derniere_verification": null
+      "derniere_verification": "2026-08-24"
     },
     {
       "nom": "Salon Fait Main",
@@ -180,11 +197,11 @@
         10
       ],
       "priorite": "haute",
-      "pourquoi": "Vague de Noël : les appels s'ouvrent en août-septembre pour un événement de décembre. Segment le plus important de l'année pour les créateurs. Aucune de ces fiches n'avait de deadline connue au 16/08/2026 — c'est le scénario Florilèges qui menaçait de se rejouer neuf fois. 102e édition en juin 2026, prochaine en décembre. Exposer exige d'être ADHÉRENT de l'association Arts et Traditions 974 : l'adhésion est un prérequis à anticiper, pas une formalité de dernière minute. Le site artrad.re ne répondait pas au 04/08/2026.",
+      "pourquoi": "Vague de Noël : les appels s'ouvrent en août-septembre pour un événement de décembre. Segment le plus important de l'année pour les créateurs. Aucune de ces fiches n'avait de deadline connue au 16/08/2026 — c'est le scénario Florilèges qui menaçait de se rejouer neuf fois. 102e édition en juin 2026, prochaine en décembre. Exposer exige d'être ADHÉRENT de l'association Arts et Traditions 974 : l'adhésion est un prérequis à anticiper, pas une formalité de dernière minute. Le site artrad.re ne répondait pas au 04/08/2026. Vérifié le 19/08/2026 : la page guide-reunion.fr/salon-fait-main/ affiche désormais la 102e édition de JUIN 2026 (12-14 juin, Chaussée Royale, 150+ exposants) et aucune date de décembre 2026 — cette URL suit l'édition la plus récente, elle ne préviendra pas de l'ouverture d'un appel. Le canal réel reste artrad.re et @artsettraditions974.",
       "contact_repli": "artsettraditions974@gmail.com · @artsettraditions974",
       "fenetre_estimee": true,
       "historique": [],
-      "derniere_verification": null
+      "derniere_verification": "2026-08-24"
     },
     {
       "nom": "Marché de Noël Décalé — Vavang'art",
@@ -199,8 +216,16 @@
       "pourquoi": "Vague de Noël : les appels s'ouvrent en août-septembre pour un événement de décembre. Segment le plus important de l'année pour les créateurs. Aucune de ces fiches n'avait de deadline connue au 16/08/2026 — c'est le scénario Florilèges qui menaçait de se rejouer neuf fois. Événement de NOVEMBRE (un mois avant Noël) : son appel s'ouvre donc plus tôt que les autres de la vague.",
       "contact_repli": "programmation@vavangart.com · @vavangart974",
       "fenetre_estimee": true,
-      "historique": [],
-      "derniere_verification": null
+      "historique": [
+        {
+          "annee": 2025,
+          "ouverture": null,
+          "cloture": "2025-10-31",
+          "source": "https://guide-reunion.fr/breves/detail/marche-artisanal-decale-noel/ (veille du 18/08/2026)",
+          "note": "Candidatures à envoyer avant le 31 octobre à programmation@vavangart.com, pour un marché des 22-23 novembre 2025. Première fenêtre réellement observée : la clôture tombe fin octobre, donc les mois 9-10 sont les plus utiles. La fenêtre reste marquée estimée tant qu'une deuxième édition n'a pas confirmé la date d'ouverture, inconnue à ce jour."
+        }
+      ],
+      "derniere_verification": "2026-08-24"
     },
     {
       "nom": "Fête de l'ail",
@@ -228,7 +253,7 @@
           "cloture": "2026-08-14"
         }
       ],
-      "derniere_verification": null
+      "derniere_verification": "2026-08-24"
     },
     {
       "nom": "Florilèges",
@@ -239,18 +264,19 @@
         8
       ],
       "priorite": "haute",
-      "pourquoi": "MANQUÉ le 14/08/2026, retrouvé le 15, clos la veille à 12h00. Fenêtre courte : publication en août, clôture mi-août, pour un événement d'octobre. Procédure la plus lourde du corpus après l'AOT de Saint-Leu (RIB exigé, régime spécifique pour les attractions foraines). Une seule édition observée : la fenêtre [7,8] reste large délibérément, tant qu'une deuxième année n'a pas confirmé.",
+      "pourquoi": "MANQUÉ le 14/08/2026, retrouvé le 15, clos la veille à 12h00. Fenêtre courte : publication en août, clôture mi-août, pour un événement d'octobre. Procédure la plus lourde du corpus après l'AOT de Saint-Leu (RIB exigé, régime spécifique pour les attractions foraines). Une seule édition observée : la fenêtre [7,8] reste large délibérément, tant qu'une deuxième année n'a pas confirmé. Vérifié le 21/08/2026 : l'appel 2026 était découpé en TROIS avis distincts (zone florale au Parc Jean de Cambiaire, zone commerciale en centre-ville, SIDR 400 place de la Libération), tous clos le vendredi 14 août 2026 à 12h00, pour une manifestation du 9 au 18 octobre 2026. L'avis SIDR 400 visait manèges, stands de jeux, attractions et métiers de bouche. Dépôt à florileges.animation@mairie-tampon.fr (PDF) ou en main propre à la Direction Animation-Culture, 14 rue Antoine Fontaine. Les trois avis restent affichés « ouverts » sur letampon.fr alors qu'ils sont clos : ne jamais se fier à ce badge.",
       "contact_repli": "florileges.animation@mairie-tampon.fr · Direction Animation-Culture, 14 rue Antoine Fontaine",
       "fenetre_estimee": false,
       "historique": [
         {
           "annee": 2026,
           "ouverture": null,
-          "cloture": "2026-08-14T12:00"
+          "cloture": "2026-08-14T12:00",
+          "source": "https://letampon.fr/appels-candidatures/appel-a-candidatures-pour-des-emplacements-disponibles-sur-le-domaine-public-florileges-2026/ (veille du 21/08/2026)"
         }
       ],
-      "derniere_verification": null,
-      "url_modele": "https://letampon.fr/evenements/les-florileges/"
+      "derniere_verification": "2026-08-24",
+      "url_modele": "https://letampon.fr/appels-candidatures/"
     },
     {
       "nom": "Salon International de l'Agriculture — Village Réunion",
@@ -276,7 +302,7 @@
           "cloture": "2026-08-31"
         }
       ],
-      "derniere_verification": null
+      "derniere_verification": "2026-08-24"
     },
     {
       "nom": "Foire Agricole de Bras-Panon",
@@ -340,7 +366,7 @@
           "cloture": "2026-04-24"
         }
       ],
-      "derniere_verification": null
+      "derniere_verification": "2026-08-24"
     },
     {
       "nom": "Fête de la Vanille — appel à un organisateur de fête foraine",
@@ -353,39 +379,53 @@
         8
       ],
       "priorite": "haute",
-      "pourquoi": "ATTENTION — l'appel connu (clos le 3 août 2026) sélectionne l'ORGANISATEUR de la fête foraine, PAS des exposants individuels. Un artisan qui y candidate perd son temps. L'appel exposants, lui, n'a jamais été trouvé : angle mort actif pour un événement de septembre.",
-      "contact_repli": "Direction de l'Animation et de la Vie Culturelle · 0262 81 85 88 · davc@ville-saintesuzanne.re",
+      "pourquoi": "DEUX APPELS DISTINCTS sous le même événement. (1) L'appel connu (clos le 3 août 2026) sélectionne l'ORGANISATEUR de la fête foraine, PAS des exposants individuels : un artisan qui y candidate perd son temps. (2) L'appel EXPOSANTS, longtemps introuvable, a été identifié le 20/08/2026 sur l'édition 2025 : il est publié par la mairie elle-même et clôture début juin pour un événement d'août. Surveiller mai-juin en priorité. Attention aussi à un décalage de calendrier non résolu : la 12ᵉ édition s'est tenue du 8 au 10 août 2025, alors que l'édition 2026 est annoncée du 9 au 13 septembre — l'événement semble avoir glissé d'août à septembre, ce qui déplacerait aussi la fenêtre de candidature.",
+      "contact_repli": "Direction de l'Animation et de la Vie Culturelle · 0262 81 85 88 · davc@ville-saintesuzanne.re (appel organisateur) — service accueil de la mairie · 0262 52 30 02 (appel exposants)",
       "fenetre_estimee": false,
       "historique": [
         {
           "annee": 2026,
           "cloture": "2026-08-03",
-          "note": "appel organisateur, pas exposants"
+          "note": "appel organisateur, pas exposants. Observation du 23/08/2026 : un document de première main déposé dans data/inbox_docs/ (affiche « FÊTE DE LA VANILLE — FÊTE FORAINE — DU 9 AU 13 SEPTEMBRE 2026 — Appel à candidature », reçue par message privé le 22/08 depuis le +262 692 08 67 55) montre qu'un SECOND recrutement, en aval de l'appel municipal clos le 3 août, circulait encore à trois semaines de l'événement — vraisemblablement l'organisateur retenu constituant sa fête foraine. Périmètre annoncé : attractions, stands gourmands, animations musicales ; AUCUNE mention d'artisanat, aucune date limite, aucune modalité de dépôt. Ni ouverture ni clôture ne sont donc renseignées : elles ne sont pas reconstituées. Deux enseignements pour la veille. (1) Les dates « 9 au 13 septembre 2026 » sont désormais corroborées de façon indépendante, alors que ville-saintesuzanne.re reste muet sur l'édition 2026 — le glissement d'août à septembre signalé plus haut est confirmé, et la fenêtre de l'appel EXPOSANTS a donc pu glisser elle aussi. (2) Ce recrutement aval n'est jamais publié en ligne : il ne se voit que par le bouche-à-oreille des exposants. Ne pas le confondre avec l'appel exposants artisans, qui se referme début juin."
+        },
+        {
+          "annee": 2025,
+          "ouverture": null,
+          "cloture": "2025-06-03",
+          "source": "https://ville-saintesuzanne.re/ouverture-des-candidatures-12%E1%B5%89-edition-de-la-fete-de-la-vanille/ (veille du 20/08/2026)",
+          "note": "APPEL EXPOSANTS — à ne pas confondre avec l'appel organisateur de fête foraine qui donne son nom à cette entrée. Ouvert aux « artisans, producteurs, créateurs, commerçants, associations et artistes » souhaitant exposer ou animer. Formulaire PDF à télécharger, dossier à déposer au service accueil de la Mairie de Sainte-Suzanne ou à envoyer au 3 rue du Général de Gaulle, 97441 Sainte-Suzanne (0262 52 30 02). Clôture le mardi 3 juin 2025 inclus, pour une 12ᵉ édition tenue du 8 au 10 août 2025. Ouverture non datée sur la page, laissée à null plutôt que reconstituée. Conséquence pour la veille : la voie directe existe bel et bien, elle se referme début juin — les mois 5 et 6 sont les plus utiles, pas août."
         }
       ],
-      "derniere_verification": null
+      "derniere_verification": "2026-08-24"
     },
     {
       "nom": "Miel Vert",
       "zone": "Sud",
-      "url": "https://guide-reunion.fr/evenements/miel-vert/",
+      "url": "https://letampon.fr/appels-candidatures/",
       "mois_de_veille": [
         9,
         10,
-        11,
-        12
+        11
       ],
       "priorite": "haute",
-      "pourquoi": "Événement de janvier au Tampon. L'appel producteurs & artisans est attendu à l'automne. L'agrégateur guide-reunion ne publie aucune procédure exposant : c'est letampon.fr qu'il faut ouvrir.",
-      "contact_repli": "animation.dac@mairie-tampon.fr",
-      "fenetre_estimee": true,
-      "historique": [],
-      "derniere_verification": null
+      "pourquoi": "Événement de janvier au Tampon. FENÊTRE OBSERVÉE, plus estimée : l'appel 2026 s'est refermé le 24 novembre 2025, soit environ six semaines avant la manifestation. Le canal réel est letampon.fr/appels-candidatures/ — l'agrégateur guide-reunion ne publie aucune procédure exposant. Le badge « ouvert / clôturé » de cette page n'est PAS fiable : des avis dont la date limite est passée y restent affichés « ouverts ». Ouvrir chaque avis pour lire la vraie date limite, et les lire TOUS (un avis par zone).",
+      "contact_repli": "mielvert.animation@mairie-tampon.fr (avis Miel Vert) · animation.dac@mairie-tampon.fr (Direction Animation-Culture)",
+      "fenetre_estimee": false,
+      "historique": [
+        {
+          "annee": 2026,
+          "ouverture": null,
+          "cloture": "2025-11-24",
+          "source": "https://letampon.fr/appels-candidatures/appel-a-candidature-pour-miel-vert-2026-zone-commerciale/ (veille du 21/08/2026)",
+          "note": "PREMIÈRE fenêtre réellement observée pour Miel Vert. Avis « MIEL VERT 2026 – zone commerciale » : clôture le 24 novembre 2025 inclus, pour une manifestation du 7 au 18 janvier 2026 (site de Miel Vert et rue des Écoles, entrée payante). Environ six semaines d'anticipation. Dépôt à mielvert.animation@mairie-tampon.fr ou au Service Animation, 14 rue Antoine Fontaine, 97430 Le Tampon (lun-ven 8h-12h / 13h-15h). Catégories ouvertes : métiers de bouche, confiserie, attractions, stands divers. Neuf pièces obligatoires exigées. Sélection notée : variété et accessibilité de l'offre (5 pts), qualité et nature des produits (3), expérience professionnelle (1), gestion des déchets (1) ; départage par tirage au sort. ATTENTION : la manifestation est découpée en TROIS avis distincts (gymnase, zone foraine, zone commerciale) — n'en lire qu'un fait manquer les deux autres. La date d'ouverture n'est pas publiée : laissée à null plutôt que reconstituée, d'où des mois de veille maintenus larges (septembre à novembre) autour de la seule clôture connue."
+        }
+      ],
+      "derniere_verification": "2026-08-24"
     },
     {
       "nom": "Exposition Artisanale & Métiers d'Arts",
       "zone": "Sud",
-      "url": "https://www.letampon.fr/",
+      "url": "https://letampon.fr/appels-candidatures/",
       "mois_de_veille": [
         1,
         2,
@@ -393,11 +433,11 @@
         4
       ],
       "priorite": "normale",
-      "pourquoi": "Événement de mai au Tampon, appel à candidature dédié annoncé sans date.",
+      "pourquoi": "Événement de mai au Tampon, appel à candidature dédié annoncé sans date. Canal réel identifié le 21/08/2026 : la Ville publie tous ses avis de manifestation sur letampon.fr/appels-candidatures/ (la page d'accueil letampon.fr ne les relaie pas). Comme pour Miel Vert et Florilèges, la manifestation peut être découpée en plusieurs avis par zone, et le badge « ouvert / clôturé » de la page n'est pas fiable — ouvrir chaque avis.",
       "contact_repli": "animation.dac@mairie-tampon.fr",
       "fenetre_estimee": true,
       "historique": [],
-      "derniere_verification": null
+      "derniere_verification": "2026-08-24"
     },
     {
       "nom": "Fête des Goyaviers",
@@ -499,7 +539,7 @@
       "contact_repli": "maire@mairie-saintpaul.fr · 0262 45 90 69",
       "fenetre_estimee": true,
       "historique": [],
-      "derniere_verification": null
+      "derniere_verification": "2026-08-24"
     },
     {
       "nom": "Sakifo Musik Festival",
@@ -550,7 +590,7 @@
       "contact_repli": "formulaire de contact noulelocal.re (kit exposant)",
       "fenetre_estimee": true,
       "historique": [],
-      "derniere_verification": null
+      "derniere_verification": "2026-08-24"
     }
   ]
 }
