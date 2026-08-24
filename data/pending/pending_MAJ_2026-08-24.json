@@ -1,0 +1,83 @@
+{
+  "generated": "2026-08-24",
+  "status_changes": [
+    {
+      "key": "emplacements aot domaine public saint gilles les bains bassin de vie n 2|ouest",
+      "name": "Emplacements AOT domaine public — Saint-Gilles-les-Bains (bassin de vie n°2)",
+      "zone": "Ouest",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-19)"
+    },
+    {
+      "key": "jour de sport sante 2026 espace food court|ouest",
+      "name": "Jour de Sport Santé 2026 — Espace Food Court",
+      "zone": "Ouest",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-13)"
+    },
+    {
+      "key": "salon d ete maison jardin|sud",
+      "name": "Salon d'Été, Maison & Jardin",
+      "zone": "Sud",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-14)"
+    },
+    {
+      "key": "village artisanal de la fete de la saint louis|sud",
+      "name": "Village artisanal de la Fête de la Saint-Louis",
+      "zone": "Sud",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-20)"
+    },
+    {
+      "key": "franco dan sin zil marche de createurs francofolies|ouest",
+      "name": "Franco Dan Sin Zil — Marché de créateurs (Francofolies)",
+      "zone": "Ouest",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-08)"
+    },
+    {
+      "key": "fete de la vanille appel a un organisateur de fete foraine|nord",
+      "name": "Fête de la Vanille — appel à un organisateur de fête foraine",
+      "zone": "Nord",
+      "from": "soon",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-07)"
+    },
+    {
+      "key": "marche de noel maison banian|sud",
+      "name": "Marché de Noël — Maison Banian",
+      "zone": "Sud",
+      "from": "open",
+      "to": "soon",
+      "reason": "date limite passée — surveiller l'édition suivante"
+    }
+  ],
+  "_status_changes_ecartes": [
+    {
+      "name": "Le Parcours des Fées",
+      "zone": "Sud",
+      "propose_par_le_script": "open -> closed",
+      "decision": "ECARTE",
+      "raison": "Faux positif de status_check.py. Le champ deadline de la fiche dit littéralement « Aucune date limite annoncée — places limitées (40 créneaux encore ouverts au 20/08/2026) ». Le script a parsé « 20/08/2026 », qui est une date d'OBSERVATION, comme s'il s'agissait d'une date limite. L'événement a lieu le 20 septembre 2026 et les places s'attribuent au fil de l'eau : fermer cette fiche masquerait une opportunité réellement ouverte. Un field_updates ci-dessous retire la date parasite du champ pour que le faux positif ne se reproduise pas à chaque run."
+    }
+  ],
+  "new_events_candidates": [],
+  "community": [],
+  "field_updates": [
+    {
+      "event_name": "Le Parcours des Fées",
+      "_source_url": "https://lakourdesfees.re/",
+      "_confidence": "Vérifié",
+      "raison": "Le champ deadline ne comporte aucune date limite réelle — il contenait une date d'observation (« 40 créneaux encore ouverts au 20/08/2026 ») que status_check.py interprète chaque jour comme une échéance dépassée et propose de fermer la fiche. La reformulation conserve exactement le même sens (pas de date limite, places limitées, attribution au fil de l'eau) en supprimant la date parsable. Le statut reste open : l'événement a lieu le 20 septembre 2026.",
+      "changes": {
+        "deadline": "Aucune date limite annoncée — places limitées, attribution au fil de l'eau"
+      }
+    }
+  ]
+}
