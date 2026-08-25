@@ -666,6 +666,24 @@
     "desc": "Fête de la Vanille de Sainte-Suzanne, 9–13 septembre 2026 (Stade B du Bocage). La mairie recherche un organisateur pour la fête foraine, incluant un village des exposants dédié à la vanille et à l'artisanat local."
   },
   {
+    "name": "Fête des transports et des mobilités durables",
+    "zone": "Est",
+    "type": "Village d'exposants (mobilité durable)",
+    "org": "Île de La Réunion Mobilités & Ville de Saint-André",
+    "place": "Parc du Colosse, Saint-André",
+    "when": "Septembre (annuel, Semaine européenne de la mobilité) · éd. 2026 : dimanche 20 sept., 9h–18h",
+    "badge": "SEPT",
+    "month": 9,
+    "dateStatus": "confirmée",
+    "status": "open",
+    "deadline": "4 septembre 2026",
+    "contact": "Île de La Réunion Mobilités — via iledelareunion-mobilites.re",
+    "social": "",
+    "url": "https://iledelareunion-mobilites.re/non-classe/appel-a-exposants-fete-des-transports-et-des-mobilites-durables-2026/",
+    "apply": "Télécharger le dossier de demande de participation sur la page de l'appel, le compléter et le retourner à Île de La Réunion Mobilités avant le 4 septembre 2026. Participation gratuite ; un chapiteau et une zone d'accueil documentaire sont fournis. Places limitées, candidatures étudiées dans la limite de la capacité d'accueil.",
+    "desc": "Appel à exposants d'Île de La Réunion Mobilités et de la Ville de Saint-André, dans le cadre de la Semaine européenne de la mobilité (thème 2026 « La mobilité pour tous »). ATTENTION — périmètre THÉMATIQUE : entreprises, associations, collectivités et acteurs proposant des solutions, services ou initiatives de mobilité durable (vélo, marche, transports collectifs, covoiturage, roller, mobilités douces). Ce n'est pas un marché de créateurs : un artisan n'y a sa place que si son activité relève de la mobilité douce (cycles, upcycling vélo, accessoires). Stand gratuit, zone d'essai de véhicules pour les solutions de mobilité douce."
+  },
+  {
     "name": "Journées Européennes du Patrimoine — Centre Culturel Le Sud (espace restauration)",
     "zone": "Sud",
     "type": "Occupation temporaire — restauration",
