@@ -1,6 +1,6 @@
 {
   "_mode_emploi_agent": "Fichier CUMULATIF de pistes d'organisateurs, alimenté par la veille (playbook veille_agent.md, étape 3 ter). Ce ne sont PAS des appels à candidature et elles n'entrent JAMAIS dans events.json : c'est de la matière de démarchage et d'anticipation. Lire ce fichier AVANT d'écrire, puis le réécrire enrichi — ne jamais l'écraser, la mémoire des éditions observées est ce qui permet d'estimer une récurrence. Clé d'unicité : nom_evenement + commune. recurrence_estimee exige au moins deux entrées dans editions_observees. Champs vides plutôt qu'inventés.",
-  "generated": "2026-08-24",
+  "generated": "2026-08-25",
   "pistes": [
     {
       "nom_evenement": "Marché des créateurs — Carré Cathédrale",
@@ -345,6 +345,25 @@
       "contact_connu": "0692 85 28 59 · page Facebook Tienbooo Communication",
       "action_suggeree": "Appeler le 0692 85 28 59 pour trancher UNE question : les artisans et créateurs professionnels sont-ils admis, ou la brocante est-elle réservée aux particuliers et brocanteurs ? La réponse détermine si l'événement a une valeur pour l'agenda. Demander dans la foulée le calendrier des prochaines dates et le mode d'inscription. Ajouter Tienbooo à orgs.json après premier contact.",
       "_note": "Repéré le 19/08/2026 via l'agenda guide-reunion.fr (« Brocante du Port », 6 septembre 2026, 1er dimanche du mois, Place des Cheminots) puis recoupé sur imazpress. Brocante mensuelle, en principe chaque premier dimanche du mois de 4h à 13h, tarif exposant 12 € le carreau, organisée par Tienbooo. Les descriptions publiées mentionnent vide-greniers, antiquités, braderie, déstockage, plantes et stands de restauration : rien ne dit explicitement si les professionnels de l'artisanat sont acceptés — champ laissé en question ouverte plutôt que présumé, comme pour la brocante de La Possession. Une seule édition datée : recurrence_estimee laissée vide malgré la mention « mensuelle », faute de deux dates sourcées. C'est le DEUXIÈME organisateur identifié sur la commune du Port après Synergie Péi, longtemps angle mort complet de la veille. Aucun email trouvé : contact_connu limité au numéro et à la page Facebook, publiés par la presse. Run du 22/08/2026 : l'édition du 6 septembre est toujours annoncée sur guide-reunion.fr, et l'agenda brocantes de la même source montre que Tienbooo opère aussi à Saint-Paul (front de mer, 27 septembre, 4h-13h) — le même organisateur tourne donc sur au moins deux communes. Aucune deuxième date au Port n'est datée pour autant : recurrence_estimee reste vide. La question ouverte (professionnels de l'artisanat admis ou non ?) n'est toujours pas tranchée par aucune source lue — seul l'appel au 0692 85 28 59 la tranchera."
+    },
+    {
+      "nom_evenement": "Salon de la Mariée Chic",
+      "organisateur": "La Mariée Chic",
+      "lieu": "Domaine Mon Caprice (rond-point de la Ligne des Bambous)",
+      "commune": "Saint-Pierre",
+      "zone": "Sud",
+      "editions_observees": [
+        "2026-09-12"
+      ],
+      "date_edition_observee": "2026-09-12",
+      "source_url": "https://guide-reunion.fr/evenements/eve/salon-du-mariage-a-saint-pierre/",
+      "date_detection": "2026-08-25",
+      "recurrence_estimee": "",
+      "nb_exposants_annonce": 40,
+      "deja_dans_events_json": false,
+      "organisateur_deja_dans_orgs_json": false,
+      "contact_connu": "",
+      "action_suggeree": "Salon du mariage des 12-13 sept. 2026 réunissant bijoutiers, fleuristes, créateurs de robes, papeterie et photographes : périmètre artisanal PARTIEL, à trancher par l'humain. Aucun appel à exposants publié, aucun contact organisateur trouvé sur la page. Contacter La Mariée Chic pour connaître les modalités et le calendrier de recrutement des exposants."
     }
   ]
 }

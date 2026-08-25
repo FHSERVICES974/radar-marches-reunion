@@ -1,0 +1,109 @@
+{
+  "generated": "2026-08-25",
+  "status_changes": [
+    {
+      "key": "brocantes de la possession appel a un porteur de projet organisateur|ouest",
+      "name": "Brocantes de La Possession — appel à un porteur de projet organisateur",
+      "zone": "Ouest",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-24)"
+    },
+    {
+      "key": "emplacements aot domaine public saint gilles les bains bassin de vie n 2|ouest",
+      "name": "Emplacements AOT domaine public — Saint-Gilles-les-Bains (bassin de vie n°2)",
+      "zone": "Ouest",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-19)"
+    },
+    {
+      "key": "jour de sport sante 2026 espace food court|ouest",
+      "name": "Jour de Sport Santé 2026 — Espace Food Court",
+      "zone": "Ouest",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-13)"
+    },
+    {
+      "key": "salon d ete maison jardin|sud",
+      "name": "Salon d'Été, Maison & Jardin",
+      "zone": "Sud",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-14)"
+    },
+    {
+      "key": "village artisanal de la fete de la saint louis|sud",
+      "name": "Village artisanal de la Fête de la Saint-Louis",
+      "zone": "Sud",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-20)"
+    },
+    {
+      "key": "franco dan sin zil marche de createurs francofolies|ouest",
+      "name": "Franco Dan Sin Zil — Marché de créateurs (Francofolies)",
+      "zone": "Ouest",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-08)"
+    },
+    {
+      "key": "fete de la vanille appel a un organisateur de fete foraine|nord",
+      "name": "Fête de la Vanille — appel à un organisateur de fête foraine",
+      "zone": "Nord",
+      "from": "soon",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-07)"
+    },
+    {
+      "key": "marche de noel maison banian|sud",
+      "name": "Marché de Noël — Maison Banian",
+      "zone": "Sud",
+      "from": "open",
+      "to": "soon",
+      "reason": "date limite passée — surveiller l'édition suivante"
+    }
+  ],
+  "new_events_candidates": [
+    {
+      "_source_title": "Appel à exposants – Fête des transports et des mobilités durables 2026 — Île de La Réunion Mobilités",
+      "_source_url": "https://iledelareunion-mobilites.re/non-classe/appel-a-exposants-fete-des-transports-et-des-mobilites-durables-2026/",
+      "_confidence": "Vérifié",
+      "_note": "Document de première main : capture d'écran de la page officielle déposée dans data/inbox_docs/ (page datée du 24/08/2026), plus le partage WhatsApp du lien. Page ouverte et lue indépendamment le 25/08/2026, contenu concordant. Périmètre thématique restreint à la mobilité durable — voir desc.",
+      "event": {
+        "name": "Fête des transports et des mobilités durables",
+        "zone": "Est",
+        "type": "Village d'exposants (mobilité durable)",
+        "org": "Île de La Réunion Mobilités & Ville de Saint-André",
+        "place": "Parc du Colosse, Saint-André",
+        "when": "Septembre (annuel, Semaine européenne de la mobilité) · éd. 2026 : dimanche 20 sept., 9h–18h",
+        "badge": "SEPT",
+        "month": 9,
+        "dateStatus": "confirmée",
+        "status": "open",
+        "deadline": "4 septembre 2026",
+        "contact": "Île de La Réunion Mobilités — via iledelareunion-mobilites.re",
+        "social": "",
+        "url": "https://iledelareunion-mobilites.re/non-classe/appel-a-exposants-fete-des-transports-et-des-mobilites-durables-2026/",
+        "apply": "Télécharger le dossier de demande de participation sur la page de l'appel, le compléter et le retourner à Île de La Réunion Mobilités avant le 4 septembre 2026. Participation gratuite ; un chapiteau et une zone d'accueil documentaire sont fournis. Places limitées, candidatures étudiées dans la limite de la capacité d'accueil.",
+        "desc": "Appel à exposants d'Île de La Réunion Mobilités et de la Ville de Saint-André, dans le cadre de la Semaine européenne de la mobilité (thème 2026 « La mobilité pour tous »). ATTENTION — périmètre THÉMATIQUE : entreprises, associations, collectivités et acteurs proposant des solutions, services ou initiatives de mobilité durable (vélo, marche, transports collectifs, covoiturage, roller, mobilités douces). Ce n'est pas un marché de créateurs : un artisan n'y a sa place que si son activité relève de la mobilité douce (cycles, upcycling vélo, accessoires). Stand gratuit, zone d'essai de véhicules pour les solutions de mobilité douce."
+      }
+    }
+  ],
+  "community": [],
+  "field_updates": [
+    {
+      "event_name": "Marché Artisanal de Saint-Leu (emplacements AOT)",
+      "_source_url": "https://www.saintleu.re/actualite/appel-a-candidatures-devenez-exposant-au-marche-artisanal-de-saint-leu.php",
+      "_confidence": "Vérifié",
+      "raison": "L'appel AOT de la Ville de Saint-Leu a enfin été retrouvé et lu : publié le 22 septembre 2025, il portait sur 7 lots (6 d'artisanat de 9,13 à 17,20 m², 1 de produits alimentaires traditionnels de 27 m²) et clôturait le lundi 27 octobre 2025 à 12h00. La fiche ne disait jusqu'ici que « AOT attribuées sur dossier projet », sans contact ni procédure : un artisan ne pouvait savoir ni par où passer, ni quand guetter.",
+      "changes": {
+        "deadline": "Cycle observé : appel publié fin septembre, clôture fin octobre (éd. 2025 : publié le 22 sept., clos le 27 oct. 2025 à 12h00) — surveiller le prochain cycle",
+        "contact": "Service Règlementation — 0262 34 80 03 · Ville de Saint-Leu, 58 rue du Général Lambert, 97436 Saint-Leu",
+        "apply": "Appel à candidatures municipal pour l'attribution des AOT des boutiques du marché artisanal (7 lots). Dossier avec projet détaillé (qualité et originalité des produits, contribution à l'attractivité et à l'animation du marché), à déposer sous pli cacheté au Service Règlementation ou à envoyer en recommandé avec AR à la Ville de Saint-Leu, 58 rue du Général Lambert, 97436 Saint-Leu."
+      }
+    }
+  ]
+}
