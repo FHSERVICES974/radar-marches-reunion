@@ -1933,6 +1933,93 @@ de votre proposition. Aucune donnée personnelle n'est publiée sans votre accor
 </div></body></html>"""
 
 
+def _render_org_deposants_section() -> str:
+    """Section /admin : les organisateurs qui ont DÉPOSÉ une annonce.
+
+    Consultation seule — aucun bouton, aucune action. C'est la liste de démarchage
+    la plus chaude du projet : ces organisateurs sont venus d'eux-mêmes, avec une
+    personne identifiée et un téléphone, là où l'annuaire ne contient surtout que
+    des adresses de service glanées sur des sites municipaux.
+
+    Calculée à la volée depuis `organizer_submissions.json`, jamais depuis
+    `organizer_contacts.json` : ce dernier a déjà décroché des soumissions
+    (7 contacts pour 9 dépôts au 26/08/2026). Une liste dérivée qui se recalcule
+    ne peut pas diverger de sa source.
+    """
+    esc = lambda s: html.escape(str(s), quote=True)  # noqa: E731
+    subs = _load_json_list(_SUBMISSIONS_FILE)
+
+    # Regroupement par organisateur : l'e-mail fait foi, le libellé peut varier.
+    par_org: dict = {}
+    for sub in subs:
+        f = sub.get("fields", {})
+        cle = _norm_email(f.get("email", "")) or (f.get("org", "") or "").strip().lower()
+        if not cle:
+            continue
+        o = par_org.setdefault(cle, {
+            "org": f.get("org", "") or "—", "email": f.get("email", ""),
+            "phone": f.get("phone", ""), "social": f.get("social", ""),
+            "evenements": [], "premier": "", "dernier": "", "statuts": [],
+            "qui": "", "qui_tel": "",
+        })
+        o["evenements"].append(f.get("name", "") or "—")
+        o["statuts"].append(sub.get("status", ""))
+        ts = (sub.get("ts") or "")[:10]
+        if ts:
+            o["premier"] = min(o["premier"], ts) if o["premier"] else ts
+            o["dernier"] = max(o["dernier"], ts) if o["dernier"] else ts
+        if sub.get("submitter_name"):
+            o["qui"] = sub["submitter_name"]
+            o["qui_tel"] = sub.get("submitter_phone", "") or o["qui_tel"]
+        for champ in ("phone", "social"):
+            if not o[champ] and f.get(champ):
+                o[champ] = f[champ]
+
+    liste = sorted(par_org.values(), key=lambda o: o["dernier"], reverse=True)
+    total_annonces = sum(len(o["evenements"]) for o in liste)
+
+    header = ('<div class="card"><div class="card-h">🤝 Organisateurs ayant déposé une annonce'
+              f' <span style="color:#8a8474;font-weight:400">({len(liste)} organisateur'
+              f'{"s" if len(liste) > 1 else ""} · {total_annonces} annonce'
+              f'{"s" if total_annonces > 1 else ""})</span>'
+              ' — <a href="/admin/contacts.csv" style="font-size:13px">Exporter (CSV)</a></div>')
+    if not liste:
+        return header + ('<div class="empty-st"><span>🤝</span>'
+                         '<p>Aucun organisateur n\'a encore déposé d\'annonce.</p></div></div>')
+
+    lignes = []
+    for o in liste:
+        contacts = []
+        if o["email"]:
+            contacts.append(f'<a href="mailto:{esc(o["email"])}">{esc(o["email"])}</a>')
+        if o["phone"]:
+            contacts.append(esc(o["phone"]))
+        if o["social"]:
+            contacts.append(esc(o["social"][:38]))
+        n = len(o["evenements"])
+        refuses = o["statuts"].count("rejected")
+        detail = f'{n} annonce{"s" if n > 1 else ""}'
+        if refuses:
+            detail += f' <span style="color:#b45309">({refuses} rejetée{"s" if refuses > 1 else ""})</span>'
+        qui = esc(o["qui"]) + (f' · {esc(o["qui_tel"])}' if o["qui_tel"] else "") if o["qui"] else "—"
+        lignes.append(
+            f'<tr><td><b>{esc(o["org"])}</b><br>'
+            f'<span style="color:#8a8474;font-size:12.5px">{esc(" · ".join(o["evenements"])[:88])}</span></td>'
+            f'<td style="font-size:13px">{" · ".join(contacts) or "—"}</td>'
+            f'<td style="font-size:13px">{qui}</td>'
+            f'<td style="white-space:nowrap;font-size:13px">{detail}</td>'
+            f'<td style="white-space:nowrap;color:#8a8474;font-size:12.5px">'
+            f'{esc(o["premier"])}{" → " + esc(o["dernier"]) if o["dernier"] != o["premier"] else ""}</td></tr>')
+
+    return header + (
+        '<p class="hint" style="margin:0 0 10px">Consultation seule. Ces organisateurs sont venus '
+        'd\'eux-mêmes : contact nominatif et téléphone, contrairement à l\'annuaire public.</p>'
+        '<div style="overflow-x:auto"><table class="ev-tbl"><thead><tr>'
+        '<th>Organisateur & annonces</th><th>Contact déclaré</th><th>Déposé par</th>'
+        '<th>Volume</th><th>Période</th></tr></thead><tbody>'
+        + "".join(lignes) + '</tbody></table></div></div>')
+
+
 def _render_org_submissions_section() -> str:
     """Section /admin : soumissions organisateurs en attente de relecture."""
     esc = lambda s: html.escape(str(s), quote=True)  # noqa: E731
@@ -3151,6 +3238,7 @@ def _render_stats_page(dev_mode: bool, user_name: str, flash: str = "") -> str: 
                       + _render_proposals_section(dev_mode))
     event_stats_html = _render_event_stats_section()
     org_subs_html  = _render_org_submissions_section()
+    org_depos_html = _render_org_deposants_section()
     published_html = _render_published_events_section()
     now_str        = datetime.datetime.now().strftime("%d/%m/%Y à %H:%M")
 
@@ -3504,6 +3592,7 @@ footer{{text-align:center;font-size:.7rem;color:#94a3b8;padding:2rem 0 1.5rem}}
 
 {proposals_html}
 {org_subs_html}
+{org_depos_html}
 {published_html}
 
 <div class="card">
