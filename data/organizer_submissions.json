@@ -224,5 +224,30 @@
     "submitter_name": "Smith Adeline",
     "submitter_phone": "0262514759",
     "reviewer_note": ""
+  },
+  {
+    "id": "5697f2bd248a",
+    "ts": "2026-08-26T13:43:37",
+    "status": "pending",
+    "fields": {
+      "name": "Journée porte ouverte",
+      "zone": "Sud",
+      "type": "Journée porte ouverte",
+      "org": "Les artisans de la Plaine",
+      "place": "Grands kiosques de bourg murat",
+      "when": "13 septembre 2026",
+      "deadline": "",
+      "apply": "Contacter nous par mail afin de recevoir le dossier d'inscription",
+      "email": "lesartisansdelaplaine@gmail.com",
+      "phone": "0693 60 85 81",
+      "social": "",
+      "desc": "Venez faire decouvrir votre savoir faire dans une ambiance conviviale"
+    },
+    "links": [
+      "https://www.facebook.com/share/1Dnu7YAzz3/"
+    ],
+    "submitter_name": "Turpin Jessie",
+    "submitter_phone": "0693 60 85 81",
+    "reviewer_note": ""
   }
 ]
