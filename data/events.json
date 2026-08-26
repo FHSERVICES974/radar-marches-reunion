@@ -432,6 +432,24 @@
     "desc": "ATTENTION : dossier ORGANISATEUR, pas emplacement exposant. La Ville de La Possession recherche un porteur de projet — association ou entité économique — pour organiser et animer les brocantes mensuelles de la place du Marché forain (3ᵉ dimanche du mois, 6h–13h). Opportunité pour une structure qui souhaite créer un rendez-vous récurrent et recruter ses propres exposants."
   },
   {
+    "name": "Brokant' Muzik 2026",
+    "zone": "Ouest",
+    "type": "Brocante musicale",
+    "org": "Kabardock en partenariat avec Ze Shop",
+    "place": "Kabardock, Le Port",
+    "when": "Dimanche 30 août 2026, 10h-17h",
+    "badge": "AOÛT",
+    "month": 8,
+    "dateStatus": "confirmée",
+    "status": "open",
+    "deadline": "",
+    "contact": "0692 62 04 91",
+    "social": "https://www.facebook.com/kabardock",
+    "url": "https://kabardock.com/spectacle/brokant-muzik-2026/",
+    "apply": "Téléphone : 0692 62 04 91 pour réserver votre emplacement",
+    "desc": "Brocante musicale : achat/vente/échange d'instruments et matériel, avec démos, lutherie, instruments péï, distro, atelier de réparation. Animation marmays, scène ouverte, vente de vinyls, food truck. Entrée libre."
+  },
+  {
     "name": "Concert DMM — appel à forains (Saint-André)",
     "zone": "Est",
     "type": "Concert / événement forain",
