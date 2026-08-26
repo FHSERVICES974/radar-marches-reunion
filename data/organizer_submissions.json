@@ -199,5 +199,30 @@
     "submitter_name": "CHAUSSALET",
     "submitter_phone": "Laurence",
     "reviewer_note": "Contenu intégré le 24/08/2026 à la fiche existante « Le Jardin Baz'Art — Domaine Bassin 18 » : date limite du 23 septembre et adresse e-mail directe. Pas de seconde fiche créée pour éviter un doublon."
+  },
+  {
+    "id": "b833f9e8a887",
+    "ts": "2026-08-26T10:39:46",
+    "status": "pending",
+    "fields": {
+      "name": "Marché des Métiers d’Art et du Design",
+      "zone": "Ouest",
+      "type": "Marché / Brocante",
+      "org": "Le Domaine des Tourelles",
+      "place": "Le Domaine des Tourelles, 260 rue de la République La Plaine des Palmistes",
+      "when": "10 et 11 octobre 2026",
+      "deadline": "31 août 2026",
+      "apply": "Candidature à envoyer par mail : communication.tourelles@gmail.com",
+      "email": "communication@tourelles.re",
+      "phone": "0262 51 47 59",
+      "social": "https://www.facebook.com/share/1XCZHHT7vj/",
+      "desc": "Valorisez votre savoir-faire en participant à notre Marché des Métiers d’Art et du Design ! \r\nChaque année cet événement rassemble des milliers de visiteurs \r\nVous n'avez rien à prévoir : chapiteaux, tables et chaises seront à disposition !\r\nOn vous attend les 10 et 11 octobre 2026 au Domaine des Tourelles ✨️"
+    },
+    "links": [
+      "https://www.facebook.com/share/p/19Xv6wfZKH/"
+    ],
+    "submitter_name": "Smith Adeline",
+    "submitter_phone": "0262514759",
+    "reviewer_note": ""
   }
 ]
