@@ -357,6 +357,24 @@ function monthDiff(m){
   return d;
 }
 function currentMonth(){ return new Date().getMonth()+1; }
+// Le champ `social` contient soit un @compte, soit une URL complète. Un @compte
+// n'est PAS cliquable : on ignore sa plateforme, et la deviner reviendrait à
+// fabriquer un lien mort. Une URL, elle, est sans ambiguïté — on la rend
+// cliquable, avec le nom du réseau plutôt que l'adresse brute, illisible.
+function socialBtn(s){
+  if(!s) return "";
+  const t = String(s).trim();
+  if(!/^https?:\/\//i.test(t))
+    return `<span class="btn btn-ghost" style="cursor:default">${t}</span>`;
+  let hote = "";
+  try{ hote = new URL(t).hostname.replace(/^www\./,""); }catch(e){ hote = ""; }
+  const RESEAUX = {"facebook.com":"Facebook","fb.com":"Facebook","m.me":"Messenger",
+                   "instagram.com":"Instagram","wa.me":"WhatsApp","whatsapp.com":"WhatsApp",
+                   "tiktok.com":"TikTok","linkedin.com":"LinkedIn"};
+  const nom = RESEAUX[hote] || hote || t;
+  return `<a class="btn btn-ghost" href="${t}" target="_blank" rel="noopener">${nom} ↗</a>`;
+}
+
 function tlItem(e){
   const zc=ZONE_COLOR[e.zone]||"var(--muted)";
   return `<div class="tl-item" style="--zc:${zc}">
@@ -374,7 +392,7 @@ function tlItem(e){
       <div class="tl-apply"><b>Candidater :</b> ${e.apply}</div>
       <div class="tl-actions">
         ${e.contact&&e.contact.includes("@")?`<a class="btn btn-mail" href="mailto:${e.contact.split(' ')[0]}">Écrire</a>`:""}
-        ${e.social?`<span class="btn btn-ghost" style="cursor:default">${e.social}</span>`:""}
+        ${socialBtn(e.social)}
         ${e.url?`<a class="btn btn-ghost" href="${e.url}" target="_blank" rel="noopener">Plus d'infos ↗</a>`:""}
       </div>
     </div>
