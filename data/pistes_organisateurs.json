@@ -1,6 +1,6 @@
 {
   "_mode_emploi_agent": "Fichier CUMULATIF de pistes d'organisateurs, alimenté par la veille (playbook veille_agent.md, étape 3 ter). Ce ne sont PAS des appels à candidature et elles n'entrent JAMAIS dans events.json : c'est de la matière de démarchage et d'anticipation. Lire ce fichier AVANT d'écrire, puis le réécrire enrichi — ne jamais l'écraser, la mémoire des éditions observées est ce qui permet d'estimer une récurrence. Clé d'unicité : nom_evenement + commune. recurrence_estimee exige au moins deux entrées dans editions_observees. Champs vides plutôt qu'inventés.",
-  "generated": "2026-08-25",
+  "generated": "2026-08-26",
   "pistes": [
     {
       "nom_evenement": "Marché des créateurs — Carré Cathédrale",
@@ -69,18 +69,19 @@
       "commune": "Saint-Paul",
       "zone": "Ouest",
       "editions_observees": [
-        "2026-05-30"
+        "2026-05-30",
+        "2026-08-15"
       ],
-      "date_edition_observee": "2026-05-30",
+      "date_edition_observee": "2026-08-15",
       "source_url": "https://guide-reunion.fr/evenements/eve/marche-artisanal-eperon/",
-      "date_detection": "2026-08-10",
-      "recurrence_estimee": "",
+      "date_detection": "2026-08-26",
+      "recurrence_estimee": "plusieurs éditions par an — 2 éditions datées observées en 2026 (30 mai, 15 août) ; le rythme exact n'est pas établi",
       "nb_exposants_annonce": 50,
       "deja_dans_events_json": true,
       "organisateur_deja_dans_orgs_json": true,
       "contact_connu": "asso.eperon@gmail.com",
       "action_suggeree": "Compléter la fiche existante « Marchés de créateurs — Village de l'Éperon » (aujourd'hui « Selon programmation », sans aucune date) avec cette édition datée du 30/05/2026. Puis écrire à asso.eperon@gmail.com pour obtenir le calendrier 2026-2027 et la date d'ouverture des candidatures. Un seul contact couvre deux événements : ce marché de créateurs ET le Marché de Noël de l'Éperon (~2e week-end de décembre, 100 à 200 artisans selon les éditions).",
-      "_note": "Repéré le 10/08/2026 sur guide-reunion.fr : « Marché des Créateurs », Village artisanal de L'Éperon, samedi 30 mai 2026, 10h-18h, entrée libre, une cinquantaine de créateurs, ambiance fête des mères, espace restauration. La fiche agenda qualifie l'événement d'annuel, mais une seule édition est sourcée à ce jour : recurrence_estimee laissée vide conformément à la règle des deux éditions (étape 3 ter). L'événement figure déjà dans events.json sans aucune date confirmée, ce qui en fait une piste valide au sens du critère « présent mais sans date confirmée pour l'édition observée ». Note de vigilance : la fiche FRT du Marché de Noël de l'Éperon donne un contact différent et probablement obsolète (asso.eperon@hotmail.fr) — c'est asso.eperon@gmail.com qui figure dans orgs.json et dans sources.json, à privilégier. Run du 11/08/2026 : aucune nouvelle édition annoncée, la piste reste en l'état. Run du 14/08/2026 : toujours aucune nouvelle édition datée annoncée, la piste reste en l'état."
+      "_note": "Repéré le 10/08/2026 sur guide-reunion.fr : « Marché des Créateurs », Village artisanal de L'Éperon, samedi 30 mai 2026, 10h-18h, entrée libre, une cinquantaine de créateurs, ambiance fête des mères, espace restauration. La fiche agenda qualifie l'événement d'annuel, mais une seule édition est sourcée à ce jour : recurrence_estimee laissée vide conformément à la règle des deux éditions (étape 3 ter). L'événement figure déjà dans events.json sans aucune date confirmée, ce qui en fait une piste valide au sens du critère « présent mais sans date confirmée pour l'édition observée ». Note de vigilance : la fiche FRT du Marché de Noël de l'Éperon donne un contact différent et probablement obsolète (asso.eperon@hotmail.fr) — c'est asso.eperon@gmail.com qui figure dans orgs.json et dans sources.json, à privilégier. Run du 11/08/2026 : aucune nouvelle édition annoncée, la piste reste en l'état. Run du 14/08/2026 : toujours aucune nouvelle édition datée annoncée, la piste reste en l'état. Run du 26/08/2026 : DEUXIÈME ÉDITION DATÉE. guide-reunion.fr annonce un « Marché des artisans et créateurs » au Village Artisanal de l'Éperon le SAMEDI 15 AOÛT 2026, 10h-18h, avec « une cinquantaine de créateurs locaux », organisé par l'association Village Artisanal de l'Éperon (renvoi vers facebook.com/asso.eperon974). Deux éditions distinctes sont donc sourcées pour 2026 (30 mai, 15 août) : recurrence_estimee peut enfin être renseignée, mais seulement pour dire qu'il y a plusieurs éditions par an — deux dates à onze semaines d'écart ne suffisent pas à établir un rythme, et aucune n'est reconstituée. Aucune modalité de candidature ni date limite n'est publiée : le recrutement des exposants reste invisible en ligne, ce qui renforce l'intérêt d'un contact direct. Rappel de calendrier : la fenêtre du Marché de Noël de l'Éperon (même association) s'ouvre le 1er septembre et ne dure que quinze jours — c'est le bon moment pour poser les deux questions dans un seul message."
     },
     {
       "nom_evenement": "Marché de l'Eid",
@@ -208,7 +209,7 @@
     },
     {
       "nom_evenement": "Salon de l'artisanat et des créateurs locaux au Port",
-      "organisateur": "Synergie Péi – La Halle du Réemploi",
+      "organisateur": "Synergie Péi – La Halle du Réemploi, en partenariat avec la Ville du Port",
       "lieu": "Halle des manifestations, 3 boulevard des Mascareignes",
       "commune": "Le Port",
       "zone": "Ouest",
@@ -217,14 +218,14 @@
       ],
       "date_edition_observee": "2026-09-05",
       "source_url": "https://guide-reunion.fr/evenements/eve/salon-artisanat-et-createurs-le-port/",
-      "date_detection": "2026-08-18",
+      "date_detection": "2026-08-26",
       "recurrence_estimee": "",
       "nb_exposants_annonce": 69,
       "deja_dans_events_json": false,
       "organisateur_deja_dans_orgs_json": false,
-      "contact_connu": "contact@synergie-pei.fr · communication@synergie-pei.fr",
-      "action_suggeree": "Écrire à contact@synergie-pei.fr (ou communication@synergie-pei.fr) pour demander quand s'ouvre l'appel à exposants de la prochaine édition et sur quel canal il est publié. 69 exposants ont été recrutés sans qu'aucun appel ne soit visible en ligne : c'est exactement le cas d'un appel qui s'ouvre et se referme sans qu'on le voie. Ajouter l'organisateur à orgs.json après premier contact.",
-      "_note": "Repéré le 15/08/2026 sur guide-reunion.fr : samedi 5 septembre 2026, 9h-16h, Halle des manifestations du Port, entrée gratuite, 69 exposants. Thématiques annoncées : décoration, mobilier, upcycling, art mural, poterie, céramique, luminaires, bien-être ; animations : démonstrations de savoir-faire, ateliers, remise des prix du concours « Alliance Créative », espace food, espace enfants. Le site officiel synergie-pei.fr a été lu le même jour : il ne mentionne NI ce salon, NI aucun appel à exposants — l'annonce passe visiblement par la page Facebook synergie.pei.run, non lisible automatiquement. Organisateur absent d'orgs.json ; son adresse communication@synergie-pei.fr est confirmée de façon indépendante par le document WhatsApp.png déposé dans inbox_docs. Une seule édition datée : recurrence_estimee laissée vide. Le Port était jusqu'ici un angle mort complet de la veille : c'est le premier organisateur artisanal identifié sur cette commune. Re-vérifié le 18/08/2026 : le salon est toujours annoncé pour le 5 septembre sur guide-reunion.fr, mais ville-port.re n'affiche AUCUN événement à venir et aucun appel à exposants n'est visible en ligne. À J-18 de l'événement, l'appel est donc soit clos, soit passé exclusivement par Facebook. Le contact direct reste la seule voie. Run du 22/08/2026 : AMBIGUÏTÉ DE TITRE non résolue, à faire trancher par l'organisateur. L'agenda de l'Office de Tourisme de l'Ouest (ouest-lareunion.com/agenda/les-communes-bougent/le-plus-grand-dressing-de-l-ocean-indien) annonce, au MÊME lieu (Halle des manifestations du Port), la MÊME date (samedi 5 septembre 2026, 9h-16h) et par le MÊME organisateur (Synergie Péi – La Halle du Réemploi), un événement intitulé « Le Plus Grand Dressing de l'Océan Indien », décrit comme une exposition-vente réunissant des talents locaux et accueillant « artisans et créateurs de La Réunion », entrée libre, avec démonstrations, animations et restauration sur place. Deux titres, une seule date, un seul lieu, un seul organisateur : soit le même événement sous deux noms, soit deux volets d'une même journée. AUCUNE source lue ne permet de trancher — aucune seconde piste n'est créée, ce serait probablement un doublon. Question à poser à contact@synergie-pei.fr en même temps que celle de l'appel à exposants. ville-port.re relu le 22/08/2026 : la commune n'affiche toujours aucun événement à venir, l'angle mort municipal persiste."
+      "contact_connu": "contact@synergie-pei.fr · communication@synergie-pei.fr · 0262 55 15 07",
+      "action_suggeree": "Appeler le 0262 55 15 07 (numéro publié par Free Dom) ou écrire à contact@synergie-pei.fr pour demander (a) quand s'ouvre l'appel à exposants de la prochaine édition et sur quel canal il est publié, (b) si « Salon de l'artisanat et des créateurs locaux » et « Le Plus Grand Dressing de l'Océan Indien » désignent le même rendez-vous. 69 exposants recrutés sans qu'aucun appel ne soit visible en ligne : cas typique d'un appel qui s'ouvre et se referme sans qu'on le voie. Ajouter l'organisateur à orgs.json après premier contact — et, la Ville du Port étant co-organisatrice, l'y ajouter aussi.",
+      "_note": "Repéré le 15/08/2026 sur guide-reunion.fr : samedi 5 septembre 2026, 9h-16h, Halle des manifestations du Port, entrée gratuite, 69 exposants. Thématiques annoncées : décoration, mobilier, upcycling, art mural, poterie, céramique, luminaires, bien-être ; animations : démonstrations de savoir-faire, ateliers, remise des prix du concours « Alliance Créative », espace food, espace enfants. Le site officiel synergie-pei.fr a été lu le même jour : il ne mentionne NI ce salon, NI aucun appel à exposants — l'annonce passe visiblement par la page Facebook synergie.pei.run, non lisible automatiquement. Organisateur absent d'orgs.json ; son adresse communication@synergie-pei.fr est confirmée de façon indépendante par le document WhatsApp.png déposé dans inbox_docs. Une seule édition datée : recurrence_estimee laissée vide. Le Port était jusqu'ici un angle mort complet de la veille : c'est le premier organisateur artisanal identifié sur cette commune. Re-vérifié le 18/08/2026 : le salon est toujours annoncé pour le 5 septembre sur guide-reunion.fr, mais ville-port.re n'affiche AUCUN événement à venir et aucun appel à exposants n'est visible en ligne. À J-18 de l'événement, l'appel est donc soit clos, soit passé exclusivement par Facebook. Le contact direct reste la seule voie. Run du 22/08/2026 : AMBIGUÏTÉ DE TITRE non résolue, à faire trancher par l'organisateur. L'agenda de l'Office de Tourisme de l'Ouest (ouest-lareunion.com/agenda/les-communes-bougent/le-plus-grand-dressing-de-l-ocean-indien) annonce, au MÊME lieu (Halle des manifestations du Port), la MÊME date (samedi 5 septembre 2026, 9h-16h) et par le MÊME organisateur (Synergie Péi – La Halle du Réemploi), un événement intitulé « Le Plus Grand Dressing de l'Océan Indien », décrit comme une exposition-vente réunissant des talents locaux et accueillant « artisans et créateurs de La Réunion », entrée libre, avec démonstrations, animations et restauration sur place. Deux titres, une seule date, un seul lieu, un seul organisateur : soit le même événement sous deux noms, soit deux volets d'une même journée. AUCUNE source lue ne permet de trancher — aucune seconde piste n'est créée, ce serait probablement un doublon. Question à poser à contact@synergie-pei.fr en même temps que celle de l'appel à exposants. ville-port.re relu le 22/08/2026 : la commune n'affiche toujours aucun événement à venir, l'angle mort municipal persiste. Run du 26/08/2026 : la presse locale (Free Dom — « Le Port : le Salon de l'Artisanat et des Créateurs Locaux réunira 69 exposants le samedi 5 septembre ») confirme de façon indépendante la date, le lieu (Halle des manifestations), l'horaire (9h-16h), le chiffre de 69 exposants et l'entrée libre, et apporte deux éléments neufs : l'événement est organisé par la VILLE DU PORT ET Synergie Péi — la commune est co-organisatrice, pas seulement hôte — et un numéro de téléphone est publié, 0262 55 15 07. L'article précise qu'il s'agit d'une première édition « Spécial Maison » (décoration, mobilier, upcycling, art mural, poterie, céramique, luminaires, bien-être). Que la Ville soit co-organisatrice alors que ville-port.re n'annonce toujours rien confirme que le canal de publication est exclusivement social."
     },
     {
       "nom_evenement": "Événement Synergie Péi des 28 & 29 novembre 2026",
@@ -364,6 +365,27 @@
       "organisateur_deja_dans_orgs_json": false,
       "contact_connu": "",
       "action_suggeree": "Salon du mariage des 12-13 sept. 2026 réunissant bijoutiers, fleuristes, créateurs de robes, papeterie et photographes : périmètre artisanal PARTIEL, à trancher par l'humain. Aucun appel à exposants publié, aucun contact organisateur trouvé sur la page. Contacter La Mariée Chic pour connaître les modalités et le calendrier de recrutement des exposants."
+    },
+    {
+      "nom_evenement": "Marchés de Noël de Saint-Louis",
+      "organisateur": "Ville de Saint-Louis",
+      "lieu": "Centre-ville de Saint-Louis et quartier de La Rivière",
+      "commune": "Saint-Louis",
+      "zone": "Sud",
+      "editions_observees": [
+        "2023-12",
+        "2024-12"
+      ],
+      "date_edition_observee": "2024-12",
+      "source_url": "https://saintlouis.re/actualites/18-information/2924-marches-de-noel-2024-appel-aux-forains-et-exposants",
+      "date_detection": "2026-08-26",
+      "recurrence_estimee": "annuel — deux marchés de Noël en décembre (Saint-Louis centre et La Rivière), précédés d'un appel « aux forains et exposants » publié par la Ville ; appel retrouvé pour les éditions 2023 et 2024",
+      "nb_exposants_annonce": null,
+      "deja_dans_events_json": false,
+      "organisateur_deja_dans_orgs_json": false,
+      "contact_connu": "serviceeconomique@saintlouis.re · 0262 33 10 80 — Service Économique, 8 rue du Vieux Moulin, 97450 Saint-Louis",
+      "action_suggeree": "Créer une fiche « Marchés de Noël de Saint-Louis » et ajouter une entrée à veille_calendrier.json (fenêtre à surveiller : octobre-novembre, l'appel précédant des marchés de mi-décembre). D'ici là, écrire au Service Économique — le même service qui a porté le Village artisanal de la Fête de la Saint-Louis en août 2026, donc un contact déjà éprouvé — pour demander la date d'ouverture de l'appel 2026.",
+      "_note": "Repérée le 26/08/2026. PREUVE PARTIELLE, à consolider : saintlouis.re renvoie un HTTP 403 à toute lecture automatisée, aucune des pages n'a donc pu être ouverte. Ce qui est établi vient des titres et URL indexés du site officiel, tous deux explicitement datés : « MARCHÉS DE NOËL 2024 : Appel aux forains et exposants » (saintlouis.re/actualites/18-information/2924-...) et « Marché de Noël 2023 : Appel aux forains » (saintlouis.re/evenements/2819-...). Deux éditions consécutives avec appel public : la Ville de Saint-Louis recrute bien des exposants pour ses marchés de Noël, et le fait par un avis en ligne. Une troisième page, « 17 AU 19 ET LES 22 ET 23 : Marchés de Noël » (saintlouis.re/agenda/evenements/2639-...), donne un format à deux marchés distincts mais SANS année lisible : les jours précis ne sont donc pas reportés dans editions_observees, seuls les mois le sont. Aucune date de jour n'est reconstituée. C'est la commune qui a porté le Village artisanal de la Fête de la Saint-Louis (appel clos le 20 août 2026), avec le même service économique : le contact est chaud même si l'organisateur n'est pas encore dans orgs.json."
     }
   ]
 }
