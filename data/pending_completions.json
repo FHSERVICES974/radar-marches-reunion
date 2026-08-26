@@ -205,5 +205,28 @@
     },
     "report": "Fiche complète et vérifiée. La page fournie (departement974.fr/actualite/appel-projets-journees-europeennes-patrimoine-2026) confirme tous les éléments : événement le 19-20 septembre 2026 au Centre Culturel Le Sud à Saint-Pierre (974), deadline le 28 août 2026 à 12h, contact lesud@cg974.fr. Signal La Réunion clair (domaine .re, mention Département 974, adresse à Saint-Pierre). Les dates des JEP 2026 (19-20 septembre) sont confirmées par recherche web. Status open correct : aujourd'hui 21/08/2026, deadline 28/08/2026 pas encore passée. Il s'agit bien d'un appel restauration, pas artisanat.",
     "ts": 1787283208.202682
+  },
+  "5ef66899ee5daddd": {
+    "status": "done",
+    "event": {
+      "name": "Brokant' Muzik 2026",
+      "zone": "Ouest",
+      "type": "Brocante musicale",
+      "org": "Kabardock en partenariat avec Ze Shop",
+      "place": "Kabardock, Le Port",
+      "when": "Dimanche 30 août 2026, 10h-17h",
+      "badge": "AOÛT",
+      "month": 8,
+      "dateStatus": "confirmée",
+      "status": "open",
+      "deadline": "",
+      "contact": "0692 62 04 91",
+      "social": "https://www.facebook.com/kabardock",
+      "url": "https://kabardock.com/spectacle/brokant-muzik-2026/",
+      "apply": "Téléphone : 0692 62 04 91 pour réserver votre emplacement",
+      "desc": "Brocante musicale : achat/vente/échange d'instruments et matériel, avec démos, lutherie, instruments péï, distro, atelier de réparation. Animation marmays, scène ouverte, vente de vinyls, food truck. Entrée libre."
+    },
+    "report": "Fiche complète vérifiée. La page officielle kabardock.com/spectacle/brokant-muzik-2026/ confirme la date (30 août 2026, 10h-17h), le lieu (Kabardock, Le Port 97420), l'organisateur (Kabardock + Ze Shop) et le numéro de réservation d'emplacement (0692 62 04 91). Aucune deadline publiée ; status=open car l'événement a lieu dans 4 jours et la source indique explicitement « Pour plus de renseignements ou pour réserver votre emplacement : 0692 62 04 91 ». Signal Réunion vérifié (domaine .re via recherche, adresse Le Port 97420).",
+    "ts": 1787739741.858035
   }
 }
