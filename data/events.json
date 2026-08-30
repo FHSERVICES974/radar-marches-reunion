@@ -954,6 +954,24 @@
     "desc": "Fête de la Fraise 2026 au Domaine Vidot (Mont Vert les Hauts), organisée par la Ville de Saint-Pierre avec l'OSTL. Appel ouvert aux professionnels souhaitant occuper un emplacement pendant la manifestation. À noter : l'avis ne détaille pas les catégories admises — les artisans sont invités à confirmer leur éligibilité auprès de la mairie avant de constituer le dossier."
   },
   {
+    "name": "Le Jardin BAZ'ART",
+    "zone": "Sud",
+    "type": "Événement Grand Public",
+    "org": "Le Jardin BAZ'ART",
+    "place": "Jardin secret à St Pierre",
+    "when": "11 octobre 2026",
+    "badge": "OCT",
+    "month": 10,
+    "dateStatus": "à confirmer",
+    "status": "open",
+    "deadline": "12 septembre 2026",
+    "contact": "Contact.lejardinbaz.art@gmail.com",
+    "social": "",
+    "url": "https://www.instagram.com/p/Dckh-pGot-q/?igsi=dzV6eDluazh2NTV4",
+    "apply": "Nous transmettre les éléments suivants par mail : \r\nAttestation sirene/insee \r\nPrestation du concept \r\nLogo + visuels \r\nAssurance pro \r\ncontact.lejardinbaz.art@gmail.com",
+    "desc": "Le Jardin Baz’Art, bien plus qu'un marché... Un événement grand public, une expérience familiale \r\n\r\nDIMANCHE 11 OCTOBRE 2026 – JARDIN SECRET\r\n📍 Impasse du Soleil – 97432 Saint-Pierre\r\n🕙 De 10h à 18h\r\n✨ Plus de 40 exposants \r\n👧 Coin Marmaille & animations\r\n🍴 Espace restauration\r\n💰Tarif : 80€ pour un emplacement 3x3 m"
+  },
+  {
     "name": "Marché des Métiers d’Art et du Design",
     "zone": "Ouest",
     "type": "Marché / Brocante",
