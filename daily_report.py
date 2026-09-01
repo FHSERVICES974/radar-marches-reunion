@@ -315,19 +315,64 @@ def _whatsapp_message(verifies: list[dict]) -> str:
         return ("(Aucune deadline dans les 10 jours, ni parmi les nouveautés de la nuit, "
                 "ni parmi les appels déjà en ligne — pas de message à envoyer.)")
 
-    lines = ["📍 *Agenda des Exposants — mise à jour*", ""]
-    emojis = ["🍊", "🥔", "🎪", "🛍️", "📣"]
+    # Le digest part tel quel sur le groupe WhatsApp : il s'ouvre donc par une
+    # civilité, comme tous les messages de François. Sans elle, le message
+    # démarrait sur un titre — correct pour un mail, sec pour une communauté.
+    lines = ["Bonjour à tous 👋", "", "📍 *Agenda des Exposants — mise à jour*", ""]
+
+    # L'emoji était tiré d'une liste tournante indexée sur la POSITION : la
+    # « Fête des transports » héritait d'une patate et la « Fête de la Fraise »
+    # d'une orange. Sur un message transféré à la communauté, ça décrédibilise.
+    # On le choisit désormais sur le contenu de la fiche, avec un repli neutre.
+    _EMOJI_RULES = [
+        ("🎄", ("noël", "noel")),
+        ("🚲", ("transport", "mobilit", "vélo", "velo")),
+        ("🌺", ("fleur", "toussaint", "horticult")),
+        ("🍓", ("fraise",)),
+        ("🌿", ("vanille", "miel", "terroir", "agricult", "producteur")),
+        ("🌙", ("nocturne", "de nuit", "lumières", "lumieres")),
+        ("🎨", ("art", "créateur", "createur", "design", "artisanat")),
+        ("🍽️", ("restauration", "food", "saveurs", "gourmand")),
+        ("🎪", ("fête", "fete", "festival", "foire")),
+        ("🛍️", ("marché", "marche", "salon", "village")),
+    ]
+
+    def emoji_for(ev):
+        texte = f"{ev.get('name','')} {ev.get('type','')}".lower()
+        for emo, mots in _EMOJI_RULES:
+            if any(m in texte for m in mots):
+                return emo
+        return "📣"
+
+    # Le champ `deadline` était recopié TEL QUEL. Quand il porte une phrase plutôt
+    # qu'une date, le message devient agrammatical et perd sa crédibilité :
+    # « Candidature avant le *Dossier complet à déposer avant le 10 septembre 2026
+    # inclus* (dans 9 jours) » (Plaine des Palmistes, 01/09/2026).
+    # On ne peut pas régler ça par une alerte DONNÉE : la même règle signalerait
+    # neuf fiches dont la prose est légitime. On le règle donc ici, au rendu.
+    # Un champ court est conservé intact (il porte souvent une heure utile :
+    # « 6 septembre 2026, 16h00 ») ; un champ long est remplacé par la date
+    # extraite, la seule information dont la phrase a besoin à cet endroit.
+    _MOIS_FR = ("janvier", "février", "mars", "avril", "mai", "juin", "juillet",
+                "août", "septembre", "octobre", "novembre", "décembre")
+
+    def deadline_lisible(ev):
+        brut = (ev.get("deadline") or "").strip()
+        if len(brut) <= DEADLINE_MAX_CAR:
+            return brut
+        d = _first_deadline(brut)
+        return f"{d.day} {_MOIS_FR[d.month - 1]} {d.year}" if d else brut
 
     def bloc(items, titre, decalage=0):
         if not items:
             return
         lines.append(titre)
         lines.append("")
-        for i, (days, ev) in enumerate(items):
-            e = emojis[(i + decalage) % len(emojis)]
+        for days, ev in items:
+            e = emoji_for(ev)
             quand = "aujourd'hui" if days == 0 else ("demain" if days == 1 else f"dans {days} jours")
             lines.append(f"{e} *{ev.get('name')}* — {ev.get('place','?')}")
-            lines.append(f"Candidature avant le *{ev.get('deadline')}* ({quand})")
+            lines.append(f"Candidature avant le *{deadline_lisible(ev)}* ({quand})")
             if ev.get("desc"):
                 lines.append(ev["desc"])
             lines.append("")
