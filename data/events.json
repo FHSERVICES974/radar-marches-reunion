@@ -972,6 +972,24 @@
     "desc": "Le Jardin Baz’Art, bien plus qu'un marché... Un événement grand public, une expérience familiale \r\n\r\nDIMANCHE 11 OCTOBRE 2026 – JARDIN SECRET\r\n📍 Impasse du Soleil – 97432 Saint-Pierre\r\n🕙 De 10h à 18h\r\n✨ Plus de 40 exposants \r\n👧 Coin Marmaille & animations\r\n🍴 Espace restauration\r\n💰Tarif : 80€ pour un emplacement 3x3 m"
   },
   {
+    "name": "Marché de créateurs d'Halloween — Village de l'Éperon",
+    "zone": "Ouest",
+    "type": "Marché de créateurs",
+    "org": "Village Artisanal de l'Éperon",
+    "place": "Village Artisanal de l'Éperon, Saint-Paul",
+    "when": "Samedi 31 octobre 2026, 14h00–22h00",
+    "badge": "OCT",
+    "month": 10,
+    "dateStatus": "confirmée",
+    "status": "open",
+    "deadline": "30 septembre 2026, minuit",
+    "contact": "creartisan@orange.fr",
+    "social": "",
+    "url": "",
+    "apply": "Candidature par courriel à creartisan@orange.fr, avec : coordonnées (nom, prénom, nom de la marque), attestation SIRET de moins de trois mois (ou mention du statut associatif), attestation d'assurance responsabilité civile professionnelle en cours de validité couvrant la participation à des marchés et expositions, lien vers le site ou les réseaux sociaux, photos récentes des créations et une photo du stand agencé, et une courte description de la démarche artistique ou artisanale. Clôture le 30 septembre 2026 à minuit ; résultats annoncés par mail au plus tard le 8 octobre 2026. Droit de place : 35 € pour la soirée, emplacement de 3 mètres linéaires. Les exposants apportent leur propre matériel (stand, tréteaux, tables, éclairage).",
+    "desc": "Marché de créateurs sur le thème d'Halloween, de 14h à 22h. Seules les créations faites main, originales et issues du travail personnel de l'exposant sont acceptées — la revente de produits industriels est exclue. Domaines : bijoux, céramique, illustration, mode, accessoires, maroquinerie, bar à jus. Immatriculation légale exigée (RNE/RCS, micro-entreprise, association…). 20 emplacements seulement : un comité de sélection veille à la diversité et à la qualité des produits."
+  },
+  {
     "name": "Marché des Métiers d’Art et du Design",
     "zone": "Ouest",
     "type": "Marché / Brocante",
