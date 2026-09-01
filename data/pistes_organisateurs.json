@@ -1,6 +1,6 @@
 {
   "_mode_emploi_agent": "Fichier CUMULATIF de pistes d'organisateurs, alimenté par la veille (playbook veille_agent.md, étape 3 ter). Ce ne sont PAS des appels à candidature et elles n'entrent JAMAIS dans events.json : c'est de la matière de démarchage et d'anticipation. Lire ce fichier AVANT d'écrire, puis le réécrire enrichi — ne jamais l'écraser, la mémoire des éditions observées est ce qui permet d'estimer une récurrence. Clé d'unicité : nom_evenement + commune. recurrence_estimee exige au moins deux entrées dans editions_observees. Champs vides plutôt qu'inventés.",
-  "generated": "2026-08-26",
+  "generated": "2026-09-01",
   "pistes": [
     {
       "nom_evenement": "Marché des créateurs — Carré Cathédrale",
@@ -317,15 +317,15 @@
         "2026-11-14"
       ],
       "date_edition_observee": "2026-11-14",
-      "source_url": "https://www.saintpierre.re/tous/dipavali-appel-participation",
-      "date_detection": "2026-08-18",
+      "source_url": "https://saintpierre.re/tous/dipavali-appel-participation",
+      "date_detection": "2026-09-01",
       "recurrence_estimee": "",
       "nb_exposants_annonce": null,
       "deja_dans_events_json": false,
       "organisateur_deja_dans_orgs_json": false,
       "contact_connu": "evenementiel@saintpierre.re",
-      "action_suggeree": "Surveiller saintpierre.re dès juin 2027 : l'appel 2026 s'est refermé le 30 juillet pour un événement de mi-novembre, soit trois mois et demi d'avance.",
-      "_note": "Repéré le 18/08/2026, appel DÉJÀ CLOS (30 juillet 2026, 12h00) pour un événement des 14-15 novembre 2026 — d'où sa place ici et non dans les candidats. Formulaire à télécharger sur la page de l'événement, retour par mail à evenementiel@saintpierre.re ou par courrier (Mairie de Saint-Pierre, service culturel - Dipavali, 1 rue de La République, 97410 Saint-Pierre). Filtre explicite de l'avis : « toute demande incomplète, hors délai, transmise à une autre adresse, ou n'ayant aucun lien avec la culture hindoue ne sera pas prise en compte » — la candidature doit donc être argumentée sur ce lien. events.json ne connaissait que le Dipavali de Saint-André : celui de Saint-Pierre était un angle mort complet."
+      "action_suggeree": "Surveiller saintpierre.re dès fin juin 2027 : la fenêtre 2026 est désormais bornée des deux côtés (avis publié le 17 juillet, clos le 30 juillet) pour un événement de mi-novembre. Contact : evenementiel@saintpierre.re. Ajouter la Ville de Saint-Pierre (service culturel / événementiel) à orgs.json.",
+      "_note": "Repéré le 18/08/2026, appel DÉJÀ CLOS (30 juillet 2026, 12h00) pour un événement des 14-15 novembre 2026 — d'où sa place ici et non dans les candidats. Formulaire à télécharger sur la page de l'événement, retour par mail à evenementiel@saintpierre.re ou par courrier (Mairie de Saint-Pierre, service culturel - Dipavali, 1 rue de La République, 97410 Saint-Pierre). Filtre explicite de l'avis : « toute demande incomplète, hors délai, transmise à une autre adresse, ou n'ayant aucun lien avec la culture hindoue ne sera pas prise en compte » — la candidature doit donc être argumentée sur ce lien. events.json ne connaissait que le Dipavali de Saint-André : celui de Saint-Pierre était un angle mort complet. Run du 01/09/2026 : page relue sur saintpierre.re (l'URL sans www répond ; celle avec www est celle enregistrée jusqu'ici). Nouvelle information : la DATE DE PUBLICATION de l'avis est le 17 juillet 2026, pour une clôture le 30 juillet 2026 avant midi. C'est la première fois qu'on tient l'ouverture ET la clôture de cet appel, et non la seule clôture : la fenêtre réelle fait environ deux semaines, en juillet, pour un événement des 14-15 novembre. Une seule édition restant observée, recurrence_estimee reste vide et aucune entrée n'est ajoutée à veille_calendrier.json — elle est seulement PROPOSÉE en section 6 du rapport (mois_de_veille [6, 7], fenetre_estimee true)."
     },
     {
       "nom_evenement": "Brocante du Port — Place des Cheminots",
@@ -386,6 +386,26 @@
       "contact_connu": "serviceeconomique@saintlouis.re · 0262 33 10 80 — Service Économique, 8 rue du Vieux Moulin, 97450 Saint-Louis",
       "action_suggeree": "Créer une fiche « Marchés de Noël de Saint-Louis » et ajouter une entrée à veille_calendrier.json (fenêtre à surveiller : octobre-novembre, l'appel précédant des marchés de mi-décembre). D'ici là, écrire au Service Économique — le même service qui a porté le Village artisanal de la Fête de la Saint-Louis en août 2026, donc un contact déjà éprouvé — pour demander la date d'ouverture de l'appel 2026.",
       "_note": "Repérée le 26/08/2026. PREUVE PARTIELLE, à consolider : saintlouis.re renvoie un HTTP 403 à toute lecture automatisée, aucune des pages n'a donc pu être ouverte. Ce qui est établi vient des titres et URL indexés du site officiel, tous deux explicitement datés : « MARCHÉS DE NOËL 2024 : Appel aux forains et exposants » (saintlouis.re/actualites/18-information/2924-...) et « Marché de Noël 2023 : Appel aux forains » (saintlouis.re/evenements/2819-...). Deux éditions consécutives avec appel public : la Ville de Saint-Louis recrute bien des exposants pour ses marchés de Noël, et le fait par un avis en ligne. Une troisième page, « 17 AU 19 ET LES 22 ET 23 : Marchés de Noël » (saintlouis.re/agenda/evenements/2639-...), donne un format à deux marchés distincts mais SANS année lisible : les jours précis ne sont donc pas reportés dans editions_observees, seuls les mois le sont. Aucune date de jour n'est reconstituée. C'est la commune qui a porté le Village artisanal de la Fête de la Saint-Louis (appel clos le 20 août 2026), avec le même service économique : le contact est chaud même si l'organisateur n'est pas encore dans orgs.json."
+    },
+    {
+      "nom_evenement": "Food Festival — Cœur de Ville Saint-Paul",
+      "organisateur": "Tienbooo, avec l'Association des commerçants Cœur de Ville Saint-Paul",
+      "lieu": "Rue Suffren, centre-ville",
+      "commune": "Saint-Paul",
+      "zone": "Ouest",
+      "editions_observees": [
+        "2026-09-05"
+      ],
+      "date_edition_observee": "2026-09-05",
+      "source_url": "https://guide-reunion.fr/evenements/eve/food-festival-saint-paul/",
+      "date_detection": "2026-09-01",
+      "recurrence_estimee": "",
+      "nb_exposants_annonce": null,
+      "deja_dans_events_json": false,
+      "organisateur_deja_dans_orgs_json": false,
+      "contact_connu": "0692 85 28 59 (numéro déjà connu pour Tienbooo)",
+      "action_suggeree": "Appeler le 0692 85 28 59. Un seul appel règle trois dossiers ouverts : (1) les artisans et créateurs professionnels sont-ils admis sur les événements Tienbooo — question ouverte depuis le 19/08 sur la brocante du Port ; (2) calendrier des prochaines dates au Port et à Saint-Paul ; (3) ajout de Tienbooo à orgs.json après premier contact.",
+      "_note": "Repéré le 01/09/2026 via l'agenda guide-reunion.fr. Nocturne des soldes du samedi 5 septembre 2026, 18h-23h, rue Suffren : food trucks, stands, ARTISANAT, animations, danse, structures gonflables. Le nombre d'exposants n'est pas annoncé — champ laissé à null plutôt que supposé. Intérêt réel de cette piste : c'est le TROISIÈME événement attribué à Tienbooo en deux semaines de veille (brocante du Port le 6 septembre, brocante du front de mer de Saint-Paul le 27 septembre, ce Food Festival le 5 septembre), sur deux communes. Tienbooo n'est donc pas un organisateur ponctuel mais un opérateur régulier de l'Ouest, toujours absent d'orgs.json. Cette piste fait aussi apparaître un CO-organisateur nouveau, l'Association des commerçants Cœur de Ville Saint-Paul, dont aucun contact propre n'est publié : contact_connu reste limité au numéro de Tienbooo, sans reconstitution. La composante artisanale est annoncée mais non quantifiée : ne pas présenter l'événement comme un marché de créateurs tant que l'organisateur ne l'a pas confirmé."
     }
   ]
 }

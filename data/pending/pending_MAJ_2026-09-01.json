@@ -1,0 +1,144 @@
+{
+  "generated": "2026-09-01",
+  "status_changes": [
+    {
+      "key": "salon international de l agriculture village reunion|national",
+      "name": "Salon International de l'Agriculture — Village Réunion",
+      "zone": "National",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-31)"
+    },
+    {
+      "key": "appel aux artistes de toutes iles nous recherchons peintres sculpteurs ceramistes photographes|sud",
+      "name": "Appel aux artistes de toutes iles , nous recherchons , peintres , sculpteurs , ceramistes , photographes",
+      "zone": "Sud",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-31)"
+    },
+    {
+      "key": "brocantes de la possession appel a un porteur de projet organisateur|ouest",
+      "name": "Brocantes de La Possession — appel à un porteur de projet organisateur",
+      "zone": "Ouest",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-24)"
+    },
+    {
+      "key": "emplacements aot domaine public saint gilles les bains bassin de vie n 2|ouest",
+      "name": "Emplacements AOT domaine public — Saint-Gilles-les-Bains (bassin de vie n°2)",
+      "zone": "Ouest",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-19)"
+    },
+    {
+      "key": "jour de sport sante 2026 espace food court|ouest",
+      "name": "Jour de Sport Santé 2026 — Espace Food Court",
+      "zone": "Ouest",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-13)"
+    },
+    {
+      "key": "mascarin jardin botanique appel a projet boutique salles de seminaire|ouest",
+      "name": "Mascarin Jardin Botanique — appel à projet (boutique & salles de séminaire)",
+      "zone": "Ouest",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-31)"
+    },
+    {
+      "key": "salon d ete maison jardin|sud",
+      "name": "Salon d'Été, Maison & Jardin",
+      "zone": "Sud",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-14)"
+    },
+    {
+      "key": "village artisanal de la fete de la saint louis|sud",
+      "name": "Village artisanal de la Fête de la Saint-Louis",
+      "zone": "Sud",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-20)"
+    },
+    {
+      "key": "franco dan sin zil marche de createurs francofolies|ouest",
+      "name": "Franco Dan Sin Zil — Marché de créateurs (Francofolies)",
+      "zone": "Ouest",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-08)"
+    },
+    {
+      "key": "fete de la vanille appel a un organisateur de fete foraine|nord",
+      "name": "Fête de la Vanille — appel à un organisateur de fête foraine",
+      "zone": "Nord",
+      "from": "soon",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-07)"
+    },
+    {
+      "key": "journees europeennes du patrimoine centre culturel le sud espace restauration|sud",
+      "name": "Journées Européennes du Patrimoine — Centre Culturel Le Sud (espace restauration)",
+      "zone": "Sud",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-28)"
+    },
+    {
+      "key": "pop up de thelane events|nord",
+      "name": "Pop Up de Thélane Events",
+      "zone": "Nord",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-30)"
+    },
+    {
+      "key": "marche des metiers d art et du design|ouest",
+      "name": "Marché des Métiers d’Art et du Design",
+      "zone": "Ouest",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-31)"
+    },
+    {
+      "key": "marche de noel maison banian|sud",
+      "name": "Marché de Noël — Maison Banian",
+      "zone": "Sud",
+      "from": "open",
+      "to": "soon",
+      "reason": "date limite passée — surveiller l'édition suivante"
+    }
+  ],
+  "new_events_candidates": [
+    {
+      "_source_title": "Appel à candidature — Toussaint 2026 (Ville de Saint-André)",
+      "_source_url": "https://www.saint-andre.re/appel-a-candidature-toussaint-3/",
+      "_confidence": "Vérifié",
+      "event": {
+        "name": "Toussaint 2026 — emplacements vente de fleurs (Saint-André)",
+        "zone": "Est",
+        "type": "Occupation du domaine public / vente de fleurs",
+        "org": "Ville de Saint-André",
+        "place": "Cimetière du centre-ville (Place Jeanne d'Arc) & cimetière de Champ-Borne, Saint-André",
+        "when": "31 octobre & 1er novembre 2026",
+        "badge": "OCT",
+        "month": 10,
+        "dateStatus": "confirmée",
+        "status": "open",
+        "deadline": "9 octobre 2026",
+        "contact": "Cellule Domaine Public — Service Économique · 02 62 58 88 67",
+        "social": "",
+        "url": "https://www.saint-andre.re/appel-a-candidature-toussaint-3/",
+        "apply": "Formulaire de candidature à télécharger sur la page de l'appel, à déposer impérativement avant le vendredi 9 octobre 2026 : soit au Service Courrier (Hôtel de ville, place du 2 décembre, BP 505, 97440 Saint-André), soit auprès du Service Économique et Gestion du Domaine Public (Domaine de la Vanille, 480 rue de la Gare, Bât. H, étage 2). Renseignements : Cellule Domaine Public, Service Économique, 02 62 58 88 67.",
+        "desc": "Appel de la Ville de Saint-André pour l'exploitation d'emplacements de VENTE DE FLEURS (fleurs en pot, compositions florales, fleurs coupées) devant le cimetière du centre-ville et celui de Champ-Borne, les 31 octobre et 1er novembre 2026. ATTENTION — périmètre restreint : c'est un appel floral, pas un marché de créateurs. Il s'adresse aux horticulteurs, pépiniéristes et fleuristes ; un artisan d'art n'y a pas sa place. Avis publié le 26 août 2026."
+      }
+    }
+  ],
+  "community": [],
+  "field_updates": []
+}
