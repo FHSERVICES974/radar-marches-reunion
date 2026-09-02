@@ -1,0 +1,162 @@
+{
+  "generated": "2026-09-02",
+  "status_changes": [
+    {
+      "key": "salon international de l agriculture village reunion|national",
+      "name": "Salon International de l'Agriculture — Village Réunion",
+      "zone": "National",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "bal la poussiere fete patronale sainte marie|nord",
+      "name": "Bal la Poussière - Fête patronale Sainte-Marie",
+      "zone": "Nord",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "bal populaire bal la poussiere fete patronale 2026|nord",
+      "name": "Bal populaire « Bal la poussière » — Fête patronale 2026",
+      "zone": "Nord",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "braderie commerciale de sainte marie|nord",
+      "name": "Braderie commerciale de Sainte-Marie",
+      "zone": "Nord",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "brocantes de la possession appel a un porteur de projet organisateur|ouest",
+      "name": "Brocantes de La Possession — appel à un porteur de projet organisateur",
+      "zone": "Ouest",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "concert dmm appel a forains saint andre|est",
+      "name": "Concert DMM — appel à forains (Saint-André)",
+      "zone": "Est",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "emplacements aot domaine public saint gilles les bains bassin de vie n 2|ouest",
+      "name": "Emplacements AOT domaine public — Saint-Gilles-les-Bains (bassin de vie n°2)",
+      "zone": "Ouest",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "fete des agrumes|sud",
+      "name": "Fête des Agrumes",
+      "zone": "Sud",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "jour de sport sante 2026 espace food court|ouest",
+      "name": "Jour de Sport Santé 2026 — Espace Food Court",
+      "zone": "Ouest",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "la plaine en fete ex fete de la pomme de terre et du cheval|sud",
+      "name": "La Plaine en Fête (ex-Fête de la Pomme de Terre et du Cheval)",
+      "zone": "Sud",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "mascarin jardin botanique appel a projet boutique salles de seminaire|ouest",
+      "name": "Mascarin Jardin Botanique — appel à projet (boutique & salles de séminaire)",
+      "zone": "Ouest",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "salon d ete maison jardin|sud",
+      "name": "Salon d'Été, Maison & Jardin",
+      "zone": "Sud",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "village artisanal de la fete de la saint louis|sud",
+      "name": "Village artisanal de la Fête de la Saint-Louis",
+      "zone": "Sud",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    }
+  ],
+  "new_events_candidates": [
+    {
+      "_source_title": "Manifestations 2026 : dossier de candidature pour l'occupation d'emplacements sur le domaine public — Ville de Saint-Leu",
+      "_source_url": "https://www.saintleu.re/actualite/manifestations-2026-dossier-de-candidature-pour-loccupation-demplacements-sur-le-domaine-public.php",
+      "_confidence": "Vérifié",
+      "event": {
+        "name": "Manifestations 2026 — occupation d'emplacements sur le domaine public (Saint-Leu)",
+        "zone": "Ouest",
+        "type": "Marché communal (occupation domaine public)",
+        "org": "Ville de Saint-Leu",
+        "place": "Saint-Leu",
+        "when": "Appel valable pour les manifestations communales 2026 (Jour de l'An tamoul, Tempo–Fête dan somin, Fête du Sacré-Cœur, Fête de la Salette, Fête du Terroir, Fête du Dipavali et manifestations ponctuelles)",
+        "badge": "PERM.",
+        "month": 99,
+        "dateStatus": "récurrent",
+        "status": "open",
+        "deadline": "Aucune date limite unique — le dossier doit être déposé dans les délais propres à chaque manifestation",
+        "contact": "Service Réglementation — 0262 34 80 03 · Ville de Saint-Leu, 58 rue du Général Lambert, 97436 Saint-Leu (lun.–jeu. 8h–16h, ven. 8h–15h)",
+        "social": "",
+        "url": "https://www.saintleu.re/actualite/manifestations-2026-dossier-de-candidature-pour-loccupation-demplacements-sur-le-domaine-public.php",
+        "apply": "Dossier de candidature à télécharger sur la page de l'avis (publié le 6 février 2026), à compléter avec les informations d'immatriculation et les pièces justificatives exigées, puis à déposer auprès du service Réglementation de la Ville de Saint-Leu. L'avis précise que le dossier doit être déposé dans les délais pour que l'autorisation d'occupation soit délivrée : il n'y a pas de date limite unique, elle dépend de la manifestation visée. Renseignements : 0262 34 80 03.",
+        "desc": "⚠️ Périmètre à confirmer avant de monter le dossier : l'avis s'adresse aux « professionnels et aux associations souhaitant occuper un emplacement » sans nommer explicitement les artisans — un appel au 0262 34 80 03 lève le doute. Dossier unique de candidature pour occuper un emplacement sur le domaine public lors des manifestations organisées par la Ville de Saint-Leu en 2026. Manifestations encore à venir cette année : Fête du Terroir et Fête du Dipavali."
+      }
+    }
+  ],
+  "community": [],
+  "field_updates": [
+    {
+      "event_name": "Braderies de Saint-Paul",
+      "_source_url": "https://www.mairie-saintpaul.re/wp-content/uploads/2026/08/Dossier-dinscription-Festival-commercial-Octobre-26-1.pdf",
+      "_confidence": "Vérifié",
+      "raison": "Le dossier d'inscription officiel mis en ligne en août 2026 sur la page « Avis de publicité » de la Ville donne pour la première fois des dates et une date limite à cette fiche restée vide : Festival commercial du centre-ville de Saint-Paul du 5 au 11 octobre 2026, candidatures au plus tard le 11 septembre 2026 à 15h00. Le règlement du dossier désigne lui-même la manifestation comme « la braderie », d'où le rattachement à cette fiche plutôt qu'une fiche nouvelle.",
+      "changes": {
+        "type": "Braderie / Festival commercial",
+        "when": "2 fois / an · éd. d'octobre 2026 : Festival commercial du centre-ville, du 5 au 11 octobre",
+        "dateStatus": "confirmée",
+        "status": "open",
+        "deadline": "11 septembre 2026, 15h00 (Festival commercial du centre-ville, 5–11 oct. 2026)",
+        "url": "https://www.mairie-saintpaul.re/wp-content/uploads/2026/08/Dossier-dinscription-Festival-commercial-Octobre-26-1.pdf",
+        "apply": "Formulaire « Demande d'emplacement » à télécharger depuis la page « Avis de publicité » de mairie-saintpaul.re, à retourner AU PLUS TARD LE 11 SEPTEMBRE 2026 À 15H00, soit au service courrier de la Mairie, soit par mail à maire@mairie-saintpaul.fr (pièces jointes obligatoirement au format PDF). Quatre statuts au choix sur le formulaire : commerçant du périmètre, commerçant hors périmètre, EXPOSANT, forain alimentaire. Métrage : 2, 3, 4 mètres ou autre — aucune modification n'est possible une fois l'emplacement attribué et le permis édité. Pièces à joindre : photocopie de la pièce d'identité · justificatif d'adresse de moins de 3 mois · Kbis de moins de 3 mois ou attestation INPI (gratuite sur DATA INPI) · attestation d'assurance responsabilité civile professionnelle · carte de marchand ambulant pour les personnes ne résidant pas à Saint-Paul · fiche de bilan de puissance électrique si un raccordement est nécessaire (2 prises 16 A maximum, soit 6 000 W) · attestation de conformité d'extincteur pour les activités de cuisson · attestation de formation à l'hygiène alimentaire pour la restauration avec transformation · pour les forains uniquement, photos des produits et de la structure utilisée (chapiteau ou food-truck). Le dépôt du dossier ne vaut pas attribution automatique : une commission examine les demandes et notifie la décision. Chaque forain doit disposer de son propre chapiteau conforme à la norme M1, de son coffret électrique, d'une rallonge d'au moins 25 mètres et d'un lestage conforme. Droits de place réglables par carte bancaire, virement ou espèces (montant inférieur à 300 €). Renseignements : 0262 45 90 69.",
+        "desc": "Braderies commerçantes du centre-ville de Saint-Paul. Édition d'octobre 2026 : « Festival commercial du centre-ville de Saint-Paul », du 5 au 11 octobre. ⚠️ Le formulaire ne liste pas l'artisanat parmi les familles de produits pré-cochées (produits alimentaires et de restauration, textiles et prêt-à-porter, produits ménagers) mais prévoit une case « Autres (préciser) » ainsi qu'un statut « Exposant » distinct du forain alimentaire : c'est par cette voie que candidatent les artisans et créateurs, à confirmer auprès du service au 0262 45 90 69."
+      }
+    },
+    {
+      "event_name": "Marché de Noël — Village de l'Éperon",
+      "_source_url": "https://www.ouest-lareunion.com/agenda/les-communes-bougent/marche-de-noel-de-l-eperon",
+      "_confidence": "Probable",
+      "raison": "La fenêtre historique de candidature (1er–15 septembre) est ouverte depuis hier et ne dure que quinze jours, mais rien n'est publié en ligne pour 2026. Or le marché de créateurs d'Halloween du 31 octobre 2026, organisé par la même association et déjà en fiche dans events.json, reçoit ses candidatures à creartisan@orange.fr — une adresse que la fiche de Noël ne mentionne pas, alors qu'un artisan qui écrit à la mauvaise adresse pendant une fenêtre de quinze jours perd sa saison. L'ajout est fait au champ apply et présenté pour ce qu'il est : un canal observé sur un AUTRE appel de la même association, pas une confirmation du canal de l'appel de Noël — d'où la confiance « Probable ». Aucun contact n'a été deviné ni reconstitué.",
+      "changes": {
+        "apply": "Candidature auprès de l'association du Village Artisanal de l'Éperon : asso.eperon@gmail.com, ou messagerie Instagram/Facebook @asso.eperon974. Canal de recours à essayer si cette adresse reste sans réponse pendant la fenêtre : le marché de créateurs d'Halloween du 31 octobre 2026, organisé par la même association, reçoit ses candidatures à creartisan@orange.fr — adresse observée sur cet appel-là, non confirmée pour celui de Noël. Fenêtre de candidature observée en 2025 : du 1er au 15 septembre, quinze jours seulement, sans publication sur aucun site institutionnel."
+      }
+    }
+  ]
+}
