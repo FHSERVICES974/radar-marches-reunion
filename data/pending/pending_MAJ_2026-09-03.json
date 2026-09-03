@@ -1,0 +1,156 @@
+{
+  "generated": "2026-09-03",
+  "status_changes": [
+    {
+      "key": "salon international de l agriculture village reunion|national",
+      "name": "Salon International de l'Agriculture — Village Réunion",
+      "zone": "National",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "bal la poussiere fete patronale sainte marie|nord",
+      "name": "Bal la Poussière - Fête patronale Sainte-Marie",
+      "zone": "Nord",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "bal populaire bal la poussiere fete patronale 2026|nord",
+      "name": "Bal populaire « Bal la poussière » — Fête patronale 2026",
+      "zone": "Nord",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "braderie commerciale de sainte marie|nord",
+      "name": "Braderie commerciale de Sainte-Marie",
+      "zone": "Nord",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "brocantes de la possession appel a un porteur de projet organisateur|ouest",
+      "name": "Brocantes de La Possession — appel à un porteur de projet organisateur",
+      "zone": "Ouest",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "concert dmm appel a forains saint andre|est",
+      "name": "Concert DMM — appel à forains (Saint-André)",
+      "zone": "Est",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "emplacements aot domaine public saint gilles les bains bassin de vie n 2|ouest",
+      "name": "Emplacements AOT domaine public — Saint-Gilles-les-Bains (bassin de vie n°2)",
+      "zone": "Ouest",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "fete des agrumes|sud",
+      "name": "Fête des Agrumes",
+      "zone": "Sud",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "jour de sport sante 2026 espace food court|ouest",
+      "name": "Jour de Sport Santé 2026 — Espace Food Court",
+      "zone": "Ouest",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "la plaine en fete ex fete de la pomme de terre et du cheval|sud",
+      "name": "La Plaine en Fête (ex-Fête de la Pomme de Terre et du Cheval)",
+      "zone": "Sud",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "mascarin jardin botanique appel a projet boutique salles de seminaire|ouest",
+      "name": "Mascarin Jardin Botanique — appel à projet (boutique & salles de séminaire)",
+      "zone": "Ouest",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "salon d ete maison jardin|sud",
+      "name": "Salon d'Été, Maison & Jardin",
+      "zone": "Sud",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "village artisanal de la fete de la saint louis|sud",
+      "name": "Village artisanal de la Fête de la Saint-Louis",
+      "zone": "Sud",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "fete de la fraise|sud",
+      "name": "Fête de la Fraise",
+      "zone": "Sud",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-09-02)"
+    }
+  ],
+  "new_events_candidates": [],
+  "community": [
+    {
+      "name": "Oté Z'Artizan — appel à candidatures créateurs, artisans et agriculteurs du Sud",
+      "zone": "Sud",
+      "note": "Un appel à candidatures existe bien (publication Facebook @otezartisans : « APPEL A CANDIDATURES ! Créateurs, artisans et agriculteurs du Sud, vous avez jusqu'à… »), mais la phrase est coupée exactement avant la date limite et la publication n'est lisible que derrière le mur de connexion Facebook. Ni la date limite, ni l'événement concerné, ni l'année ne sont établis — donc NON publiable en l'état. Contact déjà en main dans orgs.json : otezartisans@gmail.com · @otezartisans. Un message à l'organisateur tranche en cinq minutes ce que le web ne dira pas.",
+      "source": "https://m.facebook.com/otezartisans/photos/618011787645175/"
+    }
+  ],
+  "field_updates": [
+    {
+      "event_name": "Village de Noël de Saint-Paul",
+      "_source_url": "https://www.mairie-saintpaul.re/wp-content/uploads/2026/09/DOSSIER-DE-CANDIDATURE-.pdf",
+      "_confidence": "Vérifié",
+      "raison": "La Ville de Saint-Paul a mis en ligne début septembre 2026 son dossier de candidature officiel : le Village de Noël se tient du 21 au 24 décembre 2026 au parking Suffren, et « les inscriptions sont ouvertes jusqu'au 02 octobre 2026, 15 heures ». La fiche n'avait ni date d'événement, ni deadline, ni statut ouvert.",
+      "changes": {
+        "place": "Parking Suffren, centre-ville de Saint-Paul",
+        "when": "Décembre · éd. 2026 : 21–24 déc. (lun. 21 et mar. 22 : 15h–21h · mer. 23 : 15h–22h · jeu. 24 : 9h–midi)",
+        "dateStatus": "confirmée",
+        "status": "open",
+        "deadline": "2 octobre 2026, 15h00",
+        "url": "https://www.mairie-saintpaul.re/avis-de-publicite/",
+        "contact": "maire@mairie-saintpaul.fr · 0262 45 90 69 (Direction de la Valorisation Économique et Touristique)",
+        "apply": "Fiche d'inscription + dossier COMPLET à envoyer à maire@mairie-saintpaul.fr, ou par courrier à Monsieur le Maire, CS 51015 – 97864 Saint-Paul Cedex. Dossier officiel : https://www.mairie-saintpaul.re/wp-content/uploads/2026/09/DOSSIER-DE-CANDIDATURE-.pdf (page d'avis : https://www.mairie-saintpaul.re/avis-de-publicite/). Pièces exigées : pièce d'identité en cours de validité, justificatif d'adresse de moins de 3 mois, attestation d'inscription à une chambre consulaire (Métiers et Artisanat, Commerce et Industrie, ou Agriculture) OU KBIS de moins de 3 mois, attestation de formation à l'hygiène alimentaire (si vente de produits alimentaires transformés), attestation d'assurance responsabilité civile PROFESSIONNELLE, carte de marchand ambulant ou attestation provisoire, et PHOTOS DE VOS PRODUITS (explicitement obligatoires). Une charte d'écoresponsabilité est à signer : l'article 1 (gestion et reprise de ses propres déchets) est obligatoire, les articles 2 à 5 sont facultatifs. Redevance : forfait 100 € pour toute la période, électricité et gardiennage inclus. ⚠️ L'exposant fournit son propre chapiteau aux dimensions standard 3 m × 3 m, avec BÂCHE BLANCHE OBLIGATOIRE (uniformité du village), et l'intérieur du stand doit obligatoirement être décoré sur le thème de Noël. Renseignements : Direction de la Valorisation Économique et Touristique, 0262 45 90 69.",
+        "desc": "Village de Noël de la Ville de Saint-Paul, au parking Suffren en centre-ville, du 21 au 24 décembre 2026. Ouvert aux exposants de produits artisanaux et locaux liés à la thématique de Noël. Emplacement au forfait de 100 € pour les quatre jours, électricité et gardiennage compris — mais chapiteau 3x3 à bâche blanche à fournir par l'exposant, et stand décoré aux couleurs de Noël."
+      }
+    },
+    {
+      "event_name": "Marché forain de Saint-André",
+      "_source_url": "https://www.saint-andre.re/appel-a-candidatures-marche-forain-de-saint-andre/",
+      "_confidence": "Vérifié",
+      "raison": "La fiche renvoyait vers un article de tourisme (reunionest.fr) et une formule vague. La Ville de Saint-André publie en réalité un avis de candidature dédié, avec formulaire à télécharger, ouvert aux forains locaux ET extérieurs.",
+      "changes": {
+        "url": "https://www.saint-andre.re/appel-a-candidatures-marche-forain-de-saint-andre/",
+        "contact": "event@saint-andre.re · communication@saint-andre.re · 02 62 58 88 88 (lun-ven 8h-16h)",
+        "apply": "Avis de candidature dédié publié par la Ville de Saint-André : formulaire à télécharger sur https://www.saint-andre.re/appel-a-candidatures-marche-forain-de-saint-andre/, ouvert aux forains locaux et extérieurs. Aucune date limite n'est indiquée sur l'avis. ⚠️ L'avis actuellement en ligne est daté du 24 septembre 2025 et vise « l'édition 2026 » : il est en fin de cycle. L'avis du cycle suivant devrait paraître vers la fin septembre — vérifier la page à ce moment-là. Contact : event@saint-andre.re · communication@saint-andre.re · 02 62 58 88 88."
+      }
+    }
+  ]
+}
