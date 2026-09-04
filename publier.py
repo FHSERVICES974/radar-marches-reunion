@@ -282,6 +282,51 @@ def trigger_replit():
 
 
 # ------------------------------------------------------------------ main
+def resync_avant_publication(no_push: bool) -> None:
+    """Se resynchroniser sur GitHub AVANT toute écriture.
+
+    publier.py reconstruit le site à partir de l'`events.json` LOCAL. Si le Mac est
+    en retard — parce que /admin a publié depuis la VM Replit entre-temps — publier
+    revient à réécrire le site avec une version périmée : les fiches validées dans
+    l'intervalle disparaissent.
+
+    Cas réel du 04/09/2026 : le Mac avait 126 fiches, le site 128. Une publication
+    lancée là aurait supprimé « Fèt Bord'Mer », c'est-à-dire précisément la fiche
+    qu'on cherchait à publier. Le push aurait été rejeté (non-fast-forward), mais en
+    laissant un dépôt local divergent — d'où les conflits de rebase à répétition sur
+    `data/meta.json`, trois en une semaine.
+
+    En cas d'échec on ARRÊTE : mieux vaut ne rien publier que publier du périmé.
+    """
+    if no_push or not C.is_git_repo():
+        return
+    r = C.git("remote", check=False)
+    if r.returncode != 0 or not (r.stdout or "").strip():
+        return                                   # pas de remote : rien à resynchroniser
+
+    if C.git("fetch", "origin", "main", check=False).returncode != 0:
+        raise SystemExit("[git] fetch impossible — publication annulée. "
+                         "Vérifiez la connexion, puis relancez.")
+
+    retard = C.git("rev-list", "--count", "HEAD..origin/main", check=False)
+    n = (retard.stdout or "0").strip() or "0"
+    if n == "0":
+        print("[git] déjà à jour avec GitHub.")
+        return
+
+    print(f"[git] {n} commit(s) de retard sur GitHub — resynchronisation…")
+    r = C.git("pull", "--rebase", "--autostash", "origin", "main", check=False)
+    if r.returncode != 0:
+        raise SystemExit(
+            "[git] RESYNCHRONISATION ÉCHOUÉE — publication annulée.\n"
+            f"{(r.stderr or r.stdout or '').strip()[:400]}\n"
+            "Résolvez le conflit (souvent data/meta.json), puis relancez. "
+            "Ne publiez pas tant que le dépôt local n'est pas à jour : "
+            "vous écraseriez les fiches validées depuis /admin.")
+    n_ev = len(C.load_json(C.EVENTS_JSON, []) or [])
+    print(f"[git] resynchronisé — {n_ev} fiches en base après mise à jour.")
+
+
 def main():
     ap = argparse.ArgumentParser(description="Publie le site après validation.")
     ap.add_argument("--apply", metavar="PENDING_JSON",
@@ -294,6 +339,8 @@ def main():
     ap.add_argument("--no-push", action="store_true", help="Ne pas git push")
     ap.add_argument("--set-date", metavar="AAAA-MM-JJ", help="Forcer la date de MAJ")
     args = ap.parse_args()
+
+    resync_avant_publication(args.no_push)
 
     if args.rollback:
         rollback()
