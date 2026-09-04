@@ -666,6 +666,24 @@
     "desc": "Marché nocturne de créateurs & artisans locaux lors de « Franco Dan Sin Zil », événement festif des Francofolies 2026 à Saint-Gilles."
   },
   {
+    "name": "Fèt Bord'Mer — appel à stands de restauration (La Possession)",
+    "zone": "Ouest",
+    "type": "Fête communale / stands de restauration",
+    "org": "Ville de La Possession",
+    "place": "La Possession",
+    "when": "Samedi 19 septembre 2026 (1re édition, conjointe avec les Journées Européennes du Patrimoine)",
+    "badge": "SEPT",
+    "month": 9,
+    "dateStatus": "confirmée",
+    "status": "open",
+    "deadline": "13 septembre 2026, 15h00",
+    "contact": "commerces@lapossession.re · 0262 22 20 02",
+    "social": "Facebook « Ville de La Possession »",
+    "url": "https://www.lapossession.re/actualites/978060",
+    "apply": "Télécharger et remplir le dossier de candidature disponible sur www.lapossession.re (PDF direct : https://files.appli-intramuros.com/website/uploads/20606/2026/aac_fete_bord_de_mer__jep_0j1nvni.pdf), puis le déposer AVANT LE 13 SEPTEMBRE 2026 À 15H, soit au service Courrier de l'Hôtel de Ville, soit par mail à commerces@lapossession.re.",
+    "desc": "⚠️ PÉRIMÈTRE TRÈS RESTREINT — ce n'est PAS un marché de créateurs. La Ville recherche 3 emplacements seulement, uniquement en restauration : 1 stand de produits SUCRÉS (gaufres, crêpes, chichis, glaces artisanales ou autres spécialités) et 2 stands de produits SALÉS/FRITS (samoussas, nems, bonbons piments, piments farcis ou autres spécialités). L'appel s'adresse aux professionnels de la restauration et aux producteurs de spécialités ; un artisan d'art n'y a pas sa place. Première édition de la Fêt Bord'Mer, organisée le 19 septembre 2026 conjointement avec les Journées Européennes du Patrimoine, sur le thème « nout zistoir, nout tradision, nout lidantité ». Avis publié le 2 septembre 2026."
+  },
+  {
     "name": "Fête de la Vanille — appel à un organisateur de fête foraine",
     "zone": "Nord",
     "type": "Fête / Terroir (foraine)",
