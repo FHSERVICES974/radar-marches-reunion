@@ -1,0 +1,230 @@
+{
+  "generated": "2026-09-04",
+  "status_changes": [
+    {
+      "key": "salon international de l agriculture village reunion|national",
+      "name": "Salon International de l'Agriculture — Village Réunion",
+      "zone": "National",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "bal la poussiere fete patronale sainte marie|nord",
+      "name": "Bal la Poussière - Fête patronale Sainte-Marie",
+      "zone": "Nord",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "bal populaire bal la poussiere fete patronale 2026|nord",
+      "name": "Bal populaire « Bal la poussière » — Fête patronale 2026",
+      "zone": "Nord",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "braderie commerciale de sainte marie|nord",
+      "name": "Braderie commerciale de Sainte-Marie",
+      "zone": "Nord",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "brocantes de la possession appel a un porteur de projet organisateur|ouest",
+      "name": "Brocantes de La Possession — appel à un porteur de projet organisateur",
+      "zone": "Ouest",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "concert dmm appel a forains saint andre|est",
+      "name": "Concert DMM — appel à forains (Saint-André)",
+      "zone": "Est",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "emplacements aot domaine public saint gilles les bains bassin de vie n 2|ouest",
+      "name": "Emplacements AOT domaine public — Saint-Gilles-les-Bains (bassin de vie n°2)",
+      "zone": "Ouest",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "fete des agrumes|sud",
+      "name": "Fête des Agrumes",
+      "zone": "Sud",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "jour de sport sante 2026 espace food court|ouest",
+      "name": "Jour de Sport Santé 2026 — Espace Food Court",
+      "zone": "Ouest",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "la plaine en fete ex fete de la pomme de terre et du cheval|sud",
+      "name": "La Plaine en Fête (ex-Fête de la Pomme de Terre et du Cheval)",
+      "zone": "Sud",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "mascarin jardin botanique appel a projet boutique salles de seminaire|ouest",
+      "name": "Mascarin Jardin Botanique — appel à projet (boutique & salles de séminaire)",
+      "zone": "Ouest",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "salon d ete maison jardin|sud",
+      "name": "Salon d'Été, Maison & Jardin",
+      "zone": "Sud",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "village artisanal de la fete de la saint louis|sud",
+      "name": "Village artisanal de la Fête de la Saint-Louis",
+      "zone": "Sud",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    }
+  ],
+
+  "_note_status_changes": "status_check.py proposait une 14e ligne — « Fête de la Fraise » open -> closed. Elle a été RETIRÉE de status_changes et basculée dans field_updates, parce que le statut n'est pas le seul champ à corriger : la date limite stockée sur la fiche (2 septembre 2026) est FAUSSE, la source officielle dit 4 septembre 2026 à 15h. Valider le bloc complet dans field_updates.",
+
+  "new_events_candidates": [
+    {
+      "_source_title": "Fèt Bord'Mer — Appel à candidatures (Ville de La Possession)",
+      "_source_url": "https://www.lapossession.re/actualites/978060",
+      "_confidence": "Vérifié",
+      "_source_secondaire": "https://files.appli-intramuros.com/website/uploads/20606/2026/aac_fete_bord_de_mer__jep_0j1nvni.pdf — dossier de candidature officiel. Repéré d'abord par une capture d'écran de la page Facebook « Ville de La Possession » déposée dans data/inbox_docs/, puis recoupé sur le site officiel de la commune.",
+      "event": {
+        "name": "Fèt Bord'Mer — appel à stands de restauration (La Possession)",
+        "zone": "Ouest",
+        "type": "Fête communale / stands de restauration",
+        "org": "Ville de La Possession",
+        "place": "La Possession",
+        "when": "Samedi 19 septembre 2026 (1re édition, conjointe avec les Journées Européennes du Patrimoine)",
+        "badge": "SEPT",
+        "month": 9,
+        "dateStatus": "confirmée",
+        "status": "open",
+        "deadline": "13 septembre 2026, 15h00",
+        "contact": "commerces@lapossession.re · 0262 22 20 02",
+        "social": "Facebook « Ville de La Possession »",
+        "url": "https://www.lapossession.re/actualites/978060",
+        "apply": "Télécharger et remplir le dossier de candidature disponible sur www.lapossession.re (PDF direct : https://files.appli-intramuros.com/website/uploads/20606/2026/aac_fete_bord_de_mer__jep_0j1nvni.pdf), puis le déposer AVANT LE 13 SEPTEMBRE 2026 À 15H, soit au service Courrier de l'Hôtel de Ville, soit par mail à commerces@lapossession.re.",
+        "desc": "⚠️ PÉRIMÈTRE TRÈS RESTREINT — ce n'est PAS un marché de créateurs. La Ville recherche 3 emplacements seulement, uniquement en restauration : 1 stand de produits SUCRÉS (gaufres, crêpes, chichis, glaces artisanales ou autres spécialités) et 2 stands de produits SALÉS/FRITS (samoussas, nems, bonbons piments, piments farcis ou autres spécialités). L'appel s'adresse aux professionnels de la restauration et aux producteurs de spécialités ; un artisan d'art n'y a pas sa place. Première édition de la Fêt Bord'Mer, organisée le 19 septembre 2026 conjointement avec les Journées Européennes du Patrimoine, sur le thème « nout zistoir, nout tradision, nout lidantité ». Avis publié le 2 septembre 2026."
+      }
+    },
+    {
+      "_source_title": "Appel à exposants — Le Pop-Up des Mimines (1re édition), page Facebook de l'organisateur",
+      "_source_url": "https://www.facebook.com/ (publication de la page « Le Pop Up des Mimines » — capture d'écran déposée dans data/inbox_docs/ le 3 septembre 2026 ; l'URL permanente du post n'apparaît pas sur la capture et n'est pas reconstituée)",
+      "_confidence": "Vérifié",
+      "_reserve": "Document de première main : l'organisateur parle en son nom propre, avec dates, lieu, tarifs et canal de candidature explicites. MAIS aucune source indépendante n'a pu confirmer cet événement (organisateur nouveau, aucune édition antérieure, recherches web infructueuses). L'URL du formulaire Google est TRONQUÉE sur la capture (https://docs.google.com/.../1FAIpQLScyPgGAFvS.../viewform...) et n'est volontairement pas reconstituée.",
+      "event": {
+        "name": "Le Pop-Up des Mimines",
+        "zone": "Sud",
+        "type": "Marché de créateurs",
+        "org": "Le Pop Up des Mimines",
+        "place": "Ferme Auberge Équestre du Pont Neuf, Les Avirons",
+        "when": "Samedi 7 & dimanche 8 novembre 2026 (1re édition)",
+        "badge": "NOV",
+        "month": 11,
+        "dateStatus": "confirmée",
+        "status": "open",
+        "deadline": "Aucune date limite annoncée — candidatures ouvertes, sélection au fil de l'eau",
+        "contact": "Via la page Facebook « Le Pop Up des Mimines » (aucun mail ni téléphone publié dans l'appel)",
+        "social": "Facebook « Le Pop Up des Mimines »",
+        "url": "",
+        "apply": "Candidature par le formulaire Google lié dans la publication Facebook de la page « Le Pop Up des Mimines ». ⚠️ L'URL du formulaire est tronquée sur la capture d'écran source et n'a pas été reconstituée : passer par le post Facebook de l'organisateur pour obtenir le lien complet. L'envoi du formulaire constitue la candidature ; l'organisateur annonce examiner chaque univers avant de contacter directement les exposants retenus. Aucune date limite n'étant annoncée, candidater tôt : la fenêtre peut se refermer sans préavis.",
+        "desc": "Toute première édition d'un pop-up de créateurs sur deux jours à la Ferme Auberge Équestre du Pont Neuf (Les Avirons). Ouvert aux créateurs, artisans, commerçants et professionnels de La Réunion. Emplacement 3 m × 3 m — 60 € la journée, 100 € le week-end complet. L'organisateur annonce une sélection d'exposants aux univers variés, un coin gourmand et un espace dédié aux enfants. ⚠️ Événement et organisateur NOUVEAUX : information issue d'une capture d'écran de la publication Facebook de l'organisateur, déposée en première main, mais non recoupée par une source indépendante."
+      }
+    }
+  ],
+
+  "community": [],
+
+  "field_updates": [
+    {
+      "event_name": "Fête de la Fraise",
+      "_source_url": "https://saintpierre.re/tous/appel-candidatures-fete-de-la-fraise-2026",
+      "_confidence": "Vérifié",
+      "raison": "La fiche portait une date limite FAUSSE : « 2 septembre 2026 », alors que la page officielle de la Ville de Saint-Pierre indique « vendredi 4 septembre 2026 à 15h ». L'agenda a donc fermé l'appel deux jours trop tôt, et un artisan consultant le site les 2 et 3 septembre a pu se croire hors délai à tort. Correction de la date limite et du texte de candidature qui la répétait, et passage en clos : la vraie échéance tombe aujourd'hui même à 15h. Les dates de l'événement (2-4 octobre 2026, Domaine Vidot) sont confirmées par la même source et restent inchangées.",
+      "changes": {
+        "status": "closed",
+        "deadline": "4 septembre 2026, 15h00 (clos)",
+        "apply": "Dossier de candidature (règlement, tarifs et pièces exigées détaillés dans le PDF joint à l'annonce) à adresser par courrier à Monsieur le Maire, Hôtel de Ville, BP 342, 97448 Saint-Pierre Cedex, avant le VENDREDI 4 SEPTEMBRE 2026 À 15H00 (appel désormais clos). Installation des stands le 28 septembre 2026 à partir de 8h ; démontage jusqu'au 7 octobre 2026 à 18h. Renseignements au 0262 35 78 00."
+      }
+    },
+    {
+      "event_name": "Village de Noël de Saint-Paul",
+      "_source_url": "https://www.mairie-saintpaul.re/wp-content/uploads/2026/09/DOSSIER-DE-CANDIDATURE-.pdf",
+      "_confidence": "Vérifié",
+      "raison": "L'appel à candidature 2026 est publié : la fiche, qui n'avait ni dates, ni lieu précis, ni date limite, peut être complétée. Le dossier officiel déposé en septembre 2026 sur la page « avis de publicité » annonce un Village de Noël au parking Suffren du 21 au 24 décembre 2026, avec des inscriptions ouvertes jusqu'au 2 octobre 2026 à 15 heures et une redevance forfaitaire de 100 €. À noter : la page d'actualité du site municipal pointe encore l'édition 2022 — c'est le PDF de la liste des avis qui fait foi.",
+      "changes": {
+        "status": "open",
+        "dateStatus": "confirmée",
+        "when": "Décembre (annuel) · éd. 2026 : 21–24 décembre, parking Suffren",
+        "place": "Parking Suffren, centre-ville, Saint-Paul",
+        "deadline": "2 octobre 2026, 15h00",
+        "url": "https://www.mairie-saintpaul.re/wp-content/uploads/2026/09/DOSSIER-DE-CANDIDATURE-.pdf",
+        "contact": "maire@mairie-saintpaul.fr · 0262 45 90 69 (Direction de la Valorisation Économique et Touristique)",
+        "apply": "Fiche d'inscription à télécharger dans le dossier de candidature publié sur la page « Avis de publicité » de mairie-saintpaul.re, à retourner COMPLÈTE jusqu'au 2 OCTOBRE 2026 À 15H00, par courrier à Monsieur le Maire, CS 51015 – 97864 Saint-Paul Cedex, ou par mail à maire@mairie-saintpaul.fr. Sept pièces obligatoires : copie d'une pièce d'identité en cours de validité · justificatif d'adresse de moins de 3 mois · attestation d'inscription à une chambre consulaire (Chambre des Métiers et de l'Artisanat, ou du Commerce et de l'Industrie, ou de l'Agriculture) OU Kbis de moins de 3 mois · attestation de formation à l'hygiène alimentaire (pour la vente de produits alimentaires transformés) · attestation d'assurance en responsabilité civile PROFESSIONNELLE · carte de marchand ambulant ou attestation provisoire · photos de vos produits, à joindre obligatoirement au dossier. Le formulaire demande aussi le détail de l'ensemble de vos produits. Renseignements : Direction de la Valorisation Économique et Touristique, 0262 45 90 69.",
+        "desc": "⚠️ CHAPITEAU À FOURNIR PAR L'EXPOSANT, aux dimensions standard 3 m × 3 m et avec BÂCHE BLANCHE OBLIGATOIRE (uniformité du village) — à prévoir avant de candidater. L'intérieur du stand doit obligatoirement être décoré sur le thème de Noël. Village de Noël de la Ville de Saint-Paul au parking Suffren, en centre-ville, du 21 au 24 décembre 2026, réservé aux exposants de produits artisanaux et locaux liés à la thématique de Noël. Redevance : forfait de 100 € pour toute la période, électricité et gardiennage inclus. Horaires : lundi 21 décembre 15h-21h, mardi 22 décembre 15h-21h, mercredi 23 décembre 15h-22h, jeudi 24 décembre 9h-midi. Ramassage des déchets à la charge de l'exposant pendant et à la fin de chaque journée. Une charte d'écoresponsabilité est jointe au dossier : son article 1 (repartir chaque jour avec l'ensemble de ses déchets) est OBLIGATOIRE, les quatre autres articles sont facultatifs."
+      }
+    }
+  ],
+
+  "_ambiguite_a_trancher_par_l_humain": "L'agenda porte DEUX fiches distinctes pour ce qui pourrait être la même opération : « Village de Noël de Saint-Paul » et « Marché de Noël de Saint-Paul », toutes deux Ouest / décembre / Ville de Saint-Paul. Le dossier officiel s'intitule « Village de Noël 2026 », mais la charte d'écoresponsabilité qui y est jointe s'adresse « aux exposants du marché de Noël de Saint-Paul ». La mise à jour ci-dessus est donc appliquée à « Village de Noël de Saint-Paul », qui reprend le titre exact de l'appel. Si les deux fiches désignent la même opération, elles mériteraient une fusion — mais fusionner reviendrait à renommer, ce que field_updates interdit et ce que l'agent ne fait pas de lui-même.",
+
+  "_propositions_veille_calendrier": [
+    {
+      "nom": "Village de Noël de Saint-Paul",
+      "action": "ajouter à historique",
+      "entree": {
+        "annee": 2026,
+        "ouverture": null,
+        "cloture": "2026-10-02T15:00",
+        "source": "https://www.mairie-saintpaul.re/wp-content/uploads/2026/09/DOSSIER-DE-CANDIDATURE-.pdf (veille du 04/09/2026)",
+        "note": "Première fenêtre réellement observée. Dossier mis en ligne début septembre 2026 sur la liste « avis de publicité », clôture le 2 octobre 2026 à 15h, pour un village tenu du 21 au 24 décembre au parking Suffren — environ onze semaines d'anticipation. La date d'ouverture n'est pas publiée : laissée à null plutôt que reconstituée. PIÈGE À CONSIGNER : la page d'ACTUALITÉ du site (« Village de Noël au débarcadère : la Ville lance un appel à candidature ») date encore de l'édition 2022 et annonce un autre lieu ; c'est la liste « avis de publicité » qu'il faut lire, jamais les actualités."
+      },
+      "correction_fenetre": "mois_de_veille [8, 9, 10] CONFIRMÉ par l'observation → passer fenetre_estimee à false"
+    },
+    {
+      "nom": "Fête de la Fraise",
+      "action": "créer une entrée",
+      "entree_proposee": {
+        "nom": "Fête de la Fraise",
+        "mois_de_veille": [7, 8, 9],
+        "fenetre_estimee": true,
+        "historique": [
+          {
+            "annee": 2026,
+            "ouverture": null,
+            "cloture": "2026-09-04T15:00",
+            "source": "https://saintpierre.re/tous/appel-candidatures-fete-de-la-fraise-2026 (veille du 04/09/2026)",
+            "note": "Clôture le vendredi 4 septembre 2026 à 15h pour un événement des 2-4 octobre au Domaine Vidot : environ un mois d'anticipation seulement. Dépôt PAR COURRIER uniquement (Monsieur le Maire, Hôtel de Ville, BP 342, 97448 Saint-Pierre Cedex) — prévoir le délai postal. Une seule édition observée, d'où fenetre_estimee à true."
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 {
   "_mode_emploi_agent": "Fichier CUMULATIF de pistes d'organisateurs, alimenté par la veille (playbook veille_agent.md, étape 3 ter). Ce ne sont PAS des appels à candidature et elles n'entrent JAMAIS dans events.json : c'est de la matière de démarchage et d'anticipation. Lire ce fichier AVANT d'écrire, puis le réécrire enrichi — ne jamais l'écraser, la mémoire des éditions observées est ce qui permet d'estimer une récurrence. Clé d'unicité : nom_evenement + commune. recurrence_estimee exige au moins deux entrées dans editions_observees. Champs vides plutôt qu'inventés.",
-  "generated": "2026-09-03",
+  "generated": "2026-09-04",
   "pistes": [
     {
       "nom_evenement": "Marché des créateurs — Carré Cathédrale",
@@ -325,7 +325,7 @@
       "organisateur_deja_dans_orgs_json": false,
       "contact_connu": "evenementiel@saintpierre.re",
       "action_suggeree": "Surveiller saintpierre.re dès fin juin 2027 : la fenêtre 2026 est désormais bornée des deux côtés (avis publié le 17 juillet, clos le 30 juillet) pour un événement de mi-novembre. Contact : evenementiel@saintpierre.re. Ajouter la Ville de Saint-Pierre (service culturel / événementiel) à orgs.json.",
-      "_note": "Repéré le 18/08/2026, appel DÉJÀ CLOS (30 juillet 2026, 12h00) pour un événement des 14-15 novembre 2026 — d'où sa place ici et non dans les candidats. Formulaire à télécharger sur la page de l'événement, retour par mail à evenementiel@saintpierre.re ou par courrier (Mairie de Saint-Pierre, service culturel - Dipavali, 1 rue de La République, 97410 Saint-Pierre). Filtre explicite de l'avis : « toute demande incomplète, hors délai, transmise à une autre adresse, ou n'ayant aucun lien avec la culture hindoue ne sera pas prise en compte » — la candidature doit donc être argumentée sur ce lien. events.json ne connaissait que le Dipavali de Saint-André : celui de Saint-Pierre était un angle mort complet. Run du 01/09/2026 : page relue sur saintpierre.re (l'URL sans www répond ; celle avec www est celle enregistrée jusqu'ici). Nouvelle information : la DATE DE PUBLICATION de l'avis est le 17 juillet 2026, pour une clôture le 30 juillet 2026 avant midi. C'est la première fois qu'on tient l'ouverture ET la clôture de cet appel, et non la seule clôture : la fenêtre réelle fait environ deux semaines, en juillet, pour un événement des 14-15 novembre. Une seule édition restant observée, recurrence_estimee reste vide et aucune entrée n'est ajoutée à veille_calendrier.json — elle est seulement PROPOSÉE en section 6 du rapport (mois_de_veille [6, 7], fenetre_estimee true).\n\n[Run du 03/09/2026 — confirmation indépendante, rien de neuf au-delà.] Dates de l'édition 2026 re-confirmées par une seconde lecture : les 14 ET 15 novembre 2026 (la piste ne portait que le 14). Clôture des candidatures re-confirmée au 30 juillet 2026 avant midi, dépôt à evenementiel@saintpierre.re ou par courrier au service culturel. L'appel reste clos : aucune action possible avant l'édition 2027. Une seule édition observée, recurrence_estimee reste donc vide."
+      "_note": "Repéré le 18/08/2026, appel DÉJÀ CLOS (30 juillet 2026, 12h00) pour un événement des 14-15 novembre 2026 — d'où sa place ici et non dans les candidats. Formulaire à télécharger sur la page de l'événement, retour par mail à evenementiel@saintpierre.re ou par courrier (Mairie de Saint-Pierre, service culturel - Dipavali, 1 rue de La République, 97410 Saint-Pierre). Filtre explicite de l'avis : « toute demande incomplète, hors délai, transmise à une autre adresse, ou n'ayant aucun lien avec la culture hindoue ne sera pas prise en compte » — la candidature doit donc être argumentée sur ce lien. events.json ne connaissait que le Dipavali de Saint-André : celui de Saint-Pierre était un angle mort complet. Run du 01/09/2026 : page relue sur saintpierre.re (l'URL sans www répond ; celle avec www est celle enregistrée jusqu'ici). Nouvelle information : la DATE DE PUBLICATION de l'avis est le 17 juillet 2026, pour une clôture le 30 juillet 2026 avant midi. C'est la première fois qu'on tient l'ouverture ET la clôture de cet appel, et non la seule clôture : la fenêtre réelle fait environ deux semaines, en juillet, pour un événement des 14-15 novembre. Une seule édition restant observée, recurrence_estimee reste vide et aucune entrée n'est ajoutée à veille_calendrier.json — elle est seulement PROPOSÉE en section 6 du rapport (mois_de_veille [6, 7], fenetre_estimee true).\n\n[Run du 03/09/2026 — confirmation indépendante, rien de neuf au-delà.] Dates de l'édition 2026 re-confirmées par une seconde lecture : les 14 ET 15 novembre 2026 (la piste ne portait que le 14). Clôture des candidatures re-confirmée au 30 juillet 2026 avant midi, dépôt à evenementiel@saintpierre.re ou par courrier au service culturel. L'appel reste clos : aucune action possible avant l'édition 2027. Une seule édition observée, recurrence_estimee reste donc vide.\n\n[Run du 04/09/2026 - page relue, RIEN DE NOUVEAU.] saintpierre.re/tous/dipavali-appel-participation re-consultee : dates 14-15 novembre 2026, cloture au 30 juillet 2026 avant midi, depot a evenementiel@saintpierre.re - tout etait deja consigne ici, et de facon plus complete (la date d'ouverture du 17 juillet 2026, relevee le 01/09, n'apparait pas sur la page telle que lue aujourd'hui). Aucun champ modifie. L'appel reste clos : aucune action possible avant l'edition 2027."
     },
     {
       "nom_evenement": "Brocante du Port — Place des Cheminots",
@@ -427,6 +427,46 @@
       "contact_connu": "event@saint-andre.re · 0262 58 56 00 — service courrier",
       "action_suggeree": "PISTE CHAUDE — contact déjà en main. Écrire à event@saint-andre.re pour demander si une édition 2026 est programmée et quand l'appel à exposants s'ouvrira. Créer une fiche events.json une fois la date obtenue, et proposer une entrée veille_calendrier.json (mois_de_veille [10, 11], fenetre_estimee true — une seule fenêtre observée).",
       "_note": "Repérée le 03/09/2026. Angle mort complet jusqu'ici : events.json ne connaissait AUCUN marché de Noël à Saint-André, alors que la Ville publie un appel à exposants dédié sur son propre site. Avis lu : « MARCHÉ DE NOËL – APPEL À EXPOSANTS », édition 2024, marché du 20 au 22 décembre 2024, sous le nouveau marché couvert et derrière l'école des frères. Candidatures par email UNIQUEMENT (bulletin d'inscription + pièces), clôture le 30 novembre 2024 à 16h00 — soit environ trois semaines avant l'événement. Le critère de sélection est explicitement favorable au public du Radar : « tous les domaines d'activités sont les bienvenus, tant que les produits présentés s'inscrivent dans une démarche locale et artisanale ». L'organisateur (Ville de Saint-André) figure déjà dans orgs.json avec l'adresse event@saint-andre.re — la même que celle du Dipavali et de l'appel à forains du Concert DMM : le canal est éprouvé. UNE SEULE édition datée à ce stade, donc recurrence_estimee reste vide conformément à la règle des deux éditions minimum. Aucune édition 2025 ni 2026 n'a pu être trouvée en ligne : soit l'événement n'a pas été reconduit, soit l'avis 2024 est simplement resté en place sans que les suivants soient archivés — l'appel à la mairie tranchera."
+    },
+    {
+      "nom_evenement": "Marché du Terroir et de Noël",
+      "organisateur": "Ville de Saint-Benoît",
+      "lieu": "Esplanade du Front de Mer",
+      "commune": "Saint-Benoît",
+      "zone": "Est",
+      "editions_observees": [
+        "2025-12-12"
+      ],
+      "date_edition_observee": "2025-12-12",
+      "source_url": "https://guide-reunion.fr/evenements/eve/noel-saint-benoit/",
+      "date_detection": "2026-09-04",
+      "recurrence_estimee": "",
+      "nb_exposants_annonce": 50,
+      "deja_dans_events_json": false,
+      "organisateur_deja_dans_orgs_json": true,
+      "contact_connu": "culture@ville-saintbenoit.re",
+      "action_suggeree": "Contacter la Ville de Saint-Benoit vers septembre-octobre pour l'edition 2026 : le contact est deja en main via orgs.json. L'esplanade du front de mer accueille deja une fiche de l'agenda (Rouge Ruelle, 19 septembre) - un seul echange peut couvrir les deux.",
+      "_note": "Repere le 04/09/2026 dans l'agenda guide-reunion. Edition observee du 12 au 14 decembre 2025 sur l'esplanade du front de mer de Saint-Benoit, 50 exposants annonces, stands artisanaux, animations familiales et cabane du Pere Noel. AUCUN appel a candidature n'est mentionne sur la page de l'agenda, ni aucune date limite, ni aucun contact de candidature - d'ou sa place ici et non dans les candidats. Le contact culture@ville-saintbenoit.re est repris d'orgs.json (entree « La Vitrine et la ville de Saint Benoit »), il n'est pas devine. saint-benoit.re a ete consulte le meme jour : bloque en 403 en direct, lu via le repli Jina Reader, et le seul avis d'appel a candidature en ligne concerne le referencement d'entreprises pour des marches inferieurs a 40 000 EUR HT - sans rapport. Une seule edition observee : recurrence_estimee reste vide."
+    },
+    {
+      "nom_evenement": "Marché de Noël ESS (Économie Sociale et Solidaire)",
+      "organisateur": "Région Réunion",
+      "lieu": "Hôtel de Région",
+      "commune": "Saint-Denis",
+      "zone": "Nord",
+      "editions_observees": [
+        "2024-11-29"
+      ],
+      "date_edition_observee": "2024-11-29",
+      "source_url": "https://www.regionreunion.com/actualite/toute-l-actualite/article/marche-de-noel-ess",
+      "date_detection": "2026-09-04",
+      "recurrence_estimee": "",
+      "nb_exposants_annonce": null,
+      "deja_dans_events_json": false,
+      "organisateur_deja_dans_orgs_json": false,
+      "contact_connu": "region.reunion@cr-reunion.fr - 02 62 48 70 00",
+      "action_suggeree": "Contacter la Region Reunion (region.reunion@cr-reunion.fr - 02 62 48 70 00) pour savoir si un appel a manifestation d'interet est prevu pour l'edition 2026, et demander a etre alerte de sa parution. Ajouter la Region Reunion a orgs.json. Piste a creuser en priorite : organisateur institutionnel, entree gratuite, profil d'exposants tres proche de celui de l'agenda.",
+      "_note": "Repere le 04/09/2026. Page bloquee en 403 en direct, LUE VIA LE REPLI JINA READER. Edition documentee : le 29 novembre 2024, 9h-16h, a l'Hotel de Region (Saint-Denis), acces gratuit et ouvert a tous ; creations artisanales locales (objets en fibres naturelles, decorations festives, accessoires de mode creatifs) et produits agroalimentaires biologiques. L'article mentionne qu'un APPEL A MANIFESTATION D'INTERET a existe pour l'edition 2025 - le canal de candidature est donc formalise - mais il n'est ni date ni detaille dans l'article, et n'a donc pas ete reconstitue. Le nombre d'exposants n'est pas annonce : champ laisse a null. Une seule edition DATEE observee (2024) : la mention d'un AMI 2025 n'est pas une edition datee, donc recurrence_estimee reste vide, conformement a la regle des deux editions."
     }
   ]
 }
