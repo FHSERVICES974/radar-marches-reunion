@@ -1,0 +1,135 @@
+{
+  "generated": "2026-09-05",
+  "status_changes": [
+    {
+      "key": "salon international de l agriculture village reunion|national",
+      "name": "Salon International de l'Agriculture — Village Réunion",
+      "zone": "National",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "bal la poussiere fete patronale sainte marie|nord",
+      "name": "Bal la Poussière - Fête patronale Sainte-Marie",
+      "zone": "Nord",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "bal populaire bal la poussiere fete patronale 2026|nord",
+      "name": "Bal populaire « Bal la poussière » — Fête patronale 2026",
+      "zone": "Nord",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "braderie commerciale de sainte marie|nord",
+      "name": "Braderie commerciale de Sainte-Marie",
+      "zone": "Nord",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "brocantes de la possession appel a un porteur de projet organisateur|ouest",
+      "name": "Brocantes de La Possession — appel à un porteur de projet organisateur",
+      "zone": "Ouest",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "concert dmm appel a forains saint andre|est",
+      "name": "Concert DMM — appel à forains (Saint-André)",
+      "zone": "Est",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "emplacements aot domaine public saint gilles les bains bassin de vie n 2|ouest",
+      "name": "Emplacements AOT domaine public — Saint-Gilles-les-Bains (bassin de vie n°2)",
+      "zone": "Ouest",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "fete des agrumes|sud",
+      "name": "Fête des Agrumes",
+      "zone": "Sud",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "jour de sport sante 2026 espace food court|ouest",
+      "name": "Jour de Sport Santé 2026 — Espace Food Court",
+      "zone": "Ouest",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "la plaine en fete ex fete de la pomme de terre et du cheval|sud",
+      "name": "La Plaine en Fête (ex-Fête de la Pomme de Terre et du Cheval)",
+      "zone": "Sud",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "mascarin jardin botanique appel a projet boutique salles de seminaire|ouest",
+      "name": "Mascarin Jardin Botanique — appel à projet (boutique & salles de séminaire)",
+      "zone": "Ouest",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "salon d ete maison jardin|sud",
+      "name": "Salon d'Été, Maison & Jardin",
+      "zone": "Sud",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "village artisanal de la fete de la saint louis|sud",
+      "name": "Village artisanal de la Fête de la Saint-Louis",
+      "zone": "Sud",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "fete des transports et des mobilites durables|est",
+      "name": "Fête des transports et des mobilités durables",
+      "zone": "Est",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-09-04)"
+    }
+  ],
+
+  "new_events_candidates": [],
+
+  "community": [],
+
+  "field_updates": [
+    {
+      "event_name": "Marché nocturne de Saint-Gilles",
+      "_source_url": "https://www.mairie-saintpaul.re/avis-de-publicite/",
+      "_confidence": "Vérifié",
+      "raison": "La page « Avis de publicité » de la Ville de Saint-Paul affiche un avis intitulé « Appel à candidature – Marchés de Nuit de Saint-Gilles 2026 ». La fiche n'indiquait jusqu'ici aucune source ni aucune modalité de candidature : l'artisan ne savait pas où postuler. La date limite n'est PAS renseignée, la seule page d'appel lisible datant de 2023 — elle n'est donc pas reconstituée.",
+      "changes": {
+        "url": "https://www.mairie-saintpaul.re/avis-de-publicite/",
+        "apply": "Un avis « Appel à candidature – Marchés de Nuit de Saint-Gilles 2026 » est publié sur la page « Avis de publicité » de la Ville de Saint-Paul (fiche d'inscription à télécharger). Aucune date limite n'est affichée sur la page d'avis : confirmer auprès de la Direction Valorisation Économique et Touristique avant de déposer.",
+        "contact": "Direction Valorisation Économique et Touristique, Ville de Saint-Paul — 0262 45 90 69"
+      }
+    }
+  ]
+}
