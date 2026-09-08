@@ -1,6 +1,6 @@
 {
   "_mode_emploi_agent": "Fichier CUMULATIF de pistes d'organisateurs, alimenté par la veille (playbook veille_agent.md, étape 3 ter). Ce ne sont PAS des appels à candidature et elles n'entrent JAMAIS dans events.json : c'est de la matière de démarchage et d'anticipation. Lire ce fichier AVANT d'écrire, puis le réécrire enrichi — ne jamais l'écraser, la mémoire des éditions observées est ce qui permet d'estimer une récurrence. Clé d'unicité : nom_evenement + commune. recurrence_estimee exige au moins deux entrées dans editions_observees. Champs vides plutôt qu'inventés.",
-  "generated": "2026-09-06",
+  "generated": "2026-09-08",
   "pistes": [
     {
       "nom_evenement": "Marché des créateurs — Carré Cathédrale",
@@ -510,6 +510,46 @@
       "contact_connu": "accueil@ouest-lareunion.com · 02 62 42 31 31",
       "action_suggeree": "Écrire à accueil@ouest-lareunion.com ou appeler le 02 62 42 31 31 pour demander (a) comment un artisan est retenu pour une session, (b) le calendrier des prochaines dates et les bureaux concernés, (c) s'il existe un appel ou une liste d'attente. Format léger et récurrent, adossé à un réseau de bureaux d'information touristique : c'est une porte d'entrée peu coûteuse pour un créateur qui débute, très différente d'un salon. Ajouter l'Office de Tourisme Intercommunal de l'Ouest à orgs.json après premier contact — il est aussi organisateur principal de La Guinguette Saint-Gilloise, piste déjà ouverte et restée sans contact.",
       "_note": "Repérée le 06/09/2026 dans l'agenda de l'Office de Tourisme de l'Ouest. Format de mise en avant de créateurs et artisans locaux dans les bureaux d'information touristique : rencontre avec le public, présentation du travail, ateliers de savoir-faire. Deux dates annoncées pour 2026 : mardi 8 septembre au bureau de Saint-Gilles-les-Bains et mercredi 9 septembre au bureau du Port. La page nomme SEPT artisans et créateurs retenus pour l'édition 2026 — dont « Art Recycle Eko Dko » (objets recyclés), « Addict Île » (bijoux en macramé) et « Passion Sucrée Salée » (douceurs et conserves péi) : le périmètre artisanal est donc explicite, et le chiffre de 7 est un nombre d'exposants réellement annoncé, pas une estimation. AUCUNE procédure de candidature, AUCUNE date limite, AUCUN contact dédié aux exposants n'est publié : sept artisans ont été sélectionnés sans qu'aucun appel ne soit visible en ligne — le cas type de l'étape 3 ter. Le contact retenu est l'accueil général de l'office, lu sur le site, il n'est pas deviné. Les deux dates sont consécutives et relèvent vraisemblablement d'une même opération sur deux bureaux : elles ne suffisent PAS à établir un rythme, recurrence_estimee reste donc vide malgré deux entrées dans editions_observees. Une date « vendredi 22 novembre » circule dans les résumés de moteur de recherche : le 22 novembre 2026 est un dimanche, cette date renvoie donc à une édition antérieure et n'a PAS été retenue. La commune est renseignée à Saint-Paul (siège de l'OTI et bureau de Saint-Gilles) alors que la seconde session se tient au Port : c'est la limite de la clé nom+commune, signalée ici plutôt que résolue en créant un doublon."
+    },
+    {
+      "nom_evenement": "Fête de la Lentille",
+      "organisateur": "Ville de Cilaos",
+      "lieu": "Cilaos",
+      "commune": "Cilaos",
+      "zone": "Sud",
+      "editions_observees": [
+        "2025-10"
+      ],
+      "date_edition_observee": "2025-10",
+      "source_url": "https://www.ville-cilaos.fr/",
+      "date_detection": "2026-09-08",
+      "recurrence_estimee": "",
+      "nb_exposants_annonce": null,
+      "deja_dans_events_json": false,
+      "organisateur_deja_dans_orgs_json": false,
+      "contact_connu": "animation@ville-cilaos.fr · 0262 29 99 30",
+      "action_suggeree": "Surveiller ville-cilaos.fr entre mai et août 2027 : l'appel 2025 a clos le 31 août 2025 pour une manifestation d'octobre (19-26 octobre). Contacter animation@ville-cilaos.fr pour confirmer si une édition 2026 a eu lieu (non trouvée en ligne) et obtenir le calendrier 2027.",
+      "_note": "Repérée le 08/09/2026 lors d'un balayage ciblé des communes sans organisateur artisanal identifié. Dernier appel confirmé : « Avis aux forains – Fête de la Lentille 2025 », manifestation du 19 au 26 octobre 2025, deadline de candidature le 31 août 2025 (contact 0262 29 99 30, animation@ville-cilaos.fr). Cilaos n'avait jusqu'ici qu'un marché hebdomadaire (« Marché de Cilaos ») dans events.json, mentionnant broderie/lentilles/vin comme produits mais sans lien avec cette fête dédiée. La page d'accueil de ville-cilaos.fr, relue le 08/09/2026, ne publie AUCUN appel 2026 à ce jour — soit l'édition 2026 n'a pas eu lieu, soit son appel est déjà clos et non archivé. Une seule édition datée (2025, mois seul) : recurrence_estimee laissée vide conformément à la règle des deux éditions."
+    },
+    {
+      "nom_evenement": "Fête du Vacoa",
+      "organisateur": "Ville de Saint-Philippe",
+      "lieu": "Saint-Philippe",
+      "commune": "Saint-Philippe",
+      "zone": "Sud",
+      "editions_observees": [
+        "2026-08-07"
+      ],
+      "date_edition_observee": "2026-08-07",
+      "source_url": "https://saintphilippe.re/candidature-fete-du-vacoa-2026/",
+      "date_detection": "2026-09-08",
+      "recurrence_estimee": "",
+      "nb_exposants_annonce": null,
+      "deja_dans_events_json": false,
+      "organisateur_deja_dans_orgs_json": false,
+      "contact_connu": "feteduvacoa@yahoo.fr · 0262 37 00 12 — Mairie de Saint-Philippe, 64 rue Leconte Delisle, 97442 Saint-Philippe",
+      "action_suggeree": "Surveiller saintphilippe.re à partir de mai 2027 : l'appel 2026 a clos le 30 juin 2026 pour une manifestation du 7 au 16 août. Angle mort complet jusqu'ici — Saint-Philippe n'avait aucun organisateur artisanal identifié dans la veille. Contacter feteduvacoa@yahoo.fr pour confirmer le périmètre exact (forains/artisanat) avant la prochaine fenêtre.",
+      "_note": "Repérée le 08/09/2026 lors d'un balayage ciblé des communes sans URL connue dans sources.json. Page officielle lue directement : « La Ville de Saint-Philippe organise la manifestation Fête du Vacoa édition 2026 », du vendredi 7 au dimanche 16 août 2026, candidature avant le 30 juin 2026 — deadline et événement tous deux désormais passés au moment de cette veille (08/09/2026), d'où le classement en piste et non en candidat. Le périmètre exact (part forains/attractions vs artisanat/exposants) n'est pas détaillé dans l'extrait lu : à clarifier auprès de la mairie avant de qualifier l'événement de marché de créateurs à part entière. Édition unique observée : recurrence_estimee laissée vide."
     }
   ]
 }
