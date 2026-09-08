@@ -575,13 +575,52 @@ def send_mail(r: dict) -> None:
         server.send_message(msg)
 
 
+def _rapport_degrade() -> dict:
+    """Rapport minimal quand la veille n'a RIEN produit aujourd'hui.
+
+    L'absence de `pending_MAJ_<jour>.json` ne veut pas dire « rien à signaler » :
+    la veille écrit toujours ce fichier quand elle va au bout, même avec zéro
+    candidat. Pas de fichier = **la veille ne s'est pas terminée**. C'est une
+    panne, et c'est précisément le jour où il faut écrire.
+
+    Défaut corrigé le 08/09/2026 : le script se contentait d'afficher « rien à
+    envoyer » et sortait en code 0. `run_veille.sh` journalisait donc « rapport
+    quotidien envoyé » et la notification macOS annonçait une réussite — alors
+    qu'aucun mail ne partait. Deux matins sans nouvelles (07 et 08/09), sans que
+    rien ne le signale : l'échec se déguisait en succès.
+    """
+    alerts = ["VEILLE INCOMPLÈTE — aucun fichier de propositions n'a été écrit "
+              "aujourd'hui. La veille ne s'est pas terminée : voir `veille.log`."]
+    log = ROOT / "veille.log"
+    if log.exists():
+        lignes = log.read_text(encoding="utf-8", errors="ignore").splitlines()
+        debut = max((i for i, l in enumerate(lignes) if l.startswith("===== VEILLE")), default=0)
+        for l in lignes[debut:]:
+            if any(m in l for m in ("ATTENTION", "Failed to authenticate", "Error", "error:")):
+                alerts.append(l.strip()[:220])
+    silence = _silence_precedent()
+    if silence:
+        alerts.append(silence)
+    div = _divergence_prod()
+    if div:
+        alerts.append(div)
+    return {"today": today_iso(), "status_changes": [], "verifies": [], "probables": [],
+            "community": [], "alerts": alerts, "sans_date": _sans_date_exploitable(date.today()),
+            "whatsapp_msg": ""}
+
+
 if __name__ == "__main__":
     report = build_report()
-    if report is None:
-        print("[daily_report] aucune proposition du jour — rien à envoyer.")
-    else:
-        send_mail(report)
-        _marquer_envoi_reussi()
-        print(f"[daily_report] envoyé à {DEST_EMAIL} : "
-              f"{len(report['verifies'])} vérifié(s), {len(report['probables'])} à revoir, "
-              f"{len(report['alerts'])} alerte(s)")
+    degrade = report is None
+    if degrade:
+        # Pas de propositions = la veille a échoué. On envoie QUAND MÊME : c'est
+        # le seul canal qui puisse l'annoncer, et se taire ce jour-là revient à
+        # masquer la panne.
+        report = _rapport_degrade()
+        print("[daily_report] aucune proposition — envoi d'un rapport d'incident.")
+    send_mail(report)
+    _marquer_envoi_reussi()
+    print(f"[daily_report] envoyé à {DEST_EMAIL} : "
+          f"{'INCIDENT — ' if degrade else ''}"
+          f"{len(report['verifies'])} vérifié(s), {len(report['probables'])} à revoir, "
+          f"{len(report['alerts'])} alerte(s)")
