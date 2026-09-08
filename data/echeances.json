@@ -1,0 +1,14 @@
+{
+  "_doc": "Échéances techniques du projet — jetons, mots de passe d'application, abonnements. Rien de secret ici : seulement des DATES et de quoi retrouver quoi renouveler. Le rapport quotidien alerte à l'approche de chaque échéance. Ajouter une entrée coûte trois lignes ; oublier un renouvellement coûte une matinée (cf. jeton GitHub expiré le 24/08, OAuth de veille expiré les 07/08 et 07/09).",
+  "_mode_emploi": "alerte_jours = combien de jours AVANT l'échéance le rapport commence à prévenir. Mettre 'date' à null pour une échéance connue mais non datée.",
+  "echeances": [
+    {
+      "nom": "Jeton d'authentification Claude CLI (veille de 4h)",
+      "date": "2027-09-08",
+      "alerte_jours": 30,
+      "ou": "Terminal : `claude setup-token`, puis remettre le jeton dans .env",
+      "pourquoi": "Sans lui, la veille échoue chaque nuit et le rapport part en mode incident. Déjà arrivé deux fois avec l'ancienne session OAuth, qui expirait au bout d'un mois.",
+      "cree_le": "2026-09-08"
+    }
+  ]
+}

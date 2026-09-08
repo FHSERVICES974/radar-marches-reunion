@@ -14,6 +14,30 @@ cd "$PROJECT_DIR"
 export PATH="$HOME/.npm-global/bin:/opt/homebrew/bin:/usr/local/bin:$PATH"
 CLAUDE_BIN="$(command -v claude || echo "$HOME/.npm-global/bin/claude")"
 
+# launchd ne charge NI le profil de shell NI .env : les scripts Python lisent ce
+# fichier via load_dotenv, mais le CLI `claude`, lui, ne voyait rien. Le jeton
+# d'authentification longue durée (créé par `claude setup-token`) doit donc être
+# exporté ici, sinon la veille échoue chaque nuit avec « Failed to authenticate »
+# — c'est ce qui s'est produit les 07/08 et 07-08/09/2026.
+#
+# On n'exécute PAS le fichier (pas de `source`) : on n'exporte que les lignes de
+# la forme CLE=valeur, en ignorant commentaires et lignes malformées. Le nom de
+# la variable n'a pas d'importance ici — tout ce qui est dans .env est transmis.
+if [ -f .env ]; then
+  while IFS= read -r ligne || [ -n "$ligne" ]; do
+    case "$ligne" in
+      ''|'#'*) continue ;;
+    esac
+    if printf '%s' "$ligne" | grep -qE '^[A-Za-z_][A-Za-z0-9_]*='; then
+      cle=${ligne%%=*}
+      val=${ligne#*=}
+      val=${val%\"}; val=${val#\"}      # guillemets doubles éventuels
+      val=${val%\'}; val=${val#\'}      # guillemets simples éventuels
+      export "$cle=$val"
+    fi
+  done < .env
+fi
+
 STAMP=$(date "+%Y-%m-%d %H:%M:%S")
 echo "===== VEILLE $STAMP =====" >> veille.log
 

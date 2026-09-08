@@ -229,6 +229,38 @@ def _divergence_prod() -> str | None:
               "un redéploiement écrase le disque de production depuis GitHub.")
 
 
+def _echeances_proches() -> list[str]:
+    """Jetons, mots de passe et abonnements qui arrivent à expiration.
+
+    Trois pannes de ce type en un mois — jeton GitHub expiré le 24/08, session
+    OAuth de la veille les 07/08 puis 07/09 — et chaque fois la même séquence :
+    on découvre l'expiration par ses effets, un matin, après coup. Une date
+    d'expiration est pourtant connue d'avance : autant la dire avant.
+    """
+    cfg = load_json(ROOT / "data" / "echeances.json", default={})
+    today_d = date.today()
+    messages = []
+    for e in cfg.get("echeances", []):
+        d = e.get("date")
+        if not d:
+            continue
+        try:
+            echeance = date.fromisoformat(d)
+        except ValueError:
+            continue
+        reste = (echeance - today_d).days
+        seuil = int(e.get("alerte_jours", 30))
+        if reste > seuil:
+            continue
+        quand = ("A EXPIRÉ" if reste < 0 else
+                 "expire AUJOURD'HUI" if reste == 0 else
+                 f"expire dans {reste} jour{'s' if reste > 1 else ''}")
+        messages.append(
+            f"ÉCHÉANCE — « {e.get('nom', '?')} » {quand} "
+            f"({echeance.strftime('%d/%m/%Y')}). {e.get('ou', '')}".strip())
+    return messages
+
+
 def _collect_alerts(verifies: list[dict]) -> list[str]:
     alerts = []
 
@@ -237,7 +269,11 @@ def _collect_alerts(verifies: list[dict]) -> list[str]:
     if div:
         alerts.append(div)
 
-    # 0 bis. un rapport a-t-il manqué depuis la dernière fois ?
+    # 0 bis. échéances techniques (jetons, mots de passe) — avant tout le reste :
+    # une expiration explique souvent les pannes listées en dessous.
+    alerts.extend(_echeances_proches())
+
+    # 0 ter. un rapport a-t-il manqué depuis la dernière fois ?
     silence = _silence_precedent()
     if silence:
         alerts.append(silence)
@@ -598,6 +634,7 @@ def _rapport_degrade() -> dict:
         for l in lignes[debut:]:
             if any(m in l for m in ("ATTENTION", "Failed to authenticate", "Error", "error:")):
                 alerts.append(l.strip()[:220])
+    alerts.extend(_echeances_proches())
     silence = _silence_precedent()
     if silence:
         alerts.append(silence)
