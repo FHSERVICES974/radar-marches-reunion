@@ -1998,6 +1998,24 @@
     "desc": "Marché de centre-ville du Tampon."
   },
   {
+    "name": "Marché du Terroir et des Savoir-faire — Trois-Bassins",
+    "zone": "Ouest",
+    "type": "Marché de créateurs / terroir",
+    "org": "Ville de Trois-Bassins",
+    "place": "L'Alambic / Place de l'Église, Trois-Bassins",
+    "when": "2ᵉ et 4ᵉ samedis du mois, à L'Alambic / Place de l'Église",
+    "badge": "BIMENS.",
+    "month": 99,
+    "dateStatus": "récurrent",
+    "status": "open",
+    "deadline": "Le vendredi précédant chaque marché (2ᵉ et 4ᵉ samedis du mois)",
+    "contact": "Ville de Trois-Bassins",
+    "social": "",
+    "url": "https://trois-bassins.re/event/marche-du-terroir-et-des-savoir-faire-special-noel/",
+    "apply": "Candidature via la rubrique « Soyez exposant ! » du site officiel trois-bassins.re, à faire avant le dernier vendredi précédant chaque marché.",
+    "desc": "Marché du terroir et des savoir-faire porté par la Ville de Trois-Bassins, à L'Alambic / Place de l'Église, les 2ᵉ et 4ᵉ samedis de chaque mois. Distinct du marché artisanal mensuel du 1ᵉʳ samedi déjà connu (« Marché artisanal de Trois-Bassins ») : autre lieu, autre rythme, avec un vrai processus de candidature exposant en continu (page « Soyez exposant ! »), y compris une édition spéciale Noël."
+  },
+  {
     "name": "Marché forain de Bras-Panon",
     "zone": "Est",
     "type": "Marché communal hebdo",
