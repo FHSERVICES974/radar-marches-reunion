@@ -655,7 +655,24 @@ if __name__ == "__main__":
         # masquer la panne.
         report = _rapport_degrade()
         print("[daily_report] aucune proposition — envoi d'un rapport d'incident.")
-    send_mail(report)
+    # Le réseau peut n'être pas encore remonté à 4 h (Mac sortant de veille) :
+    # le 09/09/2026, l'envoi a échoué sur une simple résolution DNS. On réessaie
+    # plutôt que d'abandonner — c'est le seul canal qui puisse annoncer la panne.
+    import time
+    derniere = None
+    for essai in range(1, 4):
+        try:
+            send_mail(report)
+            derniere = None
+            break
+        except (OSError, smtplib.SMTPException) as exc:
+            derniere = exc
+            print(f"[daily_report] envoi impossible (essai {essai}/3) : "
+                  f"{type(exc).__name__} — {exc}")
+            if essai < 3:
+                time.sleep(60)
+    if derniere is not None:
+        raise SystemExit(f"[daily_report] ÉCHEC après 3 essais : {derniere}")
     _marquer_envoi_reussi()
     print(f"[daily_report] envoyé à {DEST_EMAIL} : "
           f"{'INCIDENT — ' if degrade else ''}"

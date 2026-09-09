@@ -41,6 +41,29 @@ fi
 STAMP=$(date "+%Y-%m-%d %H:%M:%S")
 echo "===== VEILLE $STAMP =====" >> veille.log
 
+# Attendre le réseau avant de commencer. À 4 h, le Mac sort parfois de veille et
+# le Wi-Fi n'est pas encore remonté : le 09/09/2026, git, l'API et l'envoi du mail
+# ont échoué tous les trois pour cette seule raison, et le script a passé
+# 1 h 11 à réessayer dans le vide avant d'abandonner.
+#
+# On attend jusqu'à 10 minutes, puis on renonce PROPREMENT plutôt que de dérouler
+# un run condamné : mieux vaut un report annoncé qu'une heure de faux travail.
+reseau_ok() { curl -sS -m 8 -o /dev/null https://api.anthropic.com 2>/dev/null; }
+if ! reseau_ok; then
+  echo "[reseau] pas de connexion — attente (jusqu'à 10 min)…" >> veille.log
+  for _ in $(seq 1 20); do
+    sleep 30
+    if reseau_ok; then break; fi
+  done
+fi
+if ! reseau_ok; then
+  echo "[reseau] ATTENTION : toujours aucune connexion après 10 min — veille reportée." >> veille.log
+  echo "----- fin veille (rc=rechute réseau) $(date '+%H:%M:%S') -----" >> veille.log
+  osascript -e "display notification \"Pas de réseau à 4h : la veille n'a pas pu tourner.\" with title \"⚠️ Radar Marchés — VEILLE REPORTÉE\"" 2>/dev/null || true
+  exit 0
+fi
+echo "[reseau] connexion établie." >> veille.log
+
 # Se resynchroniser AVANT de travailler : la page /admin sur Replit peut avoir
 # publié des événements depuis la dernière veille (elle écrit events.json et
 # pousse sur GitHub). Sans ce pull, le Mac travaillerait sur une base périmée et
