@@ -63,10 +63,19 @@
       ],
       "priorite": "haute",
       "pourquoi": "Vague de Noël : les appels s'ouvrent en août-septembre pour un événement de décembre. Segment le plus important de l'année pour les créateurs. Aucune de ces fiches n'avait de deadline connue au 16/08/2026 — c'est le scénario Florilèges qui menaçait de se rejouer neuf fois.",
-      "contact_repli": "via braspanon.re · @villedebraspanon",
+      "contact_repli": "magiknoel@gmail.com · 0692 21 59 21 (contact direct trouvé le 09/09/2026, à préférer à via braspanon.re · @villedebraspanon)",
       "fenetre_estimee": true,
-      "historique": [],
-      "derniere_verification": "2026-08-24"
+      "historique": [
+        {
+          "annee": 2026,
+          "ouverture": "2026-08-22",
+          "cloture": null,
+          "source": "Page Facebook officielle Magik Noël (id 61567672238550), post lu via repli Jina Reader le 09/09/2026",
+          "note": "PREMIÈRE fenêtre observée pour Magik Noël. Appel à exposants publié (daté « 22 août » par l'horodatage Facebook, année 2026 déduite du contenu qui annonce explicitement la 3ᵉ édition — non garantie à 100% par l'horodatage seul). Texte : « APPEL AUX EXPOSANTS – MAGIK NOËL 2026, 3ᵉ ÉDITION, DU 9 AU 13 DÉCEMBRE 2026, Champ de Foire de Bras-Panon » — ouvert à artisan/bien-être/créateur/produit du terroir/commerçant/producteur/jouets-jeux/restauration ambulante. Contact direct magiknoel@gmail.com / 0692 21 59 21. AUCUNE deadline communiquée dans le post : ce n'est pas une date limite qu'il faut viser mais la date de parution (même mécanisme que Saint-Leu et l'Éperon). Ouverture datée par déduction, clôture non renseignée — fenêtre laissée estimée."
+        }
+      ],
+      "derniere_verification": "2026-09-10",
+      "note_10_09_2026": "Repassé par le repli Jina Reader sur la page Facebook : le post du 22 août est toujours en ligne, contenu identique, toujours AUCUNE deadline communiquée. braspanon.re relu en direct : aucune mention de Magik Noël sur la page d'accueil. Rien de neuf."
     },
     {
       "nom": "Marché de Noël de Saint-Leu (Compagnie Tendance)",
@@ -90,7 +99,9 @@
           "note": "4e édition, 13-14 décembre 2025 au Parc du 20 Décembre. L'appel à exposants a bien été publié — sur Facebook uniquement — mais il ne comporte AUCUNE date limite : le post dit « Contactez-nous au plus vite » et signale un afflux de demandes. Les places semblent donc attribuées au fil de l'eau, pas à une date de clôture. Conséquence pour la veille : ne pas attendre une deadline qui n'existera pas ; c'est la DATE DE PARUTION du post qu'il faut attraper. Ouverture et clôture laissées à null plutôt que reconstituées — le post n'est pas daté."
         }
       ],
-      "derniere_verification": "2026-08-24"
+      "derniere_verification": "2026-09-10",
+      "note_09_09_2026": "Rien de neuf. Facebook et Instagram restent des murs de connexion fermés, y compris via le repli Jina Reader (qui affiche la page de login elle-même, pas le contenu). guide-reunion.fr ne montre que l'édition passée, sans année 2026 identifiable. Un post Instagram intitulé « APPEL A EXPOSANTS MARCHE DE NOEL 2026 » (instagram.com/p/DU5ZXtnkYFA/) a été repéré mais son compte source n'a pas pu être rattaché avec certitude à Compagnie Tendance/Saint-Leu — non retenu.",
+      "note_10_09_2026": "Seul post retrouvé sur Facebook (100087548391794/posts/...771233595804913) concerne l'édition 2025 (13-14 décembre 2025), déjà connue — rien de daté 2026. Instagram @marchedenoelstleu toujours illisible (titre seul). Aucun appel 2026 confirmé à ce jour."
     },
     {
       "nom": "Marché de Noël de Saint-Paul",
@@ -115,7 +126,9 @@
           "note": "Seule édition dont l'appel ait pu être retrouvé. Publié le 25 novembre pour un marché du 18 au 23 décembre : une fenêtre de NOVEMBRE, très en décalage avec l'estimation août-septembre. Dépôt par mail à natacha.perianayagom@mairie-saintpaul.fr et daniel.odon@mairie-saintpaul.fr, ou par courrier au 1 rue Évariste-de-Parny, 97861 Saint-Paul Cedex. Une seule observation, et vieille de cinq ans : novembre a été AJOUTÉ aux mois de veille par prudence, sans retirer août-septembre-octobre."
         }
       ],
-      "derniere_verification": "2026-08-24"
+      "derniere_verification": "2026-09-10",
+      "note_09_09_2026": "Page avis-de-publicite relue intégralement (14 avis actifs) : toujours aucun avis distinct « Marché de Noël de Saint-Paul » — seul le « Village de Noël 2026 » (fiche suivante) y figure sous ce nom de format. À ne considérer comme un appel séparé que si un avis explicitement nommé apparaît.",
+      "note_10_09_2026": "mairie-saintpaul.re/avis-de-publicite/ relue à nouveau : Village de Noël 2026 (déjà connu), Festival commercial (octobre), Marché Forain. Toujours aucun avis distinct « Marché de Noël de Saint-Paul »."
     },
     {
       "nom": "Village de Noël de Saint-Paul",
@@ -130,8 +143,18 @@
       "pourquoi": "Vague de Noël : les appels s'ouvrent en août-septembre pour un événement de décembre. Segment le plus important de l'année pour les créateurs. Aucune de ces fiches n'avait de deadline connue au 16/08/2026 — c'est le scénario Florilèges qui menaçait de se rejouer neuf fois. Même page d'avis que le Marché de Noël de Saint-Paul : un seul passage couvre les deux, mais ce sont deux événements distincts.",
       "contact_repli": "maire@mairie-saintpaul.fr · 0262 45 90 69",
       "fenetre_estimee": true,
-      "historique": [],
-      "derniere_verification": "2026-08-24"
+      "historique": [
+        {
+          "annee": 2026,
+          "ouverture": null,
+          "cloture": "2026-10-02T15:00",
+          "source": "https://www.mairie-saintpaul.re/avis-de-publicite/ → dossier PDF https://www.mairie-saintpaul.re/wp-content/uploads/2026/09/DOSSIER-DE-CANDIDATURE-.pdf (lu le 08/09/2026)",
+          "note": "PREMIÈRE fenêtre réellement datée pour cette fiche, désormais publiée sur events.json (fiche déjà à jour). Appel confirmé : Village de Noël au parking Suffren du centre de Saint-Paul, 21-24 décembre 2026, inscriptions ouvertes jusqu'au 2 octobre 2026 15h00, redevance forfait 100€. Publié début septembre (PDF daté du dossier uploadé en septembre 2026) pour une clôture début octobre : fenêtre cohérente avec les mois_de_veille [8,9,10]. Ouverture non datée précisément, laissée à null."
+        }
+      ],
+      "derniere_verification": "2026-09-10",
+      "note_09_09_2026": "Reconfirmé : PDF du dossier de candidature relu intégralement (téléchargement + lecture directe), tous les champs (dates, deadline 2 octobre 15h00, redevance 100€, pièces exigées) identiques à la fiche events.json. Rien de changé depuis le 08/09.",
+      "note_10_09_2026": "Rien de changé, fiche events.json toujours à jour."
     },
     {
       "nom": "Marché de Noël du Carré Cat",
@@ -147,7 +170,9 @@
       "contact_repli": "marion.carrecathedrale@gmail.com · @galerie_artefact",
       "fenetre_estimee": true,
       "historique": [],
-      "derniere_verification": "2026-08-24"
+      "derniere_verification": "2026-09-10",
+      "note_09_09_2026": "Rien de neuf. guide-reunion.fr ne montre que l'édition 2024. Un faux positif a été écarté : un résultat de recherche annonçant une deadline « 31 juillet 2026 » pour un marché de Noël « Saint-Denis » concernait en réalité Saint-Denis (93), métropole.",
+      "note_10_09_2026": "guide-reunion.fr relu (deux pages : breves/detail/noel-saint-denis-reunion/ et evenements/eve/marche-des-createurs-a-saint-denis/) : ne mentionnent que l'édition 2025 (13-14 déc.) ou le marché des créateurs d'août 2026, rien sur Noël 2026. Aucun appel 2026 en ligne."
     },
     {
       "nom": "Marché de Noël — Pierrefonds",
@@ -163,7 +188,10 @@
       "contact_repli": "labandeaguinguette@gmail.com · @la_bande_a_guinguette",
       "fenetre_estimee": true,
       "historique": [],
-      "derniere_verification": "2026-08-23"
+      "note_08_09_2026": "AMBIGUÏTÉ NON TRANCHÉE, à vérifier avant de trancher : une recherche du 08/09/2026 a repéré un post Instagram (instagram.com/p/DR9OS3Lgk8o/, contenu illisible par les outils) annonçant un « Marché de Noël de Pierrefonds les 12, 13 et 14 décembre » — trois jours, alors que l'édition 2025 déjà connue de La Bande à Guinguette était NOCTURNE sur deux jours seulement (6-7 décembre). Il est possible qu'un second organisateur (un « Comité des Fêtes de Pierrefonds » mentionné dans un résultat de recherche non vérifié) porte un événement distinct du même nom à Pierrefonds — ou que les dates 12-14 décembre appartiennent à une année différente. Rien n'est assez solide pour créer une seconde fiche ou corriger celle-ci : à vérifier par contact direct avant la prochaine relance.",
+      "note_09_09_2026": "AMBIGUÏTÉ RESSERRÉE, toujours PAS TRANCHÉE. (1) La piste « Comité des Fêtes de Pierrefonds » est un FAUX POSITIF CONFIRMÉ : le numéro de téléphone associé (03 44 42 80 38, indicatif Oise) et l'adresse renvoient à Pierrefonds (Oise), métropole — à écarter définitivement. (2) Le post Instagram DR9OS3Lgk8o a pu être relu cette fois via le repli Jina : il est publié par un compte tiers « La Chouquette Dorée » (boulangerie-pâtisserie, localisation réunionnaise non confirmée), sans mention d'organisateur, de contact ni d'appel à exposants — ce n'est pas la preuve d'un second organisateur, juste un relais. Reste ouvert : qui tient l'événement du 12-14 décembre, et si La Bande à Guinguette a changé de format (2 jours nocturne → 3 jours) pour 2026. Contact direct à labandeaguinguette@gmail.com toujours recommandé.",
+      "derniere_verification": "2026-09-10",
+      "note_10_09_2026": "AMBIGUÏTÉ TRÈS PROBABLEMENT RÉSOLUE, dans le sens du faux positif. Recherche sur « La Chouquette Dorée » : c'est une boulangerie-pâtisserie de Pierrefonds (Oise), France MÉTROPOLITAINE, pas de la Réunion. Fort risque que le post Instagram DR9OS3Lgk8o (« 12,13,14 décembre ») concerne en réalité le Pierrefonds de l'Oise, homonyme du Pierrefonds de Saint-Pierre (974) — même piège que « Comité des Fêtes de Pierrefonds » déjà écarté le 09/09. guide-reunion.fr confirme par ailleurs que La Bande à Guinguette organisait bien l'édition 2025 (6-7 déc., nocturne) à Pierrefonds (974) ; rien sur 2026. Recommandation : ne plus retenir la piste « 12-13-14 décembre » sans preuve réunionnaise indépendante ; contact direct à labandeaguinguette@gmail.com reste la voie la plus fiable."
     },
     {
       "nom": "Marché de Noël — Village de l'Éperon",
@@ -171,7 +199,8 @@
       "url": "https://www.ouest-lareunion.com/agenda/les-communes-bougent/marche-de-noel-de-l-eperon",
       "mois_de_veille": [
         8,
-        9
+        9,
+        10
       ],
       "priorite": "haute",
       "pourquoi": "Vague de Noël : les appels s'ouvrent en août-septembre pour un événement de décembre. Segment le plus important de l'année pour les créateurs. Aucune de ces fiches n'avait de deadline connue au 16/08/2026 — c'est le scénario Florilèges qui menaçait de se rejouer neuf fois. FENÊTRE OBSERVÉE, pas estimée : en 2025 les candidatures étaient ouvertes du 1er au 15 septembre. Quinze jours seulement — la fenêtre la plus étroite du calendrier.",
@@ -183,9 +212,18 @@
           "ouverture": "2025-09-01",
           "cloture": "2025-09-15",
           "source": "veille du 07/08/2026 (piste organisateur) ; fenêtre corroborée le 20/08/2026 par une source indépendante décrivant des candidatures ouvertes du 1er au 15 septembre et un appel très concurrentiel (plusieurs centaines de dossiers pour une centaine de places) ; re-corroborée le 21/08/2026 par une troisième source publique (« les candidatures étaient ouvertes du 1er au 15 septembre »). La fenêtre s'ouvre dans onze jours et ne dure que quinze."
+        },
+        {
+          "annee": 2020,
+          "ouverture": null,
+          "cloture": "2020-10-15",
+          "source": "https://www.facebook.com/asso.eperon974/posts/3405071656214524/ (publication de l'association du 15 octobre 2020, lue le 06/09/2026 via le repli Jina Reader) : « le marché de Noël est complet. Nous avons atteints le nombre de 150 exposants. Merci de votre compréhension. »",
+          "note": "DEUXIÈME fenêtre observée, et elle contredit la première sur deux points. (1) Le mois : en 2020 les candidatures étaient encore ouvertes à la mi-OCTOBRE, alors que la fenêtre 2025 courait du 1er au 15 septembre. L'association a donc déjà déplacé son calendrier — d'où l'ajout du mois 10 aux mois_de_veille, sans retirer août ni septembre. (2) Le mode de clôture : l'appel s'est refermé PAR REMPLISSAGE (quota de 150 exposants atteint), et non à une date limite. Les commentaires de la publication indiquent que les inscriptions devaient courir jusqu'au 15 novembre et ont été closes un mois plus tôt, laissant des candidats sans le temps de constituer leur dossier — information issue des commentaires, pas de l'association : elle n'est PAS reportée dans les champs ouverture/cloture. Conséquence opérationnelle : comme pour le marché de Noël de Saint-Leu, ce n'est pas une date limite qu'il faut viser mais la DATE DE PARUTION de l'appel. Attendre la fin de la fenêtre annoncée est un risque réel, documenté sur une édition.\n\n[Run du 08/09/2026 — jour 8 sur 15, toujours RIEN.] Nouvelle vérification complète à mi-fenêtre (fenêtre 2025 : 1er-15 septembre) : ouest-lareunion.com/agenda et sa page dédiée Éperon (encore calée sur l'édition 2025 : « Du 12 DÉCEMBRE 2025 au 14 DÉCEMBRE 2025 »), frt.re (dates 2024), mairie-saintpaul.re/avis-de-publicite/ (aucun avis « Éperon », seul un avis distinct « Village de Noël » y figure, sans rapport) — aucun appel 2026 nulle part. Facebook asso.eperon974 confirmé INACCESSIBLE par DEUX méthodes distinctes le même jour : WebFetch direct → mur de connexion sans contenu ; repli Jina Reader (r.jina.ai) → 403 Forbidden explicite. Ce n'est donc pas un simple échec de lecture ponctuel, c'est un blocage confirmé et stable. Un faux positif a été écarté : un post « Marché de Noël 2026 — Appel aux exposants » à Saint-Paul trouvé par recherche concernait en réalité Saint-Paul-lez-Durance (13115, métropole), pas la Réunion. Conclusion inchangée : le contact direct à asso.eperon@gmail.com reste la seule action utile, et le compte à rebours continue — sept jours restants sur la fenêtre historique."
         }
       ],
-      "derniere_verification": "2026-08-24"
+      "derniere_verification": "2026-09-10",
+      "note_09_09_2026": "[Jour 9 sur 15, toujours RIEN.] Les 4 canaux retentés (ouest-lareunion.com/agenda, frt.re — qui affiche en réalité l'édition 2023, pas 2025 comme noté la veille —, mairie-saintpaul.re/avis-de-publicite/, Facebook asso.eperon974) restent muets ou bloqués. Facebook confirmé inaccessible une troisième fois par deux méthodes (WebFetch direct = mur de connexion ; Jina = page de login). Un contact alternatif « asso.eperon@hotmail.fr » est apparu sur frt.re, différent du contact repli gmail habituel — NON vérifié, à ne pas utiliser sans confirmation. Le faux positif « Saint-Paul » = Saint-Paul-lez-Durance (13115) est re-confirmé pour la deuxième fois consécutive. Six jours restent sur la fenêtre historique.",
+      "note_10_09_2026": "[Jour 10 sur 15 — URGENT, 5 jours restants.] mairie-saintpaul.re/avis-de-publicite/ relue : toujours aucun avis « Éperon ». ouest-lareunion.com/agenda toujours calé sur l'édition 2025. Facebook asso.eperon974 toujours bloqué (contenu vide). Un post Instagram DU5ZXtnkYFA au titre « APPEL A EXPOSANTS MARCHE DE NOEL 2026 » repéré par recherche s'est révélé être un FAUX POSITIF : contenu réel = un marché de Noël du village de Chèzeneuve, France métropolitaine — écarté, ne pas réutiliser. Aucun appel 2026 confirmé malgré une recherche active sur tous les canaux. Recommandation renforcée : un contact téléphonique/message direct à asso.eperon@gmail.com est plus utile qu'une nouvelle tentative de lecture web."
     },
     {
       "nom": "Salon Fait Main",
@@ -201,7 +239,10 @@
       "contact_repli": "artsettraditions974@gmail.com · @artsettraditions974",
       "fenetre_estimee": true,
       "historique": [],
-      "derniere_verification": "2026-08-24"
+      "derniere_verification": "2026-09-10",
+      "note_08_09_2026": "Site artrad.re INJOIGNABLE au 08/09/2026 (ECONNREFUSED en https, ECONNRESET en http) — angle mort de disponibilité, pas de contenu lu. WebSearch ciblée ne remonte toujours que la 102e édition de juin 2026 ; aucune édition décembre 2026 trouvée.",
+      "note_09_09_2026": "artrad.re TOUJOURS injoignable, testé par 3 méthodes distinctes : ECONNRESET direct (https et http), et désormais le repli Jina lui-même échoue (HTTP 422 Unprocessable Entity) — le site semble structurellement hors service, pas juste temporairement filtré. Facebook @artsettraditions974 : mur de connexion. Angle mort de disponibilité confirmé et stable sur 2 jours consécutifs.",
+      "note_10_09_2026": "artrad.re/ (racine) toujours en échec (ECONNRESET direct, 422 via Jina). Une sous-page (artrad.re/page/377885-evenements) a cette fois répondu par les deux méthodes, mais son contenu n'est que la structure de navigation du site (rendu JavaScript côté client), sans liste d'événements exploitable — pas une vraie lecture. Toujours aucune édition décembre 2026 annoncée nulle part."
     },
     {
       "nom": "Marché de Noël Décalé — Vavang'art",
@@ -225,7 +266,10 @@
           "note": "Candidatures à envoyer avant le 31 octobre à programmation@vavangart.com, pour un marché des 22-23 novembre 2025. Première fenêtre réellement observée : la clôture tombe fin octobre, donc les mois 9-10 sont les plus utiles. La fenêtre reste marquée estimée tant qu'une deuxième édition n'a pas confirmé la date d'ouverture, inconnue à ce jour."
         }
       ],
-      "derniere_verification": "2026-08-24"
+      "derniere_verification": "2026-09-10",
+      "note_08_09_2026": "INDICE D'UN APPEL 2026, non lu intégralement. WebSearch a repéré un post Instagram au titre explicite « Marché de Noël 2026 — Appel aux exposants » (instagram.com/p/DUQ6roFDyrc/) mais son contenu (deadline, modalités) n'a pas pu être extrait : WebFetch direct vide, repli Jina Reader → 403 Forbidden. guide-reunion.fr/evenements/eve/marche-artisanal-decale-noel/ n'affiche encore que l'édition 2025. Confirme que l'appel 2026 existe très probablement déjà (le titre du post le dit), sans en connaître la date limite exacte — probablement fin octobre par analogie avec 2025. Contact direct (programmation@vavangart.com) recommandé pour confirmer avant la fenêtre estimée.",
+      "note_09_09_2026": "⚠️ PIÈGE MÉTHODE identifié : une nouvelle tentative de repli Jina sur le même post (DUQ6roFDyrc) a renvoyé un contenu à propos d'un « Marché de Noël et des traditions de Longueuil » (Québec/métropole, sans rapport) — probable erreur de cache/contenu du service, pas le vrai contenu du post. Ce texte N'A PAS été retenu comme fiable. Le contenu réel du post reste non extrait. Par ailleurs, une WebSearch a fait remonter un texte « avant le 31 octobre » pour 2026, mais il s'agit mot pour mot du texte 2025 de guide-reunion.fr recopié — pas une confirmation neuve. Toujours aucun appel 2026 fiable trouvé.",
+      "note_10_09_2026": "⚠️ INDICE DU 08-09/09 INVALIDÉ. Le post DUQ6roFDyrc a enfin pu être lu via WebFetch direct : son contenu réel concerne le compte @metierstraditions et le « Marché de Noël et des traditions de Longueuil » (Québec, Canada), 20ᵉ édition, contact letabledelart@gmail.com — SANS AUCUN RAPPORT avec Vavang'art La Réunion. Ce n'était donc pas une erreur de cache ponctuelle comme supposé le 09/09, mais bien le contenu réel d'un post homonyme non-réunionnais : à écarter définitivement. vavangart.com : 403 Forbidden. Facebook vavangart : page accessible mais vide (pas de publications visibles). WebSearch dédié ne retrouve que l'édition 2025 (22-23 nov., clôture 31 oct.). Aucun appel 2026 confirmé pour Vavang'art à ce jour."
     },
     {
       "nom": "Fête de l'ail",
@@ -302,7 +346,8 @@
           "cloture": "2026-08-31"
         }
       ],
-      "derniere_verification": "2026-08-24"
+      "derniere_verification": "2026-09-10",
+      "note_10_09_2026": "Rien de neuf. departement974.fr affiche toujours la même page (contenu non mis à jour depuis juillet, artefact de cache) ; la deadline du 31 août 2026 reste confirmée sans changement, cohérente avec le statut closed déjà enregistré."
     },
     {
       "nom": "Foire Agricole de Bras-Panon",
@@ -385,8 +430,9 @@
       "historique": [
         {
           "annee": 2026,
+          "ouverture": "2026-07-27",
           "cloture": "2026-08-03",
-          "note": "appel organisateur, pas exposants. Observation du 23/08/2026 : un document de première main déposé dans data/inbox_docs/ (affiche « FÊTE DE LA VANILLE — FÊTE FORAINE — DU 9 AU 13 SEPTEMBRE 2026 — Appel à candidature », reçue par message privé le 22/08 depuis le +262 692 08 67 55) montre qu'un SECOND recrutement, en aval de l'appel municipal clos le 3 août, circulait encore à trois semaines de l'événement — vraisemblablement l'organisateur retenu constituant sa fête foraine. Périmètre annoncé : attractions, stands gourmands, animations musicales ; AUCUNE mention d'artisanat, aucune date limite, aucune modalité de dépôt. Ni ouverture ni clôture ne sont donc renseignées : elles ne sont pas reconstituées. Deux enseignements pour la veille. (1) Les dates « 9 au 13 septembre 2026 » sont désormais corroborées de façon indépendante, alors que ville-saintesuzanne.re reste muet sur l'édition 2026 — le glissement d'août à septembre signalé plus haut est confirmé, et la fenêtre de l'appel EXPOSANTS a donc pu glisser elle aussi. (2) Ce recrutement aval n'est jamais publié en ligne : il ne se voit que par le bouche-à-oreille des exposants. Ne pas le confondre avec l'appel exposants artisans, qui se referme début juin."
+          "note": "appel organisateur, pas exposants. Observation du 23/08/2026 : un document de première main déposé dans data/inbox_docs/ (affiche « FÊTE DE LA VANILLE — FÊTE FORAINE — DU 9 AU 13 SEPTEMBRE 2026 — Appel à candidature », reçue par message privé le 22/08 depuis le +262 692 08 67 55) montre qu'un SECOND recrutement, en aval de l'appel municipal clos le 3 août, circulait encore à trois semaines de l'événement — vraisemblablement l'organisateur retenu constituant sa fête foraine. Périmètre annoncé : attractions, stands gourmands, animations musicales ; AUCUNE mention d'artisanat, aucune date limite, aucune modalité de dépôt. Ni ouverture ni clôture ne sont donc renseignées : elles ne sont pas reconstituées. Deux enseignements pour la veille. (1) Les dates « 9 au 13 septembre 2026 » sont désormais corroborées de façon indépendante, alors que ville-saintesuzanne.re reste muet sur l'édition 2026 — le glissement d'août à septembre signalé plus haut est confirmé, et la fenêtre de l'appel EXPOSANTS a donc pu glisser elle aussi. (2) Ce recrutement aval n'est jamais publié en ligne : il ne se voit que par le bouche-à-oreille des exposants. Ne pas le confondre avec l'appel exposants artisans, qui se referme début juin.\n\n[Run du 08/09/2026 — ouverture de l'appel organisateur retrouvée, événement demain.] La page officielle de l'appel organisateur (https://ville-saintesuzanne.re/appel-a-candidatures-organisation-de-la-fete-foraine-de-la-fete-de-la-vanille-2026/) a été relue : elle a été PUBLIÉE LE 27 JUILLET 2026, pour une clôture le 3 août — une semaine de fenêtre, désormais datée des deux côtés. Dernière vérification avant l'événement (9-13 septembre, soit dès demain) : toujours AUCUN appel exposants 2026 en ligne. Une tentative d'URL par analogie avec 2025 (« exposez-votre-savoir-faire-a-la-fete-de-la-vanille-2026 ») renvoie un 404. La page actualités du site (ville-saintesuzanne.re/actualites/) n'a pu être lue correctement par aucune des deux méthodes (contenu binaire corrompu en direct, page sans articles listés via le repli Jina Reader) : angle mort de méthode, pas une confirmation d'absence. Le recrutement aval bouche-à-oreille signalé le 23/08 reste la seule hypothèse plausible restante."
         },
         {
           "annee": 2025,
@@ -396,7 +442,7 @@
           "note": "APPEL EXPOSANTS — à ne pas confondre avec l'appel organisateur de fête foraine qui donne son nom à cette entrée. Ouvert aux « artisans, producteurs, créateurs, commerçants, associations et artistes » souhaitant exposer ou animer. Formulaire PDF à télécharger, dossier à déposer au service accueil de la Mairie de Sainte-Suzanne ou à envoyer au 3 rue du Général de Gaulle, 97441 Sainte-Suzanne (0262 52 30 02). Clôture le mardi 3 juin 2025 inclus, pour une 12ᵉ édition tenue du 8 au 10 août 2025. Ouverture non datée sur la page, laissée à null plutôt que reconstituée. Conséquence pour la veille : la voie directe existe bel et bien, elle se referme début juin — les mois 5 et 6 sont les plus utiles, pas août."
         }
       ],
-      "derniere_verification": "2026-08-24"
+      "derniere_verification": "2026-09-08"
     },
     {
       "nom": "Miel Vert",
@@ -420,7 +466,9 @@
           "note": "PREMIÈRE fenêtre réellement observée pour Miel Vert. Avis « MIEL VERT 2026 – zone commerciale » : clôture le 24 novembre 2025 inclus, pour une manifestation du 7 au 18 janvier 2026 (site de Miel Vert et rue des Écoles, entrée payante). Environ six semaines d'anticipation. Dépôt à mielvert.animation@mairie-tampon.fr ou au Service Animation, 14 rue Antoine Fontaine, 97430 Le Tampon (lun-ven 8h-12h / 13h-15h). Catégories ouvertes : métiers de bouche, confiserie, attractions, stands divers. Neuf pièces obligatoires exigées. Sélection notée : variété et accessibilité de l'offre (5 pts), qualité et nature des produits (3), expérience professionnelle (1), gestion des déchets (1) ; départage par tirage au sort. ATTENTION : la manifestation est découpée en TROIS avis distincts (gymnase, zone foraine, zone commerciale) — n'en lire qu'un fait manquer les deux autres. La date d'ouverture n'est pas publiée : laissée à null plutôt que reconstituée, d'où des mois de veille maintenus larges (septembre à novembre) autour de la seule clôture connue."
         }
       ],
-      "derniere_verification": "2026-08-24"
+      "derniere_verification": "2026-09-10",
+      "note_08_09_2026": "Aucun avis « Miel Vert 2027 » publié à ce jour — cohérent avec l'historique (l'appel 2026 avait ouvert le 24 sept. 2025, encore trois semaines à attendre). Point de clarification important : un avis « appel à candidature pour Miel Vert 2026 — site de Miel Vert » repéré dans les résultats de recherche concerne en réalité un AUTRE événement, « La Plaine en Fête » (15-16 août 2026, déjà clos) — il utilise le lieu-dit « Miel Vert » comme site, mais n'est pas l'appel de la manifestation Miel Vert de janvier. Ne pas confondre le lieu et l'événement lors des prochains runs.",
+      "note_10_09_2026": "letampon.fr/appels-candidatures/ relue : seul avis Miel-Vert-related actuellement listé = « [Clôturé] Fête de la Pomme de Terre et du Cheval — Site de Miel Vert » (événement distinct d'août 2026, déjà dans events.json), toujours aucun avis « Miel Vert 2027 ». Normal, pas attendu avant fin septembre par analogie avec l'historique (ouverture 2026 le 24 sept. 2025)."
     },
     {
       "nom": "Exposition Artisanale & Métiers d'Arts",
@@ -590,7 +638,8 @@
       "contact_repli": "formulaire de contact noulelocal.re (kit exposant)",
       "fenetre_estimee": true,
       "historique": [],
-      "derniere_verification": "2026-08-24"
+      "derniere_verification": "2026-09-08",
+      "note_08_09_2026": "TOUJOURS aucune date 2026 publiée sur noulelocal.re au jour même où l'édition 2025 s'était tenue (11-14 septembre 2025) — soit l'édition 2026 est décalée/pas encore annoncée, soit elle n'a pas lieu cette année. Le mois_de_veille [5,6,7,8] ne couvre pas septembre : à élargir si une prochaine vérification confirme un glissement de calendrier plutôt qu'une simple absence de mise à jour."
     }
   ]
 }

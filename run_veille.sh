@@ -195,7 +195,7 @@ fi
 # Chaque étape est testée séparément : `git add` et `git commit` échouaient en
 # silence sous set -e et emportaient tout le reste du script avec eux.
 if [ -n "$(git status --porcelain data/pending/ data/pistes_organisateurs.json 2>/dev/null)" ]; then
-  if ! git add data/pending/ data/pistes_organisateurs.json >> veille.log 2>&1; then
+  if ! git add data/pending/ data/pistes_organisateurs.json data/veille_calendrier.json >> veille.log 2>&1; then
     echo "[git] ATTENTION : git add a échoué — propositions restées locales" >> veille.log
   elif ! git commit -q -m "veille $(date +%F) : propositions à valider" >> veille.log 2>&1; then
     echo "[git] ATTENTION : git commit a échoué — propositions restées locales" >> veille.log
