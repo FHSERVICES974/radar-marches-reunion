@@ -972,6 +972,24 @@
     "desc": "⚠️ Dossier à adresser PAR COURRIER à Monsieur le Maire, Hôtel de Ville, BP 342, 97448 Saint-Pierre Cedex — prévoir le délai postal, ou déposer en main propre à la mairie. Fête de la Fraise 2026 au Domaine Vidot (Mont Vert les Hauts), organisée par la Ville de Saint-Pierre avec l'OSTL. Appel ouvert aux professionnels souhaitant occuper un emplacement pendant la manifestation. À noter : l'avis ne détaille pas les catégories admises — les artisans sont invités à confirmer leur éligibilité auprès de la mairie avant de constituer le dossier."
   },
   {
+    "name": "Fête de la Toussaint 2026 - Village fleurs & artisanat",
+    "zone": "Est",
+    "type": "Marché artisanal et floral",
+    "org": "Ville de Saint-Benoît",
+    "place": "Place Louis Brunet, esplanade du front de mer, cimetière de Sainte-Anne",
+    "when": "30 octobre au 1er novembre 2026",
+    "badge": "OCT-NOV",
+    "month": 10,
+    "dateStatus": "confirmée",
+    "status": "closed",
+    "deadline": "18 septembre 2026 à 12h00",
+    "contact": "Direction de l'Économie et du Tourisme - 0262 50 88 42 - economie.tourisme@ville-saintbenoit.re",
+    "social": "",
+    "url": "https://outremertourisme.fr/quoi-faire-a-la-reunion-pour-la-toussaint-comment-la-ville-de-saint-benoit-dynamise-lartisanat-en-outre-mer/",
+    "apply": "Dossier complet à déposer avant le 18 septembre 2026 à 12h00 : sur place à la Direction de l'Économie et du Tourisme (21 bis rue Georges Pompidou), par voie postale ou par courriel à economie.tourisme@ville-saintbenoit.re",
+    "desc": "Marché de la Toussaint organisé par la Ville de Saint-Benoît avec emplacements stratégiques pour fleuristes, artisans et producteurs locaux. Événement valorisant l'artisanat pays, compositions florales et gastronomie réunionnaise."
+  },
+  {
     "name": "La Guinguette en Saveurs",
     "zone": "Sud",
     "type": "Marché / Brocante",
