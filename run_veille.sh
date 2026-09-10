@@ -1,11 +1,34 @@
 #!/bin/zsh
 # run_veille.sh — Lance la veille quotidienne via l'agent Claude (headless).
-# Appelé par launchd chaque jour à 4h. Écrit proposition_MAJ_*.md + data/pending/*.
+# Appelé par launchd TOUTES LES HEURES ; ne s'exécute qu'une fois par jour, à 4 h heure de La Réunion ou au premier réveil qui suit. Écrit proposition_MAJ_*.md + data/pending/*.
 # NE PUBLIE RIEN (le playbook interdit publier.py). Journalise dans veille.log.
 
 set -e
 PROJECT_DIR="/Users/fhubert/Claude/radarartisans"
 cd "$PROJECT_DIR"
+
+# TOUT le traitement se fait à l'heure de La Réunion, où que soit le Mac.
+# Constaté le 10/09/2026 depuis New York : launchd lit l'heure LOCALE, donc
+# « 4 h » partait à midi heure Réunion ; et `date.today()` dans les scripts
+# Python renvoyait la date du Mac — la veille se serait crue « hier » entre
+# 20 h et minuit à New York. Exporter TZ corrige d'un coup le shell, Python
+# (vérifié) et l'agent : dates des fichiers, échéances, rapport.
+export TZ=Indian/Reunion
+
+# Porte horaire. launchd ne sait pas viser un fuseau : la tâche est donc lancée
+# TOUTES LES HEURES, et c'est ici qu'on décide. On part à 4 h Réunion ou plus
+# tard si le Mac dormait (rattrapage), une seule fois par jour Réunion.
+# `./run_veille.sh --force` passe outre (relance manuelle).
+FORCE=0; [ "$1" = "--force" ] && FORCE=1
+AUJ=$(date +%F)
+HEURE=$(date +%k | tr -d ' ')
+MARQUEUR=data/.derniere_veille
+if [ "$FORCE" = 0 ]; then
+  [ "$HEURE" -lt 4 ] && exit 0                               # trop tôt : silence
+  if [ -f "$MARQUEUR" ] && [ "$(cat "$MARQUEUR")" = "$AUJ" ]; then
+    exit 0                                                    # déjà faite aujourd'hui
+  fi
+fi
 
 # launchd ne fournit qu'un PATH minimal (/usr/bin:/bin:/usr/sbin:/sbin) où le CLI
 # `claude` (installé via npm dans ~/.npm-global/bin) est absent -> "command not
@@ -46,23 +69,26 @@ echo "===== VEILLE $STAMP =====" >> veille.log
 # ont échoué tous les trois pour cette seule raison, et le script a passé
 # 1 h 11 à réessayer dans le vide avant d'abandonner.
 #
-# On attend jusqu'à 10 minutes, puis on renonce PROPREMENT plutôt que de dérouler
-# un run condamné : mieux vaut un report annoncé qu'une heure de faux travail.
+# Sans réseau on renonce vite (2 min) : la tâche repasse toutes les heures et le
+# marqueur du jour n'est PAS écrit, donc on retentera automatiquement plus tard.
 reseau_ok() { curl -sS -m 8 -o /dev/null https://api.anthropic.com 2>/dev/null; }
 if ! reseau_ok; then
-  echo "[reseau] pas de connexion — attente (jusqu'à 10 min)…" >> veille.log
-  for _ in $(seq 1 20); do
+  echo "[reseau] pas de connexion — attente (jusqu'à 2 min)…" >> veille.log
+  for _ in $(seq 1 4); do
     sleep 30
     if reseau_ok; then break; fi
   done
 fi
 if ! reseau_ok; then
-  echo "[reseau] ATTENTION : toujours aucune connexion après 10 min — veille reportée." >> veille.log
+  echo "[reseau] ATTENTION : toujours aucune connexion — nouvel essai à l'heure suivante." >> veille.log
   echo "----- fin veille (rc=rechute réseau) $(date '+%H:%M:%S') -----" >> veille.log
-  osascript -e "display notification \"Pas de réseau à 4h : la veille n'a pas pu tourner.\" with title \"⚠️ Radar Marchés — VEILLE REPORTÉE\"" 2>/dev/null || true
+  # Pas de notification ici : la tâche repasse toutes les heures, une alerte à
+  # chaque passage hors ligne deviendrait du bruit. Si la journée entière se passe
+  # sans réseau, le rapport suivant le signalera (« RAPPORT MANQUANT »).
   exit 0
 fi
 echo "[reseau] connexion établie." >> veille.log
+echo "$AUJ" > "$MARQUEUR"          # veille du jour engagée : pas de second passage
 
 # Se resynchroniser AVANT de travailler : la page /admin sur Replit peut avoir
 # publié des événements depuis la dernière veille (elle écrit events.json et

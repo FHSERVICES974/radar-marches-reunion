@@ -56,3 +56,4 @@ data/last_report_ok.json
 # Sauvegardes horodatées : jamais dans le dépôt (public).
 *.bak-*
 *.bak2-*
+data/.derniere_veille
