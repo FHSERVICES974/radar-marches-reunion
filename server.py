@@ -697,8 +697,43 @@ def _verify_candidate_with_ai(candidate: dict, info: str) -> tuple:
                       f"{', '.join(missing + core_empty)}]").strip()
     if complete:
         ev = {f: ev.get(f, "") for f in _EVENT_FIELDS}  # 16 champs exactement
+        note = _statut_coherent(ev)
+        if note:
+            report = (report + " " + note).strip()
         return True, ev, report or "Fiche vérifiée et complétée."
     return False, None, report or "Vérification incomplète — aucun détail fourni par l'IA."
+
+
+def _statut_coherent(ev: dict) -> str:
+    """Corrige en code un statut « closed » posé alors que la date limite est à venir.
+
+    Le 10/09/2026, l'IA a écrit « 10/09 est postérieur au 18/09 » et fermé la
+    Toussaint de Saint-Benoît : les maths de dates ne se confient pas au modèle
+    (même principe que status_check.py). Ne touche qu'à ce cas : une date limite
+    future rend « closed » impossible. Modifie ev en place ; renvoie une note
+    pour le rapport, ou "" si rien n'a changé."""
+    if ev.get("status") != "closed":
+        return ""
+    try:
+        import common as _common_mod
+        dates = _common_mod.parse_dates_from_text(str(ev.get("deadline") or ""))
+    except Exception as exc:
+        log.warning("Contrôle du statut impossible : %s", exc)
+        return ""
+    today = datetime.datetime.now(
+        datetime.timezone(datetime.timedelta(hours=4))).date()
+    futures = [d for d in dates if d >= today]
+    # Une date passée dans le texte (« clôturée le 15 mars 2026, prochain appel
+    # avril 2027 ») rend le cas ambigu : on laisse la fiche fermée.
+    # (parse_dates_from_text lit aussi « septembre 2026 » dans « 18 septembre
+    # 2026 » et le compte comme le 1er : ce doublon n'est pas une date passée.)
+    passees = [d for d in dates if d < today and not (
+        d.day == 1 and any((f.year, f.month) == (d.year, d.month) for f in futures))]
+    if not futures or passees:
+        return ""
+    ev["status"] = "open"
+    return (f"[Contrôle serveur : statut « closed » remplacé par « open » — la date "
+            f"limite ({max(futures).strftime('%d/%m/%Y')}) n'est pas encore passée.]")
 
 
 def _run_completion_job(key: str, candidate: dict, info: str) -> None:
@@ -2289,7 +2324,13 @@ def _publish_event_to_repo_unlocked(event: dict) -> tuple:
     if any(e.get("name", "").strip().lower() == ev_name for e in events):
         return False, f"« {event.get('name')} » existe déjà dans events.json."
 
-    # 4 — Insérer et trier par mois puis nom
+    # 4 — Filet : jamais « closed » avec une date limite à venir, quel que soit
+    #     le chemin (complétion IA, formulaire, ancienne complétion déjà stockée)
+    note = _statut_coherent(event)
+    if note:
+        log.info("%s %s", event.get("name", ""), note)
+
+    # 5 — Insérer et trier par mois puis nom
     events.append(event)
     events.sort(key=lambda e: (e.get("month", 99), e.get("name", "")))
 
