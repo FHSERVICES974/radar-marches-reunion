@@ -990,6 +990,24 @@
     "desc": "Recherche producteur ou vendeur en lien avec notre thème : Produits locaux, vanille, confitures, etc pour exposer lors de notre marché"
   },
   {
+    "name": "La Nuit du Terroir",
+    "zone": "Ouest",
+    "type": "Marché du terroir (occupation domaine public)",
+    "org": "Ville de La Possession",
+    "place": "Place Festival, La Possession",
+    "when": "Vendredi 9 octobre 2026, 17h30–22h00 (1ère édition)",
+    "badge": "OCT",
+    "month": 10,
+    "dateStatus": "confirmée",
+    "status": "open",
+    "deadline": "17 septembre 2026, 16h00",
+    "contact": "commerces@lapossession.re · 0262 22 20 02 — Hôtel de Ville, 3 rue Waldeck-Rochet, 97419 La Possession",
+    "social": "",
+    "url": "https://www.lapossession.re/actualites/985863",
+    "apply": "Télécharger le dossier de candidature sur lapossession.re, puis le déposer au service Courrier de l'Hôtel de Ville (3 rue Waldeck-Rochet) ou l'envoyer par courriel à commerces@lapossession.re, avant le 17 septembre 2026 à 16h00.",
+    "desc": "Nouvelle manifestation mettant à l'honneur le terroir réunionnais : la Ville recherche 20 artisans (miel péi, confitures et gelées artisanales, sirops et préparations à base de fruits/plantes locales, piments confits, épices) ainsi que 3 stands salés/frits et 2 stands sucrés, place Festival à La Possession."
+  },
+  {
     "name": "Le Jardin BAZ'ART -  Le Jardin Secret",
     "zone": "Sud",
     "type": "Événement Grand Public",
