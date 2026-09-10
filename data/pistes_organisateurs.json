@@ -1,6 +1,6 @@
 {
   "_mode_emploi_agent": "Fichier CUMULATIF de pistes d'organisateurs, alimenté par la veille (playbook veille_agent.md, étape 3 ter). Ce ne sont PAS des appels à candidature et elles n'entrent JAMAIS dans events.json : c'est de la matière de démarchage et d'anticipation. Lire ce fichier AVANT d'écrire, puis le réécrire enrichi — ne jamais l'écraser, la mémoire des éditions observées est ce qui permet d'estimer une récurrence. Clé d'unicité : nom_evenement + commune. recurrence_estimee exige au moins deux entrées dans editions_observees. Champs vides plutôt qu'inventés.",
-  "generated": "2026-09-08",
+  "generated": "2026-09-10",
   "pistes": [
     {
       "nom_evenement": "Marché des créateurs — Carré Cathédrale",
@@ -530,6 +530,67 @@
       "contact_connu": "animation@ville-cilaos.fr · 0262 29 99 30",
       "action_suggeree": "Surveiller ville-cilaos.fr entre mai et août 2027 : l'appel 2025 a clos le 31 août 2025 pour une manifestation d'octobre (19-26 octobre). Contacter animation@ville-cilaos.fr pour confirmer si une édition 2026 a eu lieu (non trouvée en ligne) et obtenir le calendrier 2027.",
       "_note": "Repérée le 08/09/2026 lors d'un balayage ciblé des communes sans organisateur artisanal identifié. Dernier appel confirmé : « Avis aux forains – Fête de la Lentille 2025 », manifestation du 19 au 26 octobre 2025, deadline de candidature le 31 août 2025 (contact 0262 29 99 30, animation@ville-cilaos.fr). Cilaos n'avait jusqu'ici qu'un marché hebdomadaire (« Marché de Cilaos ») dans events.json, mentionnant broderie/lentilles/vin comme produits mais sans lien avec cette fête dédiée. La page d'accueil de ville-cilaos.fr, relue le 08/09/2026, ne publie AUCUN appel 2026 à ce jour — soit l'édition 2026 n'a pas eu lieu, soit son appel est déjà clos et non archivé. Une seule édition datée (2025, mois seul) : recurrence_estimee laissée vide conformément à la règle des deux éditions."
+    },
+    {
+      "nom_evenement": "Les Artisanales",
+      "organisateur": "OTI Sud (Office de Tourisme Intercommunal du Sud), appel relayé par l'association Village de l'Entre-Deux",
+      "lieu": "Place de la Liberté",
+      "commune": "Entre-Deux",
+      "zone": "Sud",
+      "editions_observees": [
+        "2026-05-10"
+      ],
+      "date_edition_observee": "2026-05-10",
+      "source_url": "https://guide-reunion.fr/evenements/eve/artisanales-otisud/",
+      "date_detection": "2026-09-10",
+      "recurrence_estimee": "",
+      "nb_exposants_annonce": 30,
+      "deja_dans_events_json": false,
+      "organisateur_deja_dans_orgs_json": false,
+      "contact_connu": "OTI Sud · 0262 39 69 80",
+      "action_suggeree": "⚠️ Possible doublon de la fiche existante events.json « Entre 2 Zarts » (même commune, même co-organisateur Village de l'Entre-Deux, périmètre artisanal identique) publiée sous un nom différent — à trancher avant tout ajout ou fusion. Appeler OTI Sud (0262 39 69 80) pour clarifier si « Les Artisanales » et « Entre 2 Zarts » désignent le même rendez-vous ou deux événements distincts, et pour connaître le calendrier 2026-2027.",
+      "_note": "Repérée le 10/09/2026 via un agent de recherche tier2b/tier3. Fiche agenda datant la 4ᵉ édition du dimanche 10 mai 2026, Place de la Liberté à l'Entre-Deux, plus de 30 artisans annoncés — organisée par l'OTI Sud avec l'association Village de l'Entre-Deux (déjà présente dans events.json pour « Entre 2 Zarts », « selon programmation », sans date). Le nom « 4ᵉ édition » suggère une récurrence déjà établie ailleurs que dans nos données, mais une seule édition est datée ici : recurrence_estimee laissée vide. OTI Sud absent d'orgs.json."
+    },
+    {
+      "nom_evenement": "L'Eden des créateurs",
+      "organisateur": "Jardin d'Eden",
+      "lieu": "Jardin d'Eden",
+      "commune": "Saint-Gilles-les-Bains",
+      "zone": "Ouest",
+      "editions_observees": [
+        "2025-11-15"
+      ],
+      "date_edition_observee": "2025-11-15",
+      "source_url": "https://guide-reunion.fr/evenements/eve/eden-des-createurs/",
+      "date_detection": "2026-09-10",
+      "recurrence_estimee": "",
+      "nb_exposants_annonce": null,
+      "deja_dans_events_json": false,
+      "organisateur_deja_dans_orgs_json": false,
+      "contact_connu": "evenementiel@jardindeden.re · 0262 33 83 16",
+      "action_suggeree": "Écrire à evenementiel@jardindeden.re (contact déjà répertorié dans sources.json tier2) pour savoir si une édition 2026 est prévue et quand s'ouvre l'appel à créateurs.",
+      "_note": "Repérée le 10/09/2026 via un agent de recherche tier2/tier3. 1ère édition observée les 15-16 novembre 2025 (guide-reunion.fr, corroboré par azenda.re/loisirs/leden-des-createurs/). Jardin d'Eden est déjà un lieu-hôte connu de sources.json (tier2_lieux_hotes) mais l'événement lui-même était absent d'events.json. Une seule édition datée : recurrence_estimee laissée vide."
+    },
+    {
+      "nom_evenement": "PopUp XL/XXL (FANMS)",
+      "organisateur": "FANMS",
+      "lieu": "",
+      "commune": "",
+      "zone": "Sud",
+      "editions_observees": [
+        "2026-03-07",
+        "2026-09-06"
+      ],
+      "date_edition_observee": "2026-09-06",
+      "source_url": "fanms.re (formulaires Google Form relayés par le site, URL exacte non conservée)",
+      "date_detection": "2026-09-10",
+      "recurrence_estimee": "plusieurs éditions par an (au moins 2 en 2026, éditions numérotées « FANMS 5 » etc.) — rythme exact non établi",
+      "nb_exposants_annonce": null,
+      "deja_dans_events_json": false,
+      "organisateur_deja_dans_orgs_json": true,
+      "contact_connu": "event@fanms.re",
+      "action_suggeree": "Écrire à event@fanms.re (contact déjà connu) pour demander la date de la prochaine édition « PopUp XL/XXL » et être alerté à l'ouverture du prochain formulaire Google. Éditions numérotées : signe d'un opérateur actif et structuré, à ajouter à sources.json (tier2b) avec l'URL fanms.re.",
+      "_note": "Repérée le 10/09/2026 via un agent de recherche tier2/tier3. Deux éditions datées trouvées en 2026 (7 mars, 6 septembre), toutes deux déjà passées et closes au moment de la veille — d'où le classement en piste et non en candidat. Candidature à chaque édition via un formulaire Google Form dédié, ce qui distingue FANMS des organisateurs sans procédure formalisée. FANMS figure déjà dans orgs.json (event@fanms.re) mais aucun événement de l'association n'était encore dans events.json."
     },
     {
       "nom_evenement": "Fête du Vacoa",
