@@ -228,5 +228,28 @@
     },
     "report": "Fiche complète vérifiée. La page officielle kabardock.com/spectacle/brokant-muzik-2026/ confirme la date (30 août 2026, 10h-17h), le lieu (Kabardock, Le Port 97420), l'organisateur (Kabardock + Ze Shop) et le numéro de réservation d'emplacement (0692 62 04 91). Aucune deadline publiée ; status=open car l'événement a lieu dans 4 jours et la source indique explicitement « Pour plus de renseignements ou pour réserver votre emplacement : 0692 62 04 91 ». Signal Réunion vérifié (domaine .re via recherche, adresse Le Port 97420).",
     "ts": 1787739741.858035
+  },
+  "3e3dbd047a0c8519": {
+    "status": "done",
+    "event": {
+      "name": "Fête de la Toussaint 2026 - Village fleurs & artisanat",
+      "zone": "Est",
+      "type": "Marché artisanal et floral",
+      "org": "Ville de Saint-Benoît",
+      "place": "Place Louis Brunet, esplanade du front de mer, cimetière de Sainte-Anne",
+      "when": "30 octobre au 1er novembre 2026",
+      "badge": "OCT-NOV",
+      "month": 10,
+      "dateStatus": "confirmée",
+      "status": "closed",
+      "deadline": "18 septembre 2026 à 12h00",
+      "contact": "Direction de l'Économie et du Tourisme - 0262 50 88 42 - economie.tourisme@ville-saintbenoit.re",
+      "social": "",
+      "url": "https://outremertourisme.fr/quoi-faire-a-la-reunion-pour-la-toussaint-comment-la-ville-de-saint-benoit-dynamise-lartisanat-en-outre-mer/",
+      "apply": "Dossier complet à déposer avant le 18 septembre 2026 à 12h00 : sur place à la Direction de l'Économie et du Tourisme (21 bis rue Georges Pompidou), par voie postale ou par courriel à economie.tourisme@ville-saintbenoit.re",
+      "desc": "Marché de la Toussaint organisé par la Ville de Saint-Benoît avec emplacements stratégiques pour fleuristes, artisans et producteurs locaux. Événement valorisant l'artisanat pays, compositions florales et gastronomie réunionnaise."
+    },
+    "report": "Fiche complète vérifiée. La source Outremer Tourisme confirme l'événement à Saint-Benoît (974) du 30 octobre au 1er novembre 2026 sur trois sites (Place Louis Brunet, front de mer, cimetière Sainte-Anne). La deadline du 18 septembre 2026 à 12h00 est confirmée. Les coordonnées de contact ont été vérifiées via le site officiel saint-benoit.re (Direction de l'Économie et du Tourisme : 0262 50 88 42, economie.tourisme@ville-saintbenoit.re). Status = closed car la date du jour (10/09/2026) est postérieure à la deadline (18/09/2026).",
+    "ts": 1789027733.5669096
   }
 }
