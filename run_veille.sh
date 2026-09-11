@@ -170,7 +170,21 @@ fi
 # avant l'envoi du mail, panne invisible pendant toute la matinée.
 set +e
 
-"$CLAUDE_BIN" -p "$(cat veille_agent.md)" \
+# Le playbook se lit comme une documentation : le 11/09/2026, l'agent l'a reçu,
+# a répondu « I don't see a specific request yet — What would you like me to
+# help with? » et s'est arrêté au bout de 12 s avec le code 0. En mode -p
+# personne ne répond : la consigne d'exécution doit être dite en toutes lettres.
+CONSIGNE="
+
+---
+
+CONSIGNE D'EXÉCUTION — tu tournes en mode automatique (lancé par launchd,
+aucun humain ne lira tes questions ni n'y répondra). EXÉCUTE MAINTENANT la
+veille du $AUJ (heure de La Réunion) en suivant ce playbook de bout en bout,
+sans demander de confirmation. L'état du dépôt git (fichiers modifiés, etc.)
+ne te concerne pas. Tu dois produire les fichiers de sortie du jour, dont
+data/pending/pending_MAJ_$AUJ.json, même si rien n'a changé."
+"$CLAUDE_BIN" -p "$(cat veille_agent.md)$CONSIGNE" \
   --allowedTools WebSearch WebFetch Read Write Edit Glob Grep "Bash(python3:*)" \
   --permission-mode acceptEdits \
   --add-dir "$PROJECT_DIR" \
@@ -178,6 +192,12 @@ set +e
 RC=$?    # code de sortie de l'AGENT, capturé immédiatement. Avant, RC=$? était
          # lu après le bloc « vider la note » et renvoyait le statut de ce bloc :
          # le « rc=0 » du journal ne disait donc rien de la veille elle-même.
+# Code 0 ne prouve pas que la veille a eu lieu (cf. 11/09) : la preuve, c'est
+# le fichier de propositions du jour. Sans lui, c'est un échec — retenté.
+if [ "$RC" -eq 0 ] && [ ! -f "data/pending/pending_MAJ_$AUJ.json" ]; then
+  echo "[veille] ATTENTION : l'agent a rendu la main (code 0) SANS produire pending_MAJ_$AUJ.json" >> veille.log
+  RC=3
+fi
 if [ "$RC" -ne 0 ]; then
   echo "[veille] ATTENTION : l'agent de veille a échoué (code $RC)" >> veille.log
   # Essais restants : on se tait et on retente à l'heure suivante. La note
