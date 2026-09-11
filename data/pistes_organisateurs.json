@@ -1,6 +1,6 @@
 {
   "_mode_emploi_agent": "Fichier CUMULATIF de pistes d'organisateurs, alimenté par la veille (playbook veille_agent.md, étape 3 ter). Ce ne sont PAS des appels à candidature et elles n'entrent JAMAIS dans events.json : c'est de la matière de démarchage et d'anticipation. Lire ce fichier AVANT d'écrire, puis le réécrire enrichi — ne jamais l'écraser, la mémoire des éditions observées est ce qui permet d'estimer une récurrence. Clé d'unicité : nom_evenement + commune. recurrence_estimee exige au moins deux entrées dans editions_observees. Champs vides plutôt qu'inventés.",
-  "generated": "2026-09-10",
+  "generated": "2026-09-11",
   "pistes": [
     {
       "nom_evenement": "Marché des créateurs — Carré Cathédrale",
@@ -611,6 +611,26 @@
       "contact_connu": "feteduvacoa@yahoo.fr · 0262 37 00 12 — Mairie de Saint-Philippe, 64 rue Leconte Delisle, 97442 Saint-Philippe",
       "action_suggeree": "Surveiller saintphilippe.re à partir de mai 2027 : l'appel 2026 a clos le 30 juin 2026 pour une manifestation du 7 au 16 août. Angle mort complet jusqu'ici — Saint-Philippe n'avait aucun organisateur artisanal identifié dans la veille. Contacter feteduvacoa@yahoo.fr pour confirmer le périmètre exact (forains/artisanat) avant la prochaine fenêtre.",
       "_note": "Repérée le 08/09/2026 lors d'un balayage ciblé des communes sans URL connue dans sources.json. Page officielle lue directement : « La Ville de Saint-Philippe organise la manifestation Fête du Vacoa édition 2026 », du vendredi 7 au dimanche 16 août 2026, candidature avant le 30 juin 2026 — deadline et événement tous deux désormais passés au moment de cette veille (08/09/2026), d'où le classement en piste et non en candidat. Le périmètre exact (part forains/attractions vs artisanat/exposants) n'est pas détaillé dans l'extrait lu : à clarifier auprès de la mairie avant de qualifier l'événement de marché de créateurs à part entière. Édition unique observée : recurrence_estimee laissée vide."
+    },
+    {
+      "nom_evenement": "Espace de vente créateurs — Centre Culturel Le Sud",
+      "organisateur": "Département de La Réunion — Centre Culturel Le Sud",
+      "lieu": "Centre Culturel Le Sud, 60 rue Victor Le Vigoureux",
+      "commune": "Saint-Pierre",
+      "zone": "Sud",
+      "editions_observees": [
+        "2026-09-19"
+      ],
+      "date_edition_observee": "2026-09-19",
+      "source_url": "https://www.departement974.fr/avis-appels-projets-enquetes-publiques",
+      "date_detection": "2026-09-11",
+      "recurrence_estimee": "",
+      "nb_exposants_annonce": null,
+      "deja_dans_events_json": false,
+      "organisateur_deja_dans_orgs_json": false,
+      "contact_connu": "lesud@cg974.fr",
+      "action_suggeree": "Appel déjà clos pour 2026 (deadline 28 août 2026 12h00, pour un événement les 19-20 septembre 2026) — aucune action possible cette année. Écrire à lesud@cg974.fr vers juin-juillet 2027 pour demander la reconduction et la date d'ouverture de l'appel suivant. Proposer une entrée veille_calendrier.json (mois_de_veille [6,7,8], fenetre_estimee true).",
+      "_note": "Repéré le 11/09/2026 par recherche ciblée (WebSearch, non recoupé sur une page officielle ouverte directement — contenu obtenu via extraits indexés de departement974.fr). Avis : « espace de vente » ouvert au public samedi 19 et dimanche 20 septembre 2026, 9h-17h, au Centre Culturel Le Sud (Saint-Pierre), candidatures par email à lesud@cg974.fr ou dépôt en main propre, clôture le vendredi 28 août 2026 à 12h00. Aucune source lue ne détaille le type d'exposants recherché (artisanat non confirmé explicitement, mais un « espace de vente » dans un centre culturel départemental est cohérent avec le périmètre du Radar) — à vérifier avant de créer une fiche events.json. Premier organisateur identifié pour ce lieu, absent d'orgs.json et d'events.json. Une seule édition datée : recurrence_estimee laissée vide."
     }
   ]
 }
