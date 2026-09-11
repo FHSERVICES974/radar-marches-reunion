@@ -57,3 +57,5 @@ data/last_report_ok.json
 *.bak-*
 *.bak2-*
 data/.derniere_veille
+data/.essais_veille
+data/.veille_en_cours

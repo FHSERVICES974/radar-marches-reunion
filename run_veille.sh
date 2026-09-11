@@ -1,6 +1,7 @@
 #!/bin/zsh
 # run_veille.sh — Lance la veille quotidienne via l'agent Claude (headless).
-# Appelé par launchd TOUTES LES HEURES ; ne s'exécute qu'une fois par jour, à 4 h heure de La Réunion ou au premier réveil qui suit. Écrit proposition_MAJ_*.md + data/pending/*.
+# Appelé par launchd TOUTES LES HEURES ; ne s'exécute qu'une fois par jour, à 4 h heure de La Réunion ou au premier réveil qui suit
+# (jusqu'à 3 essais si l'agent échoue). Écrit proposition_MAJ_*.md + data/pending/*.
 # NE PUBLIE RIEN (le playbook interdit publier.py). Journalise dans veille.log.
 
 set -e
@@ -19,16 +20,41 @@ export TZ=Indian/Reunion
 # TOUTES LES HEURES, et c'est ici qu'on décide. On part à 4 h Réunion ou plus
 # tard si le Mac dormait (rattrapage), une seule fois par jour Réunion.
 # `./run_veille.sh --force` passe outre (relance manuelle).
+#
+# Le marqueur n'est posé qu'après une veille RÉUSSIE. Un échec de l'agent est
+# retenté à l'heure suivante, jusqu'à ESSAIS_MAX fois par jour : le 11/09/2026,
+# le Mac s'est endormi en pleine veille et, le marqueur étant déjà posé, plus
+# rien n'aurait été tenté de la journée.
 FORCE=0; [ "$1" = "--force" ] && FORCE=1
 AUJ=$(date +%F)
 HEURE=$(date +%k | tr -d ' ')
 MARQUEUR=data/.derniere_veille
+ESSAIS=data/.essais_veille        # « AAAA-MM-JJ N » : tentatives du jour
+ESSAIS_MAX=3
+VERROU=data/.veille_en_cours
+NB_ESSAIS=0
+if [ -f "$ESSAIS" ] && [ "$(cut -d' ' -f1 "$ESSAIS")" = "$AUJ" ]; then
+  NB_ESSAIS=$(cut -d' ' -f2 "$ESSAIS")
+fi
 if [ "$FORCE" = 0 ]; then
   [ "$HEURE" -lt 4 ] && exit 0                               # trop tôt : silence
   if [ -f "$MARQUEUR" ] && [ "$(cat "$MARQUEUR")" = "$AUJ" ]; then
     exit 0                                                    # déjà faite aujourd'hui
   fi
+  [ "$NB_ESSAIS" -ge "$ESSAIS_MAX" ] && exit 0               # assez essayé pour aujourd'hui
 fi
+
+# Une seule veille à la fois (une relance --force pendant le passage horaire).
+if [ -f "$VERROU" ] && kill -0 "$(cat "$VERROU")" 2>/dev/null; then
+  exit 0
+fi
+echo $$ > "$VERROU"
+trap 'rm -f "$VERROU"' EXIT
+
+# Empêcher le Mac de s'endormir tant que ce script tourne (-i : veille par
+# inactivité ; -s : veille système, sur secteur). Un capot fermé sur batterie
+# l'emporte quand même — le nouvel essai horaire prend alors le relais.
+caffeinate -i -s -w $$ &
 
 # launchd ne fournit qu'un PATH minimal (/usr/bin:/bin:/usr/sbin:/sbin) où le CLI
 # `claude` (installé via npm dans ~/.npm-global/bin) est absent -> "command not
@@ -88,7 +114,9 @@ if ! reseau_ok; then
   exit 0
 fi
 echo "[reseau] connexion établie." >> veille.log
-echo "$AUJ" > "$MARQUEUR"          # veille du jour engagée : pas de second passage
+NB_ESSAIS=$((NB_ESSAIS + 1))
+echo "$AUJ $NB_ESSAIS" > "$ESSAIS"
+echo "[veille] essai $NB_ESSAIS/$ESSAIS_MAX du $AUJ" >> veille.log
 
 # Se resynchroniser AVANT de travailler : la page /admin sur Replit peut avoir
 # publié des événements depuis la dernière veille (elle écrit events.json et
@@ -152,6 +180,16 @@ RC=$?    # code de sortie de l'AGENT, capturé immédiatement. Avant, RC=$? éta
          # le « rc=0 » du journal ne disait donc rien de la veille elle-même.
 if [ "$RC" -ne 0 ]; then
   echo "[veille] ATTENTION : l'agent de veille a échoué (code $RC)" >> veille.log
+  # Essais restants : on se tait et on retente à l'heure suivante. La note
+  # Radar Inbox n'est pas vidée (elle sera relue), aucun rapport d'incident
+  # n'est envoyé — il ne partira qu'au dernier essai raté.
+  if [ "$NB_ESSAIS" -lt "$ESSAIS_MAX" ]; then
+    echo "[veille] nouvel essai à l'heure suivante ($NB_ESSAIS/$ESSAIS_MAX)." >> veille.log
+    echo "----- fin veille (rc=$RC, sera retentée) $(date '+%H:%M:%S') -----" >> veille.log
+    exit 0
+  fi
+else
+  echo "$AUJ" > "$MARQUEUR"        # veille du jour réussie : plus de passage aujourd'hui
 fi
 
 # Une fois la veille passée, on vide la note pour repartir propre la semaine
@@ -194,7 +232,7 @@ fi
 # events.json — il voyage ici uniquement pour être sauvegardé et partagé.
 # Chaque étape est testée séparément : `git add` et `git commit` échouaient en
 # silence sous set -e et emportaient tout le reste du script avec eux.
-if [ -n "$(git status --porcelain data/pending/ data/pistes_organisateurs.json 2>/dev/null)" ]; then
+if [ -n "$(git status --porcelain data/pending/ data/pistes_organisateurs.json data/veille_calendrier.json 2>/dev/null)" ]; then
   if ! git add data/pending/ data/pistes_organisateurs.json data/veille_calendrier.json >> veille.log 2>&1; then
     echo "[git] ATTENTION : git add a échoué — propositions restées locales" >> veille.log
   elif ! git commit -q -m "veille $(date +%F) : propositions à valider" >> veille.log 2>&1; then
