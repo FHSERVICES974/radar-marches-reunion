@@ -5,7 +5,17 @@
 # NE PUBLIE RIEN (le playbook interdit publier.py). Journalise dans veille.log.
 
 set -e
-PROJECT_DIR="/Users/fhubert/Claude/radarartisans"
+# Le script tourne sur deux machines : le Mac de Francois et le VPS Hostinger
+# (utilisateur radar). L'emplacement est deduit du script lui-meme, plus jamais
+# ecrit en dur. Ce qui est propre a macOS ci-dessous est rendu conditionnel.
+PROJECT_DIR="${0:A:h}"
+
+# Sur le serveur, osascript n'existe pas : la note Apple "Radar Inbox" et les
+# notifications macOS deviennent silencieusement indisponibles (NOTE_BODY vide
+# = "Radar Inbox vide ou introuvable"), sans casser la veille.
+if ! command -v osascript >/dev/null 2>&1; then
+  osascript() { return 1; }
+fi
 cd "$PROJECT_DIR"
 
 # TOUT le traitement se fait à l'heure de La Réunion, où que soit le Mac.
@@ -54,13 +64,13 @@ trap 'rm -f "$VERROU"' EXIT
 # Empêcher le Mac de s'endormir tant que ce script tourne (-i : veille par
 # inactivité ; -s : veille système, sur secteur). Un capot fermé sur batterie
 # l'emporte quand même — le nouvel essai horaire prend alors le relais.
-caffeinate -i -s -w $$ &
+command -v caffeinate >/dev/null 2>&1 && caffeinate -i -s -w $$ &
 
 # launchd ne fournit qu'un PATH minimal (/usr/bin:/bin:/usr/sbin:/sbin) où le CLI
 # `claude` (installé via npm dans ~/.npm-global/bin) est absent -> "command not
 # found" et sortie 127. On l'ajoute explicitement plutôt que de dépendre du
 # profil de login, qui n'est pas toujours chargé sous launchd.
-export PATH="$HOME/.npm-global/bin:/opt/homebrew/bin:/usr/local/bin:$PATH"
+export PATH="$HOME/.local/bin:$HOME/.npm-global/bin:/opt/homebrew/bin:/usr/local/bin:$PATH"
 CLAUDE_BIN="$(command -v claude || echo "$HOME/.npm-global/bin/claude")"
 
 # launchd ne charge NI le profil de shell NI .env : les scripts Python lisent ce
