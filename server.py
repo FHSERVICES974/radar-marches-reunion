@@ -2242,6 +2242,30 @@ def _render_published_events_section() -> str:
 </script>'''
 
 
+def _proposal_files() -> list:
+    """Les fichiers de propositions en cours, un par source, le plus récent.
+
+    DEUX sources :
+      - pending_MAJ_*  : la veille quotidienne ;
+      - pending_docs_* : les documents déposés par mail (ingest_docs.sh).
+    Sans la seconde, les flyers envoyés par François étaient analysés puis
+    n'apparaissaient nulle part dans /admin (constaté le 12/09/2026).
+    """
+    noms = []
+    for prefixe in ("pending_MAJ_", "pending_docs_"):
+        try:
+            recents = sorted(
+                [fn for fn in os.listdir(_PENDING_DIR)
+                 if fn.startswith(prefixe) and fn.endswith(".json")],
+                reverse=True,
+            )
+        except OSError:
+            recents = []
+        if recents:
+            noms.append(recents[0])
+    return noms
+
+
 def _load_latest_proposal() -> tuple:
     """Lit le fichier de proposition le plus récent (tri alphabétique desc).
 
@@ -2253,20 +2277,7 @@ def _load_latest_proposal() -> tuple:
         # filtre, le tri décroissant renvoyait toujours un fichier de statuts, qui n'a
         # pas de clé de candidats — /admin affichait donc « rien à valider » alors que
         # des propositions Vérifiées attendaient. (Constaté le 07/08/2026.)
-        # DEUX sources, chacune prise à son fichier le plus récent :
-        #   pending_MAJ_*  : la veille quotidienne ;
-        #   pending_docs_* : les documents déposés par mail (ingest_docs.sh).
-        # Sans la seconde, les flyers envoyés par François étaient analysés puis
-        # n'apparaissaient nulle part dans /admin (constaté le 12/09/2026).
-        noms = []
-        for prefixe in ("pending_MAJ_", "pending_docs_"):
-            recents = sorted(
-                [fn for fn in os.listdir(_PENDING_DIR)
-                 if fn.startswith(prefixe) and fn.endswith(".json")],
-                reverse=True,
-            )
-            if recents:
-                noms.append(recents[0])
+        noms = _proposal_files()
         if not noms:
             return None, []
 
@@ -4269,34 +4280,45 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self._redirect_admin()
             return
 
-        filename, candidates = _load_latest_proposal()
+        # On cherche le candidat dans CHAQUE fichier source : /admin en affiche
+        # deux (veille + documents), et l'ancien code ouvrait le libellé
+        # « fichier A + fichier B » comme s'il s'agissait d'un chemin — la
+        # suppression échouait sans rien dire (constaté le 12/09/2026).
         pushes = []
-        if filename and candidates:
+        removed_one = False
+        for nom in _proposal_files():
+            path = os.path.join(_PENDING_DIR, nom)
+            try:
+                with open(path, encoding="utf-8") as f:
+                    data = json.load(f)
+            except (FileNotFoundError, json.JSONDecodeError, OSError) as exc:
+                log.error("Lecture %s impossible : %s", nom, exc)
+                continue
+            champ = ("new_events_candidates" if "new_events_candidates" in data
+                     else "candidates")
+            candidats = data.get(champ) or []
             # Ne supprime qu'UN candidat (les clés peuvent entrer en collision
             # si deux candidats partagent la même source).
-            kept, removed_one = [], False
-            for c in candidates:
-                if not removed_one and _candidate_key(c) == key:
-                    removed_one = True
+            kept, trouve = [], False
+            for c in candidats:
+                if not trouve and not removed_one and _candidate_key(c) == key:
+                    trouve = removed_one = True
                     continue
                 kept.append(c)
-            if removed_one:
-                path = os.path.join(_PENDING_DIR, filename)
-                try:
-                    with open(path, encoding="utf-8") as f:
-                        data = json.load(f)
-                    if "new_events_candidates" in data:
-                        data["new_events_candidates"] = kept
-                    else:
-                        data["candidates"] = kept
-                    with open(path, "w", encoding="utf-8") as f:
-                        json.dump(data, f, ensure_ascii=False, indent=2)
-                    pushes.append(path)
-                except Exception as exc:
-                    log.error("Suppression candidat impossible : %s", exc)
-                    self._redirect_admin("err=" + urllib.parse.quote(
-                        f"Suppression impossible : {exc}", safe=""))
-                    return
+            if not trouve:
+                continue
+            data[champ] = kept
+            try:
+                with open(path, "w", encoding="utf-8") as f:
+                    json.dump(data, f, ensure_ascii=False, indent=2)
+                pushes.append(path)
+            except Exception as exc:
+                log.error("Suppression candidat impossible : %s", exc)
+                self._redirect_admin("err=" + urllib.parse.quote(
+                    f"Suppression impossible : {exc}", safe=""))
+                return
+        if not removed_one:
+            log.info("Suppression : candidat %s introuvable", key[:8])
 
         # Effacer aussi toute décision / complétion associée (aucune trace).
         with _decisions_lock:
