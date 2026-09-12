@@ -145,7 +145,7 @@
       "event_name": "Salon Fait Main",
       "_source_url": "https://www.artrad.re/collect/description/673384-v-adhesion-annuelle-2026",
       "_confidence": "Vérifié",
-      "raison": "artrad.re, injoignable depuis plusieurs jours, a fini par répondre : sa page « Adhésion Annuelle 2026 » confirme explicitement les dates du 2e salon (4-6 décembre 2026), jusqu'ici notées « à confirmer ».",
+      "raison": "artrad.re, injoignable depuis plusieurs jours (ECONNREFUSED/ECONNRESET les 08 et 09/09), a fini par répondre : sa page « Adhésion Annuelle 2026 » confirme explicitement les dates des deux salons 2026 — 12-14 juin ET 4-6 décembre —, jusqu'ici la seconde n'était notée qu'« à confirmer ». Re-vérifié indépendamment le 12/09/2026 (même page, même contenu) : confirmé stable.",
       "changes": {
         "when": "2 fois / an (juin & déc.) · 102ᵉ éd. : 12–14 juin 2026 (Chaussée Royale, Saint-Paul) · 103ᵉ éd. : 4–6 décembre 2026 (dates confirmées, lieu à préciser)"
       }
@@ -154,7 +154,7 @@
       "event_name": "Week-end Commercial Saint-Joseph",
       "_source_url": "https://freedom.fr/centre-ville-de-saint-joseph-en-fete-avec-le-week-end-commercial-en-septembre/",
       "_confidence": "Vérifié",
-      "raison": "L'événement (4-6 septembre 2026) est passé depuis six jours au moment de ce run (12/09) mais la fiche était restée en statut open car status_check.py ne recalcule pas les statuts sans deadline explicite ni dateStatus annuel/récurrent — corrigé manuellement.",
+      "raison": "L'événement (4-6 septembre 2026) est passé depuis six jours au moment de ce run (12/09) mais la fiche était restée en statut open car status_check.py ne recalcule pas les statuts sans deadline explicite ni dateStatus annuel/récurrent — corrigé manuellement. Nouvelle tentative de relecture de la source le 12/09/2026 : HTTP 403 (blocage anti-bot temporaire), le raisonnement sur les dates déjà établies reste valable.",
       "changes": {
         "status": "closed"
       }
