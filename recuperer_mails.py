@@ -91,10 +91,22 @@ def main() -> int:
     try:
         imap = imaplib.IMAP4_SSL("imap.gmail.com", 993, timeout=30)
         imap.login(compte, mdp)
-        imap.select("INBOX")
     except Exception as exc:                      # réseau, identifiants, quota…
         print(f"[mailbox] ATTENTION : connexion impossible ({exc})")
         return 0                                  # ne jamais faire échouer la veille
+
+    # On regarde la boîte de réception ET les indésirables : Gmail y classe
+    # volontiers un premier envoi vers une adresse « + » depuis un autre compte.
+    boites = ["INBOX"]
+    try:
+        typ, liste = imap.list()
+        if typ == "OK":
+            for br in liste or []:
+                ligne = br.decode(errors="replace")
+                if "\\Junk" in ligne or "\\Spam" in ligne:
+                    boites.append(ligne.split(' "/" ')[-1].strip().strip('"'))
+    except Exception:
+        pass
 
     try:
         traites = set(json.loads(REGISTRE.read_text(encoding="utf-8")))
@@ -104,8 +116,15 @@ def main() -> int:
     deposes = ignores = 0
     depuis = (datetime.now() - timedelta(days=JOURS)).strftime("%d-%b-%Y")
     try:
+      for boite in boites:
+        typ, _ = imap.select(f'"{boite}"')
+        if typ != "OK":
+            continue
         typ, data = imap.search(None, 'TO', f'"{adresse_depot}"', 'SINCE', depuis)
         ids = data[0].split() if typ == "OK" and data and data[0] else []
+        if ids and boite != "INBOX":
+            print(f"[mailbox] {len(ids)} message(s) trouvé(s) dans « {boite} » "
+                  f"(pensez à marquer l'expéditeur comme fiable)")
         for num in ids:
             typ, brut = imap.fetch(num, "(RFC822)")
             if typ != "OK" or not brut or not brut[0]:
@@ -144,8 +163,8 @@ def main() -> int:
             if identifiant:
                 traites.add(identifiant)
             imap.store(num, "+FLAGS", "\\Seen")
-        # Registre borné : on ne garde que les 500 derniers identifiants.
-        REGISTRE.write_text(json.dumps(sorted(traites)[-500:]), encoding="utf-8")
+      # Registre borné : on ne garde que les 500 derniers identifiants.
+      REGISTRE.write_text(json.dumps(sorted(traites)[-500:]), encoding="utf-8")
     finally:
         try:
             imap.close()
