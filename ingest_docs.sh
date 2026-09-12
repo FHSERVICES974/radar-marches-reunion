@@ -4,13 +4,36 @@
 # Lancez-le après avoir déposé un ou plusieurs documents.
 
 set -e
-PROJECT_DIR="/Users/fhubert/Claude/radarartisans"
+# Tourne sur le Mac ET sur le serveur (voir run_veille.sh) : emplacement déduit
+# du script, et osascript neutralisé là où il n'existe pas.
+PROJECT_DIR="${0:A:h}"
+if ! command -v osascript >/dev/null 2>&1; then
+  osascript() { return 1; }
+fi
 cd "$PROJECT_DIR"
 
 # Voir run_veille.sh : PATH minimal sous launchd, `claude` (npm) doit être résolu
 # explicitement pour éviter un "command not found" (sortie 127).
-export PATH="$HOME/.npm-global/bin:/opt/homebrew/bin:/usr/local/bin:$PATH"
+export PATH="$HOME/.local/bin:$HOME/.npm-global/bin:/opt/homebrew/bin:/usr/local/bin:$PATH"
 CLAUDE_BIN="$(command -v claude || echo "$HOME/.npm-global/bin/claude")"
+
+# .env : le jeton d'authentification du CLI (voir run_veille.sh). Lu, jamais exécuté.
+if [ -f .env ]; then
+  while IFS= read -r ligne || [ -n "$ligne" ]; do
+    case "$ligne" in ''|'#'*) continue ;; esac
+    if printf '%s' "$ligne" | grep -qE '^[A-Za-z_][A-Za-z0-9_]*='; then
+      cle=${ligne%%=*}; val=${ligne#*=}
+      val=${val%\"}; val=${val#\"}; val=${val%\'}; val=${val#\'}
+      export "$cle=$val"
+    fi
+  done < .env
+fi
+
+# Passerelle mail : on relève d'abord la boîte, pour traiter aussi ce qui vient
+# d'arriver par courriel (« RADAR » dans l'objet).
+if [ -f recuperer_mails.py ] && [ -x ./venv/bin/python ]; then
+  ./venv/bin/python recuperer_mails.py
+fi
 
 # Passerelle iPhone : le projet est hors iCloud (launchd exige un disque local,
 # voir README), donc l'iPhone ne peut plus déposer directement dans
