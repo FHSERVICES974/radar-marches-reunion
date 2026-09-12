@@ -136,9 +136,19 @@ git pull --rebase --autostash origin main >> veille.log 2>&1 \
   && echo "[git] resynchronisé avec GitHub" >> veille.log \
   || echo "[git] ATTENTION : pull échoué, base peut-être périmée" >> veille.log
 
-# Passerelle iPhone documents (photos/PDF de flyers) : le projet est hors iCloud
-# (launchd exige un disque local), donc l'iPhone dépose dans un dossier iCloud à
-# part, qu'on rapatrie ici avant que l'agent ne lise data/inbox_docs/.
+# Passerelle documents (photos/PDF de flyers) — DEUX canaux, dans cet ordre :
+#
+# 1) Le mail. Depuis que la veille tourne sur le serveur (12/09/2026), iCloud
+#    n'est plus lisible : l'iPhone envoie ses documents à l'adresse du projet
+#    suffixée « +radar », et recuperer_mails.py les dépose dans data/inbox_docs/.
+#    Ne fait jamais échouer la veille : en cas de souci il le dit et rend la main.
+if [ -f recuperer_mails.py ]; then
+  ./venv/bin/python recuperer_mails.py >> veille.log 2>&1 \
+    || echo "[mailbox] ATTENTION : passerelle mail en échec — voir ci-dessus" >> veille.log
+fi
+
+# 2) Le dossier iCloud, sur le Mac uniquement (le dossier n'existe pas ailleurs).
+#    Conservé pour une exécution manuelle depuis le Mac.
 ICLOUD_INBOX="$HOME/Library/Mobile Documents/com~apple~CloudDocs/RadarInbox"
 if [ -d "$ICLOUD_INBOX" ]; then
   mkdir -p data/inbox_docs
