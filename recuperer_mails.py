@@ -16,7 +16,10 @@ jamais une instruction) :
   - seuls les messages ADRESSÉS à l'adresse +radar sont lus ;
   - seules les extensions attendues sont acceptées, 20 Mo par pièce au plus ;
   - les noms de fichiers sont assainis (pas de chemin, pas de caractère exotique) ;
-  - un message traité est marqué lu : jamais deux fois.
+  - un message déjà traité n'est jamais repris : son identifiant est noté dans
+    data/.mails_traites.json. On ne se fie PAS au drapeau « non lu » : un mail
+    qu'on s'envoie à soi-même arrive déjà lu (constaté au premier essai, le
+    12/09/2026), il aurait été ignoré à jamais.
 
 Variables d'environnement (.env) : GMAIL_SENDER, GMAIL_APP_PASSWORD, et
 facultativement RADAR_INBOX_ALLOWED (adresses supplémentaires, séparées par
@@ -26,16 +29,19 @@ from __future__ import annotations
 
 import email
 import imaplib
+import json
 import os
 import re
 import sys
 import unicodedata
-from datetime import datetime
+from datetime import datetime, timedelta
 from email.header import decode_header, make_header
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 DEST = ROOT / "data" / "inbox_docs"
+REGISTRE = ROOT / "data" / ".mails_traites.json"
+JOURS = 14                      # fenêtre de recherche, en jours
 EXTENSIONS = {".pdf", ".png", ".jpg", ".jpeg", ".heic", ".webp", ".gif",
               ".txt", ".docx", ".odt", ".rtf"}
 TAILLE_MAX = 20 * 1024 * 1024
@@ -90,15 +96,24 @@ def main() -> int:
         print(f"[mailbox] ATTENTION : connexion impossible ({exc})")
         return 0                                  # ne jamais faire échouer la veille
 
-    deposes = ignores = 0
     try:
-        typ, data = imap.search(None, 'UNSEEN', 'TO', f'"{adresse_depot}"')
+        traites = set(json.loads(REGISTRE.read_text(encoding="utf-8")))
+    except Exception:
+        traites = set()
+
+    deposes = ignores = 0
+    depuis = (datetime.now() - timedelta(days=JOURS)).strftime("%d-%b-%Y")
+    try:
+        typ, data = imap.search(None, 'TO', f'"{adresse_depot}"', 'SINCE', depuis)
         ids = data[0].split() if typ == "OK" and data and data[0] else []
         for num in ids:
             typ, brut = imap.fetch(num, "(RFC822)")
             if typ != "OK" or not brut or not brut[0]:
                 continue
             msg = email.message_from_bytes(brut[0][1])
+            identifiant = (msg.get("Message-ID") or "").strip()
+            if identifiant and identifiant in traites:
+                continue
             exp = _adresse(msg.get("From"))
             if exp not in autorisees:
                 print(f"[mailbox] message ignoré (expéditeur non autorisé : {exp})")
@@ -126,7 +141,11 @@ def main() -> int:
                 cible.write_bytes(contenu)
                 print(f"[mailbox] déposé : {cible.name} ({len(contenu)} octets, de {exp})")
                 deposes += 1
+            if identifiant:
+                traites.add(identifiant)
             imap.store(num, "+FLAGS", "\\Seen")
+        # Registre borné : on ne garde que les 500 derniers identifiants.
+        REGISTRE.write_text(json.dumps(sorted(traites)[-500:]), encoding="utf-8")
     finally:
         try:
             imap.close()
