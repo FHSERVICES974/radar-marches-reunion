@@ -2253,19 +2253,35 @@ def _load_latest_proposal() -> tuple:
         # filtre, le tri décroissant renvoyait toujours un fichier de statuts, qui n'a
         # pas de clé de candidats — /admin affichait donc « rien à valider » alors que
         # des propositions Vérifiées attendaient. (Constaté le 07/08/2026.)
-        files = sorted(
-            [fn for fn in os.listdir(_PENDING_DIR)
-             if fn.startswith("pending_MAJ_") and fn.endswith(".json")],
-            reverse=True,
-        )
-        if not files:
+        # DEUX sources, chacune prise à son fichier le plus récent :
+        #   pending_MAJ_*  : la veille quotidienne ;
+        #   pending_docs_* : les documents déposés par mail (ingest_docs.sh).
+        # Sans la seconde, les flyers envoyés par François étaient analysés puis
+        # n'apparaissaient nulle part dans /admin (constaté le 12/09/2026).
+        noms = []
+        for prefixe in ("pending_MAJ_", "pending_docs_"):
+            recents = sorted(
+                [fn for fn in os.listdir(_PENDING_DIR)
+                 if fn.startswith(prefixe) and fn.endswith(".json")],
+                reverse=True,
+            )
+            if recents:
+                noms.append(recents[0])
+        if not noms:
             return None, []
-        path = os.path.join(_PENDING_DIR, files[0])
-        with open(path, encoding="utf-8") as f:
-            data = json.load(f)
-        # Supporte "new_events_candidates" (format Mac) et "candidates" (legacy)
-        candidates = data.get("new_events_candidates") or data.get("candidates", [])
-        return files[0], candidates
+
+        candidates, vus = [], set()
+        for nom in noms:
+            with open(os.path.join(_PENDING_DIR, nom), encoding="utf-8") as f:
+                data = json.load(f)
+            # Supporte "new_events_candidates" (format Mac) et "candidates" (legacy)
+            for c in (data.get("new_events_candidates") or data.get("candidates", [])):
+                cle = _candidate_key(c)
+                if cle in vus:          # même fiche vue des deux côtés : une seule fois
+                    continue
+                vus.add(cle)
+                candidates.append(c)
+        return " + ".join(noms), candidates
     except (FileNotFoundError, json.JSONDecodeError, OSError):
         return None, []
 

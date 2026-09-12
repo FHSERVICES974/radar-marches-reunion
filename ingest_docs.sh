@@ -60,6 +60,18 @@ echo "$(date '+%F %T') — ingestion de $COUNT document(s)" >> ingest.log
   --add-dir "$PROJECT_DIR" \
   >> ingest.log 2>&1
 
+# Remonter la proposition vers /admin, comme le fait la veille : commit + push
+# de data/pending/ seulement. Ce n'est PAS une publication — le site ne bouge pas.
+if [ -n "$(git status --porcelain data/pending/ 2>/dev/null)" ]; then
+  if git add data/pending/ >/dev/null 2>&1 \
+     && git commit -q -m "ingestion documents $(date +%F) : candidats à valider" >/dev/null 2>&1 \
+     && git push -q origin main >/dev/null 2>&1; then
+    echo "[git] candidats envoyés vers /admin"
+  else
+    echo "[git] ATTENTION : envoi vers /admin échoué — candidats restés locaux"
+  fi
+fi
+
 LATEST=$(ls -t proposition_docs_*.md 2>/dev/null | head -1)
 osascript -e "display notification \"Documents traités : ${LATEST:-voir ingest.log}\" with title \"Radar Marchés — ingestion\"" 2>/dev/null || true
 echo "Terminé. Proposition : ${LATEST:-(voir ingest.log)}"
