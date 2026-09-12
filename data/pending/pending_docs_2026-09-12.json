@@ -1,28 +1,4 @@
 {
   "generated": "2026-09-12",
-  "new_events_candidates": [
-    {
-      "_source_title": "Marché des Créateurs (3e édition) — Appel aux exposants — capture d'écran Facebook (L'École des Créateurs 974, relayé par Marchés forains 974)",
-      "_source_url": "data/inbox_docs/processed/image0.png ; data/inbox_docs/processed/image1.png",
-      "_confidence": "Vérifié",
-      "event": {
-        "name": "Marché des Créateurs — L'École des Créateurs (Saint-Pierre)",
-        "zone": "Sud",
-        "type": "Marché de créateurs",
-        "org": "L'École des Créateurs 974",
-        "place": "L'École des Créateurs, 216 rue Marius et Ary Leblond, Saint-Pierre",
-        "when": "Samedi 7 et dimanche 8 novembre 2026, 9h00–18h00 (3ᵉ édition)",
-        "badge": "NOV",
-        "month": 11,
-        "dateStatus": "confirmée",
-        "status": "open",
-        "deadline": "",
-        "contact": "",
-        "social": "L'École des créateurs 974 (Facebook)",
-        "url": "",
-        "apply": "Appel aux exposants (artisans, créateurs, artistes locaux : bijoux, vêtements, déco, produits gourmands, objets faits main). Tarif du stand : 50 € pour les deux jours. Modalités de candidature détaillées (contact, formulaire, deadline) non visibles sur la capture d'écran, texte coupé après la mention du tarif — se référer à la publication Facebook de « L'École des créateurs 974 » pour les compléter.",
-        "desc": "3ᵉ édition du Marché des Créateurs : artisans et créateurs locaux, restauration, boissons, vintage shop, sur deux jours de 9h à 18h."
-      }
-    }
-  ]
+  "new_events_candidates": []
 }
