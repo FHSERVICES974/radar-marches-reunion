@@ -2,29 +2,6 @@
   "generated": "2026-09-12",
   "new_events_candidates": [
     {
-      "_source_title": "Expo-vente de l'Association REDAR — capture d'écran Facebook (Marchés forains 974 / Sabrina Moutoussamy)",
-      "_source_url": "data/inbox_docs/processed/Capture d_e_cran 2026-09-12 a_ 07.52.06.png",
-      "_confidence": "Vérifié",
-      "event": {
-        "name": "Expo-vente de l'Association REDAR",
-        "zone": "Est",
-        "type": "Expo-vente / artisanat",
-        "org": "Association REDAR",
-        "place": "30 Chemin Cour de l'Usine, Ravine Creuse (derrière Gamme Vert), Saint-André",
-        "when": "Samedi 10 octobre 2026, 9h00–16h00",
-        "badge": "OCT",
-        "month": 10,
-        "dateStatus": "confirmée",
-        "status": "soon",
-        "deadline": "",
-        "contact": "",
-        "social": "",
-        "url": "",
-        "apply": "Aucun appel à candidatures visible sur l'affiche : les exposants semblent déjà arrêtés (bijoux en perles, pâtisserie, papeterie, gravure sur bois, crochet, dessin, déco fait-main, compositions florales, plantes en pots, accessoires en tissus/textiles). À recontacter pour une prochaine édition si un appel à exposants s'ouvre.",
-        "desc": "Expo-vente organisée par l'Association REDAR pour mettre à l'honneur l'artisanat péi : bijoux, pâtisserie, papeterie, gravure sur bois, crochet, dessin, déco fait-main, compositions florales, plantes en pots, accessoires en tissus et textiles."
-      }
-    },
-    {
       "_source_title": "Marché des Créateurs (3e édition) — Appel aux exposants — capture d'écran Facebook (L'École des Créateurs 974, relayé par Marchés forains 974)",
       "_source_url": "data/inbox_docs/processed/image0.png ; data/inbox_docs/processed/image1.png",
       "_confidence": "Vérifié",
