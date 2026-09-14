@@ -1,6 +1,6 @@
 {
   "_mode_emploi_agent": "Fichier CUMULATIF de pistes d'organisateurs, alimenté par la veille (playbook veille_agent.md, étape 3 ter). Ce ne sont PAS des appels à candidature et elles n'entrent JAMAIS dans events.json : c'est de la matière de démarchage et d'anticipation. Lire ce fichier AVANT d'écrire, puis le réécrire enrichi — ne jamais l'écraser, la mémoire des éditions observées est ce qui permet d'estimer une récurrence. Clé d'unicité : nom_evenement + commune. recurrence_estimee exige au moins deux entrées dans editions_observees. Champs vides plutôt qu'inventés.",
-  "generated": "2026-09-13",
+  "generated": "2026-09-14",
   "pistes": [
     {
       "nom_evenement": "Marché des créateurs — Carré Cathédrale",
@@ -631,6 +631,26 @@
       "contact_connu": "lesud@cg974.fr",
       "action_suggeree": "Appel déjà clos pour 2026 (deadline 28 août 2026 12h00, pour un événement les 19-20 septembre 2026) — aucune action possible cette année. Écrire à lesud@cg974.fr vers juin-juillet 2027 pour demander la reconduction et la date d'ouverture de l'appel suivant. Proposer une entrée veille_calendrier.json (mois_de_veille [6,7,8], fenetre_estimee true).",
       "_note": "Repéré le 11/09/2026 par recherche ciblée (WebSearch, non recoupé sur une page officielle ouverte directement — contenu obtenu via extraits indexés de departement974.fr). Avis : « espace de vente » ouvert au public samedi 19 et dimanche 20 septembre 2026, 9h-17h, au Centre Culturel Le Sud (Saint-Pierre), candidatures par email à lesud@cg974.fr ou dépôt en main propre, clôture le vendredi 28 août 2026 à 12h00. Aucune source lue ne détaille le type d'exposants recherché (artisanat non confirmé explicitement, mais un « espace de vente » dans un centre culturel départemental est cohérent avec le périmètre du Radar) — à vérifier avant de créer une fiche events.json. Premier organisateur identifié pour ce lieu, absent d'orgs.json et d'events.json. Une seule édition datée : recurrence_estimee laissée vide."
+    },
+    {
+      "nom_evenement": "Oté Z'Artisans du Sud",
+      "organisateur": "Oté Z'Artisans",
+      "lieu": "Halle de Saint-Joseph (Halle François Mitterrand)",
+      "commune": "Saint-Joseph",
+      "zone": "Sud",
+      "editions_observees": [
+        "2026-04-12"
+      ],
+      "date_edition_observee": "2026-04-12",
+      "source_url": "https://www.facebook.com/otezartisans/",
+      "date_detection": "2026-09-14",
+      "recurrence_estimee": "",
+      "nb_exposants_annonce": null,
+      "deja_dans_events_json": false,
+      "organisateur_deja_dans_orgs_json": true,
+      "contact_connu": "otezartisans@gmail.com",
+      "action_suggeree": "Écrire à otezartisans@gmail.com (contact déjà en main) pour savoir si une 5ᵉ édition est prévue à la Halle de Saint-Joseph et quand s'ouvre l'appel exposants. Ce même organisateur porte déjà deux autres formats connus dans events.json (« Noël en Galerie Commerciale — Oté Z'Artisans », « Espace commercial Leclerc — Oté Z'Artizan ») : un seul message peut couvrir les trois pistes.",
+      "_note": "Repérée le 14/09/2026 via un balayage tier4 (réseaux sociaux). 4ᵉ édition tenue le 12 avril 2026 à la Halle de Saint-Joseph (Halle François Mitterrand), déjà passée au moment de la détection — d'où le classement en piste et non en candidat. Source limitée à un aperçu de page Facebook publique (298 abonnés), non ouverte en direct : à recouper si possible lors d'un prochain run. Une seule édition datée : recurrence_estimee laissée vide."
     }
   ]
 }
