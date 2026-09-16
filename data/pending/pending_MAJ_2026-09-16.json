@@ -1,0 +1,244 @@
+{
+  "generated": "2026-09-16",
+  "status_changes": [
+    {
+      "key": "salon international de l agriculture village reunion|national",
+      "name": "Salon International de l'Agriculture — Village Réunion",
+      "zone": "National",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "bal la poussiere fete patronale sainte marie|nord",
+      "name": "Bal la Poussière - Fête patronale Sainte-Marie",
+      "zone": "Nord",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "bal populaire bal la poussiere fete patronale 2026|nord",
+      "name": "Bal populaire « Bal la poussière » — Fête patronale 2026",
+      "zone": "Nord",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "braderie commerciale de sainte marie|nord",
+      "name": "Braderie commerciale de Sainte-Marie",
+      "zone": "Nord",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "brocantes de la possession appel a un porteur de projet organisateur|ouest",
+      "name": "Brocantes de La Possession — appel à un porteur de projet organisateur",
+      "zone": "Ouest",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "concert dmm appel a forains saint andre|est",
+      "name": "Concert DMM — appel à forains (Saint-André)",
+      "zone": "Est",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "emplacements aot domaine public saint gilles les bains bassin de vie n 2|ouest",
+      "name": "Emplacements AOT domaine public — Saint-Gilles-les-Bains (bassin de vie n°2)",
+      "zone": "Ouest",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "fete des agrumes|sud",
+      "name": "Fête des Agrumes",
+      "zone": "Sud",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "jour de sport sante 2026 espace food court|ouest",
+      "name": "Jour de Sport Santé 2026 — Espace Food Court",
+      "zone": "Ouest",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "la plaine en fete ex fete de la pomme de terre et du cheval|sud",
+      "name": "La Plaine en Fête (ex-Fête de la Pomme de Terre et du Cheval)",
+      "zone": "Sud",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "mascarin jardin botanique appel a projet boutique salles de seminaire|ouest",
+      "name": "Mascarin Jardin Botanique — appel à projet (boutique & salles de séminaire)",
+      "zone": "Ouest",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "salon d ete maison jardin|sud",
+      "name": "Salon d'Été, Maison & Jardin",
+      "zone": "Sud",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "village artisanal de la fete de la saint louis|sud",
+      "name": "Village artisanal de la Fête de la Saint-Louis",
+      "zone": "Sud",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "fet bord mer appel a stands de restauration la possession|ouest",
+      "name": "Fèt Bord'Mer — appel à stands de restauration (La Possession)",
+      "zone": "Ouest",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-09-13)"
+    },
+    {
+      "key": "fete des transports et des mobilites durables|est",
+      "name": "Fête des transports et des mobilités durables",
+      "zone": "Est",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-09-04)"
+    },
+    {
+      "key": "marche de nuit sainte marie en lumieres saveurs pei createurs|nord",
+      "name": "Marché de nuit « Sainte-Marie en lumières – Saveurs péi & créateurs »",
+      "zone": "Nord",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-09-06)"
+    },
+    {
+      "key": "rencontres de l artisanat plaine des palmistes|est",
+      "name": "Rencontres de l'Artisanat (Plaine des Palmistes)",
+      "zone": "Est",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-09-10)"
+    },
+    {
+      "key": "animal show et le monde agricole|est",
+      "name": "Animal Show et le monde agricole",
+      "zone": "Est",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-09-15)"
+    },
+    {
+      "key": "le jardin baz art le jardin secret|sud",
+      "name": "Le Jardin BAZ'ART -  Le Jardin Secret",
+      "zone": "Sud",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-09-12)"
+    },
+    {
+      "key": "salon du mariage le vieux saltimbanque|est",
+      "name": "Salon du Mariage — Le Vieux Saltimbanque",
+      "zone": "Est",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-09-15)"
+    },
+    {
+      "key": "braderies de saint paul|ouest",
+      "name": "Braderies de Saint-Paul",
+      "zone": "Ouest",
+      "from": "open",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-09-11)"
+    }
+  ],
+  "new_events_candidates": [
+    {
+      "_source_title": "Marché du Terroir et de Noël 2026 — Appel à candidatures exposants (Saint-Benoît)",
+      "_source_url": "https://www.saint-benoit.re/actualites/articles/12167-marche-du-terroir-et-de-noel-2026-appel-a-candidatures",
+      "_confidence": "Vérifié",
+      "event": {
+        "name": "Marché du Terroir et de Noël 2026 — Appel à candidatures exposants (Saint-Benoît)",
+        "zone": "Est",
+        "type": "Marché de Noël",
+        "org": "Ville de Saint-Benoît — Direction de l'Économie et du Tourisme",
+        "place": "Place du front de mer, Saint-Benoît",
+        "when": "Décembre (annuel) · éd. 2026 : 18-20 décembre, 16h-22h",
+        "badge": "DÉC",
+        "month": 12,
+        "dateStatus": "confirmée",
+        "status": "open",
+        "deadline": "2 octobre 2026, 12h00",
+        "contact": "economie.tourisme@ville-saintbenoit.re · 0262 50 88 42 · courrier : Monsieur le Maire, Direction de l'Économie et du Tourisme, 21 bis rue Georges Pompidou, BP 61, 97470 Saint-Benoît",
+        "social": "",
+        "url": "https://www.saint-benoit.re/actualites/articles/12167-marche-du-terroir-et-de-noel-2026-appel-a-candidatures",
+        "apply": "Dossier de candidature à déposer par courriel à economie.tourisme@ville-saintbenoit.re ou sur place à la Direction de l'Économie et du Tourisme (21 bis rue Georges Pompidou, Saint-Benoît), avant le 2 octobre 2026 à 12h00.",
+        "desc": "Marché du Terroir et de Noël sur la place du front de mer de Saint-Benoît (18-20 décembre 2026, 16h-22h) : espace exposants (produits artisanaux, produits du terroir, idées cadeaux, créations), espace restauration, espace animations foraines (manèges). Site probablement identique ou très proche de l'« Esplanade du Front de Mer » où s'est tenue l'édition 2025 (12-14 déc., 50 exposants)."
+      }
+    },
+    {
+      "_source_title": "Appel à candidatures — 50e Marathon Relais (restauration), Saint-Benoît",
+      "_source_url": "https://www.saint-benoit.re/actualites/articles/12172-appel-a-candidatures-50e-marathon-relais-partie-restauration",
+      "_confidence": "Vérifié",
+      "event": {
+        "name": "Appel à candidatures — 50e Marathon Relais (restauration), Saint-Benoît",
+        "zone": "Est",
+        "type": "Restauration événementielle (occupation domaine public)",
+        "org": "Ville de Saint-Benoît — Direction de l'Économie et du Tourisme",
+        "place": "Esplanade du front de mer, Saint-Benoît",
+        "when": "Mercredi 11 novembre 2026, 12h00-19h00",
+        "badge": "NOV",
+        "month": 11,
+        "dateStatus": "confirmée",
+        "status": "open",
+        "deadline": "7 octobre 2026, 16h00",
+        "contact": "economie.tourisme@ville-saintbenoit.re · 0262 50 88 00 · courrier : Monsieur le Maire, Direction de l'Économie et du Tourisme, 21 bis rue Georges Pompidou, BP 61, 97470 Saint-Benoît",
+        "social": "",
+        "url": "https://www.saint-benoit.re/actualites/articles/12172-appel-a-candidatures-50e-marathon-relais-partie-restauration",
+        "apply": "Dossier à envoyer par courriel, par courrier, ou à déposer sur place contre récépissé, avant le 7 octobre 2026 à 16h00.",
+        "desc": "⚠️ Périmètre restreint : appel réservé aux VENDEURS DE PRODUITS ALIMENTAIRES ET BOISSONS (restauration événementielle) à l'occasion du 50e Marathon Relais sur l'esplanade du front de mer de Saint-Benoît — pas un appel à artisanat d'art."
+      }
+    }
+  ],
+  "community": [
+    {
+      "name": "Noël dans ma Ville — Jardins de la Mairie de Saint-Pierre",
+      "zone": "Sud",
+      "note": "Événement de fin d'année (édition 2025 observée jusqu'au 23 décembre, 16h-22h) organisé par la Ville de Saint-Pierre en partenariat avec le Département, mentionnant un « espace dédié aux associations caritatives et des stands pour les artisans réunionnais ». Source (linfo.re) bloquée par paywall/anti-bot en WebFetch direct ET via le repli Jina Reader : le contenu rapporté ici vient uniquement d'extraits de résultats de recherche répétés sur plusieurs requêtes, PAS d'une lecture directe de la page — à vérifier par un humain avant toute action. Aucun appel à candidature ni contact événementiel dédié trouvé ; seul le standard de la Mairie de Saint-Pierre (0262 35 78 00) est connu.",
+      "source": "https://www.linfo.re/la-reunion/societe/saint-pierre-fete-noel"
+    }
+  ],
+  "field_updates": [
+    {
+      "event_name": "Articoco",
+      "_source_url": "https://articoco.re/",
+      "_confidence": "Vérifié",
+      "raison": "Nouveau site officiel de l'association (articoco.re) découvert le 16/09/2026 : confirme l'édition inaugurale du 2 mai 2026 à Pierrefonds (Saint-Pierre), donne un nouveau contact et une page « devenir-exposant » permanente pour candidater aux futurs événements. La fiche existante ne portait qu'une localisation vague (« Sud de l'île ») et un contact unique.",
+      "changes": {
+        "place": "4 chemin Charrette, Pierrefonds, Saint-Pierre (Sud)",
+        "when": "Mai (inauguration) · éd. 2026 : 2 mai, Pierrefonds (Saint-Pierre)",
+        "contact": "articoco974@gmail.com · contact@articoco.re · 0692 14 73 19 / 0692 30 03 61",
+        "url": "https://articoco.re/",
+        "apply": "Page « devenir-exposant » permanente sur articoco.re (ouverte aux artisans, créateurs et porteurs de stand), ou candidature directe auprès de l'association (contact@articoco.re / articoco974@gmail.com)."
+      }
+    }
+  ]
+}
