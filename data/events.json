@@ -1116,6 +1116,24 @@
     "desc": "Appel de la Ville de Saint-André pour l'exploitation d'emplacements de VENTE DE FLEURS (fleurs en pot, compositions florales, fleurs coupées) devant le cimetière du centre-ville et celui de Champ-Borne, les 31 octobre et 1er novembre 2026. ATTENTION — périmètre restreint : c'est un appel floral, pas un marché de créateurs. Il s'adresse aux horticulteurs, pépiniéristes et fleuristes ; un artisan d'art n'y a pas sa place. Avis publié le 26 août 2026."
   },
   {
+    "name": "Village Associatif — La Possession",
+    "zone": "Ouest",
+    "type": "Restauration événementielle (occupation domaine public)",
+    "org": "Ville de La Possession — Service Commerces",
+    "place": "La Possession",
+    "when": "Dimanche 4 octobre 2026",
+    "badge": "OCT",
+    "month": 10,
+    "dateStatus": "confirmée",
+    "status": "open",
+    "deadline": "21 septembre 2026, 16h00",
+    "contact": "commerces@lapossession.re · 0262 22 20 02 — Hôtel de Ville, 3 rue Waldeck-Rochet, 97419 La Possession",
+    "social": "",
+    "url": "https://www.lapossession.re/actualites/990665",
+    "apply": "Télécharger le dossier de candidature sur lapossession.re, puis le déposer au service Courrier de l'Hôtel de Ville ou l'envoyer par courriel à commerces@lapossession.re, avant le 21 septembre 2026 à 16h00.",
+    "desc": "⚠️ PÉRIMÈTRE TRÈS RESTREINT ET DÉLAI EXTRÊMEMENT COURT (deadline le lendemain de cette veille) : la Ville recherche seulement 1 stand de produits sucrés (gaufres, crêpes, glaces artisanales) et 2 stands salés/snacking pour le Village Associatif du 4 octobre 2026. Réservé aux professionnels de la restauration ; aucune place pour l'artisanat d'art. Inclus par transparence malgré un délai probablement inexploitable."
+  },
+  {
     "name": "Appel à candidatures — 50e Marathon Relais (restauration), Saint-Benoît",
     "zone": "Est",
     "type": "Restauration événementielle (occupation domaine public)",
