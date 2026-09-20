@@ -1,6 +1,6 @@
 {
   "_mode_emploi_agent": "Fichier CUMULATIF de pistes d'organisateurs, alimenté par la veille (playbook veille_agent.md, étape 3 ter). Ce ne sont PAS des appels à candidature et elles n'entrent JAMAIS dans events.json : c'est de la matière de démarchage et d'anticipation. Lire ce fichier AVANT d'écrire, puis le réécrire enrichi — ne jamais l'écraser, la mémoire des éditions observées est ce qui permet d'estimer une récurrence. Clé d'unicité : nom_evenement + commune. recurrence_estimee exige au moins deux entrées dans editions_observees. Champs vides plutôt qu'inventés.",
-  "generated": "2026-09-16",
+  "generated": "2026-09-20",
   "pistes": [
     {
       "nom_evenement": "Marché des créateurs — Carré Cathédrale",
@@ -671,6 +671,78 @@
       "contact_connu": "",
       "action_suggeree": "Contacter la Mairie de Saint-Pierre (standard 0262 35 78 00) pour confirmer si une édition 2026 est prévue et obtenir un contact événementiel dédié. Source primaire NON lue intégralement (paywall/anti-bot sur linfo.re) — à re-vérifier par un humain avant toute action, le contenu n'est connu que par extraits de recherche.",
       "_note": "Repérée le 16/09/2026 via un balayage tier3 (agrégateurs/presse). Édition 2025 observée « jusqu'au 23 décembre », 16h-22h, aux Jardins de la Mairie de Saint-Pierre, avec un espace dédié aux associations caritatives et des stands pour les artisans réunionnais — critère artisanal de l'étape 3 ter rempli. Distinct des autres marchés de Noël déjà connus à Saint-Pierre (Maison Banian, Marché de Noël — Pierrefonds porté par La Bande à Guinguette, Univers Piscine et Jardin, Centre Culturel Le Sud) : lieu et organisateur différents. L'article linfo.re source a renvoyé un paywall/anti-bot à la fois en WebFetch direct et via le repli Jina Reader ; le contenu rapporté ici provient d'extraits de résultats de recherche répétés de façon cohérente sur plusieurs requêtes, mais N'A PAS été lu sur la page elle-même — classé À CONFIRMER, pas Vérifié, et volontairement absent de la proposition de candidat. Aucun appel à candidature ni contact dédié trouvé ; seul le standard général de la Mairie de Saint-Pierre (0262 35 78 00) est connu. Une seule édition datée (mois seul, pas de jour précis) : recurrence_estimee laissée vide."
+    },
+    {
+      "nom_evenement": "Baba Cité — Cité des Arts",
+      "organisateur": "SPL Territo'Arts (Cité des Arts / Château Morange)",
+      "lieu": "Cité des Arts, Château Morange",
+      "commune": "Saint-Denis",
+      "zone": "Nord",
+      "editions_observees": ["2026-09-26"],
+      "date_edition_observee": "2026-09-26",
+      "source_url": "https://www.zinfos974.com/ (« 10 ans de la Cité des Arts : un nouveau festival pour ouvrir une saison ambitieuse »), recoupé sur imazpress.com",
+      "date_detection": "2026-09-20",
+      "recurrence_estimee": "",
+      "nb_exposants_annonce": null,
+      "deja_dans_events_json": false,
+      "organisateur_deja_dans_orgs_json": false,
+      "contact_connu": "02 62 92 09 90 (contact général citedesarts.re, pas un contact exposants dédié)",
+      "action_suggeree": "Événement trop proche (samedi 26 septembre 2026, dans 6 jours) pour qu'un artisan candidate via cette veille. Contacter la Cité des Arts (02 62 92 09 90) après l'édition pour savoir si le « marché de créateurs péi » intégré au festival Baba Cité fait l'objet d'un appel à exposants distinct, et à quel moment il s'ouvre pour une prochaine édition.",
+      "_note": "Repéré le 20/09/2026 via un balayage tier3 (presse). Nouveau festival familial (0-6 ans) marquant les 10 ans de la Cité des Arts, incluant explicitement un marché de créateurs péi — critère artisanal de l'étape 3 ter rempli. Aucun appel à exposants visible en ligne, aucun contact dédié trouvé. Organisateur (SPL Territo'Arts) absent d'orgs.json et de sources.json : premier repérage. Une seule édition datée : recurrence_estimee laissée vide."
+    },
+    {
+      "nom_evenement": "Marché artisanal de Bancoul (à distinguer de la fiche « Marché Bancoul » déjà connue)",
+      "organisateur": "Ville de Saint-Denis",
+      "lieu": "Saint-Denis",
+      "commune": "Saint-Denis",
+      "zone": "Nord",
+      "editions_observees": ["2025-11-29", "2026-05-30"],
+      "date_edition_observee": "2026-05-30",
+      "source_url": "https://www.imazpress.com/ (« Saint-Denis : le marché artisanal de Bancoul fête ses 3 ans »), recoupé sur guide-reunion.fr et saintdenis.re",
+      "date_detection": "2026-09-20",
+      "recurrence_estimee": "environ 3 fois par an (Saint-Valentin, fête des mères, anniversaire de novembre) — 2 éditions datées observées (29/11/2025, 30/05/2026), rythme exact non confirmé",
+      "nb_exposants_annonce": 50,
+      "deja_dans_events_json": true,
+      "organisateur_deja_dans_orgs_json": true,
+      "contact_connu": "regie@saintdenis.re",
+      "action_suggeree": "⚠️ AMBIGUÏTÉ À TRANCHER avant toute fusion ou création de fiche : events.json contient déjà une fiche « Marché Bancoul » (zone Nord, décrite comme « marché saisonnier autour du bancoul [le fruit] et des produits péi », dateStatus « à confirmer », aucune date). Les articles de presse trouvés aujourd'hui décrivent un événement au profil différent : un marché ARTISANAL de plus de 50 créateurs, célébrant son « 3e anniversaire » en novembre 2025, avec une édition datée le 30 mai 2026 (fête des mères) — périodicité proche de 3 fois par an. Contacter la régie des marchés de Saint-Denis (regie@saintdenis.re, déjà dans orgs.json — piste CHAUDE) pour savoir s'il s'agit du même événement que la fiche existante ou de deux choses distinctes, avant de fusionner ou de créer une fiche events.json séparée.",
+      "_note": "Repéré le 20/09/2026 via un balayage tier2/tier3 (agrégateurs et presse). Aucun appel à exposants publié en ligne pour aucune des deux éditions trouvées. Rappel : cet événement est couvert par l'appel à forains unique et groupé de la Ville de Saint-Denis (janvier, cf. veille_calendrier.json), donc son appel spécifique ne sera jamais visible séparément — c'est un cas typique de ce piège déjà documenté."
+    },
+    {
+      "nom_evenement": "Marché artisanal permanent — rue Léopold Rambaud",
+      "organisateur": "Ville de Saint-Denis",
+      "lieu": "83 rue Léopold Rambaud, Saint-Denis",
+      "commune": "Saint-Denis",
+      "zone": "Nord",
+      "editions_observees": [],
+      "date_edition_observee": "",
+      "source_url": "zinfos974.com, linfo.re, imazpress.com, freedom.fr (articles sur l'inauguration, novembre 2024)",
+      "date_detection": "2026-09-20",
+      "recurrence_estimee": "",
+      "nb_exposants_annonce": null,
+      "deja_dans_events_json": false,
+      "organisateur_deja_dans_orgs_json": true,
+      "contact_connu": "regie@saintdenis.re",
+      "action_suggeree": "Ce n'est pas un événement ponctuel mais un LIEU-HÔTE PERMANENT : 17 modules de 40 m² (640 €/mois, charges incluses) créés par la Ville de Saint-Denis pour reloger les artisans du Grand Marché pendant sa rénovation (inauguré novembre 2024). Contacter la régie des marchés de Saint-Denis (regie@saintdenis.re, déjà dans orgs.json) pour savoir si des modules sont disponibles et selon quelles modalités d'attribution — pertinent comme solution d'installation à long terme, pas comme candidature à un marché ponctuel.",
+      "_note": "Repéré le 20/09/2026 via un balayage tier2/tier3 (presse). Angle mort : aucune source lue ne détaille les modalités d'attribution des modules ni un contact dédié. À qualifier comme lieu-hôte (sources.json tier2) plutôt que comme piste d'appel événementiel si confirmé."
+    },
+    {
+      "nom_evenement": "AMI — stand hebdomadaire du vendredi, Place de la Liberté",
+      "organisateur": "Mairie de l'Entre-Deux",
+      "lieu": "Place de la Liberté, Entre-Deux",
+      "commune": "Entre-Deux",
+      "zone": "Sud",
+      "editions_observees": [],
+      "date_edition_observee": "",
+      "source_url": "https://entredeux.re/appel-manifestation-dinteret",
+      "date_detection": "2026-09-20",
+      "recurrence_estimee": "",
+      "nb_exposants_annonce": null,
+      "deja_dans_events_json": false,
+      "organisateur_deja_dans_orgs_json": false,
+      "contact_connu": "jacqueline.hoareau@entredeux.re",
+      "action_suggeree": "Appel déjà clos pour ce cycle (deadline 18 août 2026, dépassée) — aucune action possible avant la prochaine ouverture. Écrire à jacqueline.hoareau@entredeux.re pour savoir si le format est reconduit et quand s'ouvre la prochaine fenêtre de recrutement.",
+      "_note": "Repéré le 20/09/2026. Appel à Manifestation d'Intérêt pour un stand de 9 m² de vente de produits artisanaux/locaux transformés (achards, farines, confitures, café, patate douce, manioc), tous les vendredis 2026, 8h-12h30, Place de la Liberté. Format hebdomadaire absent d'events.json. Deadline de candidature déjà dépassée (18 août 2026) au moment de la détection : classé en piste et non en candidat, conformément au filtre d'actionnabilité de l'étape 3 bis. Contact distinct de celui déjà connu pour « Entre 2 Zarts » (page Facebook @entredeuxvillage) : ce format passe par un contact mairie nommé, pas par la page associative."
     }
   ]
 }
