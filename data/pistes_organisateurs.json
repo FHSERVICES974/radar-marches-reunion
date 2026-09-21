@@ -1,6 +1,6 @@
 {
   "_mode_emploi_agent": "Fichier CUMULATIF de pistes d'organisateurs, alimenté par la veille (playbook veille_agent.md, étape 3 ter). Ce ne sont PAS des appels à candidature et elles n'entrent JAMAIS dans events.json : c'est de la matière de démarchage et d'anticipation. Lire ce fichier AVANT d'écrire, puis le réécrire enrichi — ne jamais l'écraser, la mémoire des éditions observées est ce qui permet d'estimer une récurrence. Clé d'unicité : nom_evenement + commune. recurrence_estimee exige au moins deux entrées dans editions_observees. Champs vides plutôt qu'inventés.",
-  "generated": "2026-09-20",
+  "generated": "2026-09-21",
   "pistes": [
     {
       "nom_evenement": "Marché des créateurs — Carré Cathédrale",
@@ -24,7 +24,7 @@
     },
     {
       "nom_evenement": "Marché artisanal de nuit — Parc du Colosse",
-      "organisateur": "",
+      "organisateur": "Les Commerçants du Colosse, en partenariat avec l'AIER (Association Insertion Environnement Réunion) — probable, non confirmé directement par l'organisateur",
       "lieu": "Parc du Colosse",
       "commune": "Saint-André",
       "zone": "Est",
@@ -39,8 +39,8 @@
       "deja_dans_events_json": false,
       "organisateur_deja_dans_orgs_json": false,
       "contact_connu": "",
-      "action_suggeree": "Identifier l'organisateur — la Ville de Saint-André est le candidat le plus probable (parc communal), mais rien ne le dit sur les sources lues : ne pas le présumer. Contact d'entrée possible : event@saint-andre.re (déjà dans orgs.json pour la Ville de Saint-André). Demander qui porte le marché artisanal de nuit du Colosse et quand s'ouvre l'appel à exposants de la prochaine édition.",
-      "_note": "Repéré le 08/08/2026 dans l'agenda guide-reunion.fr : « Marché artisanal de nuit au Colosse », Saint-André, samedi 8 août 2026 — après-midi et soirée dédiées à l'artisanat et aux produits locaux. Presse locale (freedom.fr) parle d'un « grand retour », ce qui suggère une édition antérieure non datée : une seule édition sourcée à ce jour, donc recurrence_estimee laissée vide. Article freedom.fr non lisible (HTTP 403). Run du 09/08/2026 : le site officiel saint-andre.re a été relu, aucun appel à candidature ni mention de ce marché n'y figure — l'organisateur reste non identifié. Run du 10/08/2026 : saint-andre.re relu à nouveau, la liste des appels à candidature s'arrête au « Appel à candidature forains – Concert DMM 2026 » (16/07) ; toujours rien sur le marché artisanal de nuit. L'organisateur reste inconnu au bout de trois runs — passer au contact direct plutôt qu'à un quatrième balayage. Run du 13/08/2026 : saint-andre.re relu une quatrième fois, toujours aucune mention du marché artisanal de nuit ni d'appel à exposants — la liste des appels s'arrête au « Concert DMM 2026 » du 16/07. Le balayage web est épuisé : seul le contact direct (event@saint-andre.re / 02.62.58.88.88) peut encore identifier l'organisateur."
+      "action_suggeree": "Contacter la mairie de Saint-André (event@saint-andre.re / 02.62.58.88.88) en demandant spécifiquement les Commerçants du Colosse / AIER, pour confirmer l'organisateur et obtenir un contact direct, puis la date et l'appel à exposants de la prochaine édition.",
+      "_note": "Repéré le 08/08/2026 dans l'agenda guide-reunion.fr : « Marché artisanal de nuit au Colosse », Saint-André, samedi 8 août 2026 — après-midi et soirée dédiées à l'artisanat et aux produits locaux. Presse locale (freedom.fr) parle d'un « grand retour », ce qui suggère une édition antérieure non datée : une seule édition sourcée à ce jour, donc recurrence_estimee laissée vide. Article freedom.fr non lisible (HTTP 403). Run du 09/08/2026 : le site officiel saint-andre.re a été relu, aucun appel à candidature ni mention de ce marché n'y figure — l'organisateur reste non identifié. Run du 10/08/2026 : saint-andre.re relu à nouveau, la liste des appels à candidature s'arrête au « Appel à candidature forains – Concert DMM 2026 » (16/07) ; toujours rien sur le marché artisanal de nuit. L'organisateur reste inconnu au bout de trois runs — passer au contact direct plutôt qu'à un quatrième balayage. Run du 13/08/2026 : saint-andre.re relu une quatrième fois, toujours aucune mention du marché artisanal de nuit ni d'appel à exposants — la liste des appels s'arrête au « Concert DMM 2026 » du 16/07. Le balayage web est épuisé : seul le contact direct (event@saint-andre.re / 02.62.58.88.88) peut encore identifier l'organisateur.\n\n[Run du 21/09/2026.] Nouvelle source lue : freedom.fr/samedi-8-aout-2026-le-marche-artisanal-de-nuit-fait-son-grand-retour-au-parc-du-colosse-a-saint-andre/ (WebFetch direct, article désormais accessible). L'article attribue l'événement aux « Commerçants du Colosse », en partenariat avec l'AIER (déjà connue par ailleurs comme co-organisatrice du Marché de nuit mensuel de Bras-Panon). Aucun contact direct pour ces deux entités n'a été trouvé — page saint-andre.re/appels-a-projets-parc-du-colosse/ vérifiée mais sans rapport (deux appels à projets 2024 pour local commercial et activités de loisirs, contact colosse@saint-andre.re / 0262 47 45 52, à garder en tête comme porte d'entrée possible au Parc du Colosse même si hors sujet direct). Toujours aucune date de prochaine édition ni appel à exposants trouvé."
     },
     {
       "nom_evenement": "La Guinguette Saint-Gilloise",
@@ -363,8 +363,9 @@
       "nb_exposants_annonce": 40,
       "deja_dans_events_json": false,
       "organisateur_deja_dans_orgs_json": false,
-      "contact_connu": "",
-      "action_suggeree": "Salon du mariage des 12-13 sept. 2026 réunissant bijoutiers, fleuristes, créateurs de robes, papeterie et photographes : périmètre artisanal PARTIEL, à trancher par l'humain. Aucun appel à exposants publié, aucun contact organisateur trouvé sur la page. Contacter La Mariée Chic pour connaître les modalités et le calendrier de recrutement des exposants."
+      "contact_connu": "lamarieechic@gmail.com · +262 692 74 47 05 (source : unjourunoui.fr, à recouper — non lu sur une page officielle de l'organisateur lui-même)",
+      "action_suggeree": "Salon du mariage des 12-13 sept. 2026 réunissant bijoutiers, fleuristes, créateurs de robes, papeterie et photographes : périmètre artisanal PARTIEL, à trancher par l'humain. Contacter La Mariée Chic (lamarieechic@gmail.com / +262 692 74 47 05) pour connaître les modalités et le calendrier de recrutement des exposants — rythme probable de 2 éditions/an (une édition antérieure repérée du 27 février au 1er mars 2026 au même lieu), mais aucune prochaine date annoncée.",
+      "_note": "Run du 21/09/2026 : contact trouvé via unjourunoui.fr/agenda (repli Jina), qui attribue explicitement l'organisation à « La Mariée Chic ». Un numéro alternatif (06 92 15 05 06) et un contact « Sandrine » (06 92 56 52 42) sont aussi remontés par recherche générale mais sans attribution claire à cet événement — non retenus comme fiables. Attention à ne pas confondre avec le « Salon du mariage 2026 » distinct organisé par Run Expo les 21-22 novembre 2026 au Nordev (Saint-Denis) : autre organisateur, autre lieu."
     },
     {
       "nom_evenement": "Marchés de Noël de Saint-Louis",
@@ -743,6 +744,24 @@
       "contact_connu": "jacqueline.hoareau@entredeux.re",
       "action_suggeree": "Appel déjà clos pour ce cycle (deadline 18 août 2026, dépassée) — aucune action possible avant la prochaine ouverture. Écrire à jacqueline.hoareau@entredeux.re pour savoir si le format est reconduit et quand s'ouvre la prochaine fenêtre de recrutement.",
       "_note": "Repéré le 20/09/2026. Appel à Manifestation d'Intérêt pour un stand de 9 m² de vente de produits artisanaux/locaux transformés (achards, farines, confitures, café, patate douce, manioc), tous les vendredis 2026, 8h-12h30, Place de la Liberté. Format hebdomadaire absent d'events.json. Deadline de candidature déjà dépassée (18 août 2026) au moment de la détection : classé en piste et non en candidat, conformément au filtre d'actionnabilité de l'étape 3 bis. Contact distinct de celui déjà connu pour « Entre 2 Zarts » (page Facebook @entredeuxvillage) : ce format passe par un contact mairie nommé, pas par la page associative."
+    },
+    {
+      "nom_evenement": "Marché des Lutins de Noël — Domaine de Manapany",
+      "organisateur": "Domaine de Manapany",
+      "lieu": "Domaine de Manapany, 96 rue Maxime Payet",
+      "commune": "Petite-Île",
+      "zone": "Sud",
+      "editions_observees": [],
+      "date_edition_observee": "",
+      "source_url": "reunion.fr / guide-reunion.fr (fiches indexées, pages individuelles en 404 au moment de la lecture)",
+      "date_detection": "2026-09-21",
+      "recurrence_estimee": "",
+      "nb_exposants_annonce": null,
+      "deja_dans_events_json": false,
+      "organisateur_deja_dans_orgs_json": false,
+      "contact_connu": "",
+      "action_suggeree": "Contacter le Domaine de Manapany (coordonnées à trouver — absent d'orgs.json) pour confirmer si une édition 2026 est prévue en décembre et comment un artisan candidate. Des artisans d'éditions antérieures sont cités nommément par les sources indexées (Laeti-Bijoux, PRenZen D'la GraiNeS, Bourbon Nature, Association Tisseurs Péi), signe d'un marché déjà structuré, mais aucune page source n'a pu être ouverte directement pour vérifier ces noms.",
+      "_note": "Repéré le 21/09/2026 via un balayage tier3 (agrégateurs). Événement récurrent de décembre au Domaine de Manapany (Petite-Île), mais AUCUNE édition n'a pu être datée précisément : les fiches reunion.fr/guide-reunion.fr le mentionnant sont revenues en erreur 404 à la lecture directe, seuls des extraits de résultats de recherche ont pu être rassemblés. editions_observees laissé vide plutôt que reconstitué à partir d'un extrait non lu sur la page elle-même — à confirmer lors d'un prochain passage si une page s'ouvre correctement, ou par contact direct. Premier repérage de cet organisateur pour la commune de Petite-Île, jusqu'ici couverte uniquement par la Fête de l'ail (institutionnelle)."
     }
   ]
 }
