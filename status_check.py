@@ -29,6 +29,13 @@ def recompute(events, today: date):
         new = reason = None
 
         dl_dates = C.parse_dates_from_text(e.get("deadline", ""))
+        # Sans date limite exploitable, la date de l'ÉVÉNEMENT fait foi pour une
+        # fiche ouverte : l'événement passé, la candidature est forcément close.
+        # Même règle côté navigateur dans template.html — les garder alignées.
+        repli_evenement = False
+        if not dl_dates and cur == "open":
+            dl_dates = C.parse_dates_from_text(e.get("when", ""))
+            repli_evenement = bool(dl_dates)
         past_dl = [d for d in dl_dates if d < today]
         future_dl = [d for d in dl_dates if d >= today]
 
@@ -38,7 +45,9 @@ def recompute(events, today: date):
                 if cur == "open":
                     new, reason = "soon", "date limite passée — surveiller l'édition suivante"
             elif recent.year >= today.year:
-                new, reason = "closed", f"date limite dépassée ({recent.isoformat()})"
+                new, reason = "closed", (
+                    f"événement passé, sans date limite ({recent.isoformat()})"
+                    if repli_evenement else f"date limite dépassée ({recent.isoformat()})")
 
         if cur == "closed" and e.get("dateStatus") in ("annuel", "récurrent", "confirmée"):
             m = e.get("month")

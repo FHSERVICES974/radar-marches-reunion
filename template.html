@@ -331,8 +331,13 @@ const EVENTS = __EVENTS__;
     if(e.status!=="open")return;          // seules les fiches ouvertes peuvent se clôturer
                                           // (soon/perm/closed : jamais touchées — une fiche
                                           // « soon » citant une date d'édition passée resterait visible)
-    const dl=parseDeadline(e.deadline||"");
-    if(!dl)return;                         // pas de date parseable : on ne touche pas
+    // Date limite d'abord. À défaut, la date de l'ÉVÉNEMENT : une fois
+    // l'événement passé, la candidature est forcément close. Sans ce repli,
+    // une fiche sans date limite restait « ouverte » pour toujours (constaté
+    // le 22/09/2026 : 4 fiches d'août-septembre encore affichées ouvertes).
+    // Même règle côté Python dans status_check.py — les garder alignées.
+    const dl=parseDeadline(e.deadline||"")||parseDeadline(e.when||"");
+    if(!dl)return;                         // aucune date parseable : on ne touche pas
     const dlDate=new Date(Date.UTC(dl.getFullYear(),dl.getMonth(),dl.getDate()));
     if(dlDate<today)e.status="closed";    // deadline strictement passée → clôturé
   });
