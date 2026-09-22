@@ -1,6 +1,6 @@
 {
   "_mode_emploi_agent": "Fichier CUMULATIF de pistes d'organisateurs, alimenté par la veille (playbook veille_agent.md, étape 3 ter). Ce ne sont PAS des appels à candidature et elles n'entrent JAMAIS dans events.json : c'est de la matière de démarchage et d'anticipation. Lire ce fichier AVANT d'écrire, puis le réécrire enrichi — ne jamais l'écraser, la mémoire des éditions observées est ce qui permet d'estimer une récurrence. Clé d'unicité : nom_evenement + commune. recurrence_estimee exige au moins deux entrées dans editions_observees. Champs vides plutôt qu'inventés.",
-  "generated": "2026-09-21",
+  "generated": "2026-09-22",
   "pistes": [
     {
       "nom_evenement": "Marché des créateurs — Carré Cathédrale",
@@ -40,7 +40,7 @@
       "organisateur_deja_dans_orgs_json": false,
       "contact_connu": "",
       "action_suggeree": "Contacter la mairie de Saint-André (event@saint-andre.re / 02.62.58.88.88) en demandant spécifiquement les Commerçants du Colosse / AIER, pour confirmer l'organisateur et obtenir un contact direct, puis la date et l'appel à exposants de la prochaine édition.",
-      "_note": "Repéré le 08/08/2026 dans l'agenda guide-reunion.fr : « Marché artisanal de nuit au Colosse », Saint-André, samedi 8 août 2026 — après-midi et soirée dédiées à l'artisanat et aux produits locaux. Presse locale (freedom.fr) parle d'un « grand retour », ce qui suggère une édition antérieure non datée : une seule édition sourcée à ce jour, donc recurrence_estimee laissée vide. Article freedom.fr non lisible (HTTP 403). Run du 09/08/2026 : le site officiel saint-andre.re a été relu, aucun appel à candidature ni mention de ce marché n'y figure — l'organisateur reste non identifié. Run du 10/08/2026 : saint-andre.re relu à nouveau, la liste des appels à candidature s'arrête au « Appel à candidature forains – Concert DMM 2026 » (16/07) ; toujours rien sur le marché artisanal de nuit. L'organisateur reste inconnu au bout de trois runs — passer au contact direct plutôt qu'à un quatrième balayage. Run du 13/08/2026 : saint-andre.re relu une quatrième fois, toujours aucune mention du marché artisanal de nuit ni d'appel à exposants — la liste des appels s'arrête au « Concert DMM 2026 » du 16/07. Le balayage web est épuisé : seul le contact direct (event@saint-andre.re / 02.62.58.88.88) peut encore identifier l'organisateur.\n\n[Run du 21/09/2026.] Nouvelle source lue : freedom.fr/samedi-8-aout-2026-le-marche-artisanal-de-nuit-fait-son-grand-retour-au-parc-du-colosse-a-saint-andre/ (WebFetch direct, article désormais accessible). L'article attribue l'événement aux « Commerçants du Colosse », en partenariat avec l'AIER (déjà connue par ailleurs comme co-organisatrice du Marché de nuit mensuel de Bras-Panon). Aucun contact direct pour ces deux entités n'a été trouvé — page saint-andre.re/appels-a-projets-parc-du-colosse/ vérifiée mais sans rapport (deux appels à projets 2024 pour local commercial et activités de loisirs, contact colosse@saint-andre.re / 0262 47 45 52, à garder en tête comme porte d'entrée possible au Parc du Colosse même si hors sujet direct). Toujours aucune date de prochaine édition ni appel à exposants trouvé."
+      "_note": "Repéré le 08/08/2026 dans l'agenda guide-reunion.fr : « Marché artisanal de nuit au Colosse », Saint-André, samedi 8 août 2026 — après-midi et soirée dédiées à l'artisanat et aux produits locaux. Presse locale (freedom.fr) parle d'un « grand retour », ce qui suggère une édition antérieure non datée : une seule édition sourcée à ce jour, donc recurrence_estimee laissée vide. Article freedom.fr non lisible (HTTP 403). Run du 09/08/2026 : le site officiel saint-andre.re a été relu, aucun appel à candidature ni mention de ce marché n'y figure — l'organisateur reste non identifié. Run du 10/08/2026 : saint-andre.re relu à nouveau, la liste des appels à candidature s'arrête au « Appel à candidature forains – Concert DMM 2026 » (16/07) ; toujours rien sur le marché artisanal de nuit. L'organisateur reste inconnu au bout de trois runs — passer au contact direct plutôt qu'à un quatrième balayage. Run du 13/08/2026 : saint-andre.re relu une quatrième fois, toujours aucune mention du marché artisanal de nuit ni d'appel à exposants — la liste des appels s'arrête au « Concert DMM 2026 » du 16/07. Le balayage web est épuisé : seul le contact direct (event@saint-andre.re / 02.62.58.88.88) peut encore identifier l'organisateur.\n\n[Run du 21/09/2026.] Nouvelle source lue : freedom.fr/samedi-8-aout-2026-le-marche-artisanal-de-nuit-fait-son-grand-retour-au-parc-du-colosse-a-saint-andre/ (WebFetch direct, article désormais accessible). L'article attribue l'événement aux « Commerçants du Colosse », en partenariat avec l'AIER (déjà connue par ailleurs comme co-organisatrice du Marché de nuit mensuel de Bras-Panon). Aucun contact direct pour ces deux entités n'a été trouvé — page saint-andre.re/appels-a-projets-parc-du-colosse/ vérifiée mais sans rapport (deux appels à projets 2024 pour local commercial et activités de loisirs, contact colosse@saint-andre.re / 0262 47 45 52, à garder en tête comme porte d'entrée possible au Parc du Colosse même si hors sujet direct). Toujours aucune date de prochaine édition ni appel à exposants trouvé.\n\n[Run du 22/09/2026.] Recherche complémentaire : la page municipale colosse@saint-andre.re / 0262 47 45 52 (service du Parc du Colosse) reste la seule porte d'entrée confirmée. Piste supplémentaire non vérifiée : une page Facebook « Les Commerçants de Saint-André » (facebook.com/commercessaintandre/) pourrait être liée aux « Commerçants du Colosse » cités par freedom.fr, mais le nom exact de l'organisateur n'a toujours pas été confirmé directement — page non ouverte (mur de connexion). Aucune date de prochaine édition trouvée."
     },
     {
       "nom_evenement": "La Guinguette Saint-Gilloise",
@@ -651,7 +651,7 @@
       "organisateur_deja_dans_orgs_json": true,
       "contact_connu": "otezartisans@gmail.com",
       "action_suggeree": "Écrire à otezartisans@gmail.com (contact déjà en main) pour savoir si une 5ᵉ édition est prévue à la Halle de Saint-Joseph et quand s'ouvre l'appel exposants. Ce même organisateur porte déjà deux autres formats connus dans events.json (« Noël en Galerie Commerciale — Oté Z'Artisans », « Espace commercial Leclerc — Oté Z'Artizan ») : un seul message peut couvrir les trois pistes.",
-      "_note": "Repérée le 14/09/2026 via un balayage tier4 (réseaux sociaux). 4ᵉ édition tenue le 12 avril 2026 à la Halle de Saint-Joseph (Halle François Mitterrand), déjà passée au moment de la détection — d'où le classement en piste et non en candidat. Source limitée à un aperçu de page Facebook publique (298 abonnés), non ouverte en direct : à recouper si possible lors d'un prochain run. Une seule édition datée : recurrence_estimee laissée vide."
+      "_note": "Repérée le 14/09/2026 via un balayage tier4 (réseaux sociaux). 4ᵉ édition tenue le 12 avril 2026 à la Halle de Saint-Joseph (Halle François Mitterrand), déjà passée au moment de la détection — d'où le classement en piste et non en candidat. Source limitée à un aperçu de page Facebook publique (298 abonnés), non ouverte en direct : à recouper si possible lors d'un prochain run. Une seule édition datée : recurrence_estimee laissée vide.\n\n[Run du 22/09/2026.] Corroboration indépendante : la même 4ᵉ édition (12 avril 2026, Halle François Mitterrand) a été retrouvée via guide-reunion.fr, confirmant l'aperçu Facebook initial du 14/09/2026. Toujours une seule édition datée."
     },
     {
       "nom_evenement": "Noël dans ma Ville",
@@ -679,7 +679,9 @@
       "lieu": "Cité des Arts, Château Morange",
       "commune": "Saint-Denis",
       "zone": "Nord",
-      "editions_observees": ["2026-09-26"],
+      "editions_observees": [
+        "2026-09-26"
+      ],
       "date_edition_observee": "2026-09-26",
       "source_url": "https://www.zinfos974.com/ (« 10 ans de la Cité des Arts : un nouveau festival pour ouvrir une saison ambitieuse »), recoupé sur imazpress.com",
       "date_detection": "2026-09-20",
@@ -697,7 +699,10 @@
       "lieu": "Saint-Denis",
       "commune": "Saint-Denis",
       "zone": "Nord",
-      "editions_observees": ["2025-11-29", "2026-05-30"],
+      "editions_observees": [
+        "2025-11-29",
+        "2026-05-30"
+      ],
       "date_edition_observee": "2026-05-30",
       "source_url": "https://www.imazpress.com/ (« Saint-Denis : le marché artisanal de Bancoul fête ses 3 ans »), recoupé sur guide-reunion.fr et saintdenis.re",
       "date_detection": "2026-09-20",
@@ -760,8 +765,48 @@
       "deja_dans_events_json": false,
       "organisateur_deja_dans_orgs_json": false,
       "contact_connu": "",
-      "action_suggeree": "Contacter le Domaine de Manapany (coordonnées à trouver — absent d'orgs.json) pour confirmer si une édition 2026 est prévue en décembre et comment un artisan candidate. Des artisans d'éditions antérieures sont cités nommément par les sources indexées (Laeti-Bijoux, PRenZen D'la GraiNeS, Bourbon Nature, Association Tisseurs Péi), signe d'un marché déjà structuré, mais aucune page source n'a pu être ouverte directement pour vérifier ces noms.",
-      "_note": "Repéré le 21/09/2026 via un balayage tier3 (agrégateurs). Événement récurrent de décembre au Domaine de Manapany (Petite-Île), mais AUCUNE édition n'a pu être datée précisément : les fiches reunion.fr/guide-reunion.fr le mentionnant sont revenues en erreur 404 à la lecture directe, seuls des extraits de résultats de recherche ont pu être rassemblés. editions_observees laissé vide plutôt que reconstitué à partir d'un extrait non lu sur la page elle-même — à confirmer lors d'un prochain passage si une page s'ouvre correctement, ou par contact direct. Premier repérage de cet organisateur pour la commune de Petite-Île, jusqu'ici couverte uniquement par la Fête de l'ail (institutionnelle)."
+      "action_suggeree": "Piste probablement obsolète (site mort, aucune page active retrouvée) — ne relancer qu'en cas de signal neuf (remontée communauté, mention presse récente).",
+      "_note": "Repéré le 21/09/2026 via un balayage tier3 (agrégateurs). Événement récurrent de décembre au Domaine de Manapany (Petite-Île), mais AUCUNE édition n'a pu être datée précisément : les fiches reunion.fr/guide-reunion.fr le mentionnant sont revenues en erreur 404 à la lecture directe, seuls des extraits de résultats de recherche ont pu être rassemblés. editions_observees laissé vide plutôt que reconstitué à partir d'un extrait non lu sur la page elle-même — à confirmer lors d'un prochain passage si une page s'ouvre correctement, ou par contact direct. Premier repérage de cet organisateur pour la commune de Petite-Île, jusqu'ici couverte uniquement par la Fête de l'ail (institutionnelle).\n\n[Run du 22/09/2026.] Vérification technique : domainedemanapany.com ne résout plus (échec DNS), la page événement guide-reunion.fr est une archive figée depuis 2017, et aucune page Facebook active du domaine n'a été retrouvée (seules des entités tierces opérant sur le site — « L'Entracte », un élevage — apparaissent). Piste à considérer comme dormante/probablement obsolète sauf nouvelle source ; ne pas relancer de recherche web supplémentaire sans un signal neuf (ex. remontée communauté)."
+    },
+    {
+      "nom_evenement": "Festival GAYAR — Marché des savoir-faire",
+      "organisateur": "",
+      "lieu": "Parc du Colosse",
+      "commune": "Saint-André",
+      "zone": "Est",
+      "editions_observees": [
+        "2026-10-02"
+      ],
+      "date_edition_observee": "2026-10-02",
+      "source_url": "https://www.festivalgayar.com/exposants/",
+      "date_detection": "2026-09-22",
+      "recurrence_estimee": "",
+      "nb_exposants_annonce": null,
+      "deja_dans_events_json": false,
+      "organisateur_deja_dans_orgs_json": false,
+      "contact_connu": "",
+      "action_suggeree": "Contacter festivalgayar.com (seul contact trouvé : lekolgayar@festivalgayar.com, dédié aux écoles) ou la mairie de Saint-André pour savoir si le « marché des savoir-faire » (artisanat, produits locaux, arts visuels, textile, saveurs locales) est sur sélection curatée ou appel ouvert, avant l'édition du 2-4 octobre 2026.",
+      "_note": "Repéré le 22/09/2026 via un balayage tier3 (agrégateurs/presse). Festival culturel et identitaire réunionnais, gratuit, Parc du Colosse (Saint-André), 2-4 octobre 2026. La page festivalgayar.com/exposants/ décrit un marché des savoir-faire (artisanat, éditeurs, arts visuels, instruments, textile, saveurs locales) mais ne présente ni formulaire de candidature, ni deadline, ni contact exposant dédié — impossible de dire si c'est un appel ouvert ou une sélection sur invitation. Événement très proche (10 jours) au moment de la détection, ce qui exclut de toute façon une candidature en file de validation même si un appel existait. Recoupé par guide-reunion.fr, reunionest.fr, megazap.fr, freedom.fr. Une seule édition observée : recurrence_estimee laissée vide."
+    },
+    {
+      "nom_evenement": "Village Japon (Tokió Cup)",
+      "organisateur": "Collectif Kyokushin Réunion",
+      "lieu": "Petit Stade de l'Est",
+      "commune": "Saint-Denis",
+      "zone": "Nord",
+      "editions_observees": [
+        "2026-07-11"
+      ],
+      "date_edition_observee": "2026-07-11",
+      "source_url": "https://guide-reunion.fr/evenements/eve/village-japon-a-saint-denis/",
+      "date_detection": "2026-09-22",
+      "recurrence_estimee": "",
+      "nb_exposants_annonce": null,
+      "deja_dans_events_json": false,
+      "organisateur_deja_dans_orgs_json": false,
+      "contact_connu": "",
+      "action_suggeree": "Resurveiller vers mai-juin 2027 : un appel à exposants avait circulé sur les réseaux (comptes « Collectif Kyokushin Reunion », « dojopierregrondin ») pour l'édition 2026, mais les publications n'ont pas pu être lues (mur de connexion Facebook/Instagram). Recontacter ces comptes ou la mairie de Saint-Denis avant la prochaine édition.",
+      "_note": "Repéré le 22/09/2026 via un balayage tier3/tier4. 4ᵉ édition tenue les 11-12 juillet 2026 (déjà passée au moment de la détection), Petit Stade de l'Est, Saint-Denis — événement gratuit associé à une compétition de karaté (Tokió Cup), avec un volet artisanat/culture japonaise (stands, mangas, calligraphie, artisanat). Recoupé par outremertourisme.fr et fetanoo.com. Une seule édition datée par nos soins à ce jour (la mention « 4e édition » implique trois éditions antérieures non observées directement par la veille) : recurrence_estimee laissée vide conformément à la règle des deux éditions observées."
     }
   ]
 }
