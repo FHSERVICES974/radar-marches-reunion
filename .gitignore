@@ -61,3 +61,4 @@ data/.essais_veille
 data/.veille_en_cours
 
 data/.mails_traites.json
+data/pending/clotures_*.json

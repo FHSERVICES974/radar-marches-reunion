@@ -2,7 +2,9 @@
 # run_veille.sh — Lance la veille quotidienne via l'agent Claude (headless).
 # Appelé par launchd TOUTES LES HEURES ; ne s'exécute qu'une fois par jour, à 4 h heure de La Réunion ou au premier réveil qui suit
 # (jusqu'à 3 essais si l'agent échoue). Écrit proposition_MAJ_*.md + data/pending/*.
-# NE PUBLIE RIEN (le playbook interdit publier.py). Journalise dans veille.log.
+# Ne publie RIEN de capté (le playbook interdit publier.py) ; seule exception, décidée
+# le 22/09/2026 : cloture_auto.py ferme les candidatures dont la date est passée.
+# Journalise dans veille.log.
 
 set -e
 # Le script tourne sur deux machines : le Mac de Francois et le VPS Hostinger
@@ -136,11 +138,20 @@ git pull --rebase --autostash origin main >> veille.log 2>&1 \
   && echo "[git] resynchronisé avec GitHub" >> veille.log \
   || echo "[git] ATTENTION : pull échoué, base peut-être périmée" >> veille.log
 
+# Fermer les candidatures dont la date est passée — AUTOMATIQUEMENT (décision de
+# François, 22/09/2026). Calcul de date sur la fiche elle-même, pas une info
+# captée : aucune validation humaine requise. Ne touche QUE les fiches « open ».
+# Placé avant l'agent : il travaille ainsi sur des statuts à jour, et les
+# fermetures ont lieu même si l'agent échoue ensuite.
+./venv/bin/python cloture_auto.py >> veille.log 2>&1 \
+  || echo "[cloture] ATTENTION : clôture automatique en échec — voir ci-dessus" >> veille.log
+
 # Passerelle documents (photos/PDF de flyers) — DEUX canaux, dans cet ordre :
 #
 # 1) Le mail. Depuis que la veille tourne sur le serveur (12/09/2026), iCloud
 #    n'est plus lisible : l'iPhone envoie ses documents à l'adresse du projet
-#    suffixée « +radar », et recuperer_mails.py les dépose dans data/inbox_docs/.
+#    avec « RADAR » dans l'objet, et recuperer_mails.py les dépose dans
+#    data/inbox_docs/.
 #    Ne fait jamais échouer la veille : en cas de souci il le dit et rend la main.
 if [ -f recuperer_mails.py ]; then
   ./venv/bin/python recuperer_mails.py >> veille.log 2>&1 \
