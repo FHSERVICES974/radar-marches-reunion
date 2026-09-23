@@ -1,0 +1,155 @@
+{
+  "generated": "2026-09-23",
+  "status_changes": [
+    {
+      "key": "salon international de l agriculture village reunion|national",
+      "name": "Salon International de l'Agriculture — Village Réunion",
+      "zone": "National",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "bal la poussiere fete patronale sainte marie|nord",
+      "name": "Bal la Poussière - Fête patronale Sainte-Marie",
+      "zone": "Nord",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "bal populaire bal la poussiere fete patronale 2026|nord",
+      "name": "Bal populaire « Bal la poussière » — Fête patronale 2026",
+      "zone": "Nord",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "braderie commerciale de sainte marie|nord",
+      "name": "Braderie commerciale de Sainte-Marie",
+      "zone": "Nord",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "brocantes de la possession appel a un porteur de projet organisateur|ouest",
+      "name": "Brocantes de La Possession — appel à un porteur de projet organisateur",
+      "zone": "Ouest",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "brokant muzik 2026|ouest",
+      "name": "Brokant' Muzik 2026",
+      "zone": "Ouest",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "concert dmm appel a forains saint andre|est",
+      "name": "Concert DMM — appel à forains (Saint-André)",
+      "zone": "Est",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "emplacements aot domaine public saint gilles les bains bassin de vie n 2|ouest",
+      "name": "Emplacements AOT domaine public — Saint-Gilles-les-Bains (bassin de vie n°2)",
+      "zone": "Ouest",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "fete des agrumes|sud",
+      "name": "Fête des Agrumes",
+      "zone": "Sud",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "jour de sport sante 2026 espace food court|ouest",
+      "name": "Jour de Sport Santé 2026 — Espace Food Court",
+      "zone": "Ouest",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "la plaine en fete ex fete de la pomme de terre et du cheval|sud",
+      "name": "La Plaine en Fête (ex-Fête de la Pomme de Terre et du Cheval)",
+      "zone": "Sud",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "mascarin jardin botanique appel a projet boutique salles de seminaire|ouest",
+      "name": "Mascarin Jardin Botanique — appel à projet (boutique & salles de séminaire)",
+      "zone": "Ouest",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "salon d ete maison jardin|sud",
+      "name": "Salon d'Été, Maison & Jardin",
+      "zone": "Sud",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    },
+    {
+      "key": "village artisanal de la fete de la saint louis|sud",
+      "name": "Village artisanal de la Fête de la Saint-Louis",
+      "zone": "Sud",
+      "from": "closed",
+      "to": "soon",
+      "reason": "édition passée — surveiller l'appel de l'édition suivante"
+    }
+  ],
+  "new_events_candidates": [
+    {
+      "_source_title": "Appel à candidature Village de Noël Édition 2026 — Saint-Philippe",
+      "_source_url": "https://saintphilippe.re/appel-a-candidature-village-de-noel-edition-2026/",
+      "_confidence": "Vérifié",
+      "event": {
+        "name": "Village de Noël 2026 — Saint-Philippe",
+        "zone": "Sud",
+        "type": "Marché de Noël",
+        "org": "Ville de Saint-Philippe",
+        "place": "Site de Baril-les-Bains, Saint-Philippe",
+        "when": "Décembre (annuel) · éd. 2026 : 17–20 décembre, Baril-les-Bains",
+        "badge": "DÉC",
+        "month": 12,
+        "dateStatus": "confirmée",
+        "status": "open",
+        "deadline": "27 novembre 2026 (inclus)",
+        "contact": "secretariatgeneral@saintphilippe.re · protocole@saintphilippe.re · 0262 37 00 12",
+        "social": "",
+        "url": "https://saintphilippe.re/appel-a-candidature-village-de-noel-edition-2026/",
+        "apply": "Dossier de candidature (PDF/ODT) à télécharger sur la page de l'appel, à déposer avant le 27 novembre 2026 inclus à l'accueil de la Mairie de Saint-Philippe (64 rue Leconte Delisle, 97442 Saint-Philippe) ou par mail à secretariatgeneral@saintphilippe.re / protocole@saintphilippe.re. Renseignements : 0262 37 00 12.",
+        "desc": "Village de Noël de la Ville de Saint-Philippe, sur le site de Baril-les-Bains, du 17 au 20 décembre 2026. Ouvert aux artisans et créateurs, petits restaurateurs, commerçants/entreprises et associations. Premier organisateur artisanal identifié pour cette commune, jusqu'ici angle mort complet de la veille."
+      }
+    }
+  ],
+  "community": [],
+  "field_updates": [
+    {
+      "event_name": "Marché de nuit de Saint-Denis",
+      "_source_url": "https://imazpress.com/zoom/saint-denis-la-saison-2026-des-marches-de-nuits-ouvertes-ce-samedi-7-mars-2026",
+      "_confidence": "Probable",
+      "raison": "Trois sources de presse indépendantes et concordantes (imazpress, deux articles distincts, et linfo.re) précisent que ce marché nocturne mensuel de Saint-Denis (1er samedi du mois) se tient concrètement au Barachois, avec environ 150 stands d'artisanat, mode, création et produits gourmands — la fiche actuelle ne précisait que « Saint-Denis » comme lieu, sans détail. Source de presse, pas la page officielle saintdenis.re elle-même (souvent bloquée aux outils automatisés) : proposé en Probable, à valider avant publication.",
+      "changes": {
+        "place": "Le Barachois, Saint-Denis",
+        "desc": "Rendez-vous mensuel nocturne au Barachois (1er samedi du mois, 19h-minuit) : environ 150 stands d'artisanat, mode, création et produits gourmands, restauration et animations."
+      }
+    }
+  ]
+}
