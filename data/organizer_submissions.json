@@ -350,5 +350,31 @@
     "submitter_name": "Jamin",
     "submitter_phone": "0693813583",
     "reviewer_note": ""
+  },
+  {
+    "id": "7d79efd3a9c9",
+    "ts": "2026-09-23T11:21:06",
+    "status": "pending",
+    "fields": {
+      "name": "La Nuit du Terroir",
+      "zone": "Ouest",
+      "type": "Fête / Terroir",
+      "org": "Commune de La Possession",
+      "place": "Place Festival de La Possession",
+      "when": "09/10/2026",
+      "deadline": "27/09/206",
+      "apply": "Pour candidater, téléchargez et remplissez le dossier de candidature disponible en pièce jointe.\r\n𝐋𝐞 𝐝𝐨𝐬𝐬𝐢𝐞𝐫 𝐝𝐞𝐯𝐫𝐚 𝐞̂𝐭𝐫𝐞 𝐝𝐞́𝐩𝐨𝐬𝐞́ 𝐢𝐦𝐩𝐞́𝐫𝐚𝐭𝐢𝐯𝐞𝐦𝐞𝐧𝐭 :\r\navant le 28 septembre 2026\r\nau plus tard avant 16h00,\r\nau service Courrier de l’Hôtel de Ville, rue Waldeck Rochet\r\nou par mail : commerces@lapossession.re",
+      "email": "commerces@lapossession.re",
+      "phone": "0262224050",
+      "social": "",
+      "desc": "Dans le cadre de la mise en œuvre de son Projet Alimentaire Territorial (PAT), la Ville de La Possession organise « 𝗟𝗮 𝗡𝘂𝗶𝘁 𝗱𝘂 𝗧𝗲𝗿𝗿𝗼𝗶𝗿 », 𝗹𝗲 𝟵 𝗼𝗰𝘁𝗼𝗯𝗿𝗲, 𝗱𝗲 𝟭𝟳𝗵𝟯𝟬 𝗮̀ 𝟮𝟮𝗵, 𝘀𝘂𝗿 𝗹𝗮 P𝗹𝗮𝗰𝗲 𝗙𝗲𝘀𝘁𝗶𝘃𝗮𝗹.\r\nCette nouvelle manifestation mettra à l’honneur le terroir réunionnais, ses saveurs, ses savoir-faire et les acteurs qui le font vivre. Producteurs, artisans, acteurs locaux et habitants se retrouveront autour d’un même objectif : valoriser l’alimentation péi, les produits locaux et l'artisanat fait-main."
+    },
+    "links": [
+      "https://www.lapossession.re/actualites/985863",
+      "https://www.lapossession.re/actualites/984048"
+    ],
+    "submitter_name": "Zibel Anne-Gaëlle",
+    "submitter_phone": "0262224050",
+    "reviewer_note": ""
   }
 ]
