@@ -1512,6 +1512,24 @@
     "desc": "150 à 220 artisans, créateurs et producteurs péi — 100 % fait main. Association active depuis 50 ans."
   },
   {
+    "name": "Village de Noël 2026 — Saint-Philippe",
+    "zone": "Sud",
+    "type": "Marché de Noël",
+    "org": "Ville de Saint-Philippe",
+    "place": "Site de Baril-les-Bains, Saint-Philippe",
+    "when": "Décembre (annuel) · éd. 2026 : 17–20 décembre, Baril-les-Bains",
+    "badge": "DÉC",
+    "month": 12,
+    "dateStatus": "confirmée",
+    "status": "open",
+    "deadline": "27 novembre 2026 (inclus)",
+    "contact": "secretariatgeneral@saintphilippe.re · protocole@saintphilippe.re · 0262 37 00 12",
+    "social": "",
+    "url": "https://saintphilippe.re/appel-a-candidature-village-de-noel-edition-2026/",
+    "apply": "Dossier de candidature (PDF/ODT) à télécharger sur la page de l'appel, à déposer avant le 27 novembre 2026 inclus à l'accueil de la Mairie de Saint-Philippe (64 rue Leconte Delisle, 97442 Saint-Philippe) ou par mail à secretariatgeneral@saintphilippe.re / protocole@saintphilippe.re. Renseignements : 0262 37 00 12.",
+    "desc": "Village de Noël de la Ville de Saint-Philippe, sur le site de Baril-les-Bains, du 17 au 20 décembre 2026. Ouvert aux artisans et créateurs, petits restaurateurs, commerçants/entreprises et associations. Premier organisateur artisanal identifié pour cette commune, jusqu'ici angle mort complet de la veille."
+  },
+  {
     "name": "Village de Noël de Saint-Paul",
     "zone": "Ouest",
     "type": "Marché de Noël",
