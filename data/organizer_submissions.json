@@ -376,5 +376,30 @@
     "submitter_name": "Zibel Anne-Gaëlle",
     "submitter_phone": "0262224050",
     "reviewer_note": ""
+  },
+  {
+    "id": "dae590911cdb",
+    "ts": "2026-09-24T10:56:29",
+    "status": "pending",
+    "fields": {
+      "name": "Good Vibes Reggae 3ème Ed",
+      "zone": "Ouest",
+      "type": "Événement culturel",
+      "org": "Association Vibrations Roots",
+      "place": "Maison Gran Cour 233 Chaussée Royale Saint-Paul",
+      "when": "07 novembre 2026",
+      "deadline": "06 novembre 2026",
+      "apply": "Inscription sur Yapla : https://vibrations-roots.s2.yapla.com/fr/event-123493",
+      "email": "vibration-roots@hotmail.fr",
+      "phone": "",
+      "social": "",
+      "desc": "Evénement reggae de 14h à 23h avec scène découverte et concerts artistes locaux.\r\nArtistes : Rom'x - Zion Alpha - Manbessa - Universal Reggae - Del'eritaz - Tanto Léon - Natty Dread    /   Buvette et petite restauration tenues par Vibrations Roots"
+    },
+    "links": [
+      "https://www.facebook.com/vibrationsroots/"
+    ],
+    "submitter_name": "RETOURNARD Sophie",
+    "submitter_phone": "0692509390",
+    "reviewer_note": ""
   }
 ]
