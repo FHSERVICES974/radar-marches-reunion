@@ -1008,6 +1008,24 @@
     "desc": "Marché de la Toussaint organisé par la Ville de Saint-Benoît avec emplacements stratégiques pour fleuristes, artisans et producteurs locaux. Événement valorisant l'artisanat pays, compositions florales et gastronomie réunionnaise."
   },
   {
+    "name": "Grand Raid 2026 — restauration/snacking (La Possession)",
+    "zone": "Ouest",
+    "type": "Restauration événementielle (occupation domaine public)",
+    "org": "Ville de La Possession — Service Commerces",
+    "place": "Place Festival, La Possession",
+    "when": "Grand Raid · éd. 2026 : 16–18 octobre, Place Festival",
+    "badge": "OCT",
+    "month": 10,
+    "dateStatus": "confirmée",
+    "status": "open",
+    "deadline": "4 octobre 2026",
+    "contact": "commerces@lapossession.re · 0262 22 20 02",
+    "social": "",
+    "url": "https://www.lapossession.re/actualites/997003",
+    "apply": "Télécharger le dossier de candidature sur lapossession.re, le déposer au service Courrier de l'Hôtel de Ville ou l'envoyer par courriel à commerces@lapossession.re, avant le 4 octobre 2026.",
+    "desc": "⚠️ PÉRIMÈTRE TRÈS RESTREINT — pas un marché de créateurs. La Ville de La Possession recherche seulement 2 stands de produits sucrés et 2 stands salés/snacking pour la restauration événementielle du Grand Raid 2026 (16-18 octobre), Place Festival. Réservé aux professionnels de la restauration ambulante ; aucune place pour l'artisanat d'art."
+  },
+  {
     "name": "Kiosques du Belvédère de Grand-Bassin — Plaine des Cafres",
     "zone": "Sud",
     "type": "Marché communal (kiosques du domaine public)",
