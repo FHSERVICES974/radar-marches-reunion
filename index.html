@@ -270,7 +270,7 @@
 </div>
 
 <script>
-const META = { lastUpdate: "2026-09-23" };
+const META = { lastUpdate: "2026-09-24" };
 
 /* ⚙️ À PERSONNALISER — mets ton numéro WhatsApp et ton email ci-dessous.
    whatsapp : format international sans "+" ni espaces. Réunion = 262 + ton numéro sans le 0.
@@ -1568,6 +1568,24 @@ const EVENTS = [
     "url": "https://docs.google.com/forms/d/e/1FAIpQLScJbjaNc4hVUNZ8dj5tC7qc-ACp96YQAXBHIlq06FNHh9yDhA/viewform",
     "apply": "Pré-inscription via formulaire Google Form en ligne. Réservation définitive après validation de la candidature et réception de l'acompte. Stand 2 jours comprenant : emplacement exposant, tables rectangles et nappage (noir ou blanc), chaises, accès électricité sur demande, café et thé, chapiteau pour extérieurs, communication réseaux sociaux/radio/écran. Tarif 500-800€ HT/2 jours selon emplacement. Places limitées avec sélection pour offre variée et prestations de qualité.",
     "desc": "Salon du Mariage 2026 organisé par Le Vieux Saltimbanque à Saint-André (974) les 7 & 8 novembre. Appel à exposants/prestataires passionnés autour du mariage, avec attention particulière portée aux talents de La Réunion. Événement de qualité réunissant des professionnels du mariage dans un lieu événementiel disposant de salles modulables."
+  },
+  {
+    "name": "Semaine Commerciale de Saint-André",
+    "zone": "Est",
+    "type": "Braderie / semaine commerciale (occupation domaine public)",
+    "org": "Ville de Saint-André",
+    "place": "Saint-André",
+    "when": "Semaine Commerciale · éd. 2026 : 4–10 novembre",
+    "badge": "NOV",
+    "month": 11,
+    "dateStatus": "confirmée",
+    "status": "open",
+    "deadline": "16 octobre 2026",
+    "contact": "communication@saint-andre.re · 02.62.58.88.88",
+    "social": "",
+    "url": "https://www.saint-andre.re/appels-a-candidatures-semaine-commerciale/",
+    "apply": "Dossier de candidature à déposer avant le 16 octobre 2026 auprès de la Ville de Saint-André (communication@saint-andre.re · 02.62.58.88.88).",
+    "desc": "Semaine Commerciale de Saint-André (4-10 novembre 2026) : appel à candidatures ouvert aux artisans d'art, commerçants, producteurs locaux et créateurs."
   },
   {
     "name": "Magik Noël",
@@ -3120,6 +3138,13 @@ const ORGS = [
     "t": "0693 60 85 81",
     "s": "",
     "w": "https://www.facebook.com/share/1Dnu7YAzz3/"
+  },
+  {
+    "n": "Commune de La Possession",
+    "m": "commerces@lapossession.re",
+    "t": "0262224050",
+    "s": "",
+    "w": "https://www.lapossession.re/actualites/985863"
   }
 ];
 
@@ -4105,6 +4130,27 @@ window.chatSend=function(){
         "name": "Vavang'art"
       },
       "url": "https://vavangart.com/"
+    },
+    {
+      "@type": "Event",
+      "name": "Semaine Commerciale de Saint-André",
+      "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "description": "Semaine Commerciale de Saint-André (4-10 novembre 2026) : appel à candidatures ouvert aux artisans d'art, commerçants, producteurs locaux et créateurs.",
+      "location": {
+        "@type": "Place",
+        "name": "Saint-André",
+        "address": {
+          "@type": "PostalAddress",
+          "addressRegion": "La Réunion",
+          "addressCountry": "RE"
+        }
+      },
+      "organizer": {
+        "@type": "Organization",
+        "name": "Ville de Saint-André"
+      },
+      "url": "https://www.saint-andre.re/appels-a-candidatures-semaine-commerciale/"
     },
     {
       "@type": "Event",

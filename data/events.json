@@ -1278,6 +1278,24 @@
     "desc": "Salon du Mariage 2026 organisé par Le Vieux Saltimbanque à Saint-André (974) les 7 & 8 novembre. Appel à exposants/prestataires passionnés autour du mariage, avec attention particulière portée aux talents de La Réunion. Événement de qualité réunissant des professionnels du mariage dans un lieu événementiel disposant de salles modulables."
   },
   {
+    "name": "Semaine Commerciale de Saint-André",
+    "zone": "Est",
+    "type": "Braderie / semaine commerciale (occupation domaine public)",
+    "org": "Ville de Saint-André",
+    "place": "Saint-André",
+    "when": "Semaine Commerciale · éd. 2026 : 4–10 novembre",
+    "badge": "NOV",
+    "month": 11,
+    "dateStatus": "confirmée",
+    "status": "open",
+    "deadline": "16 octobre 2026",
+    "contact": "communication@saint-andre.re · 02.62.58.88.88",
+    "social": "",
+    "url": "https://www.saint-andre.re/appels-a-candidatures-semaine-commerciale/",
+    "apply": "Dossier de candidature à déposer avant le 16 octobre 2026 auprès de la Ville de Saint-André (communication@saint-andre.re · 02.62.58.88.88).",
+    "desc": "Semaine Commerciale de Saint-André (4-10 novembre 2026) : appel à candidatures ouvert aux artisans d'art, commerçants, producteurs locaux et créateurs."
+  },
+  {
     "name": "Magik Noël",
     "zone": "Est",
     "type": "Marché de Noël",
