@@ -1,6 +1,6 @@
 {
   "_mode_emploi_agent": "Fichier CUMULATIF de pistes d'organisateurs, alimenté par la veille (playbook veille_agent.md, étape 3 ter). Ce ne sont PAS des appels à candidature et elles n'entrent JAMAIS dans events.json : c'est de la matière de démarchage et d'anticipation. Lire ce fichier AVANT d'écrire, puis le réécrire enrichi — ne jamais l'écraser, la mémoire des éditions observées est ce qui permet d'estimer une récurrence. Clé d'unicité : nom_evenement + commune. recurrence_estimee exige au moins deux entrées dans editions_observees. Champs vides plutôt qu'inventés.",
-  "generated": "2026-09-22",
+  "generated": "2026-09-26",
   "pistes": [
     {
       "nom_evenement": "Marché des créateurs — Carré Cathédrale",
@@ -807,6 +807,44 @@
       "contact_connu": "",
       "action_suggeree": "Resurveiller vers mai-juin 2027 : un appel à exposants avait circulé sur les réseaux (comptes « Collectif Kyokushin Reunion », « dojopierregrondin ») pour l'édition 2026, mais les publications n'ont pas pu être lues (mur de connexion Facebook/Instagram). Recontacter ces comptes ou la mairie de Saint-Denis avant la prochaine édition.",
       "_note": "Repéré le 22/09/2026 via un balayage tier3/tier4. 4ᵉ édition tenue les 11-12 juillet 2026 (déjà passée au moment de la détection), Petit Stade de l'Est, Saint-Denis — événement gratuit associé à une compétition de karaté (Tokió Cup), avec un volet artisanat/culture japonaise (stands, mangas, calligraphie, artisanat). Recoupé par outremertourisme.fr et fetanoo.com. Une seule édition datée par nos soins à ce jour (la mention « 4e édition » implique trois éditions antérieures non observées directement par la veille) : recurrence_estimee laissée vide conformément à la règle des deux éditions observées."
+    },
+    {
+      "nom_evenement": "Tévelava — village forestier en fête",
+      "organisateur": "Commune des Avirons",
+      "lieu": "Village forestier du Tévelave",
+      "commune": "Les Avirons",
+      "zone": "Sud",
+      "editions_observees": [
+        "2026-11-06"
+      ],
+      "date_edition_observee": "2026-11-06",
+      "source_url": "https://guide-reunion.fr/tevelava-village-forestier-en-fete/",
+      "date_detection": "2026-09-26",
+      "recurrence_estimee": "",
+      "nb_exposants_annonce": null,
+      "deja_dans_events_json": false,
+      "organisateur_deja_dans_orgs_json": false,
+      "contact_connu": "mairie des Avirons · 0262 38 13 40",
+      "action_suggeree": "Appel à forains déjà clos pour cette édition (candidatures acceptées du 2 mars au 2 avril 2026, pour l'événement du 6-8 novembre 2026) — aucune action possible cette année. Contacter la mairie des Avirons (0262 38 13 40) vers janvier-février 2027 pour confirmer la reconduction et la fenêtre de candidature de l'édition suivante. PÉRIMÈTRE À CLARIFIER : l'appel vise des « forains », terme qui peut désigner des attractions/manèges plutôt que des artisans-créateurs — à trancher avant de qualifier l'événement de marché de créateurs à part entière. Ajouter la commune des Avirons à orgs.json après premier contact — c'était jusqu'ici un angle mort complet de la veille (aucun organisateur artisanal identifié sur cette commune).",
+      "_note": "Repéré le 26/09/2026 lors d'un balayage ciblé des petites communes. 4ᵉ édition de Tévelava, thème « Gramoun et natir, nout zarboutan », 6-8 novembre 2026, village forestier du Tévelave (Les Avirons). Livret officiel PDF disponible sur mairie-avirons.fr. Une seule édition datée : recurrence_estimee laissée vide conformément à la règle des deux éditions minimum."
+    },
+    {
+      "nom_evenement": "Vente artisanale & vente solidaire — AUDACE",
+      "organisateur": "AUDACE",
+      "lieu": "Plaine des Cafres",
+      "commune": "Le Tampon",
+      "zone": "Sud",
+      "editions_observees": [],
+      "date_edition_observee": "",
+      "source_url": "https://www.sudreuniontourisme.fr/a-la-une/actualite/audace-vente-artisanale-vente-solidaire.html",
+      "date_detection": "2026-09-26",
+      "recurrence_estimee": "",
+      "nb_exposants_annonce": null,
+      "deja_dans_events_json": false,
+      "organisateur_deja_dans_orgs_json": false,
+      "contact_connu": "",
+      "action_suggeree": "Lire la page source pour identifier un contact direct (non extrait par la recherche initiale), puis vérifier auprès d'AUDACE si des artisans extérieurs à l'association peuvent candidater à cette vente mensuelle, et selon quelles modalités. Si le format est bien ouvert à des exposants tiers de façon récurrente, il pourrait à terme justifier une fiche events.json en statut permanent/hebdomadaire plutôt qu'une simple piste — mais aucune modalité de participation n'est confirmée à ce stade.",
+      "_note": "Repéré le 26/09/2026 via un balayage tier3 (Sud Réunion Tourisme). Vente artisanale & vente solidaire organisée par l'association AUDACE, décrite comme récurrente le 2ᵉ jeudi de chaque mois à la Plaine des Cafres (Le Tampon). Aucune édition datée précisément lue à ce stade (source non ouverte en détail), aucun contact extrait : champs laissés vides plutôt qu'inventés. Premier repérage de cet organisateur — absent d'orgs.json et de sources.json."
     }
   ]
 }
