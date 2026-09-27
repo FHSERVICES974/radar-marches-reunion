@@ -1,6 +1,6 @@
 {
   "_mode_emploi_agent": "Fichier CUMULATIF de pistes d'organisateurs, alimenté par la veille (playbook veille_agent.md, étape 3 ter). Ce ne sont PAS des appels à candidature et elles n'entrent JAMAIS dans events.json : c'est de la matière de démarchage et d'anticipation. Lire ce fichier AVANT d'écrire, puis le réécrire enrichi — ne jamais l'écraser, la mémoire des éditions observées est ce qui permet d'estimer une récurrence. Clé d'unicité : nom_evenement + commune. recurrence_estimee exige au moins deux entrées dans editions_observees. Champs vides plutôt qu'inventés.",
-  "generated": "2026-09-26",
+  "generated": "2026-09-27",
   "pistes": [
     {
       "nom_evenement": "Marché des créateurs — Carré Cathédrale",
@@ -845,6 +845,26 @@
       "contact_connu": "",
       "action_suggeree": "Lire la page source pour identifier un contact direct (non extrait par la recherche initiale), puis vérifier auprès d'AUDACE si des artisans extérieurs à l'association peuvent candidater à cette vente mensuelle, et selon quelles modalités. Si le format est bien ouvert à des exposants tiers de façon récurrente, il pourrait à terme justifier une fiche events.json en statut permanent/hebdomadaire plutôt qu'une simple piste — mais aucune modalité de participation n'est confirmée à ce stade.",
       "_note": "Repéré le 26/09/2026 via un balayage tier3 (Sud Réunion Tourisme). Vente artisanale & vente solidaire organisée par l'association AUDACE, décrite comme récurrente le 2ᵉ jeudi de chaque mois à la Plaine des Cafres (Le Tampon). Aucune édition datée précisément lue à ce stade (source non ouverte en détail), aucun contact extrait : champs laissés vides plutôt qu'inventés. Premier repérage de cet organisateur — absent d'orgs.json et de sources.json."
+    },
+    {
+      "nom_evenement": "Marché de Noël de Sainte-Rose",
+      "organisateur": "Les Brocanteurs des Laves",
+      "lieu": "Sainte-Rose",
+      "commune": "Sainte-Rose",
+      "zone": "Est",
+      "editions_observees": [
+        "2025-12-14"
+      ],
+      "date_edition_observee": "2025-12-14",
+      "source_url": "https://www.reunionest.fr/ (agenda, repéré via extrait de recherche — page non lue intégralement)",
+      "date_detection": "2026-09-27",
+      "recurrence_estimee": "",
+      "nb_exposants_annonce": null,
+      "deja_dans_events_json": false,
+      "organisateur_deja_dans_orgs_json": true,
+      "contact_connu": "lesbrocanteursdeslaves439@gmail.com · 0692 93 13 14",
+      "action_suggeree": "Contacter Les Brocanteurs des Laves (contact déjà en main) : un seul message peut couvrir les trois formats identifiés de cet organisateur (brocante mensuelle, marché volcanique de septembre « Les Jours de Feu », et ce marché de Noël) et permettre de confirmer le calendrier 2026.",
+      "_note": "Repéré le 27/09/2026 via un balayage tier3 (reunionest.fr). Confiance faible : contenu obtenu via un extrait de recherche, la page source n'a pas été ouverte et lue intégralement. Édition 2025 datée dimanche 14 décembre 2025. Troisième format identifié pour le même organisateur (Les Brocanteurs des Laves), déjà connu pour la Brocante des Laves (mensuelle, Place des Laves) et Les Jours de Feu (marché du dimanche de septembre). Une seule édition datée : recurrence_estimee laissée vide conformément à la règle des deux éditions minimum. À consolider par une lecture directe de la source avant d'accorder plus de crédit à cette piste."
     }
   ]
 }
