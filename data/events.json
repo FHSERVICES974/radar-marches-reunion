@@ -1206,6 +1206,24 @@
     "desc": "37ᵉ édition. Village culturel éphémère « Mela » : stands artisanat, cuisine traditionnelle, savoir-faire."
   },
   {
+    "name": "Good Vibes Reggae 3ème Ed",
+    "zone": "Ouest",
+    "type": "Événement culturel",
+    "org": "Association Vibrations Roots",
+    "place": "Maison Gran Cour 233 Chaussée Royale Saint-Paul",
+    "when": "07 novembre 2026",
+    "badge": "NOV",
+    "month": 11,
+    "dateStatus": "à confirmer",
+    "status": "open",
+    "deadline": "06 novembre 2026",
+    "contact": "vibration-roots@hotmail.fr",
+    "social": "",
+    "url": "https://www.facebook.com/vibrationsroots/",
+    "apply": "Inscription sur Yapla : https://vibrations-roots.s2.yapla.com/fr/event-123493",
+    "desc": "Evénement reggae de 14h à 23h avec scène découverte et concerts artistes locaux.\r\nArtistes : Rom'x - Zion Alpha - Manbessa - Universal Reggae - Del'eritaz - Tanto Léon - Natty Dread    /   Buvette et petite restauration tenues par Vibrations Roots"
+  },
+  {
     "name": "Grande Exposition du Fabriqué en France",
     "zone": "National",
     "type": "Exposition nationale",
