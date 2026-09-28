@@ -270,7 +270,7 @@
 </div>
 
 <script>
-const META = { lastUpdate: "__LASTUPDATE__" };
+const META = { lastUpdate: "__LASTUPDATE__", lastCheck: "__LASTCHECK__" };
 
 /* ⚙️ À PERSONNALISER — mets ton numéro WhatsApp et ton email ci-dessous.
    whatsapp : format international sans "+" ni espaces. Réunion = 262 + ton numéro sans le 0.
@@ -553,7 +553,15 @@ document.getElementById("suMail").onclick=()=>{
 };
 
 document.getElementById("q").oninput=e=>{q=e.target.value.toLowerCase().trim();render();};
-document.getElementById("upd").textContent="Dernière mise à jour : "+new Date(META.lastUpdate).toLocaleDateString("fr-FR",{day:"numeric",month:"long",year:"numeric"})+" · veille quotidienne.";
+// Deux dates : « vérifié » (dernière veille réussie) et « modifié » (dernier
+// changement du site). Identiques, elles se disent en une fois.
+(function(){
+  const fmt=(iso,annee)=>new Date(iso).toLocaleDateString("fr-FR",annee?{day:"numeric",month:"long",year:"numeric"}:{day:"numeric",month:"long"});
+  const verif=META.lastCheck||META.lastUpdate, modif=META.lastUpdate;
+  document.getElementById("upd").textContent = verif===modif
+    ? "Vérifié et mis à jour le "+fmt(verif,true)+" · veille quotidienne."
+    : "Vérifié le "+fmt(verif,true)+" · dernière modification le "+fmt(modif,false)+" · veille quotidienne.";
+})();
 
 buildKpis();buildControls();buildDir();render();
 

@@ -241,6 +241,10 @@ if [ "$RC" -ne 0 ]; then
   fi
 else
   echo "$AUJ" > "$MARQUEUR"        # veille du jour réussie : plus de passage aujourd'hui
+  # Dater le site : « Vérifié le … ». Seulement ici, donc seulement si la veille
+  # a réussi — une date qui avancerait malgré un échec serait un mensonge.
+  ./venv/bin/python marquer_veille.py >> veille.log 2>&1 \
+    || echo "[verif] ATTENTION : datation du site en échec — voir ci-dessus" >> veille.log
 fi
 
 # Une fois la veille passée, on vide la note pour repartir propre la semaine

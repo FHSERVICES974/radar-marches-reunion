@@ -6,7 +6,8 @@ Le design (CSS / HTML / logique JS) vit dans template.html et n'est JAMAIS
 modifié par ce script. Seuls trois placeholders sont remplacés :
     __EVENTS__      -> data/events.json
     __ORGS__        -> data/orgs.json
-    __LASTUPDATE__  -> data/meta.json ["lastUpdate"]
+    __LASTUPDATE__  -> data/meta.json ["lastUpdate"]   (dernière MODIFICATION du site)
+    __LASTCHECK__   -> data/meta.json ["lastCheck"]    (dernière veille RÉUSSIE)
 
 Usage :
     python build.py                 # build normal -> index.html
@@ -193,12 +194,20 @@ def build(check_only: bool = False) -> str:
     if not last_update:
         raise SystemExit("meta.json: lastUpdate manquant")
 
+    # Deux dates, deux sens. lastUpdate n'avance que si le site CHANGE ; affichée
+    # seule, elle laissait croire que la veille n'avait pas tourné les jours sans
+    # nouveauté (remarque de François, 28/09/2026). lastCheck est posée par
+    # marquer_veille.py après chaque veille réussie. Absente ou plus ancienne que
+    # la dernière modification, elle est ramenée à celle-ci : on n'affiche jamais
+    # « vérifié » AVANT « modifié ».
+    last_check = max(str(meta.get("lastCheck", "")).strip(), last_update)
+
     for i, e in enumerate(events):
         missing = [k for k in EVENT_KEYS if k not in e]
         if missing:
             raise SystemExit(f"events.json[{i}] ({e.get('name','?')}): clés manquantes {missing}")
 
-    for token in ("__EVENTS__", "__ORGS__", "__LASTUPDATE__", "__JSONLD__"):
+    for token in ("__EVENTS__", "__ORGS__", "__LASTUPDATE__", "__LASTCHECK__", "__JSONLD__"):
         if token not in template:
             raise SystemExit(f"template.html: placeholder {token} introuvable")
 
@@ -209,6 +218,7 @@ def build(check_only: bool = False) -> str:
         .replace("__EVENTS__", _js_literal(events))
         .replace("__ORGS__", _js_literal(orgs))
         .replace("__LASTUPDATE__", last_update)
+        .replace("__LASTCHECK__", last_check)
         .replace("__JSONLD__", jsonld)
     )
 
