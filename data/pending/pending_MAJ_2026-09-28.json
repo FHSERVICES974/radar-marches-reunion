@@ -114,31 +114,7 @@
       "reason": "édition passée — surveiller l'appel de l'édition suivante"
     }
   ],
-  "new_events_candidates": [
-    {
-      "_source_title": "La Nuit du Terroir — appel à candidatures (La Possession)",
-      "_source_url": "https://www.lapossession.re/actualites/985863",
-      "_confidence": "Vérifié",
-      "event": {
-        "name": "La Nuit du Terroir — appel à candidatures (La Possession)",
-        "zone": "Ouest",
-        "type": "Marché de terroir / producteurs & artisans",
-        "org": "Ville de La Possession",
-        "place": "Place Festival, La Possession",
-        "when": "Vendredi 9 octobre 2026, 17h30-22h00 (1ère édition)",
-        "badge": "OCT",
-        "month": 10,
-        "dateStatus": "confirmée",
-        "status": "open",
-        "deadline": "28 septembre 2026, 16h00",
-        "contact": "commerces@lapossession.re · 0262 22 20 02 — Service Courrier, Hôtel de Ville, rue Waldeck-Rochet, 97419 La Possession",
-        "social": "",
-        "url": "https://www.lapossession.re/actualites/985863",
-        "apply": "Dossier de candidature (PDF) à télécharger sur lapossession.re, dûment complété, à déposer avant le 28 septembre 2026 16h00 au Service Courrier de l'Hôtel de Ville (rue Waldeck-Rochet) ou par email à commerces@lapossession.re. Renseignements au 0262 22 20 02.",
-        "desc": "1ère édition de La Nuit du Terroir à La Possession (9 octobre 2026, Place Festival), organisée dans le cadre du Projet Alimentaire Territorial (PAT) municipal pour mettre en lumière le terroir réunionnais, ses saveurs, ses savoir-faire et les acteurs locaux. 20 emplacements artisans/producteurs recherchés (miel, confitures et gelées maison, sirops et préparations à base de fruits ou plantes locales, piments confits, épices et mélanges d'épices...) et 5 stands de restauration (3 salé/frit type samoussas/bonbons piments, 2 sucré), boissons non alcoolisées uniquement. ⚠️ Deux sources indépendantes (imazpress, résumé de recherche) donnaient une deadline antérieure (20 et 17 septembre) déjà dépassée ; la source officielle municipale, relue et citée mot pour mot, indique le 28 septembre 16h00 — c'est cette date qui fait foi, l'écart n'a pas pu être expliqué dans le temps du run (prorogation possible, non confirmée par la presse)."
-      }
-    }
-  ],
+  "new_events_candidates": [],
   "community": [],
   "field_updates": []
 }
