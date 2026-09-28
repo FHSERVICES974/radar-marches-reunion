@@ -736,6 +736,52 @@ def _statut_coherent(ev: dict) -> str:
             f"limite ({max(futures).strftime('%d/%m/%Y')}) n'est pas encore passée.]")
 
 
+_TENTATIVE_DATE = re.compile(
+    r"\b\d{1,2}[/.]\d{1,2}(?:[/.]\d{1,4})?\b"
+    r"|\b(?:1er|\d{1,2})\s+(?:janvier|f[ée]vrier|mars|avril|mai|juin|juillet|ao[uû]t|"
+    r"septembre|octobre|novembre|d[ée]cembre)\b",
+    re.IGNORECASE,
+)
+
+
+def _date_limite_illisible(ev: dict) -> str:
+    """Refuse une fiche OUVERTE dont la date limite ressemble à une date mais
+    ne peut pas être lue. Renvoie le message d'erreur, ou "" si tout va bien.
+
+    Le 23/09/2026, une annonce déposée avec « 27/09/206 » a été publiée telle
+    quelle : date fausse en ligne, et fiche que la clôture automatique ne
+    fermera jamais puisqu'elle ne sait pas la lire.
+
+    Volontairement étroit :
+      - seules les fiches « open » sont contrôlées — c'est leur date limite qui
+        pilote la clôture ; une fiche « soon » ou « perm » porte souvent un
+        texte libre (« candidatures habituellement ouvertes en septembre ») ;
+      - un texte SANS tentative de date passe (« Pas de date limite »,
+        « le vendredi précédant chaque marché ») ;
+      - est refusé : une tentative de date sans date lisible (année absente,
+        incomplète) ou avec une année invraisemblable.
+    """
+    if ev.get("status") != "open":
+        return ""
+    texte = str(ev.get("deadline") or "").strip()
+    if not texte or not _TENTATIVE_DATE.search(texte):
+        return ""
+    try:
+        import common as _common_mod
+        dates = _common_mod.parse_dates_from_text(texte)
+    except Exception as exc:
+        log.warning("Contrôle de la date limite impossible : %s", exc)
+        return ""                      # ne jamais bloquer sur une panne du contrôle
+    annee = datetime.datetime.now(
+        datetime.timezone(datetime.timedelta(hours=4))).year
+    lisibles = [d for d in dates if annee - 1 <= d.year <= annee + 2]
+    if lisibles:
+        return ""
+    return (f"Date limite illisible : « {texte[:60]} ». Écrivez-la en toutes lettres "
+            f"avec l'année, par exemple « 28 septembre {annee}, 16h00 ». "
+            f"Rien n'a été publié.")
+
+
 def _run_completion_job(key: str, candidate: dict, info: str) -> None:
     """Thread d'arrière-plan : vérifie le candidat et persiste le résultat."""
     try:
@@ -2351,6 +2397,11 @@ def _publish_event_to_repo_unlocked(event: dict) -> tuple:
     if any(e.get("name", "").strip().lower() == ev_name for e in events):
         return False, f"« {event.get('name')} » existe déjà dans events.json."
 
+    # 3 bis — Date limite illisible : on refuse AVANT d'écrire quoi que ce soit.
+    erreur = _date_limite_illisible(event)
+    if erreur:
+        return False, erreur
+
     # 4 — Filet : jamais « closed » avec une date limite à venir, quel que soit
     #     le chemin (complétion IA, formulaire, ancienne complétion déjà stockée)
     note = _statut_coherent(event)
@@ -2518,6 +2569,9 @@ def _remove_event_from_repo(name: str) -> tuple:
 def _update_event_in_repo(orig_name: str, event: dict) -> tuple:
     """Remplace la fiche d'un événement publié (repéré par son nom d'origine)
     par la fiche corrigée : events.json → rebuild → push."""
+    erreur = _date_limite_illisible(event)
+    if erreur:
+        return False, erreur
     with _git_ops_lock:
         ok, msg = _git_pull_for_publish()
         if not ok:
@@ -4513,7 +4567,12 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                             if cible.get(champ) != valeur:
                                 cible[champ] = valeur
                                 resultat["touches"].append(champ)
-                        if not resultat["touches"]:
+                        erreur = (_date_limite_illisible(cible)
+                                  if "deadline" in resultat["touches"]
+                                  or "status" in resultat["touches"] else "")
+                        if erreur:
+                            resultat.update(etat="err", msg=erreur)
+                        elif not resultat["touches"]:
                             resultat.update(etat="deja", msg=(
                                 f"« {nom} » était déjà à jour : aucun champ à modifier. "
                                 f"La correction est retirée de la liste."))
