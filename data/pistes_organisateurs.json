@@ -1,6 +1,6 @@
 {
   "_mode_emploi_agent": "Fichier CUMULATIF de pistes d'organisateurs, alimenté par la veille (playbook veille_agent.md, étape 3 ter). Ce ne sont PAS des appels à candidature et elles n'entrent JAMAIS dans events.json : c'est de la matière de démarchage et d'anticipation. Lire ce fichier AVANT d'écrire, puis le réécrire enrichi — ne jamais l'écraser, la mémoire des éditions observées est ce qui permet d'estimer une récurrence. Clé d'unicité : nom_evenement + commune. recurrence_estimee exige au moins deux entrées dans editions_observees. Champs vides plutôt qu'inventés.",
-  "generated": "2026-09-27",
+  "generated": "2026-09-29",
   "pistes": [
     {
       "nom_evenement": "Marché des créateurs — Carré Cathédrale",
@@ -865,6 +865,42 @@
       "contact_connu": "lesbrocanteursdeslaves439@gmail.com · 0692 93 13 14",
       "action_suggeree": "Contacter Les Brocanteurs des Laves (contact déjà en main) : un seul message peut couvrir les trois formats identifiés de cet organisateur (brocante mensuelle, marché volcanique de septembre « Les Jours de Feu », et ce marché de Noël) et permettre de confirmer le calendrier 2026.",
       "_note": "Repéré le 27/09/2026 via un balayage tier3 (reunionest.fr). Confiance faible : contenu obtenu via un extrait de recherche, la page source n'a pas été ouverte et lue intégralement. Édition 2025 datée dimanche 14 décembre 2025. Troisième format identifié pour le même organisateur (Les Brocanteurs des Laves), déjà connu pour la Brocante des Laves (mensuelle, Place des Laves) et Les Jours de Feu (marché du dimanche de septembre). Une seule édition datée : recurrence_estimee laissée vide conformément à la règle des deux éditions minimum. À consolider par une lecture directe de la source avant d'accorder plus de crédit à cette piste."
+    },
+    {
+      "nom_evenement": "Marché de Noël de La Possession",
+      "organisateur": "Ville de La Possession, en partenariat avec l'Office de Tourisme Intercommunal de l'Ouest",
+      "lieu": "Place de la Mairie et Place Jean XXIII",
+      "commune": "La Possession",
+      "zone": "Ouest",
+      "editions_observees": ["2025-12-06"],
+      "date_edition_observee": "2025-12-06",
+      "source_url": "https://www.ouest-lareunion.com/agenda/les-communes-bougent/marche-de-noel-a-la-possession",
+      "date_detection": "2026-09-29",
+      "recurrence_estimee": "",
+      "nb_exposants_annonce": null,
+      "deja_dans_events_json": false,
+      "organisateur_deja_dans_orgs_json": true,
+      "contact_connu": "commerces@lapossession.re · 0262 22 20 02 (Ville de La Possession) · accueil@ouest-lareunion.com · 02 62 42 31 31 (OTI Ouest)",
+      "action_suggeree": "Ecrire a commerces@lapossession.re (contact deja en main pour cette commune) pour savoir si une edition 2026 est prevue et si un appel a exposants/stands artisanaux existe. Angle mort complet jusqu'ici pour un marche de Noel a La Possession, absent d'events.json.",
+      "_note": "Repere le 29/09/2026 via un balayage tier3 (agenda officiel de l'Office de Tourisme Intercommunal de l'Ouest, page lue directement). Page consultee : date du 6 decembre 2025, lieu Place de la Mairie et Place Jean XXIII, stands artisanaux et animations mentionnes dans le resume initial de l'agenda. AUCUNE edition 2026 trouvee a ce jour : a resurveiller courant novembre 2026. Une seule edition datee : recurrence_estimee laissee vide."
+    },
+    {
+      "nom_evenement": "Marché de Noël & Food Festival — Saint-Paul",
+      "organisateur": "Tienbooo",
+      "lieu": "Centre-ville de Saint-Paul",
+      "commune": "Saint-Paul",
+      "zone": "Ouest",
+      "editions_observees": ["2026-12-05"],
+      "date_edition_observee": "2026-12-05",
+      "source_url": "https://outremertourisme.fr/marche-de-noel-et-food-festival-a-saint-paul-ou-vivre-la-magie-des-fetes-a-la-reunion-en-outre-mer/",
+      "date_detection": "2026-09-29",
+      "recurrence_estimee": "",
+      "nb_exposants_annonce": null,
+      "deja_dans_events_json": false,
+      "organisateur_deja_dans_orgs_json": false,
+      "contact_connu": "SMS 0692 85 28 59 · tienbooocom@wanadoo.fr",
+      "action_suggeree": "Envoyer un SMS au 0692 85 28 59 ou ecrire a tienbooocom@wanadoo.fr pour confirmer la part artisanat/createurs (vs food trucks/animations). Meme organisateur (Tienbooo) que les pistes deja ouvertes Food Festival - Coeur de Ville Saint-Paul (5 sept. 2026) et Brocante du Port (6 sept. 2026) - toujours pas ajoute a orgs.json malgre trois formats distincts identifies en un mois. Un seul message peut couvrir les trois pistes, dont la question ouverte depuis le 19/08 : les artisans/createurs professionnels sont-ils admis sur les evenements Tienbooo ?",
+      "_note": "Repere le 29/09/2026 via un balayage tier3, source secondaire (article de presse outremertourisme.fr, pas une page officielle Tienbooo ou municipale). Texte lu : samedi 5 decembre 2026, 18h-23h, centre-ville de Saint-Paul ; reservation d'emplacement par SMS ou email. Le perimetre artisanal exact n'est pas detaille dans l'extrait - a confirmer avant de qualifier l'evenement de marche de createurs a part entiere. Une seule edition datee : recurrence_estimee laissee vide malgre le lien probable avec les autres formats Tienbooo deja suivis."
     }
   ]
 }
