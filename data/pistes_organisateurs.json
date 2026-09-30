@@ -1,6 +1,6 @@
 {
   "_mode_emploi_agent": "Fichier CUMULATIF de pistes d'organisateurs, alimenté par la veille (playbook veille_agent.md, étape 3 ter). Ce ne sont PAS des appels à candidature et elles n'entrent JAMAIS dans events.json : c'est de la matière de démarchage et d'anticipation. Lire ce fichier AVANT d'écrire, puis le réécrire enrichi — ne jamais l'écraser, la mémoire des éditions observées est ce qui permet d'estimer une récurrence. Clé d'unicité : nom_evenement + commune. recurrence_estimee exige au moins deux entrées dans editions_observees. Champs vides plutôt qu'inventés.",
-  "generated": "2026-09-29",
+  "generated": "2026-09-30",
   "pistes": [
     {
       "nom_evenement": "Marché des créateurs — Carré Cathédrale",
@@ -770,7 +770,7 @@
     },
     {
       "nom_evenement": "Festival GAYAR — Marché des savoir-faire",
-      "organisateur": "",
+      "organisateur": "Association Komkilé, en partenariat avec la Ville de Saint-André et la CIREST",
       "lieu": "Parc du Colosse",
       "commune": "Saint-André",
       "zone": "Est",
@@ -781,12 +781,12 @@
       "source_url": "https://www.festivalgayar.com/exposants/",
       "date_detection": "2026-09-22",
       "recurrence_estimee": "",
-      "nb_exposants_annonce": null,
+      "nb_exposants_annonce": 120,
       "deja_dans_events_json": false,
       "organisateur_deja_dans_orgs_json": false,
       "contact_connu": "",
-      "action_suggeree": "Contacter festivalgayar.com (seul contact trouvé : lekolgayar@festivalgayar.com, dédié aux écoles) ou la mairie de Saint-André pour savoir si le « marché des savoir-faire » (artisanat, produits locaux, arts visuels, textile, saveurs locales) est sur sélection curatée ou appel ouvert, avant l'édition du 2-4 octobre 2026.",
-      "_note": "Repéré le 22/09/2026 via un balayage tier3 (agrégateurs/presse). Festival culturel et identitaire réunionnais, gratuit, Parc du Colosse (Saint-André), 2-4 octobre 2026. La page festivalgayar.com/exposants/ décrit un marché des savoir-faire (artisanat, éditeurs, arts visuels, instruments, textile, saveurs locales) mais ne présente ni formulaire de candidature, ni deadline, ni contact exposant dédié — impossible de dire si c'est un appel ouvert ou une sélection sur invitation. Événement très proche (10 jours) au moment de la détection, ce qui exclut de toute façon une candidature en file de validation même si un appel existait. Recoupé par guide-reunion.fr, reunionest.fr, megazap.fr, freedom.fr. Une seule édition observée : recurrence_estimee laissée vide."
+      "action_suggeree": "Contacter l'association Komkilé (organisateur identifié le 30/09/2026, coordonnées non trouvées) ou la mairie de Saint-André pour savoir si le « marché des savoir-faire » (~120 exposants annoncés : artisanat, produits locaux, arts visuels, textile, saveurs locales) est sur sélection curatée ou appel ouvert, avant l'édition suivante (5e édition tenue les 2-4 octobre 2026, donc viser l'été 2027 pour l'appel).",
+      "_note": "Repéré le 22/09/2026 via un balayage tier3 (agrégateurs/presse). Festival culturel et identitaire réunionnais, gratuit, Parc du Colosse (Saint-André), 2-4 octobre 2026 (5e édition). La page festivalgayar.com/exposants/ décrit un marché des savoir-faire (artisanat, éditeurs, arts visuels, instruments, textile, saveurs locales) mais ne présente ni formulaire de candidature, ni deadline, ni contact exposant dédié — impossible de dire si c'est un appel ouvert ou une sélection sur invitation. Événement très proche (10 jours) au moment de la détection, ce qui exclut de toute façon une candidature en file de validation même si un appel existait. Recoupé par guide-reunion.fr, reunionest.fr, megazap.fr, freedom.fr. Une seule édition observée : recurrence_estimee laissée vide.\n\n[Run du 30/09/2026.] Organisateur identifié par recoupement presse (imazpress.com/culture/saint-andre-le-festival-gayar-2026-entre-transmission-et-avenir) : association Komkilé, en partenariat avec la Ville de Saint-André et la CIREST — champ organisateur renseigné en conséquence, jusqu'ici vide. Le même article confirme l'ordre de grandeur d'environ 120 exposants sur le marché des savoir-faire. Seul contact trouvé reste lekolgayar@festivalgayar.com, explicitement dédié aux écoles — non retenu comme contact_connu pour la piste exposants, laissé vide plutôt que détourné de son usage réel."
     },
     {
       "nom_evenement": "Village Japon (Tokió Cup)",
