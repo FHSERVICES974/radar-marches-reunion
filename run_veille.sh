@@ -1,7 +1,7 @@
 #!/bin/zsh
 # run_veille.sh — Lance la veille quotidienne via l'agent Claude (headless).
 # Appelé par launchd TOUTES LES HEURES ; ne s'exécute qu'une fois par jour, à 4 h heure de La Réunion ou au premier réveil qui suit
-# (jusqu'à 3 essais si l'agent échoue). Écrit proposition_MAJ_*.md + data/pending/*.
+# (jusqu'à 6 essais, un par heure, si l'agent échoue). Écrit proposition_MAJ_*.md + data/pending/*.
 # Ne publie RIEN de capté (le playbook interdit publier.py) ; seule exception, décidée
 # le 22/09/2026 : cloture_auto.py ferme les candidatures dont la date est passée.
 # Journalise dans veille.log.
@@ -34,7 +34,7 @@ export TZ=Indian/Reunion
 # `./run_veille.sh --force` passe outre (relance manuelle).
 #
 # Le marqueur n'est posé qu'après une veille RÉUSSIE. Un échec de l'agent est
-# retenté à l'heure suivante, jusqu'à ESSAIS_MAX fois par jour : le 11/09/2026,
+# retenté à l'heure suivante, jusqu'à ESSAIS_MAX fois par jour (6 : de 4h à 9h) : le 11/09/2026,
 # le Mac s'est endormi en pleine veille et, le marqueur étant déjà posé, plus
 # rien n'aurait été tenté de la journée.
 FORCE=0; [ "$1" = "--force" ] && FORCE=1
@@ -42,7 +42,10 @@ AUJ=$(date +%F)
 HEURE=$(date +%k | tr -d ' ')
 MARQUEUR=data/.derniere_veille
 ESSAIS=data/.essais_veille        # « AAAA-MM-JJ N » : tentatives du jour
-ESSAIS_MAX=3
+ESSAIS_MAX=6   # 4h → 9h Réunion. Le 01/10/2026, un blocage d'authentification côté
+               # Anthropic (« organization has disabled subscription access »,
+               # bug intermittent connu) a duré de 4h à 6h et s'est levé seul
+               # vers 7h : trois essais n'ont pas suffi, la journée était perdue.
 VERROU=data/.veille_en_cours
 NB_ESSAIS=0
 if [ -f "$ESSAIS" ] && [ "$(cut -d' ' -f1 "$ESSAIS")" = "$AUJ" ]; then
