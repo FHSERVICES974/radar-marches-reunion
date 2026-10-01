@@ -49,6 +49,8 @@ def recompute(events, today: date):
                     f"événement passé, sans date limite ({recent.isoformat()})"
                     if repli_evenement else f"date limite dépassée ({recent.isoformat()})")
 
+        # « ponctuel » = appel sans lendemain (concession, porteur de projet…) :
+        # il reste clôturé, on ne surveille pas d'édition suivante.
         if cur == "closed" and e.get("dateStatus") in ("annuel", "récurrent", "confirmée"):
             m = e.get("month")
             if isinstance(m, int) and 1 <= m <= 12:

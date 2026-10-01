@@ -539,14 +539,15 @@ def render_html(r: dict) -> str:
     if r.get("fermees"):
         rows = "".join(
             f'<div style="padding:6px 0;border-bottom:1px solid {C_LINE};font-size:13.5px;color:{C_INK};">'
-            f'• {_esc(f.get("name"))} <span style="color:{C_MUTED};">— {_esc(f.get("reason"))}</span></div>'
+            f'• {_esc(f.get("name"))} <span style="color:{C_MUTED};">'
+            f'— {"🔒 clôturée" if f.get("to") == "closed" else "👀 à surveiller"} · {_esc(f.get("reason"))}</span></div>'
             for f in r["fermees"]
         )
         fermees_html = card(
             f'<div style="font-weight:700;color:{C_INK};margin-bottom:8px;">'
-            f'🔒 Candidatures fermées automatiquement ({len(r["fermees"])})</div>'
+            f'🔒 Statuts mis à jour automatiquement ({len(r["fermees"])})</div>'
             f'<div style="font-size:12.5px;color:{C_MUTED};margin-bottom:6px;">'
-            f'Date passée : rien à faire de votre côté, le site est déjà à jour.</div>{rows}'
+            f'Dates passées : rien à faire de votre côté, le site est déjà à jour.</div>{rows}'
         )
 
     whatsapp_html = card(
@@ -562,7 +563,7 @@ def render_html(r: dict) -> str:
         f'<div style="font-size:14px;color:{C_INK};line-height:1.8;">'
         f'{len(r["verifies"])} appel(s) vérifié(s) prêt(s) à publier<br>'
         f'{len(r["probables"])} piste(s) à confirmer<br>'
-        f'{len(r.get("fermees", []))} candidature(s) fermée(s) automatiquement<br>'
+        f'{len(r.get("fermees", []))} statut(s) mis à jour automatiquement<br>'
         f'{len(r["status_changes"])} changement(s) de statut<br>'
         f'{len(r["community"])} remontée(s) communautaire(s)</div>'
     )
@@ -582,7 +583,7 @@ def render_plain(r: dict) -> str:
         lines.append("")
     lines.append(f'{len(r["verifies"])} vérifié(s), {len(r["probables"])} à confirmer, '
                   f'{len(r["status_changes"])} changement(s) de statut, '
-                  f'{len(r.get("fermees", []))} candidature(s) fermée(s) automatiquement.')
+                  f'{len(r.get("fermees", []))} statut(s) mis à jour automatiquement.')
     lines.append("")
     if r["verifies"]:
         lines.append("--- Prêts à publier ---")

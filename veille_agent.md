@@ -445,7 +445,7 @@ ne se devine jamais.
   "when": "Texte de période (ex: 'Octobre (annuel) · éd. 2026 : 9–18 oct.')",
   "badge": "OCT | DÉC | HEBDO | VAR. | ... (court, majuscules)",
   "month": 1-12 (mois pour le tri) ou 99 (variable/permanent),
-  "dateStatus": "confirmée | annuel | récurrent | probable | hebdomadaire | ...",
+  "dateStatus": "confirmée | annuel | récurrent | probable | hebdomadaire | ponctuel",
   "status": "open | soon | closed | perm",
   "deadline": "Date limite de candidature (peut être vide)",
   "contact": "email et/ou téléphone",
@@ -458,6 +458,9 @@ ne se devine jamais.
 Règles de remplissage : `month` = mois de l'événement (99 si variable/permanent) ;
 `status` = `open` si candidature ouverte maintenant, `soon` si à venir/à surveiller,
 `perm` si marché permanent/hebdo, `closed` si clôturé ; `badge` court en majuscules.
+`dateStatus` = `ponctuel` pour un appel SANS édition suivante (concession, appel à
+porteur de projet, consultation unique) : une telle fiche reste clôturée une fois
+passée, au lieu de repasser automatiquement « à surveiller ».
 
 ## À la fin
 Termine par une ligne : `VEILLE TERMINÉE — proposition_MAJ_AAAA-MM-JJ.md`.

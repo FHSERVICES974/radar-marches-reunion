@@ -9,12 +9,16 @@ elle-même. Auparavant, status_check.py les calculait chaque nuit dans un
 fichier que ni /admin ni personne ne lisait — 15 fiches échues restaient
 « ouvertes » dans les données.
 
-Périmètre VOLONTAIREMENT ÉTROIT : seules les fiches au statut « open » sont
-touchées, selon les règles de status_check.recompute() :
-  - open -> closed : date limite (ou, à défaut, date de l'événement) passée ;
-  - open -> soon   : fiche annuelle dont la date limite est passée
-                     (candidature close, prochaine édition à surveiller).
-Aucune autre transition (closed -> soon, etc.) n'est appliquée ici.
+Transitions appliquées — toutes celles de status_check.recompute(), qui ne
+sont que des calculs de date :
+  - open   -> closed : date limite (ou, à défaut, date de l'événement) passée ;
+  - open   -> soon   : fiche annuelle dont la date limite est passée ;
+  - closed -> soon   : édition passée depuis plus d'un mois, prochaine édition
+                       à surveiller (ajouté le 01/10/2026, décision de François :
+                       ces 14 propositions tournaient en boucle sans jamais
+                       atteindre /admin). Une fiche « ponctuel » (dateStatus)
+                       n'y repasse jamais : c'est l'échappatoire pour un appel
+                       sans lendemain.
 
 Enchaîne : sauvegarde de events.json -> statuts -> meta.lastUpdate -> build ->
 commit des SEULS fichiers du site -> push. Écrit la liste des fiches fermées
@@ -51,9 +55,9 @@ def main(no_push: bool = False) -> int:
     aujourd_hui = date.today()          # heure de La Réunion : TZ exporté par run_veille.sh
     events = C.load_json(C.EVENTS_JSON, [])
     props = [p for p in S.recompute(events, aujourd_hui)
-             if p["from"] == "open" and p["to"] in ("closed", "soon")]
+             if p["from"] in ("open", "closed") and p["to"] in ("closed", "soon")]
     if not props:
-        print("[cloture] aucune candidature à fermer")
+        print("[cloture] aucun statut à mettre à jour")
         return 0
 
     bkp = C.backup_events()
@@ -61,12 +65,12 @@ def main(no_push: bool = False) -> int:
     faites = []
     for p in props:
         e = par_cle.get(p["key"])
-        if e and e.get("status") == "open":
+        if e and e.get("status") == p["from"]:
             e["status"] = p["to"]
             faites.append({"name": e["name"], "zone": e.get("zone", ""),
-                           "to": p["to"], "reason": p["reason"]})
+                           "from": p["from"], "to": p["to"], "reason": p["reason"]})
     if not faites:
-        print("[cloture] aucune candidature à fermer")
+        print("[cloture] aucun statut à mettre à jour")
         return 0
 
     C.save_json_atomic(C.EVENTS_JSON, events)
@@ -81,8 +85,9 @@ def main(no_push: bool = False) -> int:
     C.save_json_atomic(trace, deja + faites)
 
     for f in faites:
-        print(f"[cloture] {f['name']} -> {f['to']} ({f['reason']})")
-    print(f"[cloture] {len(faites)} candidature(s) fermée(s) — sauvegarde : {bkp.name}")
+        print(f"[cloture] {f['name']} : {f['from']} -> {f['to']} ({f['reason']})")
+    n_ferm = sum(1 for f in faites if f["to"] == "closed")
+    print(f"[cloture] {len(faites)} statut(s) mis à jour, dont {n_ferm} fermeture(s) — sauvegarde : {bkp.name}")
 
     if not C.is_git_repo():
         return 0
@@ -90,8 +95,8 @@ def main(no_push: bool = False) -> int:
     if not C.git("status", "--porcelain", *FICHIERS_SITE).stdout.strip():
         return 0
     C.git("commit", "-q", "-m",
-          f"Clôture automatique {aujourd_hui.isoformat()} : {len(faites)} "
-          f"candidature(s) dont la date est passée")
+          f"Statuts automatiques {aujourd_hui.isoformat()} : {len(faites)} "
+          f"fiche(s) — dates passées")
     if no_push:
         print("[cloture] --no-push : commit local seulement")
     elif _pousser():
