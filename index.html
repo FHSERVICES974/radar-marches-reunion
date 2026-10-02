@@ -88,7 +88,8 @@
   .zone-tab:hover{border-color:var(--muted-2)}
   .zone-tab.active{background:var(--zc,var(--ink));border-color:var(--zc,var(--ink));color:#fff}
   select#typeSelect{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:9px 13px;
-    font-size:13px;color:var(--muted);font-weight:600;outline:none;cursor:pointer;font-family:var(--sans)}
+    font-size:13px;color:var(--muted);font-weight:600;outline:none;cursor:pointer;font-family:var(--sans);
+    max-width:100%;min-width:0}  /* un type à 80 caractères élargissait toute la page sur mobile (02/10/2026) */
 
   /* Agenda (chronological groups) */
   .agenda-group{margin-top:8px}
@@ -157,7 +158,7 @@
   .legend{display:flex;flex-wrap:wrap;gap:18px;margin:10px 0;font-weight:600}
   .legend span{display:inline-flex;align-items:center;gap:6px}
   .legend i{width:7px;height:7px;border-radius:50%;display:inline-block}
-  @media(max-width:560px){.masthead h1{font-size:27px}.masthead .logo{height:150px}.stats-strip{flex-wrap:wrap;gap:14px 0}.stat{padding:0 18px 0 0}}
+  @media(max-width:560px){.masthead h1{font-size:27px}.masthead .logo{height:150px}select#typeSelect{width:100%}.stats-strip{flex-wrap:wrap;gap:14px 0}.stat{padding:0 18px 0 0}}
 
   /* ── Le ti artisan futé — Widget ───────────────────────────────── */
   #chat-fab{position:fixed;bottom:24px;right:24px;z-index:9000;
