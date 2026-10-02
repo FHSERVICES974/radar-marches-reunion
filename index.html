@@ -33,7 +33,11 @@
   .wrap{max-width:1080px;margin:0 auto;padding:44px 24px 70px}
 
   /* Masthead */
-  .masthead{padding-bottom:26px;margin-bottom:28px;border-bottom:1px solid var(--line)}
+  /* Même disposition que l'accueil de l'Assistant Candidature (demande de
+     François, 02/10/2026) : logo centré en haut, textes centrés dessous. */
+  .masthead{padding-bottom:26px;margin-bottom:28px;border-bottom:1px solid var(--line);text-align:center}
+  .masthead .logo{display:block;width:auto;height:200px;margin:0 auto 6px}
+  .masthead .sub{margin-left:auto;margin-right:auto}
   .eyebrow{font-size:11.5px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700}
   .masthead h1{font-family:var(--serif);font-weight:600;font-size:36px;letter-spacing:-.3px;margin-top:10px;color:var(--ink)}
   .masthead .sub{color:var(--muted);font-size:15px;margin-top:12px;max-width:640px;line-height:1.65}
@@ -153,7 +157,7 @@
   .legend{display:flex;flex-wrap:wrap;gap:18px;margin:10px 0;font-weight:600}
   .legend span{display:inline-flex;align-items:center;gap:6px}
   .legend i{width:7px;height:7px;border-radius:50%;display:inline-block}
-  @media(max-width:560px){.masthead h1{font-size:27px}.stats-strip{flex-wrap:wrap;gap:14px 0}.stat{padding:0 18px 0 0}}
+  @media(max-width:560px){.masthead h1{font-size:27px}.masthead .logo{height:150px}.stats-strip{flex-wrap:wrap;gap:14px 0}.stat{padding:0 18px 0 0}}
 
   /* ── Le ti artisan futé — Widget ───────────────────────────────── */
   #chat-fab{position:fixed;bottom:24px;right:24px;z-index:9000;
@@ -201,7 +205,7 @@
 <div class="wrap">
 
 <header class="masthead">
-  <div class="eyebrow">La Réunion</div>
+  <img class="logo" src="assets/logo_radar_marches_lockup.png" alt="Radar des Marchés — appels à candidatures" width="841" height="677">
   <h1>Agenda des Exposants</h1>
   <p class="sub">La référence pour les artisans, créateurs et producteurs péi : tous les marchés, foires, salons et appels à candidature de l'île, réunis en un seul endroit.</p>
   <p class="upd" id="upd"></p>
