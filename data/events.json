@@ -1566,6 +1566,24 @@
     "desc": "150 à 220 artisans, créateurs et producteurs péi — 100 % fait main. Association active depuis 50 ans."
   },
   {
+    "name": "Salon des Créateurs 2026 — Artothèque (Centre Culturel Le Sud)",
+    "zone": "Sud",
+    "type": "Salon de créateurs / artisanat d'art",
+    "org": "Département de La Réunion — Artothèque / Centre Culturel Le Sud",
+    "place": "Artothèque, Centre Culturel Le Sud, 60 rue Victor Le Vigoureux, Saint-Pierre",
+    "when": "Vendredi 4 décembre 2026 (14h-20h) et samedi 5 décembre 2026 (10h-17h)",
+    "badge": "DÉC",
+    "month": 12,
+    "dateStatus": "confirmée",
+    "status": "open",
+    "deadline": "24 octobre 2026, 12h00",
+    "contact": "artotheque@cg974.fr",
+    "social": "",
+    "url": "https://www.departement974.fr/actualite/appel-projets-salon-des-createurs-2026",
+    "apply": "Télécharger le cahier des charges sur la page de l'appel à projets, puis déposer sa candidature avant le 24 octobre 2026 à 12h00, soit par courriel à artotheque@cg974.fr, soit en main propre contre récépissé à l'Artothèque / Centre Culturel Le Sud, 60 rue Victor Le Vigoureux, BP 343, 97410 Saint-Pierre. Mentionner en libellé « Candidature Salon des créateurs 2026 ».",
+    "desc": "Salon des créateurs organisé dans le cadre de la première édition de la Semaine des artothèques (ADRA) : artistes professionnels et artisans d'art de La Réunion exposent et vendent leurs œuvres au public. Espace de découverte et de rencontre pour échanger avec les créateurs sur les étapes de création et de diffusion. Autorisations d'occupation temporaire du domaine public accordées aux exposants."
+  },
+  {
     "name": "Village de Noël 2026 — Saint-Philippe",
     "zone": "Sud",
     "type": "Marché de Noël",
