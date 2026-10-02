@@ -251,5 +251,28 @@
     },
     "report": "Fiche complète vérifiée. La source Outremer Tourisme confirme l'événement à Saint-Benoît (974) du 30 octobre au 1er novembre 2026 sur trois sites (Place Louis Brunet, front de mer, cimetière Sainte-Anne). La deadline du 18 septembre 2026 à 12h00 est confirmée. Les coordonnées de contact ont été vérifiées via le site officiel saint-benoit.re (Direction de l'Économie et du Tourisme : 0262 50 88 42, economie.tourisme@ville-saintbenoit.re). Status = closed car la date du jour (10/09/2026) est postérieure à la deadline (18/09/2026).",
     "ts": 1789027733.5669096
+  },
+  "ac23e94c02c917da": {
+    "status": "done",
+    "event": {
+      "name": "Salon des Créateurs 2026 — Artothèque (Centre Culturel Le Sud)",
+      "zone": "Sud",
+      "type": "Salon de créateurs / artisanat d'art",
+      "org": "Département de La Réunion — Artothèque / Centre Culturel Le Sud",
+      "place": "Artothèque, Centre Culturel Le Sud, 60 rue Victor Le Vigoureux, Saint-Pierre",
+      "when": "Vendredi 4 décembre 2026 (14h-20h) et samedi 5 décembre 2026 (10h-17h)",
+      "badge": "DÉC",
+      "month": 12,
+      "dateStatus": "confirmée",
+      "status": "open",
+      "deadline": "24 octobre 2026, 12h00",
+      "contact": "artotheque@cg974.fr",
+      "social": "",
+      "url": "https://www.departement974.fr/actualite/appel-projets-salon-des-createurs-2026",
+      "apply": "Télécharger le cahier des charges sur la page de l'appel à projets, puis déposer sa candidature avant le 24 octobre 2026 à 12h00, soit par courriel à artotheque@cg974.fr, soit en main propre contre récépissé à l'Artothèque / Centre Culturel Le Sud, 60 rue Victor Le Vigoureux, BP 343, 97410 Saint-Pierre. Mentionner en libellé « Candidature Salon des créateurs 2026 ».",
+      "desc": "Salon des créateurs organisé dans le cadre de la première édition de la Semaine des artothèques (ADRA) : artistes professionnels et artisans d'art de La Réunion exposent et vendent leurs œuvres au public. Espace de découverte et de rencontre pour échanger avec les créateurs sur les étapes de création et de diffusion. Autorisations d'occupation temporaire du domaine public accordées aux exposants."
+    },
+    "report": "La fiche a été vérifiée sur la page officielle fournie (departement974.fr/actualite/appel-projets-salon-des-createurs-2026). Tous les éléments sont confirmés : dates (4-5 décembre 2026), horaires précis (vendredi 14h-20h, samedi 10h-17h), lieu (Artothèque Saint-Pierre), deadline (24 octobre 2026 à 12h00), contact (artotheque@cg974.fr), et modalités de candidature. Signal La Réunion clair (domaine .re, Département974, Saint-Pierre 97410). La fiche est complète, toutes les informations proviennent de sources vérifiées.",
+    "ts": 1790909058.376022
   }
 }
