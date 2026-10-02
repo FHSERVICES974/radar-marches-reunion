@@ -1,0 +1,112 @@
+{
+  "generated": "2026-10-02",
+  "status_changes": [
+    {
+      "key": "salon international de l agriculture village reunion|national",
+      "name": "Salon International de l'Agriculture — Village Réunion",
+      "zone": "National",
+      "from": "soon",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-31)"
+    },
+    {
+      "key": "bal la poussiere fete patronale sainte marie|nord",
+      "name": "Bal la Poussière - Fête patronale Sainte-Marie",
+      "zone": "Nord",
+      "from": "soon",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-07-17)"
+    },
+    {
+      "key": "bal populaire bal la poussiere fete patronale 2026|nord",
+      "name": "Bal populaire « Bal la poussière » — Fête patronale 2026",
+      "zone": "Nord",
+      "from": "soon",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-05)"
+    },
+    {
+      "key": "braderie commerciale de sainte marie|nord",
+      "name": "Braderie commerciale de Sainte-Marie",
+      "zone": "Nord",
+      "from": "soon",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-07-29)"
+    },
+    {
+      "key": "emplacements aot domaine public saint gilles les bains bassin de vie n 2|ouest",
+      "name": "Emplacements AOT domaine public — Saint-Gilles-les-Bains (bassin de vie n°2)",
+      "zone": "Ouest",
+      "from": "soon",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-19)"
+    },
+    {
+      "key": "fete des agrumes|sud",
+      "name": "Fête des Agrumes",
+      "zone": "Sud",
+      "from": "soon",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-07-29)"
+    },
+    {
+      "key": "jour de sport sante 2026 espace food court|ouest",
+      "name": "Jour de Sport Santé 2026 — Espace Food Court",
+      "zone": "Ouest",
+      "from": "soon",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-13)"
+    },
+    {
+      "key": "la plaine en fete ex fete de la pomme de terre et du cheval|sud",
+      "name": "La Plaine en Fête (ex-Fête de la Pomme de Terre et du Cheval)",
+      "zone": "Sud",
+      "from": "soon",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-07-31)"
+    },
+    {
+      "key": "salon d ete maison jardin|sud",
+      "name": "Salon d'Été, Maison & Jardin",
+      "zone": "Sud",
+      "from": "soon",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-14)"
+    },
+    {
+      "key": "village artisanal de la fete de la saint louis|sud",
+      "name": "Village artisanal de la Fête de la Saint-Louis",
+      "zone": "Sud",
+      "from": "soon",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-20)"
+    }
+  ],
+  "new_events_candidates": [
+    {
+      "_source_title": "Appel à projets : Salon des créateurs - 2026 (Artothèque / Centre Culturel Le Sud)",
+      "_source_url": "https://www.departement974.fr/avis-appels-projets-enquetes-publiques",
+      "_confidence": "Vérifié",
+      "event": {
+        "name": "Salon des Créateurs 2026 — Artothèque (Centre Culturel Le Sud)",
+        "zone": "Sud",
+        "type": "Salon de créateurs / artisanat d'art",
+        "org": "Département de La Réunion — Artothèque / Centre Culturel Le Sud",
+        "place": "Artothèque, Centre Culturel Le Sud, 60 rue Victor Le Vigoureux, Saint-Pierre",
+        "when": "Vendredi 4 et samedi 5 décembre 2026, Artothèque, Saint-Pierre",
+        "badge": "DÉC",
+        "month": 12,
+        "dateStatus": "confirmée",
+        "status": "open",
+        "deadline": "24 octobre 2026, 12h00",
+        "contact": "artotheque@cg974.fr",
+        "social": "",
+        "url": "https://www.departement974.fr/avis-appels-projets-enquetes-publiques",
+        "apply": "Télécharger le cahier des charges sur la page des avis et appels à projets du Département, puis déposer sa candidature avant le 24 octobre 2026 à 12h00, par courriel à artotheque@cg974.fr ou en main propre à l'Artothèque, 60 rue Victor Le Vigoureux, BP 343, 97410 Saint-Pierre.",
+        "desc": "Salon des créateurs organisé par l'Artothèque du Centre Culturel Le Sud (Département de La Réunion) : artistes professionnels et artisans d'art exposent et vendent leurs œuvres au public les 4 et 5 décembre 2026. Distinct de l'appel « espace de vente » du Centre Culturel Le Sud pour les Journées Européennes du Patrimoine (19-20 septembre 2026, déjà clos), qui concernait uniquement la restauration."
+      }
+    }
+  ],
+  "community": [],
+  "field_updates": []
+}
