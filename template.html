@@ -105,6 +105,10 @@
   details.agenda-group[open]>summary::after{transform:rotate(180deg)}
 
   .tl-item{display:grid;grid-template-columns:78px 1fr;gap:20px;padding:18px 0;border-bottom:1px solid var(--line)}
+  /* Une cellule de grille ne se rétrécit pas en dessous de son contenu (min-width:auto) :
+     une fiche avec un lien long élargissait toute la page sur mobile (02/10/2026). */
+  .tl-item>*{min-width:0}
+  .tl-body{overflow-wrap:anywhere}
   .tl-item:last-child{border-bottom:none}
   .tl-date{border-left:2.5px solid var(--zc,var(--line));padding-left:14px;padding-top:2px}
   .tl-badge{display:block;font-size:11px;font-weight:700;letter-spacing:.6px;color:var(--muted);text-transform:uppercase}
