@@ -3266,6 +3266,41 @@ const ORGS = [
 
 // ---------- état ----------
 let fZone="all", fType="all", fStatus="all", q="";
+
+// ---------- recherche souple (demande de François, 03/10/2026) ----------
+// « noel » doit trouver « Noël », « st pierre » « Saint-Pierre », « marhé » « marché ».
+// Règles : accents et ponctuation ignorés ; chaque mot tapé doit se retrouver,
+// soit tel quel, soit à une faute près (deux fautes à partir de 7 lettres).
+const normTxt=t=>(t||"").toString().normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g," ").trim();
+const SYN={st:"saint",ste:"sainte"};
+function lev(a,b,max){            // distance d'édition, abandon dès que > max
+  if(Math.abs(a.length-b.length)>max)return max+1;
+  let prev=[...Array(b.length+1).keys()];
+  for(let i=1;i<=a.length;i++){
+    const cur=[i]; let best=cur[0];
+    for(let j=1;j<=b.length;j++){
+      cur[j]=Math.min(prev[j]+1,cur[j-1]+1,prev[j-1]+(a[i-1]===b[j-1]?0:1));
+      if(cur[j]<best)best=cur[j];
+    }
+    if(best>max)return max+1;
+    prev=cur;
+  }
+  return prev[b.length];
+}
+function haystack(e){
+  if(!e._s){const t=normTxt([e.name,e.place,e.org,e.type,e.desc,e.contact,e.social,e.zone].join(" "));e._s={t,w:[...new Set(t.split(" "))]};}
+  return e._s;
+}
+function matchesQuery(e,query){
+  const h=haystack(e);
+  const words=normTxt(query).split(" ").filter(Boolean).map(w=>SYN[w]||w);
+  return words.every(w=>{
+    if(h.t.includes(w))return true;
+    if(w.length<4)return false;
+    const max=w.length>=7?2:1;
+    return h.w.some(x=>x.length>=3&&(x.startsWith(w)||lev(w,x,max)<=max||(w.length>=5&&x.length>w.length&&lev(w,x.slice(0,w.length),max)<=max)));
+  });
+}
 const MONTHS=["","janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
 
 // ---------- helpers ----------
@@ -3359,7 +3394,7 @@ function render(){
     if(fType!=="all"&&e.type!==fType)return false;
     if(fStatus==="archive"){if(e.status!=="closed"&&e.status!=="full")return false;}
     else if(fStatus!=="all"&&e.status!==fStatus)return false;
-    if(q){const s=(e.name+e.place+e.org+e.type+e.desc+e.contact+(e.social||"")).toLowerCase();if(!s.includes(q))return false;}
+    if(q && !matchesQuery(e,q))return false;
     return true;
   });
   const el=document.getElementById("list");
@@ -3473,7 +3508,7 @@ document.getElementById("suMail").onclick=()=>{
   window.location.href="mailto:"+CONTACT.email+"?subject="+encodeURIComponent(sub)+"&body="+encodeURIComponent(signupMessage());
 };
 
-document.getElementById("q").oninput=e=>{q=e.target.value.toLowerCase().trim();render();};
+document.getElementById("q").oninput=e=>{q=e.target.value.trim();render();};
 // Deux dates : « vérifié » (dernière veille réussie) et « modifié » (dernier
 // changement du site). Identiques, elles se disent en une fois.
 (function(){
