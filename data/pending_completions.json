@@ -274,5 +274,28 @@
     },
     "report": "La fiche a été vérifiée sur la page officielle fournie (departement974.fr/actualite/appel-projets-salon-des-createurs-2026). Tous les éléments sont confirmés : dates (4-5 décembre 2026), horaires précis (vendredi 14h-20h, samedi 10h-17h), lieu (Artothèque Saint-Pierre), deadline (24 octobre 2026 à 12h00), contact (artotheque@cg974.fr), et modalités de candidature. Signal La Réunion clair (domaine .re, Département974, Saint-Pierre 97410). La fiche est complète, toutes les informations proviennent de sources vérifiées.",
     "ts": 1790909058.376022
+  },
+  "685eb839682f603a": {
+    "status": "done",
+    "event": {
+      "name": "Marché de Noël & Food Festival de Saint-Paul",
+      "zone": "Ouest",
+      "type": "Marché",
+      "org": "Tienbooo Communication",
+      "place": "Centre-ville de Saint-Paul",
+      "when": "Samedi 5 décembre 2026, 18h-23h",
+      "badge": "DÉC",
+      "month": 12,
+      "dateStatus": "confirmée",
+      "status": "closed",
+      "deadline": "",
+      "contact": "0692 85 28 59 / tienbooocom@wanadoo.fr",
+      "social": "",
+      "url": "https://outremertourisme.fr/marche-de-noel-et-food-festival-a-saint-paul-ou-vivre-la-magie-des-fetes-a-la-reunion-en-outre-mer/",
+      "apply": "Réserver un emplacement par SMS au 0692 85 28 59 ou par email à tienbooocom@wanadoo.fr",
+      "desc": "Grand marché de Noël et food festival en nocturne dans le centre-ville de Saint-Paul. Artisans, créateurs, food trucks, animations musicales et spectacles. Places limitées pour les exposants."
+    },
+    "report": "Fiche complète vérifiée. La source fournie (outremertourisme.fr) confirme l'événement du 5 décembre 2026 à Saint-Paul (974, Ouest) de 18h à 23h, organisé par Tienbooo Communication. Le contact exposants (0692 85 28 59 / tienbooocom@wanadoo.fr) est indiqué avec mention « places limitées » et « réservations d'ores et déjà ouvertes ». La date du 5 décembre 2026 étant passée par rapport au 3 octobre 2026, le status est closed. Tous les champs sont confirmés par des sources réellement consultées.",
+    "ts": 1791001182.28867
   }
 }
