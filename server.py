@@ -168,6 +168,8 @@ def _send_email(subject: str, body: str, recipient: str,
     msg = EmailMessage()
     msg["Subject"] = subject
     msg["From"] = formataddr(("Radar des Marchés", smtp_from))
+    # Les réponses vont à l'adresse de contact du projet, pas au compte Gmail d'envoi.
+    msg["Reply-To"] = os.environ.get("CONTACT_EMAIL", "contact@artisanspei.re")
     msg["To"] = recipient
     msg.set_content(body)  # version texte (fallback)
     if html_body:
