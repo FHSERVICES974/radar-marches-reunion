@@ -111,6 +111,9 @@
   .tl-body{overflow-wrap:anywhere}
   .tl-item:last-child{border-bottom:none}
   .tl-date{border-left:2.5px solid var(--zc,var(--line));padding-left:14px;padding-top:2px}
+  .tl-noel h3::before{content:"🎄 ";font-size:.95em}
+  .tl-noel .tl-date{border-left-color:#1f6b3a}
+  @media(max-width:560px){.tl-noel .tl-date{border-top-color:#1f6b3a}}
   .tl-badge{display:block;font-size:11px;font-weight:700;letter-spacing:.6px;color:var(--muted);text-transform:uppercase}
   .tl-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:6px}
   .tl-top h3{font-size:16px;font-weight:700;line-height:1.35;color:var(--ink)}
@@ -3297,7 +3300,10 @@ function socialBtn(s){
 
 function tlItem(e){
   const zc=ZONE_COLOR[e.zone]||"var(--muted)";
-  return `<div class="tl-item" style="--zc:${zc}">
+  // Touche personnelle de François (03/10/2026) : les marchés de Noël se repèrent
+  // d'un coup d'œil — sapin devant le titre, barre de date vert sapin.
+  const noel=/no[eë]l/i.test(e.name+" "+(e.type||""));
+  return `<div class="tl-item${noel?" tl-noel":""}" style="--zc:${zc}">
     <div class="tl-date"><span class="tl-badge">${e.badge}</span></div>
     <div class="tl-body">
       <div class="tl-top"><h3>${e.name}</h3>${pillFor(e.status)}</div>
