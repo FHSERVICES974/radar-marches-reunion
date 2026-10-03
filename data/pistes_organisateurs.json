@@ -1,6 +1,6 @@
 {
   "_mode_emploi_agent": "Fichier CUMULATIF de pistes d'organisateurs, alimenté par la veille (playbook veille_agent.md, étape 3 ter). Ce ne sont PAS des appels à candidature et elles n'entrent JAMAIS dans events.json : c'est de la matière de démarchage et d'anticipation. Lire ce fichier AVANT d'écrire, puis le réécrire enrichi — ne jamais l'écraser, la mémoire des éditions observées est ce qui permet d'estimer une récurrence. Clé d'unicité : nom_evenement + commune. recurrence_estimee exige au moins deux entrées dans editions_observees. Champs vides plutôt qu'inventés.",
-  "generated": "2026-10-02",
+  "generated": "2026-10-03",
   "pistes": [
     {
       "nom_evenement": "Marché des créateurs — Carré Cathédrale",
@@ -522,18 +522,19 @@
       "commune": "Cilaos",
       "zone": "Sud",
       "editions_observees": [
-        "2025-10"
+        "2025-10",
+        "2026-10-14"
       ],
-      "date_edition_observee": "2025-10",
-      "source_url": "https://www.ville-cilaos.fr/",
-      "date_detection": "2026-09-08",
-      "recurrence_estimee": "",
+      "date_edition_observee": "2026-10-14",
+      "source_url": "https://ville-cilaos.fr/",
+      "date_detection": "2026-10-03",
+      "recurrence_estimee": "annuel, mi-octobre (deux éditions observées : oct. 2025, 14-18 oct. 2026) — rythme exact du jour d'ouverture non confirmé",
       "nb_exposants_annonce": null,
       "deja_dans_events_json": false,
       "organisateur_deja_dans_orgs_json": false,
-      "contact_connu": "animation@ville-cilaos.fr · 0262 29 99 30",
-      "action_suggeree": "Surveiller ville-cilaos.fr entre mai et août 2027 : l'appel 2025 a clos le 31 août 2025 pour une manifestation d'octobre (19-26 octobre). Contacter animation@ville-cilaos.fr pour confirmer si une édition 2026 a eu lieu (non trouvée en ligne) et obtenir le calendrier 2027.",
-      "_note": "Repérée le 08/09/2026 lors d'un balayage ciblé des communes sans organisateur artisanal identifié. Dernier appel confirmé : « Avis aux forains – Fête de la Lentille 2025 », manifestation du 19 au 26 octobre 2025, deadline de candidature le 31 août 2025 (contact 0262 29 99 30, animation@ville-cilaos.fr). Cilaos n'avait jusqu'ici qu'un marché hebdomadaire (« Marché de Cilaos ») dans events.json, mentionnant broderie/lentilles/vin comme produits mais sans lien avec cette fête dédiée. La page d'accueil de ville-cilaos.fr, relue le 08/09/2026, ne publie AUCUN appel 2026 à ce jour — soit l'édition 2026 n'a pas eu lieu, soit son appel est déjà clos et non archivé. Une seule édition datée (2025, mois seul) : recurrence_estimee laissée vide conformément à la règle des deux éditions."
+      "contact_connu": "0262 29 99 30 (service animation) · 0262 31 89 89 (standard mairie) · 0262 31 05 05 (animation, trouvé le 03/10/2026)",
+      "action_suggeree": "⚠️ ANGLE MORT ACTIF : l'édition 2026 est dans 11 jours (14-18 octobre) et AUCUN appel aux forains/exposants 2026 n'a été trouvé en ligne malgré une recherche ciblée (page d'accueil, page actualités 404, guide-reunion.fr, zinfos974.com bloqué, recherche du nom de page par analogie avec 2025 → 404). Un contact téléphonique direct et rapide (0262 29 99 30 ou 0262 31 05 05) est la seule action qui peut encore permettre à un artisan de candidater à temps. Signalé en section 6bis du rapport du 03/10/2026.",
+      "_note": "Repérée le 08/09/2026 lors d'un balayage ciblé des communes sans organisateur artisanal identifié. Dernier appel confirmé à cette date : « Avis aux forains – Fête de la Lentille 2025 », manifestation du 19 au 26 octobre 2025, deadline de candidature le 31 août 2025 (contact 0262 29 99 30, animation@ville-cilaos.fr). Cilaos n'avait jusqu'ici qu'un marché hebdomadaire (« Marché de Cilaos ») dans events.json, mentionnant broderie/lentilles/vin comme produits mais sans lien avec cette fête dédiée.\n\n[Run du 03/10/2026 — DEUXIÈME ÉDITION DATÉE, mais AUCUN appel 2026 trouvé à J-11.] La page d'accueil ville-cilaos.fr confirme directement (WebFetch) : « Du 14 au 18 octobre 2026, Cilaos vous donne rendez-vous pour l'un de ses événements incontournables : la Fête de la Lentille » (actualité du 2 octobre 2026) — deux éditions désormais datées (oct. 2025, 14-18 oct. 2026), recurrence_estimee renseignée en conséquence. Mais malgré une recherche complète — URL 2026 par analogie avec 2025 (.../avis-aux-forains-fete-de-la-lentille-2026/) → 404 confirmé ; page /actualites/ → 404 ; guide-reunion.fr/fete-de-la-lentille-cilaos/ lue intégralement → mentionne seulement un concours Miss Lentille (deadline 15 septembre 2026, déjà passée) et « de nombreux stands artisanaux et gastronomiques » SANS aucune modalité d'inscription ; zinfos974.com bloqué (403, direct et repli Jina) — AUCUN appel à forains/exposants 2026 n'a pu être trouvé en ligne, alors que l'événement a lieu dans 11 jours. Soit l'appel est déjà clos sans avoir été vu (l'édition 2025 clôturait le 31 août, ~7 semaines avant l'événement — la fenêtre 2026 serait alors déjà passée début octobre), soit il n'a jamais été publié en ligne cette année. Un article linfo.re titré « Cilaos : la fête des lentilles devient le marché de la lentille ! » (402 Payment Required à la lecture, non ouvert) suggère un possible changement de format — à vérifier par contact direct plutôt que par une quatrième tentative de lecture web."
     },
     {
       "nom_evenement": "Les Artisanales",
@@ -902,8 +903,26 @@
       "deja_dans_events_json": false,
       "organisateur_deja_dans_orgs_json": false,
       "contact_connu": "SMS 0692 85 28 59 · tienbooocom@wanadoo.fr",
-      "action_suggeree": "Envoyer un SMS au 0692 85 28 59 ou ecrire a tienbooocom@wanadoo.fr pour confirmer la part artisanat/createurs (vs food trucks/animations). Meme organisateur (Tienbooo) que les pistes deja ouvertes Food Festival - Coeur de Ville Saint-Paul (5 sept. 2026) et Brocante du Port (6 sept. 2026) - toujours pas ajoute a orgs.json malgre trois formats distincts identifies en un mois. Un seul message peut couvrir les trois pistes, dont la question ouverte depuis le 19/08 : les artisans/createurs professionnels sont-ils admis sur les evenements Tienbooo ?",
-      "_note": "Repere le 29/09/2026 via un balayage tier3, source secondaire (article de presse outremertourisme.fr, pas une page officielle Tienbooo ou municipale). Texte lu : samedi 5 decembre 2026, 18h-23h, centre-ville de Saint-Paul ; reservation d'emplacement par SMS ou email. Le perimetre artisanal exact n'est pas detaille dans l'extrait - a confirmer avant de qualifier l'evenement de marche de createurs a part entiere. Une seule edition datee : recurrence_estimee laissee vide malgre le lien probable avec les autres formats Tienbooo deja suivis."
+      "action_suggeree": "PROMU EN CANDIDAT PROBABLE le 03/10/2026 (voir pending_MAJ_2026-10-03.json) : l'article d'Outremer Tourisme précise les catégories de stands (« jouets, bijoux, mode, accessoires, objets de décoration et créations artisanales locales ») et confirme que les réservations sont déjà ouvertes par SMS/email. Reste à faire : obtenir confirmation sur une page officielle Tienbooo (le PDF programme-food-festival-2026.pdf n'a pas pu être lu, contenu binaire) avant de passer en Vérifié. La question plus large — les artisans professionnels sont-ils admis sur TOUS les formats Tienbooo (brocante mensuelle du Port, Food Festival récurrent) — reste ouverte : aucune source ne la tranche pour ces deux formats récurrents.",
+      "_note": "Repere le 29/09/2026 via un balayage tier3, source secondaire (article de presse outremertourisme.fr, pas une page officielle Tienbooo ou municipale). Texte lu : samedi 5 decembre 2026, 18h-23h, centre-ville de Saint-Paul ; reservation d'emplacement par SMS ou email. Le perimetre artisanal exact n'est pas detaille dans l'extrait - a confirmer avant de qualifier l'evenement de marche de createurs a part entiere. Une seule edition datee : recurrence_estimee laissee vide malgre le lien probable avec les autres formats Tienbooo deja suivis.\n\n[Run du 03/10/2026.] L'article Outremer Tourisme a été relu intégralement (WebFetch direct) : il cite littéralement les catégories de stands (jouets, bijoux, mode, accessoires, décoration, créations artisanales locales, food trucks) et confirme que les réservations sont d'ores et déjà ouvertes par SMS (0692 85 28 59) ou email (tienbooocom@wanadoo.fr), places très limitées. C'est suffisamment concret (catégories + canal de réservation actif + date confirmée) pour sortir du statut de simple piste d'agenda et devenir un candidat Probable dans la file de validation humaine. Reste non tranché : si les particuliers sont aussi admis aux formats récurrents de Tienbooo (brocante du Port, Food Festival mensuel) — la page Facebook Tienbooo reste illisible (mur de connexion, direct et repli Jina), et aucune source ne le précise pour ces deux formats-là. Tienbooo et Capital FM (voir piste « Bretagn'Art » ci-dessous) restent tous deux absents d'orgs.json."
+    },
+    {
+      "nom_evenement": "Bretagn'Art",
+      "organisateur": "Capital FM (radio), en lien avec le quartier de La Bretagne",
+      "lieu": "Quartier de La Bretagne (derrière la mairie annexe)",
+      "commune": "Saint-Denis",
+      "zone": "Nord",
+      "editions_observees": ["2025-12-06"],
+      "date_edition_observee": "2025-12-06",
+      "source_url": "https://imazpress.com/zoom/saint-denis-bretagn-art-revient-souffler-sa-5eme-bougie",
+      "date_detection": "2026-10-03",
+      "recurrence_estimee": "",
+      "nb_exposants_annonce": 50,
+      "deja_dans_events_json": false,
+      "organisateur_deja_dans_orgs_json": false,
+      "contact_connu": "",
+      "action_suggeree": "Chercher un contact direct de Capital FM (radio locale, organisateur relanceur de l'événement depuis 2019) via son site/réseaux, pour demander si une 6e édition est prévue en décembre 2026 et comment un artisan candidate. Événement distinct du « Marché de Noël du Barachois » et du « Marché de Noël du Carré Cat » déjà connus à Saint-Denis — troisième format de marché de fin d'année identifié sur cette seule commune.",
+      "_note": "Repéré le 03/10/2026 via un balayage tier3 (presse, recoupement WebSearch + imazpress.com lu directement). 5e édition tenue les 6-7 décembre 2025 dans le quartier de La Bretagne (Saint-Denis), 9h-20h, entrée libre, plus de 50 exposants (artisanat, produits locaux, décorations de Noël, fruits et légumes, restauration), scène dédiée à des artistes locaux émergents. Événement relancé en 2019 par la radio Capital FM à partir d'une tradition du centre de jeunesse de La Bretagne — organisateur donc privé/radiophonique, PAS la mairie de Saint-Denis : il échappe probablement à l'appel à forains unique de janvier qui couvre les autres manifestations dionysiennes (à vérifier). AUCUN appel à exposants ni contact dédié trouvé en ligne pour aucune édition. Une seule édition datée avec précision : recurrence_estimee laissée vide malgré la mention d'une « 5e édition » qui implique quatre précédentes non observées directement."
     }
   ]
 }
