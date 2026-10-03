@@ -722,6 +722,14 @@ def _statut_coherent(ev: dict) -> str:
         return ""
     today = datetime.datetime.now(
         datetime.timezone(datetime.timedelta(hours=4))).date()
+    # Aucune date limite lisible : rien ne justifie « closed ». Le 03/10/2026,
+    # le Marché de Noël & Food Festival de Saint-Paul (réservations ouvertes,
+    # sans date limite) a été publié clôturé et a disparu dans les archives.
+    # Un appel qu'on publie est ouvert, sauf date limite passée démontrée.
+    if not dates:
+        ev["status"] = "open"
+        return ("[Contrôle serveur : statut « closed » remplacé par « open » — aucune date "
+                "limite lisible ne justifie une clôture.]")
     futures = [d for d in dates if d >= today]
     # Une date passée dans le texte (« clôturée le 15 mars 2026, prochain appel
     # avril 2027 ») rend le cas ambigu : on laisse la fiche fermée.
