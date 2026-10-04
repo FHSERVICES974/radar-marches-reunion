@@ -1,0 +1,194 @@
+{
+  "generated": "2026-10-04",
+  "status_changes": [
+    {
+      "key": "salon international de l agriculture village reunion|national",
+      "name": "Salon International de l'Agriculture — Village Réunion",
+      "zone": "National",
+      "from": "soon",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-31)"
+    },
+    {
+      "key": "bal la poussiere fete patronale sainte marie|nord",
+      "name": "Bal la Poussière - Fête patronale Sainte-Marie",
+      "zone": "Nord",
+      "from": "soon",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-07-17)"
+    },
+    {
+      "key": "bal populaire bal la poussiere fete patronale 2026|nord",
+      "name": "Bal populaire « Bal la poussière » — Fête patronale 2026",
+      "zone": "Nord",
+      "from": "soon",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-05)"
+    },
+    {
+      "key": "braderie commerciale de sainte marie|nord",
+      "name": "Braderie commerciale de Sainte-Marie",
+      "zone": "Nord",
+      "from": "soon",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-07-29)"
+    },
+    {
+      "key": "emplacements aot domaine public saint gilles les bains bassin de vie n 2|ouest",
+      "name": "Emplacements AOT domaine public — Saint-Gilles-les-Bains (bassin de vie n°2)",
+      "zone": "Ouest",
+      "from": "soon",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-19)"
+    },
+    {
+      "key": "fete des agrumes|sud",
+      "name": "Fête des Agrumes",
+      "zone": "Sud",
+      "from": "soon",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-07-29)"
+    },
+    {
+      "key": "jour de sport sante 2026 espace food court|ouest",
+      "name": "Jour de Sport Santé 2026 — Espace Food Court",
+      "zone": "Ouest",
+      "from": "soon",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-13)"
+    },
+    {
+      "key": "la plaine en fete ex fete de la pomme de terre et du cheval|sud",
+      "name": "La Plaine en Fête (ex-Fête de la Pomme de Terre et du Cheval)",
+      "zone": "Sud",
+      "from": "soon",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-07-31)"
+    },
+    {
+      "key": "salon d ete maison jardin|sud",
+      "name": "Salon d'Été, Maison & Jardin",
+      "zone": "Sud",
+      "from": "soon",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-14)"
+    },
+    {
+      "key": "village artisanal de la fete de la saint louis|sud",
+      "name": "Village artisanal de la Fête de la Saint-Louis",
+      "zone": "Sud",
+      "from": "soon",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-20)"
+    },
+    {
+      "key": "braderie commerciale de saint benoit 2026|est",
+      "name": "Braderie commerciale de Saint-Benoît 2026",
+      "zone": "Est",
+      "from": "soon",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-07-31)"
+    },
+    {
+      "key": "festi plantes|est",
+      "name": "Festi-Plantes",
+      "zone": "Est",
+      "from": "soon",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-06-01)"
+    },
+    {
+      "key": "franco dan sin zil marche de createurs francofolies|ouest",
+      "name": "Franco Dan Sin Zil — Marché de créateurs (Francofolies)",
+      "zone": "Ouest",
+      "from": "soon",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-08)"
+    },
+    {
+      "key": "fet bord mer appel a stands de restauration la possession|ouest",
+      "name": "Fèt Bord'Mer — appel à stands de restauration (La Possession)",
+      "zone": "Ouest",
+      "from": "soon",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-09-13)"
+    },
+    {
+      "key": "fete de la vanille appel a un organisateur de fete foraine|nord",
+      "name": "Fête de la Vanille — appel à un organisateur de fête foraine",
+      "zone": "Nord",
+      "from": "soon",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-07)"
+    },
+    {
+      "key": "fete des transports et des mobilites durables|est",
+      "name": "Fête des transports et des mobilités durables",
+      "zone": "Est",
+      "from": "soon",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-09-04)"
+    },
+    {
+      "key": "journees europeennes du patrimoine centre culturel le sud espace restauration|sud",
+      "name": "Journées Européennes du Patrimoine — Centre Culturel Le Sud (espace restauration)",
+      "zone": "Sud",
+      "from": "soon",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-08-28)"
+    },
+    {
+      "key": "marche de nuit sainte marie en lumieres saveurs pei createurs|nord",
+      "name": "Marché de nuit « Sainte-Marie en lumières – Saveurs péi & créateurs »",
+      "zone": "Nord",
+      "from": "soon",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-09-06)"
+    },
+    {
+      "key": "rencontres de l artisanat plaine des palmistes|est",
+      "name": "Rencontres de l'Artisanat (Plaine des Palmistes)",
+      "zone": "Est",
+      "from": "soon",
+      "to": "closed",
+      "reason": "date limite dépassée (2026-09-10)"
+    }
+  ],
+  "new_events_candidates": [
+    {
+      "_source_title": "Toussaint 2026 — emplacements vente de fleurs (Saint-Leu)",
+      "_source_url": "https://www.saintleu.re/actualite/avis-de-publicite-pour-occupation-du-domaine-public-toussaint-2026.php",
+      "_confidence": "Vérifié",
+      "event": {
+        "name": "Toussaint 2026 — emplacements vente de fleurs (Saint-Leu)",
+        "zone": "Ouest",
+        "type": "Occupation du domaine public / vente de fleurs",
+        "org": "Ville de Saint-Leu",
+        "place": "Abords des cimetières communaux, Saint-Leu",
+        "when": "28 octobre au 4 novembre 2026",
+        "badge": "OCT-NOV",
+        "month": 10,
+        "dateStatus": "confirmée",
+        "status": "open",
+        "deadline": "16 octobre 2026, 12h00",
+        "contact": "Mairie de Saint-Leu, 58 rue du Général Lambert, 97436 Saint-Leu",
+        "social": "",
+        "url": "https://www.saintleu.re/actualite/avis-de-publicite-pour-occupation-du-domaine-public-toussaint-2026.php",
+        "apply": "Dossier (immatriculation professionnelle, assurance responsabilité civile, pièce d'identité, justificatif de domicile de moins de 3 mois, copie de carte de commerçant ambulant) à déposer à la Mairie de Saint-Leu avant le 16 octobre 2026 à 12h00. Dossier complet (PDF) : https://www.saintleu.re/pdf/aot/avis-toussaint-2026.pdf",
+        "desc": "⚠️ PÉRIMÈTRE RESTREINT — appel floral, pas un marché de créateurs : vente de fleurs en pot, compositions florales et fleurs coupées aux abords des cimetières communaux de Saint-Leu à l'approche de la Toussaint (28 octobre–4 novembre 2026). S'adresse aux horticulteurs, pépiniéristes et fleuristes ; un artisan d'art n'y a pas sa place. Même profil que la fiche équivalente déjà en base pour Saint-André."
+      }
+    }
+  ],
+  "community": [],
+  "field_updates": [
+    {
+      "event_name": "Marché des potiers — Village de l'Éperon",
+      "_source_url": "Facebook officiel asso.eperon974 (post du 23/09/2026), lu via repli Jina Reader le 04/10/2026",
+      "_confidence": "Probable",
+      "raison": "Le Facebook officiel de l'association, exceptionnellement lisible aujourd'hui (habituellement bloqué par un mur de connexion), annonce un « Marché de la Céramique » le samedi 10 octobre 2026 au Village Artisanal de l'Éperon — correspond au marché dédié à la poterie déjà fiché, dont le champ 'when' restait au stade générique « Selon programmation ». Source sociale non recoupée par une seconde source indépendante : à vérifier avant publication.",
+      "changes": {
+        "when": "Selon programmation · 10h–18h · prochaine éd. observée : samedi 10 octobre 2026 (« Marché de la Céramique »)"
+      }
+    }
+  ]
+}
